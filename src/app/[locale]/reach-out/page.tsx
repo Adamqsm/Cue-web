@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import Reveal from "@/components/ui/Reveal";
 import LeadForm from "@/components/sections/LeadForm";
 import { CueMark } from "@/components/BrandMark";
@@ -12,7 +14,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
-  return { title: dict.reach.meta.title, description: dict.reach.meta.description };
+  return buildMetadata({
+    locale,
+    path: "/reach-out",
+    title: dict.reach.meta.title,
+    description: dict.reach.meta.description,
+  });
 }
 
 export default function ReachOutPage({ params }: { params: { locale: string } }) {
@@ -22,6 +29,12 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
 
   return (
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: r.hero.eyebrow, path: "/reach-out" },
+        ])}
+      />
       <div className="pointer-events-none absolute inset-0 -z-10">
         <CueMark className="absolute -start-24 top-20 h-[26rem] w-[26rem] text-content/[0.06] animate-spin-slow" />
       </div>

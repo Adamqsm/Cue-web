@@ -39,19 +39,19 @@ const en = {
   // ---------------- HOME ----------------
   home: {
     meta: {
-      title: "Cue — The coordination layer for hospitality",
+      title: "Book Restaurant Tables in Amman | Cue",
       description:
-        "Cue is the reservation and coordination layer between guests and venues. Every request in one place, confirmed in one tap. Bilingual by design. Launching in Amman.",
+        "Reserve a table at the best restaurants in Amman. Instant confirmations, group dining, split payments. Download Cue today.",
     },
     hero: {
       status: "Pre-launch · Amman",
-      titleTop: "Every reservation,",
-      titleAccent: "under control.",
+      titleTop: "Book tables at Amman's",
+      titleAccent: "best restaurants, instantly.",
       subtitle:
-        "Cue is the coordination layer between guests and venues. Requests arrive, your team confirms, and everyone knows exactly where they stand. No phone tag. No double-bookings. No walk-in guesswork.",
-      primary: "Partner with Cue",
-      secondary: "Join early access",
-      note: "Partnering with founding venues in Amman.",
+        "Reserve a table at the best restaurants in Amman — from Abdoun to Rainbow Street. Instant confirmations, easy group dining, and split payments so everyone covers their share.",
+      primary: "Join early access",
+      secondary: "For restaurants",
+      note: "Now onboarding founding restaurants across Amman.",
       board: {
         title: "Tonight · Service board",
         live: "Live",
@@ -79,8 +79,8 @@ const en = {
     },
     hiw: {
       label: "How it works",
-      title: "One system. Two sides.",
-      body: "Simple for the guest. Structured for the team running the floor.",
+      title: "How restaurant reservations work",
+      body: "Simple for the guest booking a table. Structured for the team running the floor.",
       tabs: {
         guests: "For guests",
         operators: "For operators",
@@ -100,7 +100,7 @@ const en = {
     },
     features: {
       label: "What you get",
-      title: "Built for the pass, not the pitch deck.",
+      title: "Why choose Cue for restaurant reservations?",
       items: [
         {
           icon: "inbox",
@@ -143,7 +143,7 @@ const en = {
           "Live status as each share lands",
         ],
         image: "/images/cue-app-guest-payment-split.jpeg",
-        imageAlt: "Cue app — splitting a booking prepayment across a group",
+        imageAlt: "Splitting a group restaurant booking payment in the Cue app, Amman",
       },
     },
     demo: {
@@ -153,7 +153,7 @@ const en = {
       play: "Play",
       pause: "Pause",
       slides: [
-        { img: "/images/cue-app-home-screen.jpeg", caption: "Guests discover venues across Amman." },
+        { img: "/images/cue-app-home-screen.jpeg", caption: "Discover and book restaurants across Amman." },
         { img: "/images/cue-app-profile-screen.jpeg", caption: "Tonight's floor, at a glance." },
         { img: "/images/cue-app-search-filters.jpeg", caption: "Confirm or decline in one tap." },
         { img: "/images/cue-app-booking-flow.jpeg", caption: "Event nights and table demand, in one view." },
@@ -172,7 +172,7 @@ const en = {
       ],
       cta: "Partner with Cue",
       image: "/images/cue-app-profile-screen.jpeg",
-      imageAlt: "Cue operator dashboard — tonight's bookings at a glance",
+      imageAlt: "Cue restaurant reservation dashboard in Amman — tonight's table bookings at a glance",
     },
     traction: {
       label: "Traction",
@@ -188,9 +188,24 @@ const en = {
         { value: "85%+", label: "Venue retention" },
       ],
     },
+    neighborhoods: {
+      label: "Across Amman",
+      title: "Browse restaurants by neighborhood",
+      body: "Cue is launching across Amman's busiest dining areas — from rooftop lounges to casual spots — with more neighborhoods added as new restaurants come online.",
+      areas: [
+        "Abdoun",
+        "Sweifieh",
+        "Rainbow Street",
+        "Seventh Circle",
+        "Jabal Amman",
+        "Shmeisani",
+        "Al Weibdeh",
+        "Dabouq",
+      ],
+    },
     faqHome: {
       label: "FAQ",
-      title: "Straight answers.",
+      title: "Frequently asked questions",
       seeAll: "See all questions",
     },
     finalCta: {
@@ -204,9 +219,9 @@ const en = {
   // ---------------- HOW IT WORKS ----------------
   how: {
     meta: {
-      title: "How Cue works — the platform and the thinking behind it",
+      title: "How Restaurant Reservations Work in Amman | Cue",
       description:
-        "See how Cue works for guests and operators: discovery, booking, confirmation, coordination, and a full partner dashboard. Built for real-world hospitality.",
+        "See how booking a restaurant table in Amman works on Cue — discover venues, request, confirm, split payments, and a full dashboard for restaurant operators.",
     },
     hero: {
       eyebrow: "How it works",
@@ -324,9 +339,9 @@ const en = {
   // ---------------- PARTNER ----------------
   partner: {
     meta: {
-      title: "Partner with Cue — structured booking for hospitality operators",
+      title: "For Restaurants: Partner with Cue in Amman | Cue",
       description:
-        "Cue partners with restaurants, venues, and hospitality groups to simplify reservations, reduce manual coordination, and improve operational control.",
+        "List your Amman restaurant on Cue. Take reservations, reduce no-shows, coordinate group dining and event nights, and run it all from one dashboard.",
     },
     hero: {
       eyebrow: "Partner with Cue",
@@ -406,9 +421,9 @@ const en = {
   // ---------------- ABOUT ----------------
   about: {
     meta: {
-      title: "About Cue — where guests and hospitality connect",
+      title: "About Cue — Restaurant Reservations in Amman",
       description:
-        "Cue is a hospitality booking and coordination platform that balances guest experience with operational control, setting a higher standard for how bookings are managed.",
+        "Cue is a restaurant reservation platform built in Amman — balancing a simple booking experience for guests with real operational control for restaurants.",
     },
     hero: {
       eyebrow: "About Cue",
@@ -459,9 +474,9 @@ const en = {
   // ---------------- REACH OUT ----------------
   reach: {
     meta: {
-      title: "Get in Cue — join early access",
+      title: "Join Cue — Book Restaurants in Amman Early Access",
       description:
-        "Cue is in its final development phase. Join early access to be among the first businesses and guests to work with us.",
+        "Join Cue early access to book tables at the best restaurants in Amman — or list your restaurant. Be among the first guests and venues at launch.",
     },
     hero: {
       eyebrow: "Get started",
@@ -517,9 +532,9 @@ const en = {
   // ---------------- CAREERS ----------------
   careers: {
     meta: {
-      title: "Careers at Cue — build the future of hospitality booking",
+      title: "Careers at Cue — Building Amman's Reservation Platform",
       description:
-        "Cue is building the future of seamless restaurant reservations and hospitality technology. We welcome talented people from around the world.",
+        "Join the team building Cue, the restaurant reservation platform for Amman. Roles across engineering, operations, partnerships, marketing, and design.",
     },
     hero: {
       eyebrow: "Careers",
@@ -559,43 +574,51 @@ const en = {
   // ---------------- FAQ ----------------
   faq: {
     meta: {
-      title: "FAQ — Cue hospitality booking platform",
+      title: "Restaurant Booking FAQs | Cue Amman",
       description:
-        "Answers to common questions about Cue: what it is, how it works, how restaurants join, and when Cue launches.",
+        "How to book a table on Cue, whether it's free for guests, how split payments and group reservations work, which Amman restaurants are available, and how to cancel a reservation.",
     },
     hero: {
       eyebrow: "Help center",
-      title: "Questions, answered.",
-      subtitle: "The essentials on what Cue is, how it works, and how to join.",
+      title: "Restaurant booking questions, answered.",
+      subtitle: "How to book a table in Amman, what it costs, split payments, group dining, and cancellations.",
     },
     items: [
       {
-        q: "What is Cue?",
-        a: "Cue is the coordination layer between guests and venues. Guests get a simple way to find and book a table; venues get one structured system for reservations, group activity, and guest flow. One source of truth for both sides of every booking.",
-      },
-      {
-        q: "How do reservations work?",
-        a: "A guest picks a venue, date, time, and party size, then sends the request. It lands in the venue's dashboard as pending. The venue confirms, declines, or holds it — and the guest gets an instant, unambiguous status. Reminders and coordination run in the background.",
+        q: "How do I book a table on Cue?",
+        a: "Open Cue, browse restaurants in Amman, and choose a venue, date, time, and party size. Send the request and the restaurant confirms it — you get an instant status with no phone calls or back-and-forth. Your table is held the moment it's confirmed.",
       },
       {
         q: "Is Cue free for guests?",
-        a: "Yes. Discovering venues and booking a table through Cue is free for guests. There's no charge to browse, request, or manage your reservations.",
+        a: "Yes. Browsing restaurants and booking a table on Cue is free for guests. Some high-demand tables and event nights ask for a small prepayment to secure the booking, and that amount goes toward your visit.",
+      },
+      {
+        q: "How do split payments work?",
+        a: "Booking for a group? Cue lets everyone pay their share up front. The organizer sends each guest a secure payment link over WhatsApp or Apple Pay, and the table is secured once every share is in — so no one gets stuck covering the whole bill.",
+      },
+      {
+        q: "What restaurants are available in Amman?",
+        a: "Cue is launching with restaurants across Amman's main dining areas — Abdoun, Sweifieh, Rainbow Street, Seventh Circle and more — spanning fine dining, casual spots, and lounges. New venues are added as they come online.",
+      },
+      {
+        q: "Can I book for large groups?",
+        a: "Yes. Cue is built for group dining. Set your party size when you request a table, split the prepayment across everyone, and let the restaurant coordinate the rest. Larger tables and event nights are supported too.",
+      },
+      {
+        q: "How do I cancel a reservation?",
+        a: "Open the booking in Cue and cancel it there — the earlier you cancel, the better for the restaurant. Each venue sets its own terms for holds and no-shows, and those are shown before you confirm. Repeated no-shows may limit an account.",
+      },
+      {
+        q: "What is Cue?",
+        a: "Cue is a restaurant reservation platform for Amman. Guests get a simple way to find and book tables; restaurants get one structured system for reservations, group activity, and guest flow — one source of truth for both sides of every booking.",
       },
       {
         q: "How does my restaurant sign up?",
-        a: "We partner selectively with venues that value clarity and reliability. Go to Partner with Cue, share a few details, and our team reaches out to check fit and walk you through onboarding. Founding partners in Amman onboard at zero risk.",
-      },
-      {
-        q: "Where is Cue available?",
-        a: "Amman first. We're launching locally and going deep before we go broad — tuned to how venues in Amman actually run service. Expansion across the region follows once the local network is solid.",
+        a: "Cue partners with restaurants and venues across Amman. Go to Partner with Cue, share a few details, and our team reaches out to check fit and walk you through onboarding. Founding partners in Amman onboard at zero risk.",
       },
       {
         q: "Is Cue available in Arabic?",
         a: "Yes. Cue is bilingual by design — full English and Arabic across the app, the dashboard, this site, and every form and notification. Neither language is an afterthought.",
-      },
-      {
-        q: "What's the cancellation policy?",
-        a: "Guests can cancel a reservation from the app whenever plans change; earlier is always better for the venue. Each venue sets its own terms for holds and no-shows, and those terms are shown before you confirm. Repeated no-shows may limit an account.",
       },
       {
         q: "How is my data handled?",

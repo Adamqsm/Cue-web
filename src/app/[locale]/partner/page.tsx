@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -16,7 +18,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
-  return { title: dict.partner.meta.title, description: dict.partner.meta.description };
+  return buildMetadata({
+    locale,
+    path: "/partner",
+    title: dict.partner.meta.title,
+    description: dict.partner.meta.description,
+  });
 }
 
 export default function PartnerPage({ params }: { params: { locale: string } }) {
@@ -26,6 +33,12 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: p.hero.eyebrow, path: "/partner" },
+        ])}
+      />
       <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle}>
         <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
           {p.hero.primary}

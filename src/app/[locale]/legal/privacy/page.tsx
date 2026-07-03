@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { buildMetadata } from "@/lib/seo";
 import LegalDoc from "@/components/sections/LegalDoc";
 
 export async function generateMetadata({
@@ -10,10 +11,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
-  return {
-    title: dict.legal.privacy.title,
+  return buildMetadata({
+    locale,
+    path: "/legal/privacy",
+    title: `${dict.legal.privacy.title} | Cue`,
     description: dict.legal.meta.description,
-  };
+  });
 }
 
 export default function PrivacyPage({ params }: { params: { locale: string } }) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { buildMetadata } from "@/lib/seo";
 import PageHero from "@/components/sections/PageHero";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -13,7 +14,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
-  return { title: dict.legal.meta.title, description: dict.legal.meta.description };
+  return buildMetadata({
+    locale,
+    path: "/legal",
+    title: dict.legal.meta.title,
+    description: dict.legal.meta.description,
+  });
 }
 
 export default function LegalIndexPage({

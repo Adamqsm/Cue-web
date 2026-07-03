@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { buildMetadata, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
 import Reveal from "@/components/ui/Reveal";
 import FaqAccordion from "@/components/sections/FaqAccordion";
@@ -13,7 +15,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
-  return { title: dict.faq.meta.title, description: dict.faq.meta.description };
+  return buildMetadata({
+    locale,
+    path: "/faq",
+    title: dict.faq.meta.title,
+    description: dict.faq.meta.description,
+  });
 }
 
 export default function FaqPage({ params }: { params: { locale: string } }) {
@@ -21,21 +28,14 @@ export default function FaqPage({ params }: { params: { locale: string } }) {
   const dict = getDictionary(locale);
   const f = dict.faq;
 
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: f.items.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
-    })),
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      <JsonLd data={faqJsonLd(f.items)} />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: f.hero.eyebrow, path: "/faq" },
+        ])}
       />
       <PageHero eyebrow={f.hero.eyebrow} title={f.hero.title} subtitle={f.hero.subtitle} />
 

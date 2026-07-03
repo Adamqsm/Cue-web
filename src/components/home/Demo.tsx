@@ -45,7 +45,7 @@ export default function Demo({ dict }: { dict: Dictionary }) {
                     alt={slide.caption}
                     fill
                     sizes="268px"
-                    priority={i === 0}
+                    loading="lazy"
                     className={cn(
                       "object-cover transition-opacity duration-700",
                       i === active ? "opacity-100" : "opacity-0"

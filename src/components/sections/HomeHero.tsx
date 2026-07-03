@@ -68,10 +68,10 @@ export default function HomeHero({
             transition={{ duration: 0.8, ease, delay: 0.46 }}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <LocaleLink href="/partner" locale={locale} className="btn btn-primary text-base">
+            <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
               {h.primary}
             </LocaleLink>
-            <LocaleLink href="/reach-out" locale={locale} className="btn btn-outline text-base">
+            <LocaleLink href="/partner" locale={locale} className="btn btn-outline text-base">
               {h.secondary}
             </LocaleLink>
           </motion.div>

@@ -101,7 +101,11 @@ export default function FeatureShowcase({
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <PhoneFrame src={current.img} alt={current.title} width={280} />
+              <PhoneFrame
+                src={current.img}
+                alt={`${current.title} — Cue restaurant reservation app, Amman`}
+                width={280}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

@@ -14,5 +14,7 @@ export function localizedHref(href: string, locale: Locale): string {
   return `/${locale}${clean}`;
 }
 
+// Primary host: the apex (cue-app.net) 308-redirects to www, so www is the
+// canonical host used for canonical tags, hreflang, sitemap, OG, and JSON-LD.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://cue-app.net";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.cue-app.net";

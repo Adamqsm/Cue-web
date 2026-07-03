@@ -50,14 +50,9 @@ export default function Operators({
 
         {/* Dashboard shot */}
         <Reveal delay={1} className="flex justify-center lg:justify-end">
-          <div className="relative w-[260px] overflow-hidden rounded-[1.6rem] border border-bone/12 bg-ink-900 shadow-lift sm:w-[300px]">
+          <div className="relative w-[264px] overflow-hidden rounded-[2rem] border border-bone/15 bg-ink-900 p-1.5 shadow-lift sm:w-[300px]">
             <div className="absolute -inset-8 -z-10 rounded-full bg-green/20 blur-3xl" />
-            <div className="flex items-center gap-1.5 border-b border-bone/10 px-4 py-2.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-              <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-              <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-            </div>
-            <div className="relative aspect-[191/340] w-full">
+            <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-[1.6rem]">
               <Image
                 src={o.image}
                 alt={o.imageAlt}

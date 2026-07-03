@@ -143,11 +143,11 @@ const ar: Dictionary = {
       play: "تشغيل",
       pause: "إيقاف",
       slides: [
-        { img: "/app/discover.png", caption: "يكتشف الضيوف الأماكن في عمّان." },
-        { img: "/app/book.png", caption: "طلب نظيف — التاريخ والوقت وعدد الأشخاص." },
-        { img: "/app/dash-today.png", caption: "صالة الليلة، بلمحة." },
-        { img: "/app/dash-bookings.png", caption: "أكّد أو ارفض بلمسة واحدة." },
-        { img: "/app/dash-analytics.png", caption: "الأرقام التي تخبرك بما ينجح." },
+        { img: "/images/cue-app-home-screen.jpeg", caption: "يكتشف الضيوف الأماكن في عمّان." },
+        { img: "/images/cue-app-profile-screen.jpeg", caption: "صالة الليلة، بلمحة." },
+        { img: "/images/cue-app-search-filters.jpeg", caption: "أكّد أو ارفض بلمسة واحدة." },
+        { img: "/images/cue-app-booking-flow.jpeg", caption: "ليالي الفعاليات والطلب على الطاولات، في مكان واحد." },
+        { img: "/images/cue-app-venue-detail.jpeg", caption: "الأرقام التي تخبرك بما ينجح." },
       ],
     },
     operators: {
@@ -161,7 +161,7 @@ const ar: Dictionary = {
         "نسّق حجوزات المجموعات وليالي الفعاليات",
       ],
       cta: "كن شريكاً لـ Cue",
-      image: "/app/dash-today.png",
+      image: "/images/cue-app-profile-screen.jpeg",
       imageAlt: "لوحة تحكّم مشغّل Cue — حجوزات الليلة بلمحة",
     },
     traction: {
@@ -263,22 +263,22 @@ const ar: Dictionary = {
       body: "تمنح Cue فريقك الرؤية والتحكّم دون عبء إضافي. أكّد الحجوزات، وأدِر الليالي المزدحمة، وافهم الأداء — كل ذلك في نظام منظّم واحد.",
       features: [
         {
-          img: "/app/dash-today.png",
+          img: "/images/cue-app-profile-screen.jpeg",
           title: "اليوم بلمحة",
           body: "المقاعد المؤكّدة والطلبات المعلّقة والليلة القادمة — لحظة فتحك للتطبيق.",
         },
         {
-          img: "/app/dash-bookings.png",
+          img: "/images/cue-app-search-filters.jpeg",
           title: "إدارة الحجوزات",
           body: "راجِع وأكّد وارفض وأكمِل الطلبات. كل حجز في قائمة واحدة واضحة.",
         },
         {
-          img: "/app/dash-events.png",
+          img: "/images/cue-app-booking-flow.jpeg",
           title: "ليالي الفعاليات",
           body: "نسّق ليالي الطلب العالي — جلسات الطاولات والسعة ونشاط المجموعات في مكان واحد.",
         },
         {
-          img: "/app/dash-analytics.png",
+          img: "/images/cue-app-venue-detail.jpeg",
           title: "الأداء",
           body: "حجم الحجوزات ونِسب التأكيد والاتجاهات — الأرقام التي تخبرك بما ينجح.",
         },

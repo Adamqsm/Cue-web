@@ -17,6 +17,8 @@ export default function PhoneFrame({
   priority?: boolean;
   width?: number;
 }) {
+  // New product screenshots (public/images) are 1206×2622; legacy /app shots are 191×340.
+  const hiRes = src.includes("/images/");
   return (
     <div
       className={cn(
@@ -31,8 +33,8 @@ export default function PhoneFrame({
         <Image
           src={src}
           alt={alt}
-          width={191}
-          height={340}
+          width={hiRes ? 1206 : 191}
+          height={hiRes ? 2622 : 340}
           priority={priority}
           className="h-auto w-full select-none"
           sizes="(max-width: 768px) 60vw, 300px"

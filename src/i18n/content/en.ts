@@ -141,11 +141,11 @@ const en = {
       play: "Play",
       pause: "Pause",
       slides: [
-        { img: "/app/discover.png", caption: "Guests discover venues across Amman." },
-        { img: "/app/book.png", caption: "A clean request — date, time, party size." },
-        { img: "/app/dash-today.png", caption: "Tonight's floor, at a glance." },
-        { img: "/app/dash-bookings.png", caption: "Confirm or decline in one tap." },
-        { img: "/app/dash-analytics.png", caption: "The numbers that tell you what's working." },
+        { img: "/images/cue-app-home-screen.jpeg", caption: "Guests discover venues across Amman." },
+        { img: "/images/cue-app-profile-screen.jpeg", caption: "Tonight's floor, at a glance." },
+        { img: "/images/cue-app-search-filters.jpeg", caption: "Confirm or decline in one tap." },
+        { img: "/images/cue-app-booking-flow.jpeg", caption: "Event nights and table demand, in one view." },
+        { img: "/images/cue-app-venue-detail.jpeg", caption: "The numbers that tell you what's working." },
       ],
     },
     operators: {
@@ -159,7 +159,7 @@ const en = {
         "Coordinate group bookings and event nights",
       ],
       cta: "Partner with Cue",
-      image: "/app/dash-today.png",
+      image: "/images/cue-app-profile-screen.jpeg",
       imageAlt: "Cue operator dashboard — tonight's bookings at a glance",
     },
     traction: {
@@ -261,22 +261,22 @@ const en = {
       body: "Cue gives your team visibility and control without adding load. Confirm bookings, manage busy nights, and understand performance — all in one structured system.",
       features: [
         {
-          img: "/app/dash-today.png",
+          img: "/images/cue-app-profile-screen.jpeg",
           title: "Today at a glance",
           body: "Confirmed covers, pending requests, and the night ahead — the moment you open the app.",
         },
         {
-          img: "/app/dash-bookings.png",
+          img: "/images/cue-app-search-filters.jpeg",
           title: "Booking management",
           body: "Review, confirm, decline, and complete requests. Every reservation, one clear queue.",
         },
         {
-          img: "/app/dash-events.png",
+          img: "/images/cue-app-booking-flow.jpeg",
           title: "Event nights",
           body: "Coordinate high-demand nights — table sessions, capacity, and group activity in one place.",
         },
         {
-          img: "/app/dash-analytics.png",
+          img: "/images/cue-app-venue-detail.jpeg",
           title: "Performance",
           body: "Booking volume, confirmation rates, and trends — the numbers that tell you what's working.",
         },

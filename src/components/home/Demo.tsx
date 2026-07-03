@@ -36,22 +36,15 @@ export default function Demo({ dict }: { dict: Dictionary }) {
         <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           {/* Screen */}
           <div className="flex justify-center">
-            <div className="relative w-[240px] overflow-hidden rounded-[1.6rem] border border-bone/12 bg-ink-900 shadow-lift sm:w-[264px]">
-              {/* faux app top bar */}
-              <div className="flex items-center gap-1.5 border-b border-bone/10 px-4 py-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-                <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-                <span className="h-1.5 w-1.5 rounded-full bg-bone/25" />
-                <span className="ms-auto h-1 w-10 rounded-full bg-green/50" />
-              </div>
-              <div className="relative aspect-[191/340] w-full">
+            <div className="relative w-[240px] overflow-hidden rounded-[2rem] border border-bone/15 bg-ink-900 p-1.5 shadow-lift sm:w-[268px]">
+              <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-[1.6rem]">
                 {d.slides.map((slide, i) => (
                   <Image
                     key={slide.img}
                     src={slide.img}
                     alt={slide.caption}
                     fill
-                    sizes="264px"
+                    sizes="268px"
                     priority={i === 0}
                     className={cn(
                       "object-cover transition-opacity duration-700",

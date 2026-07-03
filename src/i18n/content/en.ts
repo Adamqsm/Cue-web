@@ -133,6 +133,18 @@ const en = {
           body: "Launching local, tuned to how venues here actually run service.",
         },
       ],
+      spotlight: {
+        label: "Group payments",
+        title: "Split payments with your group.",
+        body: "Secure the table before the night. Everyone pays their share up front — send each guest a payment link over WhatsApp or Apple Pay, and watch the booking fill up. No chasing cash, no one stuck covering the whole bill.",
+        points: [
+          "A link per guest, paid in seconds",
+          "Prepayment secures the table and cuts no-shows",
+          "Live status as each share lands",
+        ],
+        image: "/images/cue-app-guest-payment-split.jpeg",
+        imageAlt: "Cue app — splitting a booking prepayment across a group",
+      },
     },
     demo: {
       label: "The product",
@@ -234,22 +246,22 @@ const en = {
       body: "Guests get a simple, transparent way to plan and manage outings — from first browse to a confirmed table.",
       features: [
         {
-          img: "/app/discover.png",
+          img: "/images/cue-app-guest-home-discover.jpeg",
           title: "Browse & search",
           body: "A curated home screen of venues in Amman, with search and filters for area, cuisine, and price level.",
         },
         {
-          img: "/app/venue.png",
+          img: "/images/cue-app-guest-venue-detail-menu.jpeg",
           title: "Venue detail",
           body: "Gallery, hours, location, menu, and price level — everything a guest needs to decide, in one view.",
         },
         {
-          img: "/app/book.png",
+          img: "/images/cue-app-guest-booking-request.jpeg",
           title: "Request a table",
           body: "Date, time, party size, and special requests — a fast, clear booking flow.",
         },
         {
-          img: "/app/bookings.png",
+          img: "/images/cue-app-guest-reservation-confirmed.jpeg",
           title: "My bookings",
           body: "Every reservation and its status in one place, with history and detail on tap.",
         },

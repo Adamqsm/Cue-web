@@ -1,6 +1,7 @@
+import Image from "next/image";
 import type { Dictionary } from "@/i18n/dictionaries";
 import SectionIntro from "./SectionIntro";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 
 const icons: Record<string, JSX.Element> = {
   inbox: (
@@ -72,6 +73,51 @@ export default function Features({ dict }: { dict: Dictionary }) {
             </RevealItem>
           ))}
         </RevealGroup>
+
+        {/* Spotlight: group payments */}
+        <Reveal className="mt-6">
+          <div className="relative grid items-center gap-10 overflow-hidden rounded-3xl border border-ink/60 bg-ink p-8 shadow-lift sm:p-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+            <div>
+              <span className="label !text-green-300">
+                <span className="h-px w-6 bg-green-400/60" aria-hidden />
+                {f.spotlight.label}
+              </span>
+              <h3 className="mt-4 text-2xl font-bold leading-[1.1] text-bone sm:text-3xl lg:text-4xl">
+                {f.spotlight.title}
+              </h3>
+              <p className="mt-4 max-w-lg leading-relaxed text-bone/65">
+                {f.spotlight.body}
+              </p>
+              <ul className="mt-6 space-y-3">
+                {f.spotlight.points.map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green/20 text-green-300">
+                      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span className="text-bone/80">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative w-[236px] overflow-hidden rounded-[2rem] border border-bone/15 bg-ink-900 p-1.5 shadow-lift sm:w-[264px]">
+                <div className="absolute -inset-8 -z-10 rounded-full bg-green/20 blur-3xl" />
+                <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-[1.6rem]">
+                  <Image
+                    src={f.spotlight.image}
+                    alt={f.spotlight.imageAlt}
+                    fill
+                    sizes="264px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

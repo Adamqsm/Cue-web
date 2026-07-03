@@ -42,15 +42,15 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
           {p.why.items.map((item, i) => (
             <RevealItem
               key={item.title}
-              className="group relative overflow-hidden rounded-4xl border border-ink/10 bg-paper-soft/50 p-7 transition-colors hover:border-clay/30"
+              className="group relative overflow-hidden rounded-4xl border border-line bg-surface2/50 p-7 transition-colors hover:border-green/30"
             >
               <div className="flex items-start gap-4">
-                <span className="font-display text-3xl font-semibold text-clay/80">
+                <span className="font-display text-3xl font-semibold text-green/80">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="text-xl font-semibold text-ink">{item.title}</h3>
-                  <p className="mt-2 text-ink/70">{item.body}</p>
+                  <h3 className="text-xl font-semibold text-content">{item.title}</h3>
+                  <p className="mt-2 text-content/70">{item.body}</p>
                 </div>
               </div>
             </RevealItem>
@@ -59,7 +59,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       </section>
 
       {/* Built for — dark split */}
-      <section className="bg-ink text-paper">
+      <section className="bg-ink text-bone">
         <div className="container-pad grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <SectionHeading
@@ -72,9 +72,9 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
               {p.builtFor.items.map((item) => (
                 <RevealItem
                   key={item}
-                  className="flex items-center gap-3 border-b border-paper/12 pb-3 text-lg text-paper/85"
+                  className="flex items-center gap-3 border-b border-bone/12 pb-3 text-lg text-bone/85"
                 >
-                  <CueMark className="h-5 w-5 shrink-0 text-clay-300" />
+                  <CueMark className="h-5 w-5 shrink-0 text-green-300" />
                   {item}
                 </RevealItem>
               ))}
@@ -100,13 +100,13 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
           {p.steps.items.map((step) => (
             <RevealItem
               key={step.n}
-              className="relative rounded-4xl border border-ink/10 bg-paper p-7"
+              className="relative rounded-4xl border border-line bg-bg p-7"
             >
-              <span className="font-display text-5xl font-semibold text-clay/25">
+              <span className="font-display text-5xl font-semibold text-green/25">
                 {step.n}
               </span>
-              <h3 className="mt-3 text-xl font-semibold text-ink">{step.title}</h3>
-              <p className="mt-2 text-ink/70">{step.body}</p>
+              <h3 className="mt-3 text-xl font-semibold text-content">{step.title}</h3>
+              <p className="mt-2 text-content/70">{step.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -115,14 +115,14 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       {/* Approach */}
       <section className="container-pad pb-20 sm:pb-28">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-ink/10 bg-paper-soft/60 p-8 sm:p-14">
-            <CueMark className="pointer-events-none absolute -end-10 -top-10 h-52 w-52 text-clay/10 animate-spin-slow" />
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-line bg-surface2/60 p-8 sm:p-14">
+            <CueMark className="pointer-events-none absolute -end-10 -top-10 h-52 w-52 text-green/10 animate-spin-slow" />
             <div className="relative max-w-3xl">
               <span className="eyebrow">{p.approach.kicker}</span>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+              <h2 className="mt-4 text-3xl font-semibold leading-tight text-content sm:text-4xl">
                 {p.approach.title}
               </h2>
-              <p className="mt-4 text-lg text-ink/70">{p.approach.body}</p>
+              <p className="mt-4 text-lg text-content/70">{p.approach.body}</p>
             </div>
           </div>
         </Reveal>

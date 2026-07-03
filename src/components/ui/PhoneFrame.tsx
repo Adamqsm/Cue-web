@@ -27,7 +27,7 @@ export default function PhoneFrame({
     >
       {/* speaker / camera island */}
       <div className="absolute left-1/2 top-3 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-ink" />
-      <div className="overflow-hidden rounded-[1.7rem] bg-paper-soft">
+      <div className="overflow-hidden rounded-[1.7rem] bg-surface2">
         <Image
           src={src}
           alt={alt}

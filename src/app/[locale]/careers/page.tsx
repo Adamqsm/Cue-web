@@ -37,17 +37,17 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
           {c.why.items.map((item) => (
             <RevealItem
               key={item.title}
-              className="rounded-4xl border border-ink/10 bg-paper-soft/50 p-7"
+              className="rounded-4xl border border-line bg-surface2/50 p-7"
             >
-              <h3 className="text-xl font-semibold text-ink">{item.title}</h3>
-              <p className="mt-2 text-ink/70">{item.body}</p>
+              <h3 className="text-xl font-semibold text-content">{item.title}</h3>
+              <p className="mt-2 text-content/70">{item.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
       </section>
 
       {/* Roles — dark */}
-      <section className="bg-ink text-paper">
+      <section className="bg-ink text-bone">
         <div className="container-pad py-20 sm:py-28">
           <SectionHeading kicker={c.roles.kicker} title={c.roles.title} tone="paper" className="mb-12" />
           <RevealGroup className="flex flex-col">
@@ -56,17 +56,17 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
                 <LocaleLink
                   href="/reach-out"
                   locale={locale}
-                  className="group flex flex-col gap-2 border-t border-paper/12 py-6 transition-colors hover:bg-paper/[0.03] sm:flex-row sm:items-center sm:justify-between"
+                  className="group flex flex-col gap-2 border-t border-bone/12 py-6 transition-colors hover:bg-bone/[0.03] sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex items-baseline gap-4">
-                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-clay-300">
+                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-green-300">
                       {role.area}
                     </span>
-                    <h3 className="text-2xl font-semibold text-paper">{role.title}</h3>
+                    <h3 className="text-2xl font-semibold text-bone">{role.title}</h3>
                   </div>
                   <div className="flex items-center gap-4">
-                    <p className="max-w-sm text-sm text-paper/60">{role.body}</p>
-                    <span className="hidden shrink-0 text-clay-300 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 sm:inline">
+                    <p className="max-w-sm text-sm text-bone/60">{role.body}</p>
+                    <span className="hidden shrink-0 text-green-300 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 sm:inline">
                       →
                     </span>
                   </div>
@@ -75,7 +75,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
             ))}
           </RevealGroup>
           <Reveal className="mt-8">
-            <p className="text-sm text-paper/55">{c.roles.note}</p>
+            <p className="text-sm text-bone/55">{c.roles.note}</p>
           </Reveal>
         </div>
       </section>

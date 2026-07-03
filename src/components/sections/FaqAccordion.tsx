@@ -10,7 +10,7 @@ export default function FaqAccordion({ items }: { items: Item[] }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="divide-y divide-ink/10 border-y border-ink/10">
+    <div className="divide-y divide-line border-y border-line">
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -24,7 +24,7 @@ export default function FaqAccordion({ items }: { items: Item[] }) {
               <span
                 className={cn(
                   "text-lg font-semibold transition-colors sm:text-xl",
-                  isOpen ? "text-clay" : "text-ink"
+                  isOpen ? "text-green dark:text-green-300" : "text-content"
                 )}
               >
                 {item.q}
@@ -32,7 +32,7 @@ export default function FaqAccordion({ items }: { items: Item[] }) {
               <span
                 className={cn(
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all",
-                  isOpen ? "rotate-45 border-clay text-clay" : "border-ink/25 text-ink/60"
+                  isOpen ? "rotate-45 border-green text-green dark:border-green-300 dark:text-green-300" : "border-line text-muted"
                 )}
                 aria-hidden
               >
@@ -50,7 +50,7 @@ export default function FaqAccordion({ items }: { items: Item[] }) {
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-2xl pb-6 text-ink/70">{item.a}</p>
+                  <p className="max-w-2xl pb-6 leading-relaxed text-muted">{item.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>

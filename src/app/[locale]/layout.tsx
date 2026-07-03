@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Inter,
+  IBM_Plex_Mono,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { locales, isLocale, localeDirection, type Locale } from "@/i18n/config";
@@ -8,10 +13,9 @@ import { SITE_URL } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-const fraunces = Fraunces({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
@@ -20,6 +24,13 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -72,6 +83,9 @@ export async function generateMetadata({
   };
 }
 
+// Set the theme class before paint to avoid a flash of the wrong mode.
+const themeScript = `(function(){try{var t=localStorage.getItem('cue-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+
 export default function LocaleLayout({
   children,
   params,
@@ -88,13 +102,15 @@ export default function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${fraunces.variable} ${inter.variable} ${plexArabic.variable}`}
+      className={`${bricolage.variable} ${inter.variable} ${plexMono.variable} ${plexArabic.variable}`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <span className="grain" aria-hidden />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-content focus:px-4 focus:py-2 focus:text-bg"
         >
           Skip to content
         </a>

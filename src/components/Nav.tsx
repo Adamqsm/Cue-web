@@ -8,6 +8,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { localizedHref, cn } from "@/lib/utils";
 import { Logo } from "./BrandMark";
 import LanguageToggle from "./LanguageToggle";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav({
   locale,
@@ -38,19 +39,21 @@ export default function Nav({
     };
   }, [open]);
 
+  const themeLabels = { light: dict.common.theme.light, dark: dict.common.theme.dark };
+
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "border-b border-ink/10 bg-paper/80 backdrop-blur-xl"
+        scrolled || open
+          ? "border-b border-line bg-bg/80 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       )}
     >
       <nav className="container-pad flex h-16 items-center justify-between md:h-[72px]">
         <Link
           href={localizedHref("/", locale)}
-          className="text-ink transition-opacity hover:opacity-80"
+          className="text-content transition-opacity hover:opacity-80"
           aria-label="Cue home"
         >
           <Logo />
@@ -69,8 +72,8 @@ export default function Nav({
                 className={cn(
                   "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                   active
-                    ? "text-clay"
-                    : "text-ink/70 hover:bg-ink/5 hover:text-ink"
+                    ? "text-green dark:text-green-300"
+                    : "text-muted hover:bg-surface2 hover:text-content"
                 )}
               >
                 {link.label}
@@ -79,12 +82,9 @@ export default function Nav({
           })}
         </div>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <LanguageToggle
-            locale={locale}
-            label={dict.nav.langToggle}
-            className="text-ink/80 hover:text-ink"
-          />
+        <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle labels={themeLabels} />
+          <LanguageToggle locale={locale} label={dict.nav.langToggle} />
           <Link
             href={localizedHref("/reach-out", locale)}
             className="btn btn-primary"
@@ -93,42 +93,45 @@ export default function Nav({
           </Link>
         </div>
 
-        {/* Mobile trigger */}
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-3 py-2 text-sm font-semibold text-ink lg:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label={open ? dict.nav.close : dict.nav.menu}
-        >
-          <span className="relative flex h-4 w-5 flex-col justify-between">
-            <span
-              className={cn(
-                "h-0.5 w-full bg-ink transition-transform",
-                open && "translate-y-[7px] rotate-45"
-              )}
-            />
-            <span
-              className={cn(
-                "h-0.5 w-full bg-ink transition-opacity",
-                open && "opacity-0"
-              )}
-            />
-            <span
-              className={cn(
-                "h-0.5 w-full bg-ink transition-transform",
-                open && "-translate-y-[7px] -rotate-45"
-              )}
-            />
-          </span>
-        </button>
+        {/* Mobile controls */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle labels={themeLabels} />
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-content"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? dict.nav.close : dict.nav.menu}
+          >
+            <span className="relative flex h-4 w-5 flex-col justify-between">
+              <span
+                className={cn(
+                  "h-0.5 w-full bg-content transition-transform",
+                  open && "translate-y-[7px] rotate-45"
+                )}
+              />
+              <span
+                className={cn(
+                  "h-0.5 w-full bg-content transition-opacity",
+                  open && "opacity-0"
+                )}
+              />
+              <span
+                className={cn(
+                  "h-0.5 w-full bg-content transition-transform",
+                  open && "-translate-y-[7px] -rotate-45"
+                )}
+              />
+            </span>
+          </button>
+        </div>
       </nav>
 
       {/* Mobile panel */}
       <div
         className={cn(
-          "overflow-hidden bg-paper/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 lg:hidden",
-          open ? "max-h-[90vh] border-b border-ink/10 opacity-100" : "max-h-0 opacity-0"
+          "overflow-hidden bg-bg/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 lg:hidden",
+          open ? "max-h-[90vh] border-b border-line opacity-100" : "max-h-0 opacity-0"
         )}
       >
         <div className="container-pad flex flex-col gap-1 py-5">
@@ -136,7 +139,7 @@ export default function Nav({
             <Link
               key={link.href}
               href={localizedHref(link.href, locale)}
-              className="rounded-2xl px-4 py-3.5 text-lg font-medium text-ink hover:bg-ink/5"
+              className="rounded-2xl px-4 py-3.5 text-lg font-medium text-content hover:bg-surface2"
             >
               {link.label}
             </Link>

@@ -36,14 +36,14 @@ export default function LegalIndexPage({
               <LocaleLink
                 href={d.href}
                 locale={locale}
-                className="group relative flex h-full flex-col justify-between overflow-hidden rounded-4xl border border-ink/10 bg-paper-soft/50 p-7 transition-all hover:-translate-y-1 hover:border-clay/30"
+                className="group relative flex h-full flex-col justify-between overflow-hidden rounded-4xl border border-line bg-surface2/50 p-7 transition-all hover:-translate-y-1 hover:border-green/30"
               >
-                <CueMark className="absolute -end-6 -top-6 h-20 w-20 text-ink/[0.04] transition-transform duration-500 group-hover:rotate-45" />
+                <CueMark className="absolute -end-6 -top-6 h-20 w-20 text-content/[0.04] transition-transform duration-500 group-hover:rotate-45" />
                 <div className="relative">
-                  <h2 className="text-xl font-semibold text-ink">{d.title}</h2>
-                  <p className="mt-2 text-sm text-ink/65">{d.body}</p>
+                  <h2 className="text-xl font-semibold text-content">{d.title}</h2>
+                  <p className="mt-2 text-sm text-content/65">{d.body}</p>
                 </div>
-                <span className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-clay">
+                <span className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-green dark:text-green-300">
                   {dict.common.readMore}
                   <span className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">→</span>
                 </span>

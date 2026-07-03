@@ -23,19 +23,19 @@ export default function CtaBand({
   return (
     <section className="container-pad py-16 sm:py-24">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-clay px-6 py-14 text-paper sm:px-14 sm:py-20">
-          <CueMark className="pointer-events-none absolute -bottom-16 -end-10 h-64 w-64 text-paper/15 animate-spin-slow" />
-          <div className="pointer-events-none absolute -top-24 start-1/3 h-64 w-64 rounded-full bg-ember/30 blur-3xl" />
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-green px-6 py-14 text-bone sm:px-14 sm:py-20">
+          <CueMark className="pointer-events-none absolute -bottom-16 -end-10 h-64 w-64 text-bone/15 animate-spin-slow" />
+          <div className="pointer-events-none absolute -top-24 start-1/3 h-64 w-64 rounded-full bg-amber/30 blur-3xl" />
           <div className="relative max-w-2xl">
             <h2 className="text-4xl font-semibold leading-[1.05] sm:text-5xl">
               {title}
             </h2>
-            <p className="mt-4 text-lg text-paper/85">{body}</p>
+            <p className="mt-4 text-lg text-bone/85">{body}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <LocaleLink
                 href={primaryHref}
                 locale={locale}
-                className="btn bg-ink text-paper hover:bg-ink-700 hover:-translate-y-0.5 text-base"
+                className="btn btn-ink text-base"
               >
                 {primary}
               </LocaleLink>

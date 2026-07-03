@@ -4,8 +4,7 @@ import { motion } from "framer-motion";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import LocaleLink from "@/components/ui/LocaleLink";
-import PhoneFrame from "@/components/ui/PhoneFrame";
-import { CueMark } from "@/components/BrandMark";
+import ServiceBoard from "@/components/home/ServiceBoard";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -18,73 +17,61 @@ export default function HomeHero({
 }) {
   const h = dict.home.hero;
   return (
-    <section className="relative overflow-hidden pb-10 pt-28 sm:pt-32 lg:pb-16 lg:pt-40">
-      {/* animated concentric backdrop */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.4, ease }}
-          className="absolute -end-40 -top-40 h-[36rem] w-[36rem]"
-        >
-          <CueMark className="h-full w-full text-clay/10 animate-spin-slow" />
-        </motion.div>
-        <div className="absolute start-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-ember/20 blur-3xl" />
-      </div>
-
-      <div className="container-pad grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+    <section className="relative overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-40">
+      <div className="container-pad grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        {/* Copy */}
         <div>
           <motion.span
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
-            className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper/60 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-ink/70 backdrop-blur"
+            className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted backdrop-blur"
           >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-clay opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-clay" />
+              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-green" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green" />
             </span>
-            {h.eyebrow}
+            {h.status}
           </motion.span>
 
-          <h1 className="mt-6 text-5xl font-semibold leading-[0.98] tracking-tight sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 text-[2.9rem] font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-[4.6rem]">
             <motion.span
-              initial={{ opacity: 0, y: 26 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease, delay: 0.08 }}
-              className="block text-ink"
+              className="block text-content"
             >
-              {h.title}
+              {h.titleTop}
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, y: 26 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease, delay: 0.2 }}
-              className="block italic text-clay"
+              className="block text-green dark:text-green-400"
             >
               {h.titleAccent}
             </motion.span>
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.34 }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl"
+            className="mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
           >
             {h.subtitle}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.46 }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
+            <LocaleLink href="/partner" locale={locale} className="btn btn-primary text-base">
               {h.primary}
             </LocaleLink>
-            <LocaleLink href="/how-it-works" locale={locale} className="btn btn-outline text-base">
+            <LocaleLink href="/reach-out" locale={locale} className="btn btn-outline text-base">
               {h.secondary}
             </LocaleLink>
           </motion.div>
@@ -92,38 +79,21 @@ export default function HomeHero({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-5 text-sm text-ink/50"
+            transition={{ duration: 0.8, delay: 0.62 }}
+            className="mt-5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted/80"
           >
             {h.note}
           </motion.p>
         </div>
 
-        {/* Phone cluster */}
+        {/* Signature: live service board */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 20 }}
+          initial={{ opacity: 0, scale: 0.96, y: 18 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, ease, delay: 0.24 }}
-          className="relative mx-auto flex max-w-md items-center justify-center lg:max-w-none"
+          transition={{ duration: 1, ease, delay: 0.28 }}
+          className="flex justify-center lg:justify-end"
         >
-          <div className="absolute inset-0 -z-10 scale-110 rounded-[3rem] bg-gradient-to-br from-clay/10 via-transparent to-pine/10" />
-          <div className="animate-floaty">
-            <PhoneFrame
-              src="/app/discover.png"
-              alt="Cue app — discover venues in Amman"
-              priority
-              width={300}
-              className="rotate-[-4deg]"
-            />
-          </div>
-          <div className="absolute -bottom-6 end-0 hidden sm:block animate-floaty [animation-delay:1.5s]">
-            <PhoneFrame
-              src="/app/dash-bookings.png"
-              alt="Cue partner dashboard — booking management"
-              width={210}
-              className="rotate-[6deg]"
-            />
-          </div>
+          <ServiceBoard board={h.board} />
         </motion.div>
       </div>
     </section>

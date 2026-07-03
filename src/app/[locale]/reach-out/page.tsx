@@ -23,13 +23,13 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
   return (
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <CueMark className="absolute -start-24 top-20 h-[26rem] w-[26rem] text-pine/[0.06] animate-spin-slow" />
+        <CueMark className="absolute -start-24 top-20 h-[26rem] w-[26rem] text-content/[0.06] animate-spin-slow" />
       </div>
       <div className="container-pad grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div className="lg:sticky lg:top-28">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-clay/30 bg-clay/5 px-4 py-1.5 text-xs font-semibold text-clay">
-              <span className="h-2 w-2 rounded-full bg-clay" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-green/30 bg-green/5 px-4 py-1.5 text-xs font-semibold text-green dark:text-green-300">
+              <span className="h-2 w-2 rounded-full bg-green" />
               {r.hero.status}
             </span>
           </Reveal>
@@ -39,13 +39,13 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
             </h1>
           </Reveal>
           <Reveal delay={2}>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-content/70">
               {r.hero.subtitle}
             </p>
           </Reveal>
           <Reveal delay={3}>
-            <div className="mt-8 flex items-center gap-3 text-sm text-ink/55">
-              <CueMark className="h-6 w-6 text-clay" />
+            <div className="mt-8 flex items-center gap-3 text-sm text-content/55">
+              <CueMark className="h-6 w-6 text-green dark:text-green-300" />
               <span>{dict.brand.tagline}</span>
             </div>
           </Reveal>

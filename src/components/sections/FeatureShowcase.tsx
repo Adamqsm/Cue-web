@@ -33,11 +33,11 @@ export default function FeatureShowcase({
                   "w-full rounded-3xl border p-5 text-start transition-all duration-300",
                   on
                     ? dark
-                      ? "border-clay/50 bg-paper/[0.06]"
-                      : "border-clay/40 bg-paper-soft"
+                      ? "border-green/50 bg-bone/[0.06]"
+                      : "border-green/40 bg-surface2"
                     : dark
-                      ? "border-paper/10 hover:border-paper/25"
-                      : "border-ink/10 hover:border-ink/25"
+                      ? "border-bone/10 hover:border-bone/25"
+                      : "border-line hover:border-content/25"
                 )}
               >
                 <div className="flex items-start gap-4">
@@ -45,10 +45,10 @@ export default function FeatureShowcase({
                     className={cn(
                       "mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-display text-sm font-semibold transition-colors",
                       on
-                        ? "bg-clay text-paper"
+                        ? "bg-green text-bone"
                         : dark
-                          ? "bg-paper/10 text-paper/70"
-                          : "bg-ink/10 text-ink/60"
+                          ? "bg-bone/10 text-bone/70"
+                          : "bg-content/10 text-content/60"
                     )}
                   >
                     {i + 1}
@@ -57,7 +57,7 @@ export default function FeatureShowcase({
                     <h3
                       className={cn(
                         "text-lg font-semibold",
-                        dark ? "text-paper" : "text-ink"
+                        dark ? "text-bone" : "text-content"
                       )}
                     >
                       {f.title}
@@ -71,7 +71,7 @@ export default function FeatureShowcase({
                       <p
                         className={cn(
                           "overflow-hidden text-sm",
-                          dark ? "text-paper/65" : "text-ink/65"
+                          dark ? "text-bone/65" : "text-content/65"
                         )}
                       >
                         {f.body}
@@ -90,7 +90,7 @@ export default function FeatureShowcase({
           <div
             className={cn(
               "absolute inset-0 -z-10 scale-125 rounded-full blur-3xl",
-              dark ? "bg-clay/20" : "bg-clay/10"
+              dark ? "bg-green/20" : "bg-green/10"
             )}
           />
           <AnimatePresence mode="wait">

@@ -19,7 +19,7 @@ export default function PageHero({
   return (
     <section className="relative overflow-hidden pt-28 sm:pt-36">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <CueMark className="absolute -end-24 -top-24 h-[28rem] w-[28rem] text-clay/[0.07] animate-spin-slow" />
+        <CueMark className="absolute -end-24 -top-24 h-[28rem] w-[28rem] text-green/[0.07] animate-spin-slow" />
       </div>
       <div className="container-pad pb-6">
         <div
@@ -43,7 +43,7 @@ export default function PageHero({
             <Reveal delay={2}>
               <p
                 className={cn(
-                  "mt-6 text-lg leading-relaxed text-ink/70 sm:text-xl",
+                  "mt-6 text-lg leading-relaxed text-content/70 sm:text-xl",
                   center ? "mx-auto max-w-2xl" : "max-w-2xl"
                 )}
               >

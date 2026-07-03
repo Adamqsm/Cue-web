@@ -33,130 +33,157 @@ const en = {
     readMore: "Read more",
     backToTop: "Back to top",
     preLaunch: "Pre-launch · Amman",
+    theme: { light: "Switch to light mode", dark: "Switch to dark mode" },
   },
 
   // ---------------- HOME ----------------
   home: {
     meta: {
-      title: "Cue — Structured booking for modern hospitality",
+      title: "Cue — The coordination layer for hospitality",
       description:
-        "Cue is a bilingual hospitality booking and coordination platform. Simple for guests, structured for operators. Launching in Amman — join early access.",
+        "Cue is the reservation and coordination layer between guests and venues. Every request in one place, confirmed in one tap. Bilingual by design. Launching in Amman.",
     },
     hero: {
-      eyebrow: "Hospitality booking & coordination",
-      title: "Simple for guests.",
-      titleAccent: "Structured for operators.",
+      status: "Pre-launch · Amman",
+      titleTop: "Every reservation,",
+      titleAccent: "under control.",
       subtitle:
-        "Cue connects diners and venues through one reliable system — clear reservations, less manual coordination, real operational control. Built for how hospitality actually works.",
-      primary: "Get in Cue",
-      secondary: "See how it works",
-      note: "Pre-launch. Partnering with founding venues in Amman.",
+        "Cue is the coordination layer between guests and venues. Requests arrive, your team confirms, and everyone knows exactly where they stand. No phone tag. No double-bookings. No walk-in guesswork.",
+      primary: "Partner with Cue",
+      secondary: "Join early access",
+      note: "Partnering with founding venues in Amman.",
+      board: {
+        title: "Tonight · Service board",
+        live: "Live",
+        states: {
+          incoming: "Incoming",
+          confirmed: "Confirmed",
+          seated: "Seated",
+        },
+        rows: [
+          { name: "Layali — party of 4", time: "8:30 PM" },
+          { name: "Nadia K. — party of 2", time: "9:00 PM" },
+          { name: "Sami R. — party of 6", time: "9:15 PM" },
+          { name: "Hold — party of 3", time: "9:45 PM" },
+        ],
+        footerLabel: "Covers tonight",
+        footerValue: "142",
+        confirmLabel: "Confirm",
+      },
     },
-    marquee: [
-      "Reservations",
-      "Group coordination",
-      "Guest flow",
-      "Operational control",
-      "Bilingual by design",
-      "Real-world hospitality",
-    ],
-    intro: {
-      kicker: "What Cue is",
-      title:
-        "One platform for the two sides of every reservation.",
-      body: "Cue is a hospitality-focused booking and coordination platform. It gives guests a simple way to plan and manage outings, and gives operators the structure to handle demand without the back-and-forth. No forced process changes — Cue aligns with how your team already works.",
+    problem: {
+      label: "The problem",
+      title: "Bookings break in the gaps.",
+      body: "Reservations live across DMs, phone calls, walk-ins, and a paper book. Nobody holds the full picture — so tables get double-booked and no-shows go unnoticed.",
+      resolve: "Cue puts every request in one place and gives your team a single source of truth.",
     },
-    paths: {
-      kicker: "Three ways in",
-      title: "Whoever you are, there's a place in Cue.",
+    hiw: {
+      label: "How it works",
+      title: "One system. Two sides.",
+      body: "Simple for the guest. Structured for the team running the floor.",
+      tabs: {
+        guests: "For guests",
+        operators: "For operators",
+      },
+      guests: [
+        { title: "Discover", body: "Browse venues across Amman — by area, cuisine, and price." },
+        { title: "Request", body: "Pick a date, time, and party size. Add a note. Send." },
+        { title: "Get confirmed", body: "An instant, unambiguous status — no chasing a reply." },
+        { title: "Arrive", body: "Show up to a table that's actually held for you." },
+      ],
+      operators: [
+        { title: "Receive", body: "Every request lands in one queue the moment it's made." },
+        { title: "Decide", body: "Confirm, decline, or hold in a single tap." },
+        { title: "Coordinate", body: "Group bookings, event nights, and guest flow, handled in the background." },
+        { title: "Review", body: "See covers, confirmation rates, and what's working." },
+      ],
+    },
+    features: {
+      label: "What you get",
+      title: "Built for the pass, not the pitch deck.",
       items: [
         {
-          tag: "For operators",
-          title: "Partner with Cue",
-          body: "Reduce operational friction, keep control at scale, and improve reliability across every booking.",
-          href: "/partner",
-          cta: "Explore partnership",
+          icon: "inbox",
+          title: "Real-time requests",
+          body: "Every booking request in one live queue, the moment it's made.",
         },
         {
-          tag: "For guests",
-          title: "Join early access",
-          body: "Be among the first to discover, book, and coordinate outings across Amman's best venues.",
-          href: "/reach-out",
-          cta: "Get in Cue",
+          icon: "dashboard",
+          title: "Operator dashboard",
+          body: "Confirm, decline, and track covers from a single screen.",
         },
         {
-          tag: "For talent",
-          title: "Build Cue with us",
-          body: "We're hiring people who care about hospitality, craft, and building things that actually work.",
-          href: "/careers",
-          cta: "See open roles",
+          icon: "shield",
+          title: "No-show controls",
+          body: "Automatic confirmations and reminders keep tables from going cold.",
+        },
+        {
+          icon: "language",
+          title: "Bilingual by default",
+          body: "Arabic and English as equals — for your guests and your team.",
+        },
+        {
+          icon: "flow",
+          title: "Guest flow",
+          body: "Group bookings and busy nights, coordinated without the back-and-forth.",
+        },
+        {
+          icon: "pin",
+          title: "Built for Amman",
+          body: "Launching local, tuned to how venues here actually run service.",
         },
       ],
     },
-    value: {
-      kicker: "Why operators choose Cue",
-      title: "Clarity and control, built into every booking.",
-      items: [
-        {
-          title: "Reduce operational friction",
-          body: "Eliminate the back-and-forth, manual confirmations, and fragmented booking channels.",
-        },
-        {
-          title: "Maintain control at scale",
-          body: "Manage reservations, group activity, and guest flow through structured, automated systems.",
-        },
-        {
-          title: "Improve reliability",
-          body: "Standardized booking infrastructure reduces errors and keeps operations consistent.",
-        },
-        {
-          title: "Designed for real-world use",
-          body: "Cue works quietly in the background so staff focus on service, not logistics.",
-        },
-      ],
-    },
-    showcase: {
-      kicker: "Inside the app",
-      title: "A product operators can stand behind.",
-      body: "From discovery to confirmation, Cue is designed end to end. Here's a look at what your guests — and your team — will actually use.",
-      cta: "Explore the full experience",
+    demo: {
+      label: "The product",
+      title: "See Cue in motion.",
+      body: "A pass through the app your guests use and the dashboard your team runs on.",
+      play: "Play",
+      pause: "Pause",
       slides: [
-        {
-          img: "/app/discover.png",
-          title: "Discover",
-          body: "Guests browse venues in Amman with rich cards, search, and filters by area and cuisine.",
-        },
-        {
-          img: "/app/book.png",
-          title: "Book a table",
-          body: "Date, time, party size, and notes — a clean request flow that lands straight in your queue.",
-        },
-        {
-          img: "/app/confirmed.png",
-          title: "Confirm",
-          body: "Guests get a clear reservation summary and status. No ambiguity, no lost messages.",
-        },
-        {
-          img: "/app/dash-bookings.png",
-          title: "Operate",
-          body: "Your team confirms, declines, and manages every request from one structured dashboard.",
-        },
+        { img: "/app/discover.png", caption: "Guests discover venues across Amman." },
+        { img: "/app/book.png", caption: "A clean request — date, time, party size." },
+        { img: "/app/dash-today.png", caption: "Tonight's floor, at a glance." },
+        { img: "/app/dash-bookings.png", caption: "Confirm or decline in one tap." },
+        { img: "/app/dash-analytics.png", caption: "The numbers that tell you what's working." },
       ],
     },
-    stats: {
-      kicker: "Where we're headed",
-      title: "Building toward a network operators can rely on.",
-      note: "18-month targets for the Amman launch.",
-      items: [
+    operators: {
+      label: "For operators",
+      title: "The control room for your floor.",
+      body: "One screen for every reservation — confirmed covers, pending requests, event nights, and the numbers behind them. Cue runs quietly in the background so your team stays on service.",
+      points: [
+        "Confirm or decline requests in one tap",
+        "See tonight's covers before you open the doors",
+        "Cut no-shows with automatic confirmations",
+        "Coordinate group bookings and event nights",
+      ],
+      cta: "Partner with Cue",
+      image: "/app/dash-today.png",
+      imageAlt: "Cue operator dashboard — tonight's bookings at a glance",
+    },
+    traction: {
+      label: "Traction",
+      title: "Operational truth over vanity metrics.",
+      body: "We're onboarding founding venues in Amman now. Real partner logos and results land here as they go live.",
+      logosLabel: "Founding partners",
+      logosPlaceholder: "Your venue here",
+      targetsLabel: "Where we're headed — 18-month targets",
+      targets: [
         { value: "60+", label: "Live venues" },
-        { value: "12K+", label: "Monthly booking requests" },
+        { value: "12K+", label: "Monthly requests" },
         { value: "90%+", label: "Confirmation rate" },
         { value: "85%+", label: "Venue retention" },
       ],
     },
-    ctaBand: {
-      title: "Ready to bring structure to your bookings?",
-      body: "We partner selectively with venues that value clarity and reliability. Start a conversation with our team.",
+    faqHome: {
+      label: "FAQ",
+      title: "Straight answers.",
+      seeAll: "See all questions",
+    },
+    finalCta: {
+      title: "Bring your floor onto Cue.",
+      body: "We partner with a small number of founding venues in Amman. If clarity and control matter to how you run service, let's talk.",
       primary: "Partner with Cue",
       secondary: "Join early access",
     },
@@ -532,31 +559,35 @@ const en = {
     items: [
       {
         q: "What is Cue?",
-        a: "Cue is a hospitality-focused booking and coordination platform. It connects guests and venues through one structured, reliable system — giving guests a simple way to plan outings and giving operators real control over reservations, group activity, and guest flow.",
+        a: "Cue is the coordination layer between guests and venues. Guests get a simple way to find and book a table; venues get one structured system for reservations, group activity, and guest flow. One source of truth for both sides of every booking.",
       },
       {
-        q: "How does Cue work?",
-        a: "Guests discover venues, then request a table with a date, time, party size, and any notes. The request arrives in the venue's dashboard as pending. The venue confirms, declines, or completes it — and the guest gets an instant, clear status update. Coordination and reminders are handled in the background.",
+        q: "How do reservations work?",
+        a: "A guest picks a venue, date, time, and party size, then sends the request. It lands in the venue's dashboard as pending. The venue confirms, declines, or holds it — and the guest gets an instant, unambiguous status. Reminders and coordination run in the background.",
       },
       {
-        q: "How can my restaurant join Cue?",
-        a: "We partner selectively with venues that value clarity and reliability. Head to Partner with Cue or the Get Started page, share a few details, and our team will reach out to explore fit and walk you through onboarding — with zero-risk onboarding for founding partners.",
+        q: "Is Cue free for guests?",
+        a: "Yes. Discovering venues and booking a table through Cue is free for guests. There's no charge to browse, request, or manage your reservations.",
       },
       {
-        q: "When will Cue officially launch?",
-        a: "Cue is in its final development phase and preparing to launch in Amman, Jordan. Join early access and we'll keep you updated on timing and next steps.",
+        q: "How does my restaurant sign up?",
+        a: "We partner selectively with venues that value clarity and reliability. Go to Partner with Cue, share a few details, and our team reaches out to check fit and walk you through onboarding. Founding partners in Amman onboard at zero risk.",
+      },
+      {
+        q: "Where is Cue available?",
+        a: "Amman first. We're launching locally and going deep before we go broad — tuned to how venues in Amman actually run service. Expansion across the region follows once the local network is solid.",
       },
       {
         q: "Is Cue available in Arabic?",
-        a: "Yes. Cue is bilingual by design — full English and Arabic across the product, the website, and every form and notification.",
+        a: "Yes. Cue is bilingual by design — full English and Arabic across the app, the dashboard, this site, and every form and notification. Neither language is an afterthought.",
       },
       {
-        q: "Does Cue handle payments?",
-        a: "At launch, Cue focuses on the core booking loop — requests, confirmations, and coordination. Payment features are planned for a later phase and will comply with Jordanian financial regulations.",
+        q: "What's the cancellation policy?",
+        a: "Guests can cancel a reservation from the app whenever plans change; earlier is always better for the venue. Each venue sets its own terms for holds and no-shows, and those terms are shown before you confirm. Repeated no-shows may limit an account.",
       },
       {
-        q: "What does it cost to partner?",
-        a: "Founding partners onboard at zero risk during our Amman launch. Longer-term pricing (subscriptions and per-booking options) is shared directly during partnership conversations.",
+        q: "How is my data handled?",
+        a: "Cue follows a strict data-minimization approach under Jordan's PDPL. We collect only what's needed to run a booking, share only what a venue needs to fulfill it, and never sell personal data. See our Privacy Policy for the full detail.",
       },
     ],
     contact: {

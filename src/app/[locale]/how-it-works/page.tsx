@@ -50,14 +50,14 @@ export default function HowItWorksPage({
           {h.loop.steps.map((step) => (
             <RevealItem
               key={step.n}
-              className="group relative overflow-hidden rounded-4xl border border-ink/10 bg-paper-soft/50 p-6"
+              className="group relative overflow-hidden rounded-4xl border border-line bg-surface2/50 p-6"
             >
-              <CueMark className="absolute -end-5 -top-5 h-16 w-16 text-ink/[0.05] transition-transform duration-500 group-hover:rotate-90" />
-              <span className="font-display text-4xl font-semibold text-clay/80">
+              <CueMark className="absolute -end-5 -top-5 h-16 w-16 text-content/[0.05] transition-transform duration-500 group-hover:rotate-90" />
+              <span className="font-display text-4xl font-semibold text-green/80">
                 {step.n}
               </span>
-              <h3 className="mt-4 text-xl font-semibold text-ink">{step.title}</h3>
-              <p className="mt-2 text-sm text-ink/65">{step.body}</p>
+              <h3 className="mt-4 text-xl font-semibold text-content">{step.title}</h3>
+              <p className="mt-2 text-sm text-content/65">{step.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -75,7 +75,7 @@ export default function HowItWorksPage({
       </section>
 
       {/* For operators — dark */}
-      <section className="bg-ink text-paper">
+      <section className="bg-ink text-bone">
         <div className="container-pad py-20 sm:py-28">
           <SectionHeading
             kicker={h.operator.kicker}
@@ -96,11 +96,11 @@ export default function HowItWorksPage({
             {h.philosophy.points.map((p, i) => (
               <RevealItem
                 key={p.title}
-                className="flex gap-5 border-s-2 border-clay/40 ps-5"
+                className="flex gap-5 border-s-2 border-green/40 ps-5"
               >
                 <div>
-                  <h3 className="text-xl font-semibold text-ink">{p.title}</h3>
-                  <p className="mt-2 text-ink/70">{p.body}</p>
+                  <h3 className="text-xl font-semibold text-content">{p.title}</h3>
+                  <p className="mt-2 text-content/70">{p.body}</p>
                 </div>
               </RevealItem>
             ))}

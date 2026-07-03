@@ -3,9 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Bricolage Grotesque", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-arabic: "IBM Plex Sans Arabic", Tahoma, sans-serif;
+
+  /* Semantic roles — light mode (rgb channels for alpha support) */
+  --bg: 244 243 238;        /* #F4F3EE porcelain */
+  --surface: 251 250 246;   /* #FBFAF6 raised card */
+  --surface-2: 236 234 225; /* #ECEAE1 sunken */
+  --content: 20 20 15;      /* #14140F ink */
+  --muted: 92 90 80;        /* #5C5A50 */
+  --line: 214 211 200;      /* #D6D3C8 hairline */
+}
+
+.dark {
+  --bg: 14 15 12;           /* #0E0F0C deep warm charcoal */
+  --surface: 22 23 18;      /* #161712 */
+  --surface-2: 32 33 25;    /* #202119 */
+  --content: 236 234 225;   /* #ECEAE1 bone */
+  --muted: 160 158 145;     /* #A09E91 */
+  --line: 58 60 50;         /* #3A3C32 */
 }
 
 @layer base {
@@ -13,42 +31,56 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
-    @apply bg-paper text-ink font-sans;
+    @apply font-sans;
+    background-color: rgb(var(--bg));
+    color: rgb(var(--content));
+    transition: background-color 0.4s ease, color 0.3s ease;
     background-image:
-      radial-gradient(1200px 600px at 100% -10%, rgba(199, 94, 54, 0.06), transparent 60%),
-      radial-gradient(900px 500px at -10% 10%, rgba(46, 74, 58, 0.05), transparent 55%);
+      radial-gradient(1100px 560px at 100% -8%, rgba(30, 110, 82, 0.06), transparent 60%),
+      radial-gradient(820px 460px at -8% 6%, rgba(225, 153, 58, 0.05), transparent 58%);
   }
-
-  /* Arabic typography */
-  [dir="rtl"] body,
-  [dir="rtl"] .font-display,
-  [dir="rtl"] .font-sans {
-    font-family: var(--font-arabic);
-  }
-
-  ::selection {
-    background: rgba(199, 94, 54, 0.9);
-    color: #f6f1e7;
+  .dark body {
+    background-image:
+      radial-gradient(1100px 560px at 100% -8%, rgba(38, 132, 95, 0.14), transparent 62%),
+      radial-gradient(820px 460px at -8% 6%, rgba(225, 153, 58, 0.06), transparent 60%);
   }
 
   h1, h2, h3, h4 {
     @apply font-display;
     text-wrap: balance;
+    letter-spacing: -0.02em;
   }
 
+  /* Arabic typography — swap all roles to the Arabic face */
+  [dir="rtl"] body,
+  [dir="rtl"] .font-display,
+  [dir="rtl"] .font-sans,
+  [dir="rtl"] .font-mono {
+    font-family: var(--font-arabic);
+  }
   [dir="rtl"] h1,
   [dir="rtl"] h2,
   [dir="rtl"] h3,
   [dir="rtl"] h4 {
     font-family: var(--font-arabic);
     font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    background: rgba(30, 110, 82, 0.9);
+    color: #f4f3ee;
   }
 
   :focus-visible {
-    outline: 2px solid #c75e36;
+    outline: 2px solid #26845f;
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -59,44 +91,61 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
+  /* Monospace utility eyebrow — the "operational" label voice */
+  .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-clay;
+    @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-green;
   }
-
+  .dark .label,
+  .dark .eyebrow {
+    @apply text-green-300;
+  }
+  [dir="rtl"] .label,
   [dir="rtl"] .eyebrow {
-    @apply tracking-normal;
+    @apply font-arabic tracking-normal text-xs;
   }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus-visible:outline-offset-4;
   }
-
   .btn-primary {
-    @apply bg-clay text-paper hover:bg-clay-600 hover:shadow-[0_10px_30px_-8px_rgba(199,94,54,0.6)] hover:-translate-y-0.5;
+    @apply bg-green text-bone hover:bg-green-600 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-10px_rgba(30,110,82,0.65)];
   }
-
+  .dark .btn-primary {
+    @apply bg-green-500 text-ink hover:bg-green-400;
+  }
   .btn-ink {
-    @apply bg-ink text-paper hover:bg-ink-700 hover:-translate-y-0.5;
+    @apply transition-transform hover:-translate-y-0.5;
+    background-color: rgb(var(--content));
+    color: rgb(var(--bg));
   }
-
   .btn-outline {
-    @apply border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-paper;
+    @apply border;
+    border-color: rgb(var(--line));
+    color: rgb(var(--content));
   }
-
+  .btn-outline:hover {
+    border-color: rgb(var(--content));
+    background-color: rgb(var(--content));
+    color: rgb(var(--bg));
+  }
   .btn-ghost-light {
-    @apply border border-paper/25 text-paper hover:bg-paper hover:text-ink;
+    @apply border border-bone/25 text-bone hover:bg-bone hover:text-ink;
   }
 
-  .card-line {
-    @apply rounded-3xl border border-ink/10 bg-paper/60 backdrop-blur;
+  .card {
+    @apply rounded-3xl border shadow-soft;
+    border-color: rgb(var(--line));
+    background-color: rgb(var(--surface));
   }
 
   .link-underline {
-    @apply relative inline-flex w-fit items-center gap-1.5 font-semibold text-ink;
+    @apply relative inline-flex w-fit items-center gap-1.5 font-semibold;
+    color: rgb(var(--content));
   }
   .link-underline::after {
     content: "";
-    @apply absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-clay transition-transform duration-300;
+    @apply absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-green transition-transform duration-300;
   }
   .link-underline:hover::after {
     @apply scale-x-100;
@@ -126,12 +175,17 @@
   scrollbar-width: none;
 }
 
+/* Fine film grain — barely-there texture, theme aware */
 .grain {
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark .grain {
+  mix-blend-mode: screen;
+  opacity: 0.045;
 }

@@ -32,7 +32,7 @@ export default function SectionHeading({
           <span
             className={cn(
               "eyebrow",
-              tone === "paper" && "text-clay-300"
+              tone === "paper" && "text-green-300"
             )}
           >
             <span className="h-px w-6 bg-current opacity-60" />
@@ -44,7 +44,7 @@ export default function SectionHeading({
         <h2
           className={cn(
             "text-balance text-3xl font-semibold leading-[1.08] sm:text-4xl md:text-5xl",
-            tone === "paper" ? "text-paper" : "text-ink"
+            tone === "paper" ? "text-bone" : "text-content"
           )}
         >
           {title}
@@ -55,7 +55,7 @@ export default function SectionHeading({
           <p
             className={cn(
               "text-lg leading-relaxed",
-              tone === "paper" ? "text-paper/70" : "text-ink/70"
+              tone === "paper" ? "text-bone/70" : "text-content/70"
             )}
           >
             {body}

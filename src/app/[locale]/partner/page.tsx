@@ -9,6 +9,9 @@ import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import PhoneFrame from "@/components/ui/PhoneFrame";
 import CtaBand from "@/components/sections/CtaBand";
+import FoundingBanner from "@/components/partner/FoundingBanner";
+import PricingTiers from "@/components/partner/PricingTiers";
+import CommissionSection from "@/components/partner/CommissionSection";
 import { CueMark } from "@/components/BrandMark";
 
 export async function generateMetadata({
@@ -40,13 +43,16 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         ])}
       />
       <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle}>
-        <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
+        <LocaleLink href="/partner/apply" locale={locale} className="btn btn-primary text-base">
           {p.hero.primary}
         </LocaleLink>
         <LocaleLink href="/how-it-works" locale={locale} className="btn btn-outline text-base">
           {p.hero.secondary}
         </LocaleLink>
       </PageHero>
+
+      {/* Founding partner offer — the outreach hook */}
+      <FoundingBanner locale={locale} founding={p.founding} />
 
       {/* Why */}
       <section className="container-pad py-20 sm:py-28">
@@ -106,6 +112,12 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         </div>
       </section>
 
+      {/* Pricing tiers */}
+      <PricingTiers locale={locale} pricing={p.pricing} />
+
+      {/* Commission structure + optional add-ons */}
+      <CommissionSection commission={p.commission} />
+
       {/* Steps */}
       <section className="container-pad py-20 sm:py-28">
         <SectionHeading kicker={p.steps.kicker} title={p.steps.title} className="mb-14" />
@@ -146,9 +158,9 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         title={p.cta.title}
         body={p.cta.body}
         primary={p.cta.primary}
-        primaryHref="/reach-out"
+        primaryHref="/partner/apply"
         secondary={p.cta.secondary}
-        secondaryHref="/reach-out"
+        secondaryHref="/how-it-works"
       />
     </>
   );

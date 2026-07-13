@@ -33,7 +33,7 @@ export default function LanguageToggle({
       onClick={switchTo}
       aria-label={`Switch language to ${label}`}
       className={cn(
-        "group inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-sm font-semibold text-content transition-colors hover:bg-surface2",
+        "inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-line px-4 text-sm font-semibold text-content transition-colors duration-200 hover:border-accent/45 hover:bg-accent-wash hover:text-accent-deep",
         className
       )}
     >

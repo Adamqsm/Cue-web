@@ -36,6 +36,14 @@ const en = {
     theme: { light: "Switch to light mode", dark: "Switch to dark mode" },
   },
 
+  consent: {
+    eyebrow: "Privacy & cookies",
+    title: "Before you continue",
+    body: "Cue uses essential cookies and similar technologies to run this site and remember your preferences. By continuing, you agree to the policies below.",
+    accept: "Accept & continue",
+    note: "You can read the full policies any time in the legal center.",
+  },
+
   // ---------------- HOME ----------------
   home: {
     meta: {

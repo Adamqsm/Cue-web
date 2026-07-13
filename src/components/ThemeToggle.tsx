@@ -41,7 +41,7 @@ export default function ThemeToggle({
       aria-label={isDark ? labels.light : labels.dark}
       aria-pressed={isDark}
       className={cn(
-        "group inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-content transition-colors hover:bg-surface2",
+        "inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:border-accent/45 hover:bg-accent-wash hover:text-accent-deep",
         className
       )}
     >

@@ -2,28 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Cue redesign v2 — "Precision hospitality"
+   Tokens only. Components never hardcode hex.
+   See docs/redesign-v2-spec.md
+   ============================================================ */
+
 :root {
-  --font-display: "Bricolage Grotesque", Georgia, serif;
+  /* One Latin family site-wide. Arabic keeps IBM Plex Sans Arabic. */
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Inter", system-ui, sans-serif; /* legacy alias — display IS Inter now */
+  --font-mono: ui-monospace, "Cascadia Mono", monospace; /* legacy only; no mono voice in v2 */
   --font-arabic: "IBM Plex Sans Arabic", Tahoma, sans-serif;
 
-  /* Semantic roles — light mode (rgb channels for alpha support) */
-  --bg: 244 243 238;        /* #F4F3EE porcelain */
-  --surface: 251 250 246;   /* #FBFAF6 raised card */
-  --surface-2: 236 234 225; /* #ECEAE1 sunken */
-  --content: 20 20 15;      /* #14140F ink */
-  --muted: 92 90 80;        /* #5C5A50 */
-  --line: 214 211 200;      /* #D6D3C8 hairline */
+  /* Semantic ground — light (rgb channels for alpha support) */
+  --bg: 250 249 247;         /* #FAF9F7 barely-warm off-white */
+  --surface: 255 255 255;    /* #FFFFFF raised card */
+  --surface-2: 241 239 234;  /* #F1EFEA sunken band */
+  --content: 26 23 19;       /* #1A1713 ink */
+  --muted: 110 103 94;       /* #6E675E secondary text */
+  --line: 228 224 216;       /* #E4E0D8 hairline */
+
+  /* Accent — terracotta (locked #C86B4A), theme-adaptive */
+  --accent: 200 107 74;        /* #C86B4A */
+  --accent-strong: 178 90 59;  /* #B25A3B hover/active */
+  --accent-deep: 143 70 48;    /* #8F4630 AA text on wash */
+  --accent-wash: rgb(246 233 227); /* #F6E9E3 tinted fill (full value: dark needs alpha) */
+  /* Accent for content sitting on inverse (bg-content) bands — flips WITH the
+     band, not the theme: lifted on the light-theme ink band, deep on the
+     dark-theme light band. ≥4.5:1 against rgb(var(--content)) in both themes. */
+  --accent-on-inverse: 217 138 106; /* #D98A6A on #1A1713 ≈ 6.6:1 */
+
+  /* Hairlines stay decorative; inputs get a boundary that clears WCAG 1.4.11 */
+  --line-strong: 154 146 135;  /* #9A9287 ≈ 3.1:1 on white fields */
+
+  /* Semantic status — information, never decoration */
+  --ok: 62 124 91;             /* #3E7C5B confirmed */
+  --ok-deep: 46 95 69;         /* #2E5F45 AA text on ok-wash */
+
+  /* Form failure — warm, AA-verified on its wash (mirrors the --ok pair) */
+  --error: 178 58 44;          /* #B23A2C */
+  --error-deep: 141 43 32;     /* #8D2B20 AA text on error-wash */
+
+  --shadow-card: 0 16px 40px -20px rgb(26 23 19 / 0.18);
+  --shadow-cta: 0 14px 32px -14px rgb(178 90 59 / 0.4);
 }
 
 .dark {
-  --bg: 14 15 12;           /* #0E0F0C deep warm charcoal */
-  --surface: 22 23 18;      /* #161712 */
-  --surface-2: 32 33 25;    /* #202119 */
-  --content: 236 234 225;   /* #ECEAE1 bone */
-  --muted: 160 158 145;     /* #A09E91 */
-  --line: 58 60 50;         /* #3A3C32 */
+  --bg: 18 17 16;            /* #121110 warm charcoal */
+  --surface: 27 25 23;       /* #1B1917 */
+  --surface-2: 36 32 25;     /* #242019 */
+  --content: 237 234 228;    /* #EDEAE4 */
+  --muted: 163 155 143;      /* #A39B8F */
+  --line: 50 46 40;          /* #322E28 */
+
+  --accent: 217 138 106;       /* #D98A6A lifted for dark contrast */
+  --accent-strong: 227 157 128;/* #E39D80 */
+  --accent-deep: 239 181 157;  /* #EFB59D */
+  --accent-wash: rgb(200 107 74 / 0.14);
+  --accent-on-inverse: 143 70 48; /* #8F4630 on #EDEAE4 ≈ 5.7:1 */
+
+  --line-strong: 116 108 96;   /* #746C60 ≈ 3.3:1 on dark fields */
+
+  --ok: 95 163 127;            /* #5FA37F */
+  --ok-deep: 127 184 154;      /* #7FB89A */
+
+  --error: 224 122 106;        /* #E07A6A */
+  --error-deep: 239 160 147;   /* #EFA093 AA text on error-wash */
+
+  --shadow-card: 0 16px 40px -20px rgb(0 0 0 / 0.5);
+  --shadow-cta: 0 14px 32px -14px rgb(217 138 106 / 0.35);
 }
 
 @layer base {
@@ -41,24 +89,42 @@
     @apply font-sans;
     background-color: rgb(var(--bg));
     color: rgb(var(--content));
-    transition: background-color 0.4s ease, color 0.3s ease;
-    background-image:
-      radial-gradient(1100px 560px at 100% -8%, rgba(30, 110, 82, 0.06), transparent 60%),
-      radial-gradient(820px 460px at -8% 6%, rgba(225, 153, 58, 0.05), transparent 58%);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Single ultra-subtle terracotta bloom, top-center. Nothing else. */
+    background-image: radial-gradient(
+      1200px 640px at 50% -12%,
+      rgb(var(--accent) / 0.03),
+      transparent 62%
+    );
   }
   .dark body {
-    background-image:
-      radial-gradient(1100px 560px at 100% -8%, rgba(38, 132, 95, 0.14), transparent 62%),
-      radial-gradient(820px 460px at -8% 6%, rgba(225, 153, 58, 0.06), transparent 60%);
+    background-image: radial-gradient(
+      1200px 640px at 50% -12%,
+      rgb(var(--accent) / 0.06),
+      transparent 62%
+    );
   }
 
   h1, h2, h3, h4 {
-    @apply font-display;
+    font-family: var(--font-sans);
     text-wrap: balance;
-    letter-spacing: -0.02em;
+  }
+  h1 {
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  h2 {
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  h3, h4 {
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
-  /* Arabic typography — swap all roles to the Arabic face */
+  /* Arabic typography — swap every role to the Arabic face, never track glyphs */
   [dir="rtl"] body,
   [dir="rtl"] .font-display,
   [dir="rtl"] .font-sans,
@@ -73,14 +139,27 @@
     font-weight: 700;
     letter-spacing: 0;
   }
+  /* Plex Arabic needs a taller line box (ascenders, dots, shadda, deep
+     descenders) — the tight Latin display leading stays LTR-only. */
+  [dir="rtl"] h1 {
+    line-height: 1.2;
+  }
+  [dir="rtl"] h2 {
+    line-height: 1.25;
+  }
 
+  /* AA in both themes: white on accent-strong (light) / ink on accent (dark) */
   ::selection {
-    background: rgba(30, 110, 82, 0.9);
-    color: #f4f3ee;
+    background: rgb(var(--accent-strong));
+    color: #ffffff;
+  }
+  .dark ::selection {
+    background: rgb(var(--accent));
+    color: rgb(18 17 16);
   }
 
   :focus-visible {
-    outline: 2px solid #26845f;
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -91,33 +170,52 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
-  /* Monospace utility eyebrow — the "operational" label voice */
+  /* Eyebrow label — Inter voice (mono retired in v2) */
   .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-green;
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em];
+    font-family: var(--font-sans);
+    color: rgb(var(--accent-deep));
   }
   .dark .label,
   .dark .eyebrow {
-    @apply text-green-300;
+    color: rgb(var(--accent));
   }
   [dir="rtl"] .label,
   [dir="rtl"] .eyebrow {
-    @apply font-arabic tracking-normal text-xs;
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 12px;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus-visible:outline-offset-4;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-offset-4;
   }
+  /* Light rests on accent-strong so the white label clears AA (4.75:1) —
+     white-on-#C86B4A is only 3.71:1. Dark keeps ink-on-lifted-accent (7:1). */
   .btn-primary {
-    @apply bg-green text-bone hover:bg-green-600 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-10px_rgba(30,110,82,0.65)];
+    background-color: rgb(var(--accent-strong));
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background-color: rgb(var(--accent-deep));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-cta);
   }
   .dark .btn-primary {
-    @apply bg-green-500 text-ink hover:bg-green-400;
+    background-color: rgb(var(--accent));
+    color: rgb(18 17 16);
+  }
+  .dark .btn-primary:hover {
+    background-color: rgb(var(--accent-strong));
   }
   .btn-ink {
-    @apply transition-transform hover:-translate-y-0.5;
     background-color: rgb(var(--content));
     color: rgb(var(--bg));
+  }
+  .btn-ink:hover {
+    transform: translateY(-1px);
   }
   .btn-outline {
     @apply border;
@@ -125,18 +223,43 @@
     color: rgb(var(--content));
   }
   .btn-outline:hover {
-    border-color: rgb(var(--content));
-    background-color: rgb(var(--content));
-    color: rgb(var(--bg));
+    border-color: rgb(var(--accent) / 0.45);
+    background-color: var(--accent-wash);
   }
   .btn-ghost-light {
-    @apply border border-bone/25 text-bone hover:bg-bone hover:text-ink;
+    @apply border;
+    border-color: rgb(255 255 255 / 0.3);
+    color: #ffffff;
+  }
+  .btn-ghost-light:hover {
+    background-color: #ffffff;
+    color: rgb(26 23 19);
+  }
+
+  /* Arrow nudge inside buttons/links — flips for RTL */
+  .btn .nudge,
+  .link-underline .nudge {
+    transition: transform 0.2s ease;
+  }
+  .btn:hover .nudge,
+  .link-underline:hover .nudge {
+    transform: translateX(3px);
+  }
+  [dir="rtl"] .btn:hover .nudge,
+  [dir="rtl"] .link-underline:hover .nudge {
+    transform: translateX(-3px);
   }
 
   .card {
-    @apply rounded-3xl border shadow-soft;
+    @apply rounded-card border;
     border-color: rgb(var(--line));
     background-color: rgb(var(--surface));
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card-hover:hover {
+    border-color: rgb(var(--accent) / 0.35);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
   }
 
   .link-underline {
@@ -145,17 +268,38 @@
   }
   .link-underline::after {
     content: "";
-    @apply absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-green transition-transform duration-300;
+    @apply absolute -bottom-1 h-[1.5px] w-full scale-x-0 transition-transform duration-[220ms];
+    inset-inline-start: 0;
+    transform-origin: var(--underline-origin, left);
+    background-color: rgb(var(--accent));
   }
-  .link-underline:hover::after {
+  .link-underline:hover::after,
+  .link-underline[aria-current]::after {
     @apply scale-x-100;
   }
   [dir="rtl"] .link-underline::after {
-    @apply origin-right;
+    --underline-origin: right;
+  }
+
+  /* When the underline lives on an inner text-height span (so the ≥44px hit
+     box on the anchor/button doesn't detach the ::after from the text), the
+     parent control drives hover/current state for underline and nudge alike. */
+  a:hover > .link-underline::after,
+  a[aria-current] > .link-underline::after,
+  button:hover > .link-underline::after {
+    @apply scale-x-100;
+  }
+  a:hover > .link-underline .nudge,
+  button:hover > .link-underline .nudge {
+    transform: translateX(3px);
+  }
+  [dir="rtl"] a:hover > .link-underline .nudge,
+  [dir="rtl"] button:hover > .link-underline .nudge {
+    transform: translateX(-3px);
   }
 }
 
-/* Respect reduced motion */
+/* Respect reduced motion — full clamp */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -175,17 +319,17 @@
   scrollbar-width: none;
 }
 
-/* Fine film grain — barely-there texture, theme aware */
+/* Fine film grain — barely-there, theme aware */
 .grain {
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.025;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .dark .grain {
   mix-blend-mode: screen;
-  opacity: 0.045;
+  opacity: 0.035;
 }

@@ -46,29 +46,26 @@ const icons: Record<string, JSX.Element> = {
 export default function Features({ dict }: { dict: Dictionary }) {
   const f = dict.home.features;
   return (
-    <section className="border-t border-line bg-surface/50">
+    <section className="border-y border-line bg-surface2">
       <div className="container-pad py-20 sm:py-28">
         <SectionIntro label={f.label} title={f.title} />
         <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {f.items.map((item) => (
-            <RevealItem
-              key={item.title}
-              className="group card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
-            >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-green/10 text-green transition-colors duration-300 group-hover:bg-green group-hover:text-bone dark:bg-green/20 dark:text-green-300 dark:group-hover:bg-green-500 dark:group-hover:text-ink">
+            <RevealItem key={item.title} className="card card-hover p-6">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-chip bg-accent-wash text-accent-deep">
                 <svg
                   viewBox="0 0 24 24"
                   className="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.6"
+                  strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
                   {icons[item.icon] ?? icons.inbox}
                 </svg>
               </span>
-              <h3 className="mt-5 text-lg font-bold text-content">{item.title}</h3>
+              <h3 className="mt-5 text-lg text-content">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{item.body}</p>
             </RevealItem>
           ))}
@@ -76,36 +73,35 @@ export default function Features({ dict }: { dict: Dictionary }) {
 
         {/* Spotlight: group payments */}
         <Reveal className="mt-6">
-          <div className="relative grid items-center gap-10 overflow-hidden rounded-3xl border border-ink/60 bg-ink p-8 shadow-lift sm:p-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+          <div className="grid items-center gap-10 overflow-hidden rounded-panel border border-line bg-surface p-8 sm:p-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
             <div>
-              <span className="label !text-green-300">
-                <span className="h-px w-6 bg-green-400/60" aria-hidden />
+              <span className="label">
+                <span className="h-px w-6 bg-accent/60" aria-hidden />
                 {f.spotlight.label}
               </span>
-              <h3 className="mt-4 text-2xl font-bold leading-[1.1] text-bone sm:text-3xl lg:text-4xl">
+              <h3 className="mt-4 text-2xl leading-[1.1] text-content sm:text-3xl">
                 {f.spotlight.title}
               </h3>
-              <p className="mt-4 max-w-lg leading-relaxed text-bone/65">
+              <p className="mt-4 max-w-lg leading-relaxed text-muted">
                 {f.spotlight.body}
               </p>
               <ul className="mt-6 space-y-3">
                 {f.spotlight.points.map((point) => (
                   <li key={point} className="flex items-start gap-3">
-                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green/20 text-green-300">
+                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-wash text-accent-deep">
                       <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-bone/80">{point}</span>
+                    <span className="text-content/80">{point}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="flex justify-center lg:justify-end">
-              <div className="relative w-[236px] overflow-hidden rounded-[2rem] border border-bone/15 bg-ink-900 p-1.5 shadow-lift sm:w-[264px]">
-                <div className="absolute -inset-8 -z-10 rounded-full bg-green/20 blur-3xl" />
-                <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-[1.6rem]">
+              <div className="relative w-[236px] overflow-hidden rounded-panel border border-line bg-surface2 p-1.5 sm:w-[264px]">
+                <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-card">
                   <Image
                     src={f.spotlight.image}
                     alt={f.spotlight.imageAlt}

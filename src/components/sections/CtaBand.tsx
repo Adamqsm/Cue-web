@@ -1,7 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import Reveal from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
-import { CueMark } from "@/components/BrandMark";
 
 export default function CtaBand({
   locale,
@@ -23,27 +22,32 @@ export default function CtaBand({
   return (
     <section className="container-pad py-16 sm:py-24">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-green px-6 py-14 text-bone sm:px-14 sm:py-20">
-          <CueMark className="pointer-events-none absolute -bottom-16 -end-10 h-64 w-64 text-bone/15 animate-spin-slow" />
-          <div className="pointer-events-none absolute -top-24 start-1/3 h-64 w-64 rounded-full bg-amber/30 blur-3xl" />
-          <div className="relative max-w-2xl">
-            <h2 className="text-4xl font-semibold leading-[1.05] sm:text-5xl">
+        <div className="rounded-panel border border-line bg-surface2 px-6 py-14 sm:px-14 sm:py-20">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl text-content sm:text-4xl lg:text-[2.75rem]">
               {title}
             </h2>
-            <p className="mt-4 text-lg text-bone/85">{body}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
+              {body}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <LocaleLink
                 href={primaryHref}
                 locale={locale}
-                className="btn btn-ink text-base"
+                className="btn btn-primary text-base"
               >
                 {primary}
+                <span className="nudge" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" className="h-4 w-4 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 8h10M9.5 3.5 14 8l-4.5 4.5" />
+                  </svg>
+                </span>
               </LocaleLink>
               {secondary && secondaryHref && (
                 <LocaleLink
                   href={secondaryHref}
                   locale={locale}
-                  className="btn btn-ghost-light text-base"
+                  className="btn btn-outline text-base"
                 >
                   {secondary}
                 </LocaleLink>

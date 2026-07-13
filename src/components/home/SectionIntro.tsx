@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Reveal from "@/components/ui/Reveal";
 
-/** Shared section header: mono label + display title + optional body. */
+/** Shared section header: eyebrow label + h2 title + optional muted body. */
 export default function SectionIntro({
   label,
   title,
@@ -27,23 +27,30 @@ export default function SectionIntro({
     >
       <span
         className={cn(
-          "label",
+          "eyebrow",
           align === "center" && "justify-center"
         )}
       >
-        <span className="h-px w-6 bg-green/50" aria-hidden />
+        <span className="h-px w-6 bg-accent/60" aria-hidden />
         {label}
       </span>
       <h2
         className={cn(
-          "mt-4 text-3xl font-bold leading-[1.05] text-content sm:text-4xl lg:text-[2.9rem]",
+          "mt-4 text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content",
           titleClassName
         )}
       >
         {title}
       </h2>
       {body && (
-        <p className="mt-4 text-lg leading-relaxed text-muted">{body}</p>
+        <p
+          className={cn(
+            "mt-4 max-w-[65ch] text-lg leading-relaxed text-muted",
+            align === "center" && "mx-auto"
+          )}
+        >
+          {body}
+        </p>
       )}
     </Reveal>
   );

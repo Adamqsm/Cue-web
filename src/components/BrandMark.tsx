@@ -65,7 +65,7 @@ export function Logo({
       {showWord && (
         <span
           className={cn(
-            "font-display text-2xl font-semibold tracking-tight",
+            "text-2xl font-semibold tracking-tight",
             wordClassName
           )}
         >

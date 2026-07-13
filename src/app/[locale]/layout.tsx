@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Inter,
-  IBM_Plex_Mono,
-  IBM_Plex_Sans_Arabic,
-} from "next/font/google";
+import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { locales, isLocale, localeDirection, type Locale } from "@/i18n/config";
@@ -12,25 +7,15 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { SITE_URL } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import MotionProvider from "@/components/MotionProvider";
+import ConsentBanner from "@/components/ConsentBanner";
 
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-display",
-  display: "swap",
-});
-
+// v2: one Latin family — Inter variable (all weights, incl. 650/750 display cuts).
+// Bricolage Grotesque and IBM Plex Mono are retired; --font-display falls back
+// to Inter via globals.css.
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -86,6 +71,16 @@ export async function generateMetadata({
 // Set the theme class before paint to avoid a flash of the wrong mode.
 const themeScript = `(function(){try{var t=localStorage.getItem('cue-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
+// The three user-facing policies the consent gate references — selected by
+// href (order-stable in both locales), passed as a slim payload so the
+// client banner doesn't serialize the whole dictionary.
+const CONSENT_POLICY_HREFS = ["/legal/terms", "/legal/privacy", "/legal/cookies"];
+function consentPolicies(dict: ReturnType<typeof getDictionary>) {
+  return dict.legal.index.docs
+    .filter((d) => CONSENT_POLICY_HREFS.includes(d.href))
+    .map(({ href, title }) => ({ href, title }));
+}
+
 export default function LocaleLayout({
   children,
   params,
@@ -102,11 +97,17 @@ export default function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${bricolage.variable} ${inter.variable} ${plexMono.variable} ${plexArabic.variable}`}
+      className={`${inter.variable} ${plexArabic.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Reveal/HomeHero SSR framer-motion's hidden initial state as inline
+            styles — without JS, force everything visible (spec: content must
+            never be hidden if JS fails). */}
+        <noscript>
+          <style>{`[style*="opacity"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <span className="grain" aria-hidden />
         <a
           href="#main"
@@ -114,9 +115,18 @@ export default function LocaleLayout({
         >
           Skip to content
         </a>
-        <Nav locale={locale} dict={dict} />
-        <main id="main">{children}</main>
-        <Footer locale={locale} dict={dict} />
+        <MotionProvider>
+          <Nav locale={locale} dict={dict} />
+          <main id="main" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
+          <Footer locale={locale} dict={dict} />
+        </MotionProvider>
+        <ConsentBanner
+          locale={locale}
+          content={dict.consent}
+          policies={consentPolicies(dict)}
+        />
       </body>
     </html>
   );

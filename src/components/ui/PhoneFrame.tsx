@@ -22,14 +22,12 @@ export default function PhoneFrame({
   return (
     <div
       className={cn(
-        "relative shrink-0 rounded-[2.2rem] border border-ink/15 bg-ink p-2 shadow-[0_30px_60px_-25px_rgba(23,19,15,0.55)]",
+        "relative shrink-0 rounded-panel border border-line bg-surface p-2 shadow-soft",
         className
       )}
       style={{ width }}
     >
-      {/* speaker / camera island */}
-      <div className="absolute left-1/2 top-3 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-ink" />
-      <div className="overflow-hidden rounded-[1.7rem] bg-surface2">
+      <div className="overflow-hidden rounded-card bg-surface2">
         <Image
           src={src}
           alt={alt}

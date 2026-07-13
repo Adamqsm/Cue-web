@@ -3,7 +3,6 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
-import { CueMark } from "@/components/BrandMark";
 import { cn } from "@/lib/utils";
 
 /** Three-tier plan comparison — side-by-side on desktop, stacked cards on mobile. */
@@ -29,38 +28,27 @@ export default function PricingTiers({
             <RevealItem
               key={tier.id}
               className={cn(
-                "card relative flex flex-col p-7 transition-colors sm:p-8",
-                recommended
-                  ? "border-green shadow-lift ring-1 ring-green"
-                  : "hover:border-green/30"
+                "card flex flex-col p-7 sm:p-8",
+                recommended ? "border-accent shadow-card" : "card-hover"
               )}
             >
-              <span
-                className={cn(
-                  "inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em]",
-                  recommended
-                    ? "border-green/40 bg-green text-bone"
-                    : "border-line bg-surface2/70 text-muted"
-                )}
-              >
+              {/* !important so the override beats .dark .label's specificity
+                  (same pattern as Traction.tsx). */}
+              <span className={cn("label", !recommended && "!text-muted")}>
                 {tier.tag}
               </span>
-              <h3 className="mt-5 text-2xl font-semibold text-content">{tier.name}</h3>
+              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.015em] text-content">
+                {tier.name}
+              </h3>
               <div className="mt-4 flex items-baseline gap-2">
-                <span
-                  className={cn(
-                    "font-display text-4xl font-semibold tracking-tight sm:text-5xl",
-                    recommended ? "text-green dark:text-green-300" : "text-content"
-                  )}
-                >
+                <span className="text-4xl font-[650] tabular-nums tracking-[-0.025em] rtl:tracking-normal text-content sm:text-5xl">
                   {tier.price}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-content/55">{tier.priceNote}</p>
-              <ul className="mt-7 flex flex-1 flex-col gap-3 border-t border-line pt-6">
+              <p className="mt-1 text-sm tabular-nums text-muted">{tier.priceNote}</p>
+              <ul className="mt-7 flex flex-1 flex-col divide-y divide-line border-t border-line">
                 {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-content/75">
-                    <CueMark className="mt-1 h-4 w-4 shrink-0 text-green dark:text-green-300" />
+                  <li key={feature} className="py-3 text-[15px] leading-relaxed text-content/80">
                     {feature}
                   </li>
                 ))}

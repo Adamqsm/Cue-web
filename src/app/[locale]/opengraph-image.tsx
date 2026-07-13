@@ -15,7 +15,7 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#14140F",
+          background: "#FAF9F7",
           padding: "72px",
           fontFamily: "sans-serif",
         }}
@@ -30,12 +30,12 @@ export default function OgImage() {
               width: "18px",
               height: "18px",
               borderRadius: "9999px",
-              background: "#26845F",
+              background: "#C86B4A",
             }}
           />
           <div
             style={{
-              color: "#A09E91",
+              color: "#6E675E",
               fontSize: "26px",
               letterSpacing: "0.28em",
               textTransform: "uppercase",
@@ -49,7 +49,7 @@ export default function OgImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#F4F3EE",
+              color: "#1A1713",
               fontSize: "78px",
               fontWeight: 800,
               lineHeight: 1.02,
@@ -60,7 +60,7 @@ export default function OgImage() {
           </div>
           <div
             style={{
-              color: "#43A57D",
+              color: "#C86B4A",
               fontSize: "78px",
               fontWeight: 800,
               lineHeight: 1.02,
@@ -69,7 +69,7 @@ export default function OgImage() {
           >
             best restaurants, instantly.
           </div>
-          <div style={{ color: "#A09E91", fontSize: "30px", marginTop: "28px" }}>
+          <div style={{ color: "#6E675E", fontSize: "30px", marginTop: "28px" }}>
             Reservations · group dining · split payments
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function OgImage() {
         >
           <div
             style={{
-              color: "#F4F3EE",
+              color: "#1A1713",
               fontSize: "56px",
               fontWeight: 800,
               letterSpacing: "0.12em",
@@ -92,7 +92,7 @@ export default function OgImage() {
           >
             CUE
           </div>
-          <div style={{ color: "#A09E91", fontSize: "26px" }}>cue-app.net</div>
+          <div style={{ color: "#6E675E", fontSize: "26px" }}>cue-app.net</div>
         </div>
       </div>
     ),

@@ -1,12 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import LocaleLink from "@/components/ui/LocaleLink";
 import ServiceBoard from "@/components/home/ServiceBoard";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+/* One restrained staggered rise — Reveal timing: 12px / 0.5s / 60ms. */
+const rise: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+};
 
 export default function HomeHero({
   locale,
@@ -17,85 +28,90 @@ export default function HomeHero({
 }) {
   const h = dict.home.hero;
   return (
-    <section className="relative overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-40">
-      <div className="container-pad grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+    <section className="relative pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-36">
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="container-pad grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
+      >
         {/* Copy */}
         <div>
+          {/* Eyebrow status pill — accent wash, accent-deep text, tiny live dot */}
           <motion.span
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 px-3.5 py-1.5 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted backdrop-blur"
+            variants={rise}
+            className="inline-flex items-center gap-2 rounded-full bg-accent-wash ps-3.5 pe-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-deep rtl:text-xs rtl:normal-case rtl:tracking-normal"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-green" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green" />
-            </span>
+            <span
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+              aria-hidden="true"
+            />
             {h.status}
           </motion.span>
 
-          <h1 className="mt-6 text-[2.9rem] font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-[4.6rem]">
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease, delay: 0.08 }}
-              className="block text-content"
-            >
-              {h.titleTop}
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease, delay: 0.2 }}
-              className="block text-green dark:text-green-400"
-            >
-              {h.titleAccent}
-            </motion.span>
-          </h1>
+          {/* Display headline — weight/tracking/leading come from the global h1 role */}
+          <motion.h1
+            variants={rise}
+            className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)]"
+          >
+            <span className="block text-content">{h.titleTop}</span>
+            <span className="block text-accent">{h.titleAccent}</span>
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease, delay: 0.34 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-muted sm:text-xl"
+            variants={rise}
+            className="mt-6 max-w-[60ch] text-lg leading-[1.65] text-muted"
           >
             {h.subtitle}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease, delay: 0.46 }}
+            variants={rise}
             className="mt-9 flex flex-wrap items-center gap-3"
           >
-            <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
+            <LocaleLink
+              href="/reach-out"
+              locale={locale}
+              className="btn btn-primary"
+            >
               {h.primary}
+              <span className="nudge inline-flex" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-4 w-4 rtl:-scale-x-100"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </span>
             </LocaleLink>
-            <LocaleLink href="/partner" locale={locale} className="btn btn-outline text-base">
+            <LocaleLink
+              href="/partner"
+              locale={locale}
+              className="btn btn-outline"
+            >
               {h.secondary}
             </LocaleLink>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.62 }}
-            className="mt-5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted/80"
-          >
+          <motion.p variants={rise} className="mt-5 text-[13px] text-muted">
             {h.note}
           </motion.p>
         </div>
 
         {/* Signature: live service board */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 18 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, ease, delay: 0.28 }}
-          className="flex justify-center lg:justify-end"
-        >
-          <ServiceBoard board={h.board} />
+        <motion.div variants={rise} className="flex justify-center lg:justify-end">
+          <ServiceBoard
+            board={h.board}
+            labels={{ play: dict.home.demo.play, pause: dict.home.demo.pause }}
+          />
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

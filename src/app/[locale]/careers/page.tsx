@@ -48,38 +48,36 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
         <SectionHeading kicker={c.why.kicker} title={c.why.title} body={c.why.body} className="mb-14" />
         <RevealGroup className="grid gap-6 md:grid-cols-3">
           {c.why.items.map((item) => (
-            <RevealItem
-              key={item.title}
-              className="rounded-4xl border border-line bg-surface2/50 p-7"
-            >
-              <h3 className="text-xl font-semibold text-content">{item.title}</h3>
-              <p className="mt-2 text-content/70">{item.body}</p>
+            <RevealItem key={item.title} className="card p-7">
+              <h3 className="text-xl text-content">{item.title}</h3>
+              <p className="mt-2 text-muted">{item.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
       </section>
 
-      {/* Roles — dark */}
-      <section className="bg-ink text-bone">
+      {/* Roles — sunken band */}
+      <section className="border-y border-line bg-surface2">
         <div className="container-pad py-20 sm:py-28">
-          <SectionHeading kicker={c.roles.kicker} title={c.roles.title} tone="paper" className="mb-12" />
+          <SectionHeading kicker={c.roles.kicker} title={c.roles.title} className="mb-12" />
           <RevealGroup className="flex flex-col">
             {c.roles.items.map((role) => (
               <RevealItem key={role.title}>
                 <LocaleLink
                   href="/reach-out"
                   locale={locale}
-                  className="group flex flex-col gap-2 border-t border-bone/12 py-6 transition-colors hover:bg-bone/[0.03] sm:flex-row sm:items-center sm:justify-between"
+                  className="group flex flex-col gap-2 border-t border-line py-6 transition-colors hover:bg-surface/70 sm:flex-row sm:items-center sm:justify-between"
                 >
                   <div className="flex items-baseline gap-4">
-                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-green-300">
-                      {role.area}
-                    </span>
-                    <h3 className="text-2xl font-semibold text-bone">{role.title}</h3>
+                    <span className="label">{role.area}</span>
+                    <h3 className="text-2xl text-content">{role.title}</h3>
                   </div>
                   <div className="flex items-center gap-4">
-                    <p className="max-w-sm text-sm text-bone/60">{role.body}</p>
-                    <span className="hidden shrink-0 text-green-300 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 sm:inline">
+                    <p className="max-w-sm text-sm text-muted">{role.body}</p>
+                    <span
+                      aria-hidden
+                      className="hidden shrink-0 text-accent-deep transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1 sm:inline-block"
+                    >
                       →
                     </span>
                   </div>
@@ -88,7 +86,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
             ))}
           </RevealGroup>
           <Reveal className="mt-8">
-            <p className="text-sm text-bone/55">{c.roles.note}</p>
+            <p className="text-sm text-muted">{c.roles.note}</p>
           </Reveal>
         </div>
       </section>

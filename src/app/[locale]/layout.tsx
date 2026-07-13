@@ -8,6 +8,7 @@ import { SITE_URL } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
+import ConsentBanner from "@/components/ConsentBanner";
 
 // v2: one Latin family — Inter variable (all weights, incl. 650/750 display cuts).
 // Bricolage Grotesque and IBM Plex Mono are retired; --font-display falls back
@@ -70,6 +71,16 @@ export async function generateMetadata({
 // Set the theme class before paint to avoid a flash of the wrong mode.
 const themeScript = `(function(){try{var t=localStorage.getItem('cue-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
+// The three user-facing policies the consent gate references — selected by
+// href (order-stable in both locales), passed as a slim payload so the
+// client banner doesn't serialize the whole dictionary.
+const CONSENT_POLICY_HREFS = ["/legal/terms", "/legal/privacy", "/legal/cookies"];
+function consentPolicies(dict: ReturnType<typeof getDictionary>) {
+  return dict.legal.index.docs
+    .filter((d) => CONSENT_POLICY_HREFS.includes(d.href))
+    .map(({ href, title }) => ({ href, title }));
+}
+
 export default function LocaleLayout({
   children,
   params,
@@ -106,9 +117,16 @@ export default function LocaleLayout({
         </a>
         <MotionProvider>
           <Nav locale={locale} dict={dict} />
-          <main id="main">{children}</main>
+          <main id="main" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
           <Footer locale={locale} dict={dict} />
         </MotionProvider>
+        <ConsentBanner
+          locale={locale}
+          content={dict.consent}
+          policies={consentPolicies(dict)}
+        />
       </body>
     </html>
   );

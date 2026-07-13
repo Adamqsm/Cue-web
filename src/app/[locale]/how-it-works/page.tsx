@@ -63,14 +63,14 @@ export default function HowItWorksPage({
           {h.loop.steps.map((step) => (
             <RevealItem
               key={step.n}
-              className="group relative overflow-hidden rounded-4xl border border-line bg-surface2/50 p-6"
+              className="card card-hover relative overflow-hidden p-6"
             >
-              <CueMark className="absolute -end-5 -top-5 h-16 w-16 text-content/[0.05] transition-transform duration-500 group-hover:rotate-90" />
-              <span className="font-display text-4xl font-semibold text-green/80">
+              <CueMark className="absolute -end-5 -top-5 h-16 w-16 text-content/[0.05]" />
+              <span className="text-4xl font-[650] tabular-nums text-accent-deep dark:text-accent">
                 {step.n}
               </span>
               <h3 className="mt-4 text-xl font-semibold text-content">{step.title}</h3>
-              <p className="mt-2 text-sm text-content/65">{step.body}</p>
+              <p className="mt-2 text-sm text-muted">{step.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -87,8 +87,8 @@ export default function HowItWorksPage({
         <FeatureShowcase features={h.guest.features} variant="light" />
       </section>
 
-      {/* For operators — dark */}
-      <section className="bg-ink text-bone">
+      {/* For operators — inverse band */}
+      <section className="bg-content text-bg">
         <div className="container-pad py-20 sm:py-28">
           <SectionHeading
             kicker={h.operator.kicker}
@@ -109,11 +109,11 @@ export default function HowItWorksPage({
             {h.philosophy.points.map((p, i) => (
               <RevealItem
                 key={p.title}
-                className="flex gap-5 border-s-2 border-green/40 ps-5"
+                className="flex gap-5 border-s-2 border-accent/40 ps-5"
               >
                 <div>
                   <h3 className="text-xl font-semibold text-content">{p.title}</h3>
-                  <p className="mt-2 text-content/70">{p.body}</p>
+                  <p className="mt-2 text-muted">{p.body}</p>
                 </div>
               </RevealItem>
             ))}

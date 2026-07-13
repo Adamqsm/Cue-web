@@ -14,31 +14,29 @@ export default function Footer({
 }) {
   const f = dict.footer;
   return (
-    <footer className="relative border-t border-line bg-ink text-bone">
+    <footer className="relative border-t border-line bg-surface2 text-content">
       {/* Links */}
-      <div className="container-pad grid gap-10 py-16 md:grid-cols-[1.5fr_repeat(3,1fr)]">
+      <div className="container-pad grid gap-10 py-12 md:grid-cols-[1.5fr_repeat(3,1fr)] md:py-14">
         <div className="max-w-xs">
           <Link href={localizedHref("/", locale)} aria-label="Cue home">
-            <Logo className="text-bone" />
+            <Logo className="text-content" />
           </Link>
-          <p className="mt-4 font-display text-lg font-semibold text-bone/90">
+          <p className="mt-3 text-lg font-semibold text-content">
             {f.tagline}
           </p>
-          <p className="mt-2 text-sm text-bone/55">{f.blurb}</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{f.blurb}</p>
         </div>
 
         {f.columns.map((col) => (
           <div key={col.title}>
-            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-bone/45">
-              {col.title}
-            </h3>
-            <ul className="mt-4 space-y-2.5">
+            <h3 className="label">{col.title}</h3>
+            <ul className="mt-3 space-y-2">
               {col.links.map((link, i) => (
                 <li key={`${link.href}-${i}`}>
                   <LocaleLink
                     href={link.href}
                     locale={locale}
-                    className="text-sm text-bone/75 transition-colors hover:text-green-300"
+                    className="text-sm text-muted transition-colors duration-200 hover:text-content"
                   >
                     {link.label}
                   </LocaleLink>
@@ -50,11 +48,11 @@ export default function Footer({
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-bone/10">
-        <div className="container-pad flex flex-col gap-4 py-6 text-sm text-bone/55 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-line">
+        <div className="container-pad flex flex-col gap-4 py-5 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
             <span>{f.rights}</span>
-            <span className="hidden text-bone/25 sm:inline">·</span>
+            <span className="hidden text-muted/50 sm:inline">·</span>
             <span>{f.ownedBy}</span>
           </div>
           <div className="flex items-center gap-4">
@@ -64,7 +62,7 @@ export default function Footer({
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-green-300"
+                className="transition-colors duration-200 hover:text-content"
               >
                 {s.label}
               </a>

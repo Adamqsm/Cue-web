@@ -38,11 +38,11 @@ export default function ContactForm({
   }
 
   const field =
-    "w-full rounded-2xl border border-line bg-bg px-4 py-3 text-content placeholder:text-muted focus:border-green focus:outline-none";
+    "w-full rounded-chip border border-line-strong bg-surface px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-accent";
 
   if (status === "success") {
     return (
-      <div className="flex min-h-[12rem] items-center justify-center rounded-2xl bg-green/5 p-6 text-center text-content/80">
+      <div className="flex min-h-[12rem] items-center justify-center rounded-card border border-line bg-surface p-6 text-center text-content">
         {content.success}
       </div>
     );

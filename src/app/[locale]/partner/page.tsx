@@ -7,7 +7,7 @@ import PageHero from "@/components/sections/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
-import PhoneFrame from "@/components/ui/PhoneFrame";
+import ServiceBoard from "@/components/home/ServiceBoard";
 import CtaBand from "@/components/sections/CtaBand";
 import FoundingBanner from "@/components/partner/FoundingBanner";
 import PricingTiers from "@/components/partner/PricingTiers";
@@ -61,15 +61,15 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
           {p.why.items.map((item, i) => (
             <RevealItem
               key={item.title}
-              className="group relative overflow-hidden rounded-4xl border border-line bg-surface2/50 p-7 transition-colors hover:border-green/30"
+              className="card card-hover p-7"
             >
               <div className="flex items-start gap-4">
-                <span className="font-display text-3xl font-semibold text-green/80">
+                <span className="text-3xl font-[650] tabular-nums tracking-[-0.025em] text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="text-xl font-semibold text-content">{item.title}</h3>
-                  <p className="mt-2 text-content/70">{item.body}</p>
+                  <h3 className="text-xl font-semibold tracking-[-0.015em] text-content">{item.title}</h3>
+                  <p className="mt-2 leading-[1.65] text-muted">{item.body}</p>
                 </div>
               </div>
             </RevealItem>
@@ -77,37 +77,34 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         </RevealGroup>
       </section>
 
-      {/* Built for — dark split */}
-      <section className="bg-ink text-bone">
+      {/* Built for — surface-2 band split */}
+      <section className="border-y border-line bg-surface2">
         <div className="container-pad grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <SectionHeading
               kicker={p.builtFor.kicker}
               title={p.builtFor.title}
               body={p.builtFor.body}
-              tone="paper"
             />
             <RevealGroup className="mt-8 flex flex-col gap-3">
               {p.builtFor.items.map((item) => (
                 <RevealItem
                   key={item}
-                  className="flex items-center gap-3 border-b border-bone/12 pb-3 text-lg text-bone/85"
+                  className="flex items-center gap-3 border-b border-line pb-3 text-lg text-content/80"
                 >
-                  <CueMark className="h-5 w-5 shrink-0 text-green-300" />
+                  <CueMark className="h-5 w-5 shrink-0 text-accent" />
                   {item}
                 </RevealItem>
               ))}
             </RevealGroup>
           </div>
+          {/* The signature board recurs here (spec: homepage hero + partner
+              page) — the operator's live docket, shown rather than described. */}
           <Reveal delay={1} className="flex justify-center">
-            <div className="animate-floaty">
-              <PhoneFrame
-                src="/app/dash-today.png"
-                alt="Cue partner dashboard"
-                width={280}
-                className="rotate-3"
-              />
-            </div>
+            <ServiceBoard
+              board={dict.home.hero.board}
+              labels={{ play: dict.home.demo.play, pause: dict.home.demo.pause }}
+            />
           </Reveal>
         </div>
       </section>
@@ -125,13 +122,13 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
           {p.steps.items.map((step) => (
             <RevealItem
               key={step.n}
-              className="relative rounded-4xl border border-line bg-bg p-7"
+              className="card card-hover p-7"
             >
-              <span className="font-display text-5xl font-semibold text-green/25">
+              <span className="text-5xl font-[650] tabular-nums tracking-[-0.025em] rtl:tracking-normal text-accent-deep dark:text-accent">
                 {step.n}
               </span>
-              <h3 className="mt-3 text-xl font-semibold text-content">{step.title}</h3>
-              <p className="mt-2 text-content/70">{step.body}</p>
+              <h3 className="mt-3 text-xl font-semibold tracking-[-0.015em] text-content">{step.title}</h3>
+              <p className="mt-2 leading-[1.65] text-muted">{step.body}</p>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -140,14 +137,16 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       {/* Approach */}
       <section className="container-pad pb-20 sm:pb-28">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-line bg-surface2/60 p-8 sm:p-14">
-            <CueMark className="pointer-events-none absolute -end-10 -top-10 h-52 w-52 text-green/10 animate-spin-slow" />
-            <div className="relative max-w-3xl">
-              <span className="eyebrow">{p.approach.kicker}</span>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-content sm:text-4xl">
+          <div className="rounded-panel border border-line bg-surface2 p-8 sm:p-14">
+            <div className="max-w-3xl">
+              <span className="eyebrow">
+                <span className="h-px w-6 bg-current opacity-60" />
+                {p.approach.kicker}
+              </span>
+              <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
                 {p.approach.title}
               </h2>
-              <p className="mt-4 text-lg text-content/70">{p.approach.body}</p>
+              <p className="mt-4 max-w-[65ch] text-lg leading-[1.65] text-muted">{p.approach.body}</p>
             </div>
           </div>
         </Reveal>

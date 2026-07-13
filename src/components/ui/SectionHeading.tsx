@@ -32,7 +32,9 @@ export default function SectionHeading({
           <span
             className={cn(
               "eyebrow",
-              tone === "paper" && "text-green-300"
+              /* Inverse band: the accent must flip WITH the band, not the
+                 theme (! beats .dark .eyebrow's specificity). AA both modes. */
+              tone === "paper" && "!text-accent-inverse"
             )}
           >
             <span className="h-px w-6 bg-current opacity-60" />
@@ -43,8 +45,8 @@ export default function SectionHeading({
       <Reveal delay={1}>
         <h2
           className={cn(
-            "text-balance text-3xl font-semibold leading-[1.08] sm:text-4xl md:text-5xl",
-            tone === "paper" ? "text-bone" : "text-content"
+            "text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em]",
+            tone === "paper" ? "text-bg" : "text-content"
           )}
         >
           {title}
@@ -54,8 +56,8 @@ export default function SectionHeading({
         <Reveal delay={2}>
           <p
             className={cn(
-              "text-lg leading-relaxed",
-              tone === "paper" ? "text-bone/70" : "text-content/70"
+              "max-w-[65ch] text-[17px] leading-[1.65]",
+              tone === "paper" ? "text-bg/70" : "text-muted"
             )}
           >
             {body}

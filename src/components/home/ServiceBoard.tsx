@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type Board = {
@@ -13,127 +13,209 @@ type Board = {
   confirmLabel: string;
 };
 
+type Status = "incoming" | "confirmed" | "seated";
+type Row = { id: number; name: string; time: string; status: Status };
+
+const VISIBLE = 4;
+const CYCLE_MS = 4200;
+const CONFIRM_MS = 1400;
+
+/* Newest at the top; older entries have already been walked to their table. */
+const SEED_STATUS: Status[] = ["confirmed", "confirmed", "seated", "seated"];
+
+/** Normalize Arabic-Indic digits (٠-٩) to Western before parsing. */
+function toWesternDigits(value: string): string {
+  return value.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660));
+}
+
+/** Party size out of a row name ("party of 4" / "٤ أشخاص") — Arabic-Indic aware. */
+function partyOf(name: string): number {
+  const match = name.match(/[0-9٠-٩]+/);
+  if (!match) return 2;
+  const n = parseInt(toWesternDigits(match[0]), 10);
+  return Number.isFinite(n) && n > 0 ? n : 2;
+}
+
 /**
- * The signature element: a live reservation "service board".
- * The top row cycles Incoming → Confirmed on a gentle loop — the product's
- * core promise, shown rather than described. Static confirmed state under
- * reduced-motion.
+ * The signature element: a paper-docket "service board".
+ * Every ~4s a new incoming request slides in, its status morphs
+ * incoming → confirmed after a beat, and the covers counter ticks up —
+ * the product's core promise, shown rather than described.
+ * Pausable (spec + WCAG 2.2.2): hover pauses the cycle, and a play/pause
+ * toggle sits outside the aria-hidden demo. Reduced-motion users get a
+ * static all-confirmed board.
  */
-export default function ServiceBoard({ board }: { board: Board }) {
-  const [confirmed, setConfirmed] = useState(false);
+export default function ServiceBoard({
+  board,
+  labels,
+}: {
+  board: Board;
+  labels?: { play: string; pause: string };
+}) {
+  /* Seed reversed so the forward cycle never shows the same name twice at once. */
+  const [rows, setRows] = useState<Row[]>(() =>
+    board.rows
+      .slice(0, VISIBLE)
+      .reverse()
+      .map((r, i) => ({ id: i, ...r, status: SEED_STATUS[i] ?? "seated" }))
+  );
+  const [covers, setCovers] = useState<string | number>(() => {
+    const n = parseInt(toWesternDigits(board.footerValue), 10);
+    return Number.isFinite(n) ? n : board.footerValue;
+  });
+  const [playing, setPlaying] = useState(true);
+  const [hovered, setHovered] = useState(false);
+  const idRef = useRef(VISIBLE);
+
+  /* Ticked values keep the board's own numeral system (ar.ts uses ٠-٩). */
+  const arabicNumerals = /[٠-٩]/.test(board.footerValue);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setConfirmed(true);
-      return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPlaying(false);
+      setRows((prev) =>
+        prev.map((r) => ({ ...r, status: "confirmed" as Status }))
+      );
     }
-    let t: ReturnType<typeof setTimeout>;
-    const loop = () => {
-      setConfirmed(false);
-      t = setTimeout(() => {
-        setConfirmed(true);
-        t = setTimeout(loop, 2600);
-      }, 2600);
-    };
-    loop();
-    return () => clearTimeout(t);
   }, []);
 
-  const statuses = [
-    confirmed ? "confirmed" : "incoming",
-    "confirmed",
-    "confirmed",
-    "seated",
-  ] as const;
+  useEffect(() => {
+    if (board.rows.length === 0 || !playing || hovered) return;
+    let confirmT: ReturnType<typeof setTimeout> | undefined;
+    const cycle = setInterval(() => {
+      const id = idRef.current++;
+      const src = board.rows[id % board.rows.length];
+      setRows((prev) => [
+        { id, name: src.name, time: src.time, status: "incoming" },
+        ...prev
+          .slice(0, VISIBLE - 1)
+          .map((r, i) =>
+            i >= 1 ? { ...r, status: "seated" as Status } : r
+          ),
+      ]);
+      confirmT = setTimeout(() => {
+        setRows((prev) =>
+          prev.map((r) =>
+            r.id === id ? { ...r, status: "confirmed" as Status } : r
+          )
+        );
+        setCovers((c) => (typeof c === "number" ? c + partyOf(src.name) : c));
+      }, CONFIRM_MS);
+    }, CYCLE_MS);
+    return () => {
+      clearInterval(cycle);
+      if (confirmT) clearTimeout(confirmT);
+    };
+  }, [board.rows, playing, hovered]);
 
   return (
-    <div className="relative w-full max-w-md">
-      {/* soft glow behind the panel */}
-      <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-green/10 blur-2xl dark:bg-green/20" />
-
-      <div className="card overflow-hidden p-0 shadow-lift">
-        {/* header */}
-        <div className="flex items-center justify-between border-b border-line px-5 py-4">
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-            {board.title}
-          </span>
-          <span className="inline-flex items-center gap-2 rounded-full bg-amber/15 px-2.5 py-1 text-[11px] font-semibold text-amber">
+    <div className="w-full max-w-md">
+      {/* Illustrative demo data on a 4s loop — hidden from assistive tech.
+          Hover pauses; the toggle below lives outside this aria-hidden tree. */}
+      <div
+        aria-hidden="true"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="overflow-hidden rounded-panel border border-line bg-surface shadow-soft"
+      >
+        {/* Header — title + live pill */}
+        <div className="flex items-center justify-between gap-3 border-b border-line ps-5 pe-5 py-4">
+          <span className="label">{board.title}</span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-accent-wash ps-2.5 pe-2.5 py-1 text-[11px] font-semibold text-accent-deep">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-amber" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber" />
+              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
             </span>
             {board.live}
           </span>
         </div>
 
-        {/* rows */}
+        {/* Rows — hairline-separated docket lines */}
         <ul className="divide-y divide-line">
-          {board.rows.slice(0, 4).map((row, i) => {
-            const status = statuses[i];
-            const isTop = i === 0;
-            return (
-              <li
-                key={row.name}
-                className={cn(
-                  "relative flex items-center gap-3 px-5 py-3.5 transition-colors duration-500",
-                  isTop && !confirmed && "bg-amber/[0.06]"
-                )}
-              >
-                {/* sweep highlight when the top row confirms */}
-                {isTop && confirmed && (
-                  <span className="pointer-events-none absolute inset-0 overflow-hidden">
-                    <span className="absolute inset-y-0 w-1/3 animate-sweep bg-gradient-to-r from-transparent via-green/15 to-transparent" />
-                  </span>
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-semibold text-content">
-                    {row.name}
-                  </div>
-                  <div className="font-mono text-[11px] text-muted">{row.time}</div>
+          {rows.map((row) => (
+            <li
+              key={row.id}
+              className={cn(
+                "flex items-center gap-3 ps-5 pe-5 py-3.5",
+                row.id >= VISIBLE && "animate-board-in"
+              )}
+            >
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-semibold text-content">
+                  {row.name}
                 </div>
-
-                {isTop && !confirmed ? (
-                  <span className="btn btn-primary !px-3.5 !py-1.5 !text-xs">
-                    {board.confirmLabel}
-                  </span>
-                ) : (
-                  <StatusChip
-                    label={board.states[status]}
-                    tone={status === "seated" ? "muted" : "green"}
-                  />
-                )}
-              </li>
-            );
-          })}
+                <div className="mt-0.5 text-xs tabular-nums text-muted">
+                  {row.time}
+                </div>
+              </div>
+              <StatusPill label={board.states[row.status]} status={row.status} />
+            </li>
+          ))}
         </ul>
 
-        {/* footer */}
-        <div className="flex items-center justify-between border-t border-line bg-surface2/60 px-5 py-3.5">
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+        {/* Footer — covers counter, ticks up as requests confirm */}
+        <div className="flex items-baseline justify-between gap-3 border-t border-line bg-surface2/60 ps-5 pe-5 py-3.5">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted rtl:text-xs rtl:normal-case rtl:tracking-normal">
             {board.footerLabel}
           </span>
-          <span className="font-display text-lg font-semibold text-content">
-            {board.footerValue}
+          <span className="text-lg font-semibold tabular-nums text-content">
+            {typeof covers === "number"
+              ? covers.toLocaleString(arabicNumerals ? "ar-EG" : "en-US", {
+                  useGrouping: false,
+                })
+              : covers}
           </span>
         </div>
       </div>
+
+      {/* Pause/stop mechanism (WCAG 2.2.2) — mirrors Demo's toggle. */}
+      {labels && (
+        <div className="mt-3 flex justify-end">
+          <button
+            type="button"
+            onClick={() => setPlaying((p) => !p)}
+            aria-label={playing ? labels.pause : labels.play}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:border-accent/45 hover:bg-accent-wash hover:text-accent-deep"
+          >
+            {playing ? (
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                <rect x="6" y="5" width="4" height="14" rx="1" />
+                <rect x="14" y="5" width="4" height="14" rx="1" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                <path d="M7 5l12 7-12 7V5Z" />
+              </svg>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-function StatusChip({ label, tone }: { label: string; tone: "green" | "muted" }) {
+/* Semantic status colors: incoming = accent, confirmed = ok, seated = muted. */
+function StatusPill({ label, status }: { label: string; status: Status }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold",
-        tone === "green"
-          ? "bg-green/12 text-green dark:bg-green/20 dark:text-green-300"
-          : "bg-content/8 text-muted"
+        "inline-flex shrink-0 items-center gap-1.5 rounded-full ps-2.5 pe-2.5 py-1 text-[11px] font-semibold transition-colors duration-300",
+        status === "incoming" && "bg-accent-wash text-accent-deep",
+        status === "confirmed" && "bg-ok/10 text-ok-deep dark:bg-ok/15",
+        status === "seated" && "bg-muted/10 text-muted"
       )}
     >
-      {tone === "green" && (
-        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      {status === "confirmed" && (
+        <svg
+          viewBox="0 0 24 24"
+          className="h-3 w-3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={3}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
           <path d="M5 13l4 4L19 7" />
         </svg>
       )}

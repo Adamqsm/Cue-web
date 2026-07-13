@@ -4,13 +4,13 @@ import { motion, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 12 },
   show: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
-      delay: i * 0.08,
+      duration: 0.5,
+      delay: i * 0.06,
       ease: [0.22, 1, 0.36, 1],
     },
   }),
@@ -55,7 +55,7 @@ export function RevealGroup({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ staggerChildren: 0.09 }}
+      transition={{ staggerChildren: 0.06 }}
     >
       {children}
     </motion.div>

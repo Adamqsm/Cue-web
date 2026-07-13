@@ -36,29 +36,30 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
         ])}
       />
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <CueMark className="absolute -start-24 top-20 h-[26rem] w-[26rem] text-content/[0.06] animate-spin-slow" />
+        <CueMark className="absolute -start-24 top-20 h-[26rem] w-[26rem] text-content/[0.04]" />
       </div>
       <div className="container-pad grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div className="lg:sticky lg:top-28">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-green/30 bg-green/5 px-4 py-1.5 text-xs font-semibold text-green dark:text-green-300">
-              <span className="h-2 w-2 rounded-full bg-green" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-content">
+              {/* live status dot — ok is semantic here */}
+              <span className="h-2 w-2 rounded-full bg-ok" />
               {r.hero.status}
             </span>
           </Reveal>
           <Reveal delay={1}>
-            <h1 className="mt-6 text-5xl font-semibold leading-[1.0] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)]">
               {r.hero.title}
             </h1>
           </Reveal>
           <Reveal delay={2}>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-content/70">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
               {r.hero.subtitle}
             </p>
           </Reveal>
           <Reveal delay={3}>
-            <div className="mt-8 flex items-center gap-3 text-sm text-content/55">
-              <CueMark className="h-6 w-6 text-green dark:text-green-300" />
+            <div className="mt-8 flex items-center gap-3 text-sm text-muted">
+              <CueMark className="h-6 w-6 text-accent" />
               <span>{dict.brand.tagline}</span>
             </div>
           </Reveal>

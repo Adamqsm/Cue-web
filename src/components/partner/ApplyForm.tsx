@@ -6,7 +6,6 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn, localizedHref } from "@/lib/utils";
 import { firebaseApp } from "@/lib/firebase";
-import { CueMark } from "@/components/BrandMark";
 import LocaleLink from "@/components/ui/LocaleLink";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -59,8 +58,8 @@ export default function ApplyForm({
   const [fileError, setFileError] = useState<string | null>(null);
 
   const fieldBase =
-    "w-full rounded-2xl border border-line bg-bg px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-green focus:outline-none";
-  const labelBase = "mb-1.5 block text-sm font-medium text-content/80";
+    "w-full rounded-chip border border-line-strong bg-surface px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-accent";
+  const labelBase = "mb-1.5 block text-sm font-medium text-content";
   const sectionLabel = "eyebrow mt-2";
 
   function fail(key: typeof errorKey) {
@@ -220,35 +219,35 @@ export default function ApplyForm({
 
   if (status === "success") {
     return (
-      <div className="relative flex min-h-[26rem] flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-line bg-surface2/70 p-8 text-center">
-        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-green text-bone">
+      <div className="flex min-h-[26rem] flex-col items-center justify-center rounded-panel border border-line bg-surface2 p-8 text-center">
+        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-ok text-white">
           <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
             <path d="m5 13 4 4L19 7" />
           </svg>
         </span>
-        <h3 className="mt-6 text-3xl font-semibold text-content">{form.success.title}</h3>
-        <p className="mt-3 max-w-md text-content/70">{form.success.body}</p>
-        <LocaleLink href="/" locale={locale} className="mt-6 link-underline">
-          {form.success.home}
+        <h3 className="mt-6 text-3xl font-semibold tracking-[-0.015em] text-content">{form.success.title}</h3>
+        <p className="mt-3 max-w-md leading-[1.65] text-muted">{form.success.body}</p>
+        <LocaleLink href="/" locale={locale} className="mt-6 inline-flex min-h-[44px] items-center">
+          <span className="link-underline">{form.success.home}</span>
         </LocaleLink>
       </div>
     );
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface2/70 p-6 shadow-[0_30px_60px_-40px_rgba(23,19,15,0.5)] sm:p-8">
-      <CueMark className="pointer-events-none absolute -end-8 -top-8 h-28 w-28 text-green/10" />
+    <div className="rounded-panel border border-line bg-surface2 p-6 sm:p-8">
       <AnimatePresence mode="wait">
         <motion.form
           key="form"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
           onSubmit={onSubmit}
           className="relative flex flex-col gap-5"
         >
           <div>
-            <h2 className="text-2xl font-semibold text-content">{form.heading}</h2>
-            <p className="mt-1 text-sm text-content/60">{form.subheading}</p>
+            <h2 className="text-2xl font-[650] tracking-[-0.025em] text-content">{form.heading}</h2>
+            <p className="mt-1 text-sm text-muted">{form.subheading}</p>
           </div>
 
           {/* ---- Venue ---- */}
@@ -277,7 +276,7 @@ export default function ApplyForm({
             </div>
             <div>
               <label htmlFor="role" className={labelBase}>
-                {form.fields.role} <span className="text-content/40">({form.hints.role})</span>
+                {form.fields.role} <span className="text-muted">({form.hints.role})</span>
               </label>
               <input id="role" name="role" placeholder={form.placeholders.role} className={fieldBase} />
             </div>
@@ -326,7 +325,7 @@ export default function ApplyForm({
             </div>
             <div>
               <label htmlFor="street" className={labelBase}>
-                {form.fields.street} <span className="text-content/40">({form.hints.optional})</span>
+                {form.fields.street} <span className="text-muted">({form.hints.optional})</span>
               </label>
               <input id="street" name="street" placeholder={form.placeholders.street} className={fieldBase} />
             </div>
@@ -352,7 +351,7 @@ export default function ApplyForm({
           </div>
           <div>
             <span className={labelBase}>
-              {form.fields.cuisines} * <span className="text-content/40">— {form.hints.cuisines}</span>
+              {form.fields.cuisines} * <span className="text-muted">— {form.hints.cuisines}</span>
             </span>
             <div className="flex flex-wrap gap-2">
               {form.cuisines.map((c) => (
@@ -362,10 +361,10 @@ export default function ApplyForm({
                   onClick={() => toggleCuisine(c.id)}
                   aria-pressed={cuisines.includes(c.id)}
                   className={cn(
-                    "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                    "min-h-[44px] rounded-full border px-4 py-2 text-sm font-medium transition-colors",
                     cuisines.includes(c.id)
-                      ? "border-green bg-green/10 text-green dark:text-green-300"
-                      : "border-line text-content/60 hover:border-content/35"
+                      ? "border-accent bg-accent-wash text-accent-deep"
+                      : "border-line text-muted hover:border-accent/35"
                   )}
                 >
                   {c.label}
@@ -375,7 +374,7 @@ export default function ApplyForm({
           </div>
           <div>
             <label htmlFor="avgPrice" className={labelBase}>
-              {form.fields.avgPrice} <span className="text-content/40">({form.hints.optional})</span>
+              {form.fields.avgPrice} <span className="text-muted">({form.hints.optional})</span>
             </label>
             <select id="avgPrice" name="avgPrice" defaultValue="" className={cn(fieldBase, "appearance-none")}>
               <option value="">{form.options.avgPricePlaceholder}</option>
@@ -392,14 +391,14 @@ export default function ApplyForm({
             <span className="h-px w-6 bg-current opacity-60" />
             {form.sections.hours}
           </span>
-          <p className="-mt-3 text-sm text-content/55">{form.hints.hours}</p>
+          <p className="-mt-3 text-sm text-muted">{form.hints.hours}</p>
           <div className="flex flex-col gap-2">
             {DAYS.map((day) => (
               <div
                 key={day}
-                className="grid grid-cols-[5.5rem_1fr_1fr_auto] items-center gap-2 rounded-2xl border border-line bg-bg px-3 py-2 sm:grid-cols-[7rem_1fr_1fr_auto] sm:gap-3 sm:px-4"
+                className="grid grid-cols-[5.5rem_1fr_1fr_auto] items-center gap-2 rounded-chip border border-line bg-surface px-3 py-2 sm:grid-cols-[7rem_1fr_1fr_auto] sm:gap-3 sm:px-4"
               >
-                <span className="text-sm font-medium text-content/80">{form.hours.days[day]}</span>
+                <span className="text-sm font-medium text-content">{form.hours.days[day]}</span>
                 <label className="flex items-center gap-2">
                   <span className="sr-only">{`${form.hours.days[day]} — ${form.hours.open}`}</span>
                   <input
@@ -409,7 +408,7 @@ export default function ApplyForm({
                     onChange={(e) => setDay(day, { open: e.target.value })}
                     dir="ltr"
                     className={cn(
-                      "w-full rounded-xl border border-line bg-surface px-2 py-1.5 text-sm text-content focus:border-green focus:outline-none disabled:opacity-35",
+                      "w-full rounded-chip border border-line-strong bg-bg px-2 py-1.5 text-sm tabular-nums text-content transition-colors focus:border-accent disabled:opacity-35",
                     )}
                   />
                 </label>
@@ -422,7 +421,7 @@ export default function ApplyForm({
                     onChange={(e) => setDay(day, { close: e.target.value })}
                     dir="ltr"
                     className={cn(
-                      "w-full rounded-xl border border-line bg-surface px-2 py-1.5 text-sm text-content focus:border-green focus:outline-none disabled:opacity-35",
+                      "w-full rounded-chip border border-line-strong bg-bg px-2 py-1.5 text-sm tabular-nums text-content transition-colors focus:border-accent disabled:opacity-35",
                     )}
                   />
                 </label>
@@ -431,10 +430,10 @@ export default function ApplyForm({
                   onClick={() => setDay(day, { closed: !hours[day].closed })}
                   aria-pressed={hours[day].closed}
                   className={cn(
-                    "rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                    "min-h-[44px] rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
                     hours[day].closed
-                      ? "border-green bg-green/10 text-green dark:text-green-300"
-                      : "border-line text-content/50 hover:border-content/35"
+                      ? "border-accent bg-accent-wash text-accent-deep"
+                      : "border-line text-muted hover:border-accent/35"
                   )}
                 >
                   {form.hours.closed}
@@ -448,7 +447,7 @@ export default function ApplyForm({
             <span className="h-px w-6 bg-current opacity-60" />
             {form.sections.menu}
           </span>
-          <p className="-mt-3 text-sm text-content/55">{form.hints.menu}</p>
+          <p className="-mt-3 text-sm text-muted">{form.hints.menu}</p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="menuFile" className={labelBase}>
@@ -461,7 +460,7 @@ export default function ApplyForm({
                 onChange={(e) => onMenuChange(e.target.files?.[0] ?? null)}
                 className={cn(
                   fieldBase,
-                  "file:me-3 file:rounded-full file:border-0 file:bg-content/10 file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-content"
+                  "file:me-3 file:rounded-full file:border-0 file:bg-accent-wash file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-accent-deep"
                 )}
               />
             </div>
@@ -474,7 +473,7 @@ export default function ApplyForm({
           </div>
           <div>
             <label htmlFor="photos" className={labelBase}>
-              {form.fields.photos} <span className="text-content/40">— {form.hints.photos}</span>
+              {form.fields.photos} <span className="text-muted">— {form.hints.photos}</span>
             </label>
             <input
               id="photos"
@@ -484,20 +483,20 @@ export default function ApplyForm({
               onChange={(e) => onPhotosChange(e.target.files)}
               className={cn(
                 fieldBase,
-                "file:me-3 file:rounded-full file:border-0 file:bg-content/10 file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-content"
+                "file:me-3 file:rounded-full file:border-0 file:bg-accent-wash file:px-4 file:py-1.5 file:text-sm file:font-semibold file:text-accent-deep"
               )}
             />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="instagram" className={labelBase}>
-                {form.fields.instagram} <span className="text-content/40">({form.hints.optional})</span>
+                {form.fields.instagram} <span className="text-muted">({form.hints.optional})</span>
               </label>
               <input id="instagram" name="instagram" placeholder={form.placeholders.instagram} dir="ltr" className={cn(fieldBase, "text-start")} />
             </div>
             <div>
               <label htmlFor="whatsappBusiness" className={labelBase}>
-                {form.fields.whatsappBusiness} <span className="text-content/40">({form.hints.optional})</span>
+                {form.fields.whatsappBusiness} <span className="text-muted">({form.hints.optional})</span>
               </label>
               <input id="whatsappBusiness" name="whatsappBusiness" type="url" placeholder={form.placeholders.whatsappBusiness} dir="ltr" className={cn(fieldBase, "text-start")} />
             </div>
@@ -510,17 +509,18 @@ export default function ApplyForm({
           </span>
           <div>
             <span className={labelBase}>{form.fields.prepayment}</span>
-            <div className="grid w-fit grid-cols-2 gap-2 rounded-2xl bg-content/5 p-1">
+            <div className="grid w-fit grid-cols-2 gap-1 rounded-full border border-line bg-surface p-1">
               {([true, false] as const).map((v) => (
                 <button
                   key={String(v)}
                   type="button"
                   onClick={() => setPrepayment(v)}
+                  aria-pressed={prepayment === v}
                   className={cn(
-                    "rounded-xl px-6 py-2 text-center text-sm font-semibold transition-all",
+                    "min-h-[44px] rounded-full px-6 py-2 text-center text-sm font-semibold transition-colors",
                     prepayment === v
-                      ? "bg-bg text-content shadow-sm"
-                      : "text-content/55 hover:text-content"
+                      ? "bg-accent-wash text-accent-deep"
+                      : "text-muted hover:text-content"
                   )}
                 >
                   {v ? form.options.yes : form.options.no}
@@ -530,7 +530,7 @@ export default function ApplyForm({
           </div>
           <div>
             <label htmlFor="plan" className={labelBase}>
-              {form.fields.plan} <span className="text-content/40">({form.hints.optional})</span>
+              {form.fields.plan} <span className="text-muted">({form.hints.optional})</span>
             </label>
             <select id="plan" name="plan" defaultValue="" className={cn(fieldBase, "appearance-none")}>
               <option value="">{form.options.planPlaceholder}</option>
@@ -543,25 +543,25 @@ export default function ApplyForm({
           </div>
           <div>
             <label htmlFor="notes" className={labelBase}>
-              {form.fields.notes} <span className="text-content/40">({form.hints.optional})</span>
+              {form.fields.notes} <span className="text-muted">({form.hints.optional})</span>
             </label>
             <textarea id="notes" name="notes" rows={3} placeholder={form.placeholders.notes} className={cn(fieldBase, "resize-none")} />
           </div>
 
-          <label className="flex items-start gap-3 text-sm text-content/75">
+          <label className="flex items-start gap-3 text-sm text-content/80">
             <input
               type="checkbox"
               name="consent"
               required
-              className="mt-0.5 h-4 w-4 shrink-0 accent-[#1E6E52]"
+              className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
             />
             <span>
               {form.consent.pre}{" "}
-              <a href={localizedHref("/legal/privacy", locale)} className="font-semibold underline underline-offset-2 hover:text-green" target="_blank" rel="noopener noreferrer">
+              <a href={localizedHref("/legal/privacy", locale)} className="font-semibold underline underline-offset-2 transition-colors hover:text-accent-deep" target="_blank" rel="noopener noreferrer">
                 {form.consent.privacy}
               </a>{" "}
               {form.consent.and}{" "}
-              <a href={localizedHref("/legal/terms", locale)} className="font-semibold underline underline-offset-2 hover:text-green" target="_blank" rel="noopener noreferrer">
+              <a href={localizedHref("/legal/terms", locale)} className="font-semibold underline underline-offset-2 transition-colors hover:text-accent-deep" target="_blank" rel="noopener noreferrer">
                 {form.consent.terms}
               </a>
               {form.consent.post} *
@@ -569,7 +569,7 @@ export default function ApplyForm({
           </label>
 
           {(status === "error" || fileError) && (
-            <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
+            <p className="rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
               {fileError ?? form.errors[errorKey]}
             </p>
           )}

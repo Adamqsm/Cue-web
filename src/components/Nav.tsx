@@ -46,20 +46,20 @@ export default function Nav({
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled || open
-          ? "border-b border-line bg-bg/80 backdrop-blur-xl"
+          ? "border-b border-line bg-bg/85 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       )}
     >
       <nav className="container-pad flex h-16 items-center justify-between md:h-[72px]">
         <Link
           href={localizedHref("/", locale)}
-          className="text-content transition-opacity hover:opacity-80"
+          className="inline-flex min-h-[44px] items-center text-content transition-opacity hover:opacity-80"
           aria-label="Cue home"
         >
           <Logo />
         </Link>
 
-        <div className="hidden items-center gap-1 lg:flex">
+        <div className="hidden items-center gap-6 lg:flex">
           {dict.nav.links.map((link) => {
             const active =
               pathname === localizedHref(link.href, locale) ||
@@ -69,14 +69,15 @@ export default function Nav({
               <Link
                 key={link.href}
                 href={localizedHref(link.href, locale)}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "text-green dark:text-green-300"
-                    : "text-muted hover:bg-surface2 hover:text-content"
+                  // 44px hit box on the anchor; underline on an inner
+                  // text-height span so ::after hugs the label, not the box.
+                  "inline-flex min-h-[44px] items-center text-sm transition-colors",
+                  active ? "text-content" : "text-muted hover:text-content"
                 )}
               >
-                {link.label}
+                <span className="link-underline text-inherit">{link.label}</span>
               </Link>
             );
           })}
@@ -87,7 +88,7 @@ export default function Nav({
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
           <Link
             href={localizedHref("/reach-out", locale)}
-            className="btn btn-primary"
+            className="btn btn-primary px-5"
           >
             {dict.nav.cta}
           </Link>
@@ -98,7 +99,7 @@ export default function Nav({
           <ThemeToggle labels={themeLabels} />
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-content"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:bg-accent-wash hover:text-accent-deep"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? dict.nav.close : dict.nav.menu}
@@ -130,28 +131,36 @@ export default function Nav({
       {/* Mobile panel */}
       <div
         className={cn(
-          "overflow-hidden bg-bg/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 lg:hidden",
-          open ? "max-h-[90vh] border-b border-line opacity-100" : "max-h-0 opacity-0"
+          // visibility rides the transition: hidden lands only after the
+          // close animation, keeping the collapsed panel out of the tab order.
+          "overflow-hidden bg-bg/90 backdrop-blur-xl transition-[max-height,opacity,visibility] duration-300 lg:hidden",
+          open
+            ? "visible max-h-[90vh] border-b border-line opacity-100"
+            : "invisible max-h-0 opacity-0"
         )}
       >
-        <div className="container-pad flex flex-col gap-1 py-5">
-          {dict.nav.links.map((link) => (
-            <Link
-              key={link.href}
-              href={localizedHref(link.href, locale)}
-              className="rounded-2xl px-4 py-3.5 text-lg font-medium text-content hover:bg-surface2"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <div className="mt-3 flex items-center justify-between gap-3">
-            <LanguageToggle locale={locale} label={dict.nav.langToggle} />
-            <Link
-              href={localizedHref("/reach-out", locale)}
-              className="btn btn-primary flex-1"
-            >
-              {dict.nav.cta}
-            </Link>
+        <div className="container-pad py-4">
+          <div className="rounded-panel border border-line bg-surface p-3 shadow-soft">
+            <div className="flex flex-col gap-1">
+              {dict.nav.links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={localizedHref(link.href, locale)}
+                  className="rounded-card px-4 py-3 text-base font-medium text-content transition-colors hover:bg-surface2"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
+              <LanguageToggle locale={locale} label={dict.nav.langToggle} />
+              <Link
+                href={localizedHref("/reach-out", locale)}
+                className="btn btn-primary flex-1"
+              >
+                {dict.nav.cta}
+              </Link>
+            </div>
           </div>
         </div>
       </div>

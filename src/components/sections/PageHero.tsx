@@ -17,9 +17,10 @@ export default function PageHero({
 }) {
   const center = align === "center";
   return (
-    <section className="relative overflow-hidden pt-28 sm:pt-36">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <CueMark className="absolute -end-24 -top-24 h-[28rem] w-[28rem] text-green/[0.07] animate-spin-slow" />
+    <section className="relative overflow-hidden pt-32 sm:pt-40">
+      {/* Hairline brand watermark — static, barely-there */}
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        <CueMark className="absolute -end-24 -top-24 h-[26rem] w-[26rem] text-accent/[0.05]" />
       </div>
       <div className="container-pad pb-6">
         <div
@@ -30,12 +31,12 @@ export default function PageHero({
         >
           <Reveal>
             <span className="eyebrow">
-              <span className="h-px w-6 bg-current opacity-60" />
+              <span className="h-px w-6 bg-current opacity-60" aria-hidden />
               {eyebrow}
             </span>
           </Reveal>
           <Reveal delay={1}>
-            <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 text-balance text-[clamp(2.5rem,6vw,4.75rem)]">
               {title}
             </h1>
           </Reveal>
@@ -43,7 +44,7 @@ export default function PageHero({
             <Reveal delay={2}>
               <p
                 className={cn(
-                  "mt-6 text-lg leading-relaxed text-content/70 sm:text-xl",
+                  "mt-6 text-lg leading-relaxed text-muted sm:text-xl",
                   center ? "mx-auto max-w-2xl" : "max-w-2xl"
                 )}
               >

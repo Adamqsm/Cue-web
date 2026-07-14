@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -33,6 +34,12 @@ export default function LegalIndexPage({
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: l.eyebrow, path: "/legal" },
+        ])}
+      />
       <PageHero eyebrow={l.eyebrow} title={l.title} subtitle={l.subtitle} />
       <section className="container-pad py-14 sm:py-20">
         <span className="eyebrow mb-6 inline-flex">{l.docsLabel}</span>

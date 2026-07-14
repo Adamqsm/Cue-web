@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CueMark } from "@/components/BrandMark";
+
+// 404s must never be indexed or surface a canonical of their own.
+export const metadata: Metadata = {
+  title: "Page not found · Cue",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

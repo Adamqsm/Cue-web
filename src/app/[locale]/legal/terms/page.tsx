@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, truncateForMeta } from "@/lib/seo";
 import LegalDoc from "@/components/sections/LegalDoc";
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
     locale,
     path: "/legal/terms",
     title: `${dict.legal.terms.title} | Cue`,
-    description: dict.legal.meta.description,
+    description: truncateForMeta(dict.legal.terms.intro),
   });
 }
 

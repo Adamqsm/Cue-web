@@ -15,6 +15,11 @@ const KEYWORDS_EN = [
   "restaurants Sweifieh",
   "restaurants Rainbow Street",
   "restaurants Seventh Circle",
+  "restaurant booking app Jordan",
+  "online restaurant reservation Jordan",
+  "book restaurant table online Amman",
+  "restaurant reservation app for groups Jordan",
+  "how to book a restaurant in Amman",
   "Cue app",
 ];
 
@@ -25,6 +30,9 @@ const KEYWORDS_AR = [
   "حجز مطعم عمّان",
   "مطاعم عبدون",
   "مطاعم الصويفية",
+  "تطبيق حجز مطاعم",
+  "مطاعم شارع الرينبو",
+  "حجز مطعم جماعي",
 ];
 
 type BuildArgs = {
@@ -169,4 +177,18 @@ export function faqJsonLd(items: { q: string; a: string }[]) {
 /** Small helper to render a JSON-LD <script>. */
 export function jsonLdScript(data: unknown): string {
   return JSON.stringify(data);
+}
+
+/**
+ * Trim long body copy down to a search-snippet-length meta description,
+ * cutting on a word boundary and dropping any dangling punctuation. Used so
+ * each legal doc gets a unique description from its own intro rather than all
+ * sharing one — avoiding a duplicate-description signal across the legal set.
+ */
+export function truncateForMeta(text: string, max = 155): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const slice = clean.slice(0, max);
+  const cut = slice.slice(0, slice.lastIndexOf(" "));
+  return `${cut.replace(/[\s.,;:—-]+$/, "")}…`;
 }

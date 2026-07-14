@@ -2,6 +2,8 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import Reveal from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 type LegalSection = { h: string; p?: string[]; list?: string[] };
 type DocKey = "terms" | "privacy" | "cookies" | "dpa" | "notice";
@@ -26,6 +28,13 @@ export default function LegalDoc({
 
   return (
     <section className="relative pt-28 sm:pt-36">
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: dict.legal.index.eyebrow, path: "/legal" },
+          { name: doc.title, path: currentHref },
+        ])}
+      />
       <div className="container-pad pb-24">
         <Reveal>
           <LocaleLink href="/legal" locale={locale} className="inline-flex min-h-[44px] items-center text-sm">

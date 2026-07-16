@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
+import {
+  Fraunces,
+  Instrument_Sans,
+  Reem_Kufi,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { locales, isLocale, localeDirection, type Locale } from "@/i18n/config";
@@ -10,12 +15,31 @@ import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
 import ConsentBanner from "@/components/ConsentBanner";
 
-// v2: one Latin family — Inter variable (all weights, incl. 650/750 display cuts).
-// Bricolage Grotesque and IBM Plex Mono are retired; --font-display falls back
-// to Inter via globals.css.
-const inter = Inter({
+// v3 "Tonight" — editorial pairing. Fraunces (characterful soft-serif) for
+// display, Instrument Sans (warm humanist workhorse) for body/UI. Arabic gets
+// an equal pairing: Reem Kufi display + IBM Plex Sans Arabic body.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+  // Variable font: the wght axis loads its full range; opsz + SOFT give
+  // Fraunces its warmth at display sizes. (No explicit `weight` — axes and a
+  // fixed weight can't be combined on a variable face.) Italic is loaded so the
+  // hero accent line renders a true italic, not a faux slant.
+  axes: ["opsz", "SOFT"],
+});
+
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const reemKufi = Reem_Kufi({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-arabic-display",
   display: "swap",
 });
 
@@ -94,13 +118,14 @@ export default function LocaleLayout({
   const dict = getDictionary(locale);
 
   return (
-    <html
-      lang={locale}
-      dir={dir}
-      className={`${inter.variable} ${plexArabic.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="min-h-screen antialiased">
+    <html lang={locale} dir={dir} suppressHydrationWarning>
+      {/* Font-variable classes live on <body>, not <html>: the no-flash script
+          writes the `dark` class onto <html>, and keeping <html> free of any
+          React-managed className stops hydration from reconciling it away
+          (which stripped the theme class and caused a light-mode flash). */}
+      <body
+        className={`${fraunces.variable} ${instrumentSans.variable} ${reemKufi.variable} ${plexArabic.variable} min-h-screen antialiased`}
+      >
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Reveal/HomeHero SSR framer-motion's hidden initial state as inline
             styles — without JS, force everything visible (spec: content must

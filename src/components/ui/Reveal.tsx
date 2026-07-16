@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const variants: Variants = {
@@ -16,6 +16,11 @@ const variants: Variants = {
   }),
 };
 
+/**
+ * Scroll reveal. Content is never gated on the animation: when the user prefers
+ * reduced motion we render the "show" state immediately (no hidden initial), so
+ * nothing depends on a scroll transition to become visible.
+ */
 export default function Reveal({
   children,
   className,
@@ -27,13 +32,14 @@ export default function Reveal({
   delay?: number;
   as?: "div" | "li" | "span" | "section";
 }) {
+  const reduced = useReducedMotion();
   const MotionTag = motion[as] as any;
   return (
     <MotionTag
       className={cn(className)}
       variants={variants}
       custom={delay}
-      initial="hidden"
+      initial={reduced ? "show" : "hidden"}
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
     >
@@ -49,10 +55,11 @@ export function RevealGroup({
   children: React.ReactNode;
   className?: string;
 }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       className={cn(className)}
-      initial="hidden"
+      initial={reduced ? "show" : "hidden"}
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
       transition={{ staggerChildren: 0.06 }}

@@ -171,3 +171,36 @@ WCAG AA on every text/ground pair; focus-visible everywhere; one h1/page; landma
 2. **Type:** Fraunces + Instrument Sans (Latin) / Reem Kufi + IBM Plex Sans Arabic (Arabic). Confirm the editorial-serif direction; Arabic display verified at build.
 3. **Narrative spine ("Tonight"):** confirm the "one night unfolding" framing before it's built across 11 sections.
 4. **Branch note:** the brief names `feature/redesign-total-reinvention`; the session is pinned to `claude/cue-redesign-reinvention-3yazxz`. Building on the pinned branch unless told otherwise.
+
+---
+
+## 9. As-built notes (post-approval build)
+
+Direction approved (olive + marigold spark · Fraunces + Instrument Sans / Reem
+Kufi + Plex Arabic · full reinvention, all pages). What shipped and where it
+deviated from the proposal:
+
+- **Token strategy:** the existing semantic roles (`accent`, `content`,
+  `surface`…) were **remapped** to the new palette rather than renamed —
+  `accent` → olive, neutrals → sand/ink — and a new `spark` (marigold) role +
+  `clay` were added. Every inner page and form therefore inherits the
+  reinvention automatically; deep work concentrated on the homepage narrative
+  and shared shell.
+- **Fixed olive band token** (`--olive-band`): the olive brand band commits to a
+  deep olive in *both* themes (the `accent-strong` role flips light in dark
+  mode, so the band needed its own value). White text, AA in both.
+- **Theme robustness:** font-variable classes moved from `<html>` to `<body>`
+  and `ThemeToggle` now re-asserts the stored/preferred theme on mount — fixes a
+  latent hydration path that could drop the theme class (notably for
+  reduced-motion users). `Reveal` renders visible immediately under reduced
+  motion so content never depends on a scroll animation.
+- **Alcohol-free rule — enforced:** three product screenshots contained alcohol
+  (`home-screen`/`guest-home-discover` = a wine "Siddharta Nights" event card;
+  `guest-venue-detail-menu` = a lit back-bar with bottles + a "Cocktails" tag).
+  All three were removed, the unused `public/app/*.png` export set (older copies)
+  was deleted, and the affected slots were repointed to clean UI screens — the
+  How-It-Works guest showcase is now three honest steps (request → split
+  prepayment → confirmed) on alcohol-free screens, in EN + AR.
+- **Inner pages:** carry the new tokens, type, spark, and editorial headings but
+  keep their existing section structure (the homepage is the flagship
+  re-sequence). Verified rendering in EN/AR × light/dark.

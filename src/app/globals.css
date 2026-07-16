@@ -3,75 +3,95 @@
 @tailwind utilities;
 
 /* ============================================================
-   Cue redesign v2 — "Precision hospitality"
-   Tokens only. Components never hardcode hex.
-   See docs/redesign-v2-spec.md
+   Cue redesign v3 — "Tonight"
+   Warm editorial. Sand ground · olive brand · marigold spark · clay depth.
+   Tokens only — components never hardcode hex. See docs/design-tokens-v2.md
+   Metaphor: a booking arrives glowing (marigold) and settles (olive).
    ============================================================ */
 
 :root {
-  /* One Latin family site-wide. Arabic keeps IBM Plex Sans Arabic. */
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Inter", system-ui, sans-serif; /* legacy alias — display IS Inter now */
-  --font-mono: ui-monospace, "Cascadia Mono", monospace; /* legacy only; no mono voice in v2 */
+  /* Type: editorial serif display + humanist workhorse; Arabic gets its
+     own equal pairing (display Kufi + Plex Arabic body). */
+  --font-display: "Fraunces", "Instrument Sans", Georgia, serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", monospace;
   --font-arabic: "IBM Plex Sans Arabic", Tahoma, sans-serif;
+  --font-arabic-display: "Reem Kufi", "IBM Plex Sans Arabic", Tahoma, sans-serif;
 
-  /* Semantic ground — light (rgb channels for alpha support) */
-  --bg: 250 249 247;         /* #FAF9F7 barely-warm off-white */
-  --surface: 255 255 255;    /* #FFFFFF raised card */
-  --surface-2: 241 239 234;  /* #F1EFEA sunken band */
-  --content: 26 23 19;       /* #1A1713 ink */
-  --muted: 110 103 94;       /* #6E675E secondary text */
-  --line: 228 224 216;       /* #E4E0D8 hairline */
+  /* ---- Semantic ground — light (rgb channels for alpha) ---- */
+  --bg: 242 236 223;         /* #F2ECDF warm sand */
+  --surface: 251 247 239;    /* #FBF7EF bone card */
+  --surface-2: 232 224 206;  /* #E8E0CE sunken band */
+  --content: 35 32 25;       /* #232019 warm olive-black */
+  --muted: 101 95 78;        /* #655F4E secondary text (AA ≥5:1 on sand) */
+  --line: 220 210 190;       /* #DCD2BE hairline */
+  --line-strong: 154 145 124;/* #9A917C input boundary (≥3:1, WCAG 1.4.11) */
 
-  /* Accent — terracotta (locked #C86B4A), theme-adaptive */
-  --accent: 200 107 74;        /* #C86B4A */
-  --accent-strong: 178 90 59;  /* #B25A3B hover/active */
-  --accent-deep: 143 70 48;    /* #8F4630 AA text on wash */
-  --accent-wash: rgb(246 233 227); /* #F6E9E3 tinted fill (full value: dark needs alpha) */
-  /* Accent for content sitting on inverse (bg-content) bands — flips WITH the
-     band, not the theme: lifted on the light-theme ink band, deep on the
-     dark-theme light band. ≥4.5:1 against rgb(var(--content)) in both themes. */
-  --accent-on-inverse: 217 138 106; /* #D98A6A on #1A1713 ≈ 6.6:1 */
+  /* ---- Accent — OLIVE (brand + "confirmed / settled") ---- */
+  --accent: 91 106 56;         /* #5B6A38 olive */
+  --accent-strong: 76 90 46;   /* #4C5A2E hover / button ground (white AA) */
+  --accent-deep: 60 72 36;     /* #3C4824 olive text on wash / sand (AA) */
+  --accent-wash: rgb(228 229 204); /* #E4E5CC tinted olive fill */
+  --accent-on-inverse: 157 170 108; /* #9DAA6C olive on ink band (AA) */
 
-  /* Hairlines stay decorative; inputs get a boundary that clears WCAG 1.4.11 */
-  --line-strong: 154 146 135;  /* #9A9287 ≈ 3.1:1 on white fields */
+  /* ---- Spark — MARIGOLD ("incoming / live / energy") ---- */
+  --spark: 223 148 38;         /* #DF9426 marigold */
+  --spark-strong: 197 124 24;  /* #C57C18 */
+  --spark-deep: 150 89 15;     /* #96590F marigold text on wash / sand (AA) */
+  --spark-wash: rgb(247 231 197); /* #F7E7C5 tinted marigold fill */
+  --spark-on-inverse: 240 178 78;  /* #F0B24E marigold on ink band */
 
-  /* Semantic status — information, never decoration */
-  --ok: 62 124 91;             /* #3E7C5B confirmed */
-  --ok-deep: 46 95 69;         /* #2E5F45 AA text on ok-wash */
+  /* ---- Clay — earthy depth (illustration mid-tone, warm support) ---- */
+  --clay: 180 120 80;          /* #B47850 */
 
-  /* Form failure — warm, AA-verified on its wash (mirrors the --ok pair) */
+  /* Olive brand band — a committed deep-olive moment that stays olive in
+     BOTH themes (the accent-strong token flips light in dark mode, so the
+     band needs its own fixed value). White text clears AA on both. */
+  --olive-band: 76 90 46;      /* #4C5A2E */
+
+  /* ---- Status — information, never decoration ---- */
+  --ok: 78 107 52;             /* #4E6B34 confirmed (reads olive — on brand) */
+  --ok-deep: 60 84 40;         /* #3C5428 AA text on ok wash */
   --error: 178 58 44;          /* #B23A2C */
-  --error-deep: 141 43 32;     /* #8D2B20 AA text on error-wash */
+  --error-deep: 141 43 32;     /* #8D2B20 AA text on error wash */
 
-  --shadow-card: 0 16px 40px -20px rgb(26 23 19 / 0.18);
-  --shadow-cta: 0 14px 32px -14px rgb(178 90 59 / 0.4);
+  --shadow-card: 0 18px 44px -22px rgb(35 32 25 / 0.20);
+  --shadow-cta: 0 16px 34px -14px rgb(76 90 46 / 0.42);
+  --shadow-spark: 0 16px 34px -14px rgb(197 124 24 / 0.40);
 }
 
 .dark {
-  --bg: 18 17 16;            /* #121110 warm charcoal */
-  --surface: 27 25 23;       /* #1B1917 */
-  --surface-2: 36 32 25;     /* #242019 */
-  --content: 237 234 228;    /* #EDEAE4 */
-  --muted: 163 155 143;      /* #A39B8F */
-  --line: 50 46 40;          /* #322E28 */
+  --bg: 22 20 14;            /* #16140E warm near-black */
+  --surface: 31 28 20;       /* #1F1C14 */
+  --surface-2: 40 36 26;     /* #28241A */
+  --content: 239 233 218;    /* #EFE9DA */
+  --muted: 167 158 136;      /* #A79E88 */
+  --line: 51 46 34;          /* #332E22 */
+  --line-strong: 115 107 88; /* #736B58 ≥3:1 on dark fields */
 
-  --accent: 217 138 106;       /* #D98A6A lifted for dark contrast */
-  --accent-strong: 227 157 128;/* #E39D80 */
-  --accent-deep: 239 181 157;  /* #EFB59D */
-  --accent-wash: rgb(200 107 74 / 0.14);
-  --accent-on-inverse: 143 70 48; /* #8F4630 on #EDEAE4 ≈ 5.7:1 */
+  --accent: 157 170 108;       /* #9DAA6C lifted olive */
+  --accent-strong: 176 188 128;/* #B0BC80 */
+  --accent-deep: 185 196 140;  /* #B9C48C text on dark */
+  --accent-wash: rgb(91 106 56 / 0.18);
+  --accent-on-inverse: 76 90 46; /* olive on the dark-theme light band */
 
-  --line-strong: 116 108 96;   /* #746C60 ≈ 3.3:1 on dark fields */
+  --spark: 240 178 78;         /* #F0B24E */
+  --spark-strong: 244 190 104; /* #F4BE68 */
+  --spark-deep: 245 201 131;   /* #F5C983 text on dark */
+  --spark-wash: rgb(223 148 38 / 0.16);
+  --spark-on-inverse: 197 124 24;
 
-  --ok: 95 163 127;            /* #5FA37F */
-  --ok-deep: 127 184 154;      /* #7FB89A */
+  --clay: 198 138 94;          /* #C68A5E */
+  --olive-band: 56 69 33;      /* #384521 deeper olive for the dark-theme band */
 
+  --ok: 157 170 108;           /* olive-green confirmed */
+  --ok-deep: 185 196 140;
   --error: 224 122 106;        /* #E07A6A */
-  --error-deep: 239 160 147;   /* #EFA093 AA text on error-wash */
+  --error-deep: 239 160 147;
 
-  --shadow-card: 0 16px 40px -20px rgb(0 0 0 / 0.5);
-  --shadow-cta: 0 14px 32px -14px rgb(217 138 106 / 0.35);
+  --shadow-card: 0 18px 44px -22px rgb(0 0 0 / 0.55);
+  --shadow-cta: 0 16px 34px -14px rgb(0 0 0 / 0.5);
+  --shadow-spark: 0 16px 34px -14px rgb(0 0 0 / 0.5);
 }
 
 @layer base {
@@ -90,41 +110,42 @@
     background-color: rgb(var(--bg));
     color: rgb(var(--content));
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* Single ultra-subtle terracotta bloom, top-center. Nothing else. */
-    background-image: radial-gradient(
-      1200px 640px at 50% -12%,
-      rgb(var(--accent) / 0.03),
-      transparent 62%
-    );
+    /* Two faint blooms: olive calm top-center, marigold warmth low-end —
+       the "night warming up." Ultra-subtle, fixed, never animated. */
+    background-image:
+      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.05), transparent 60%),
+      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.05), transparent 62%);
+    background-attachment: fixed;
   }
   .dark body {
-    background-image: radial-gradient(
-      1200px 640px at 50% -12%,
-      rgb(var(--accent) / 0.06),
-      transparent 62%
-    );
+    background-image:
+      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.09), transparent 60%),
+      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.08), transparent 62%);
   }
 
+  /* Editorial serif display — Fraunces, optical sizing on for warmth at size */
   h1, h2, h3, h4 {
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
     text-wrap: balance;
   }
   h1 {
-    font-weight: 750;
-    letter-spacing: -0.035em;
-    line-height: 1.02;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.0;
   }
   h2 {
-    font-weight: 650;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
+    font-weight: 560;
+    letter-spacing: -0.018em;
+    line-height: 1.06;
   }
   h3, h4 {
-    font-weight: 600;
-    letter-spacing: -0.015em;
+    font-weight: 560;
+    letter-spacing: -0.012em;
   }
 
-  /* Arabic typography — swap every role to the Arabic face, never track glyphs */
+  /* Arabic — swap every role to the Arabic body face; headings to Kufi.
+     Never letter-space Arabic; give it a taller line box. */
   [dir="rtl"] body,
   [dir="rtl"] .font-display,
   [dir="rtl"] .font-sans,
@@ -135,31 +156,24 @@
   [dir="rtl"] h2,
   [dir="rtl"] h3,
   [dir="rtl"] h4 {
-    font-family: var(--font-arabic);
-    font-weight: 700;
+    font-family: var(--font-arabic-display);
+    font-weight: 600;
     letter-spacing: 0;
   }
-  /* Plex Arabic needs a taller line box (ascenders, dots, shadda, deep
-     descenders) — the tight Latin display leading stays LTR-only. */
-  [dir="rtl"] h1 {
-    line-height: 1.2;
-  }
-  [dir="rtl"] h2 {
-    line-height: 1.25;
-  }
+  [dir="rtl"] h1 { line-height: 1.22; }
+  [dir="rtl"] h2 { line-height: 1.28; }
 
-  /* AA in both themes: white on accent-strong (light) / ink on accent (dark) */
   ::selection {
     background: rgb(var(--accent-strong));
     color: #ffffff;
   }
   .dark ::selection {
     background: rgb(var(--accent));
-    color: rgb(18 17 16);
+    color: rgb(22 20 14);
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--accent));
+    outline: 2px solid rgb(var(--spark));
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -170,16 +184,16 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
-  /* Eyebrow label — Inter voice (mono retired in v2) */
+  /* Eyebrow / label — humanist workhorse, spark-deep voice */
   .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em];
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em];
     font-family: var(--font-sans);
-    color: rgb(var(--accent-deep));
+    color: rgb(var(--spark-deep));
   }
   .dark .label,
   .dark .eyebrow {
-    color: rgb(var(--accent));
+    color: rgb(var(--spark-deep));
   }
   [dir="rtl"] .label,
   [dir="rtl"] .eyebrow {
@@ -189,11 +203,36 @@
     font-size: 12px;
   }
 
+  /* ---- Editorial spine: oversized margin numerals ---- */
+  .section-num {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: rgb(var(--content) / 0.14);
+  }
+  .section-num[data-active="true"] {
+    color: rgb(var(--spark));
+  }
+  [dir="rtl"] .section-num {
+    font-family: var(--font-sans);
+  }
+
+  /* Serif pull-quote / display accent for inline moments */
+  .display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+  [dir="rtl"] .display {
+    font-family: var(--font-arabic-display);
+  }
+
+  /* ---- Buttons ---- */
   .btn {
     @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-offset-4;
   }
-  /* Light rests on accent-strong so the white label clears AA (4.75:1) —
-     white-on-#C86B4A is only 3.71:1. Dark keeps ink-on-lifted-accent (7:1). */
   .btn-primary {
     background-color: rgb(var(--accent-strong));
     color: #ffffff;
@@ -205,10 +244,27 @@
   }
   .dark .btn-primary {
     background-color: rgb(var(--accent));
-    color: rgb(18 17 16);
+    color: rgb(22 20 14);
   }
   .dark .btn-primary:hover {
     background-color: rgb(var(--accent-strong));
+  }
+  /* Spark button — the energetic CTA (used sparingly on real actions) */
+  .btn-spark {
+    background-color: rgb(var(--spark-strong));
+    color: #ffffff;
+  }
+  .btn-spark:hover {
+    background-color: rgb(var(--spark-deep));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-spark);
+  }
+  .dark .btn-spark {
+    background-color: rgb(var(--spark));
+    color: rgb(22 20 14);
+  }
+  .dark .btn-spark:hover {
+    background-color: rgb(var(--spark-strong));
   }
   .btn-ink {
     background-color: rgb(var(--content));
@@ -219,21 +275,21 @@
   }
   .btn-outline {
     @apply border;
-    border-color: rgb(var(--line));
+    border-color: rgb(var(--line-strong));
     color: rgb(var(--content));
   }
   .btn-outline:hover {
-    border-color: rgb(var(--accent) / 0.45);
+    border-color: rgb(var(--accent) / 0.6);
     background-color: var(--accent-wash);
   }
   .btn-ghost-light {
     @apply border;
-    border-color: rgb(255 255 255 / 0.3);
+    border-color: rgb(255 255 255 / 0.34);
     color: #ffffff;
   }
   .btn-ghost-light:hover {
     background-color: #ffffff;
-    color: rgb(26 23 19);
+    color: rgb(35 32 25);
   }
 
   /* Arrow nudge inside buttons/links — flips for RTL */
@@ -254,24 +310,25 @@
     @apply rounded-card border;
     border-color: rgb(var(--line));
     background-color: rgb(var(--surface));
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
   .card-hover:hover {
-    border-color: rgb(var(--accent) / 0.35);
+    border-color: rgb(var(--accent) / 0.4);
     box-shadow: var(--shadow-card);
     transform: translateY(-2px);
   }
 
+  /* Underline draws in from the reading edge; origin flips for RTL */
   .link-underline {
     @apply relative inline-flex w-fit items-center gap-1.5 font-semibold;
     color: rgb(var(--content));
   }
   .link-underline::after {
     content: "";
-    @apply absolute -bottom-1 h-[1.5px] w-full scale-x-0 transition-transform duration-[220ms];
+    @apply absolute -bottom-1 h-[2px] w-full scale-x-0 transition-transform duration-[220ms];
     inset-inline-start: 0;
     transform-origin: var(--underline-origin, left);
-    background-color: rgb(var(--accent));
+    background-color: rgb(var(--spark));
   }
   .link-underline:hover::after,
   .link-underline[aria-current]::after {
@@ -280,10 +337,6 @@
   [dir="rtl"] .link-underline::after {
     --underline-origin: right;
   }
-
-  /* When the underline lives on an inner text-height span (so the ≥44px hit
-     box on the anchor/button doesn't detach the ::after from the text), the
-     parent control drives hover/current state for underline and nudge alike. */
   a:hover > .link-underline::after,
   a[aria-current] > .link-underline::after,
   button:hover > .link-underline::after {
@@ -297,6 +350,13 @@
   [dir="rtl"] button:hover > .link-underline .nudge {
     transform: translateX(-3px);
   }
+
+  /* Live pill — marigold, with a pulsing dot (used on the board + hero) */
+  .pill-live {
+    @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[11px] font-semibold;
+    background-color: var(--spark-wash);
+    color: rgb(var(--spark-deep));
+  }
 }
 
 /* Respect reduced motion — full clamp */
@@ -309,6 +369,7 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  body { background-attachment: scroll; }
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -325,11 +386,11 @@
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.03;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .dark .grain {
   mix-blend-mode: screen;
-  opacity: 0.035;
+  opacity: 0.04;
 }

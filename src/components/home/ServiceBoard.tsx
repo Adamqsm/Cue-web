@@ -37,13 +37,12 @@ function partyOf(name: string): number {
 }
 
 /**
- * The signature element: a paper-docket "service board".
- * Every ~4s a new incoming request slides in, its status morphs
- * incoming → confirmed after a beat, and the covers counter ticks up —
- * the product's core promise, shown rather than described.
- * Pausable (spec + WCAG 2.2.2): hover pauses the cycle, and a play/pause
- * toggle sits outside the aria-hidden demo. Reduced-motion users get a
- * static all-confirmed board.
+ * The signature element: a live "service board" docket.
+ * The color moment made literal — every ~4s a new request slides in *glowing
+ * marigold* (incoming/live), then settles to *olive* (confirmed) after a beat,
+ * and the covers counter ticks up. A booking arrives as a warm signal and
+ * settles into place: the product's core promise, shown not described.
+ * Pausable (WCAG 2.2.2); reduced-motion users get a static all-confirmed board.
  */
 export default function ServiceBoard({
   board,
@@ -52,7 +51,6 @@ export default function ServiceBoard({
   board: Board;
   labels?: { play: string; pause: string };
 }) {
-  /* Seed reversed so the forward cycle never shows the same name twice at once. */
   const [rows, setRows] = useState<Row[]>(() =>
     board.rows
       .slice(0, VISIBLE)
@@ -67,7 +65,6 @@ export default function ServiceBoard({
   const [hovered, setHovered] = useState(false);
   const idRef = useRef(VISIBLE);
 
-  /* Ticked values keep the board's own numeral system (ar.ts uses ٠-٩). */
   const arabicNumerals = /[٠-٩]/.test(board.footerValue);
 
   useEffect(() => {
@@ -89,9 +86,7 @@ export default function ServiceBoard({
         { id, name: src.name, time: src.time, status: "incoming" },
         ...prev
           .slice(0, VISIBLE - 1)
-          .map((r, i) =>
-            i >= 1 ? { ...r, status: "seated" as Status } : r
-          ),
+          .map((r, i) => (i >= 1 ? { ...r, status: "seated" as Status } : r)),
       ]);
       confirmT = setTimeout(() => {
         setRows((prev) =>
@@ -110,21 +105,19 @@ export default function ServiceBoard({
 
   return (
     <div className="w-full max-w-md">
-      {/* Illustrative demo data on a 4s loop — hidden from assistive tech.
-          Hover pauses; the toggle below lives outside this aria-hidden tree. */}
       <div
         aria-hidden="true"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="overflow-hidden rounded-panel border border-line bg-surface shadow-soft"
+        className="overflow-hidden rounded-panel border border-line bg-surface shadow-card"
       >
         {/* Header — title + live pill */}
-        <div className="flex items-center justify-between gap-3 border-b border-line ps-5 pe-5 py-4">
-          <span className="label">{board.title}</span>
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent-wash ps-2.5 pe-2.5 py-1 text-[11px] font-semibold text-accent-deep">
+        <div className="flex items-center justify-between gap-3 border-b border-line bg-surface2/50 ps-5 pe-5 py-4">
+          <span className="label !text-muted">{board.title}</span>
+          <span className="pill-live">
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-accent" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-spark" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-spark" />
             </span>
             {board.live}
           </span>
@@ -136,10 +129,23 @@ export default function ServiceBoard({
             <li
               key={row.id}
               className={cn(
-                "flex items-center gap-3 ps-5 pe-5 py-3.5",
-                row.id >= VISIBLE && "animate-board-in"
+                "relative flex items-center gap-3 ps-5 pe-5 py-3.5 transition-colors duration-500",
+                row.id >= VISIBLE && "animate-board-in",
+                row.status === "incoming" && "bg-spark-wash/60"
               )}
             >
+              {/* Reading-edge glow bar on the live row */}
+              <span
+                className={cn(
+                  "absolute inset-y-0 start-0 w-[3px] transition-colors duration-500",
+                  row.status === "incoming"
+                    ? "bg-spark"
+                    : row.status === "confirmed"
+                      ? "bg-accent"
+                      : "bg-transparent"
+                )}
+                style={{ insetInlineStart: 0 }}
+              />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-semibold text-content">
                   {row.name}
@@ -154,11 +160,11 @@ export default function ServiceBoard({
         </ul>
 
         {/* Footer — covers counter, ticks up as requests confirm */}
-        <div className="flex items-baseline justify-between gap-3 border-t border-line bg-surface2/60 ps-5 pe-5 py-3.5">
+        <div className="flex items-baseline justify-between gap-3 border-t border-line bg-surface2/60 ps-5 pe-5 py-4">
           <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted rtl:text-xs rtl:normal-case rtl:tracking-normal">
             {board.footerLabel}
           </span>
-          <span className="text-lg font-semibold tabular-nums text-content">
+          <span className="display text-xl font-semibold tabular-nums text-content">
             {typeof covers === "number"
               ? covers.toLocaleString(arabicNumerals ? "ar-EG" : "en-US", {
                   useGrouping: false,
@@ -168,14 +174,14 @@ export default function ServiceBoard({
         </div>
       </div>
 
-      {/* Pause/stop mechanism (WCAG 2.2.2) — mirrors Demo's toggle. */}
+      {/* Pause/stop mechanism (WCAG 2.2.2) */}
       {labels && (
         <div className="mt-3 flex justify-end">
           <button
             type="button"
             onClick={() => setPlaying((p) => !p)}
             aria-label={playing ? labels.pause : labels.play}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:border-accent/45 hover:bg-accent-wash hover:text-accent-deep"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:border-spark/50 hover:bg-spark-wash hover:text-spark-deep"
           >
             {playing ? (
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
@@ -194,14 +200,14 @@ export default function ServiceBoard({
   );
 }
 
-/* Semantic status colors: incoming = accent, confirmed = ok, seated = muted. */
+/* Color moment: incoming = marigold spark, confirmed = olive, seated = muted. */
 function StatusPill({ label, status }: { label: string; status: Status }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 rounded-full ps-2.5 pe-2.5 py-1 text-[11px] font-semibold transition-colors duration-300",
-        status === "incoming" && "bg-accent-wash text-accent-deep",
-        status === "confirmed" && "bg-ok/10 text-ok-deep dark:bg-ok/15",
+        "inline-flex shrink-0 items-center gap-1.5 rounded-full ps-2.5 pe-2.5 py-1 text-[11px] font-semibold transition-colors duration-500",
+        status === "incoming" && "bg-spark-wash text-spark-deep",
+        status === "confirmed" && "bg-accent-wash text-accent-deep",
         status === "seated" && "bg-muted/10 text-muted"
       )}
     >

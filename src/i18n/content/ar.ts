@@ -163,7 +163,7 @@ const ar: Dictionary = {
       play: "تشغيل",
       pause: "إيقاف",
       slides: [
-        { img: "/images/cue-app-home-screen.jpeg", caption: "اكتشف المطاعم واحجزها في مختلف أنحاء عمّان." },
+        { img: "/images/cue-app-guest-booking-request.jpeg", caption: "اطلب طاولة في أماكن مختلفة عبر عمّان." },
         { img: "/images/cue-app-profile-screen.jpeg", caption: "صالة الليلة، بلمحة." },
         { img: "/images/cue-app-search-filters.jpeg", caption: "أكّد أو ارفض بلمسة واحدة." },
         { img: "/images/cue-app-booking-flow.jpeg", caption: "ليالي الفعاليات والطلب على الطاولات، في مكان واحد." },
@@ -271,24 +271,19 @@ const ar: Dictionary = {
       body: "يحصل الضيوف على طريقة بسيطة وشفّافة لتخطيط خروجاتهم وإدارتها — من أول تصفّح إلى طاولة مؤكّدة.",
       features: [
         {
-          img: "/images/cue-app-guest-home-discover.jpeg",
-          title: "التصفّح والبحث",
-          body: "شاشة رئيسية مختارة لأماكن عمّان، مع بحث وفلاتر حسب المنطقة والمطبخ ومستوى السعر.",
-        },
-        {
-          img: "/images/cue-app-guest-venue-detail-menu.jpeg",
-          title: "تفاصيل المكان",
-          body: "معرض الصور والساعات والموقع والقائمة ومستوى السعر — كل ما يحتاجه الضيف للقرار في عرض واحد.",
-        },
-        {
           img: "/images/cue-app-guest-booking-request.jpeg",
           title: "اطلب طاولة",
-          body: "التاريخ والوقت وعدد الأشخاص والطلبات الخاصة — تدفّق حجز سريع وواضح.",
+          body: "اختر المكان والتاريخ والوقت وعدد الأشخاص — تدفّق حجز سريع وواضح مع أي طلبات خاصة.",
+        },
+        {
+          img: "/images/cue-app-guest-payment-split.jpeg",
+          title: "تقسيم الدفعة المسبقة",
+          body: "في ليالي المجموعات، يدفع الجميع حصّته مسبقاً — رابط دفع آمن لكل ضيف عبر واتساب أو Apple Pay.",
         },
         {
           img: "/images/cue-app-guest-reservation-confirmed.jpeg",
-          title: "حجوزاتي",
-          body: "كل حجز وحالته في مكان واحد، مع السجلّ والتفاصيل بلمسة.",
+          title: "مؤكّد، في مكان واحد",
+          body: "حالة فورية لا لبس فيها — مع كل حجز وسجلّه بلمسة.",
         },
       ],
     },

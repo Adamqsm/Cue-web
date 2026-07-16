@@ -161,7 +161,7 @@ const en = {
       play: "Play",
       pause: "Pause",
       slides: [
-        { img: "/images/cue-app-home-screen.jpeg", caption: "Discover and book restaurants across Amman." },
+        { img: "/images/cue-app-guest-booking-request.jpeg", caption: "Request a table at venues across Amman." },
         { img: "/images/cue-app-profile-screen.jpeg", caption: "Tonight's floor, at a glance." },
         { img: "/images/cue-app-search-filters.jpeg", caption: "Confirm or decline in one tap." },
         { img: "/images/cue-app-booking-flow.jpeg", caption: "Event nights and table demand, in one view." },
@@ -269,24 +269,19 @@ const en = {
       body: "Guests get a simple, transparent way to plan and manage outings — from first browse to a confirmed table.",
       features: [
         {
-          img: "/images/cue-app-guest-home-discover.jpeg",
-          title: "Browse & search",
-          body: "A curated home screen of venues in Amman, with search and filters for area, cuisine, and price level.",
-        },
-        {
-          img: "/images/cue-app-guest-venue-detail-menu.jpeg",
-          title: "Venue detail",
-          body: "Gallery, hours, location, menu, and price level — everything a guest needs to decide, in one view.",
-        },
-        {
           img: "/images/cue-app-guest-booking-request.jpeg",
           title: "Request a table",
-          body: "Date, time, party size, and special requests — a fast, clear booking flow.",
+          body: "Pick a venue, date, time, and party size — a fast, clear booking flow with any special requests.",
+        },
+        {
+          img: "/images/cue-app-guest-payment-split.jpeg",
+          title: "Split the prepayment",
+          body: "For group nights, everyone pays their share up front — a secure link each, over WhatsApp or Apple Pay.",
         },
         {
           img: "/images/cue-app-guest-reservation-confirmed.jpeg",
-          title: "My bookings",
-          body: "Every reservation and its status in one place, with history and detail on tap.",
+          title: "Confirmed, in one place",
+          body: "An instant, unambiguous status — plus every reservation and its history on tap.",
         },
       ],
     },

@@ -19,7 +19,21 @@ export default function ThemeToggle({
 
   useEffect(() => {
     setMounted(true);
-    setDark(document.documentElement.classList.contains("dark"));
+    // Re-assert the correct theme on mount. The no-flash inline script sets the
+    // class pre-paint, but hydration can occasionally reconcile the <html>
+    // element and drop it (notably for reduced-motion users); re-applying from
+    // the stored/preferred value here makes the theme robust in every path.
+    let isDark: boolean;
+    try {
+      const stored = localStorage.getItem("cue-theme");
+      isDark = stored
+        ? stored === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    } catch {
+      isDark = document.documentElement.classList.contains("dark");
+    }
+    document.documentElement.classList.toggle("dark", isDark);
+    setDark(isDark);
   }, []);
 
   function toggle() {

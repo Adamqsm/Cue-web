@@ -1,23 +1,25 @@
 import type { Dictionary } from "@/i18n/dictionaries";
-import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import GroupPlan from "@/components/illustrations/GroupPlan";
+import EditorialSection from "@/components/home/EditorialSection";
 
 /** Commission structure — a clean lead/amount list plus the optional visibility add-ons. */
 export default function CommissionSection({
   commission,
+  num = "04",
 }: {
   commission: Dictionary["partner"]["commission"];
+  num?: string;
 }) {
   return (
-    <section className="border-y border-line bg-surface2">
-      <div className="container-pad py-20 sm:py-28">
-        <SectionHeading
-          kicker={commission.kicker}
-          title={commission.title}
-          body={commission.body}
-          className="mb-14"
-        />
+    <EditorialSection num={num} label={commission.kicker} band="surface2">
+      <div className="max-w-2xl">
+        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+          {commission.title}
+        </h2>
+        <p className="mt-5 text-lg leading-[1.6] text-muted">{commission.body}</p>
+      </div>
+      <div className="mt-12">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)]">
           {/* Definition table — hairline rows, tabular numerals */}
           <RevealGroup className="flex flex-col border-t border-line">
@@ -62,6 +64,6 @@ export default function CommissionSection({
           </div>
         </Reveal>
       </div>
-    </section>
+    </EditorialSection>
   );
 }

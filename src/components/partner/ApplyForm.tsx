@@ -61,6 +61,9 @@ export default function ApplyForm({
     "w-full rounded-chip border border-line-strong bg-surface px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-accent";
   const labelBase = "mb-1.5 block text-sm font-medium text-content";
   const sectionLabel = "eyebrow mt-2";
+  // Step numeral for section wayfinding — mirrors the homepage margin spine,
+  // scaled down for a form. Marigold (spark-deep, AA), decorative.
+  const stepNum = "display text-sm font-semibold tabular-nums text-spark-deep";
 
   function fail(key: typeof errorKey) {
     setErrorKey(key);
@@ -252,7 +255,7 @@ export default function ApplyForm({
 
           {/* ---- Venue ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>01</span>
             {form.sections.venue}
           </span>
           <div>
@@ -264,7 +267,7 @@ export default function ApplyForm({
 
           {/* ---- Contact ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>02</span>
             {form.sections.contact}
           </span>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -296,7 +299,7 @@ export default function ApplyForm({
 
           {/* ---- Location & cuisine ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>03</span>
             {form.sections.details}
           </span>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -388,7 +391,7 @@ export default function ApplyForm({
 
           {/* ---- Working hours ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>04</span>
             {form.sections.hours}
           </span>
           <p className="-mt-3 text-sm text-muted">{form.hints.hours}</p>
@@ -444,7 +447,7 @@ export default function ApplyForm({
 
           {/* ---- Menu & photos ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>05</span>
             {form.sections.menu}
           </span>
           <p className="-mt-3 text-sm text-muted">{form.hints.menu}</p>
@@ -504,7 +507,7 @@ export default function ApplyForm({
 
           {/* ---- Plans & extras ---- */}
           <span className={sectionLabel}>
-            <span className="h-px w-6 bg-current opacity-60" />
+            <span className={stepNum} aria-hidden>06</span>
             {form.sections.plan}
           </span>
           <div>

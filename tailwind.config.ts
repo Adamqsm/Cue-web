@@ -1,7 +1,9 @@
 import type { Config } from "tailwindcss";
 
-// Cue redesign v2 — token-driven palette. See docs/redesign-v2-spec.md.
-// Components style through semantic roles + the accent scale; never hardcode hex.
+// Cue redesign v3 — "Tonight". Token-driven warm-editorial palette.
+// Sand ground · olive brand (accent) · marigold spark · clay depth.
+// Components style through semantic roles; never hardcode hex.
+// See docs/design-tokens-v2.md.
 const config: Config = {
   darkMode: "class",
   content: [
@@ -19,21 +21,31 @@ const config: Config = {
         muted: "rgb(var(--muted) / <alpha-value>)",
         line: {
           DEFAULT: "rgb(var(--line) / <alpha-value>)",
-          // Input boundaries — ≥3:1 non-text contrast (WCAG 1.4.11)
           strong: "rgb(var(--line-strong) / <alpha-value>)",
         },
 
-        // ---- Accent — terracotta (locked #C86B4A), theme-adaptive ----
+        // ---- Accent — olive (brand + "confirmed") ----
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
           strong: "rgb(var(--accent-strong) / <alpha-value>)",
           deep: "rgb(var(--accent-deep) / <alpha-value>)",
           wash: "var(--accent-wash)",
-          // For accent text on inverse (bg-content) bands — flips with the band
           inverse: "rgb(var(--accent-on-inverse) / <alpha-value>)",
         },
 
-        // ---- Status (information, not decoration) ----
+        // ---- Spark — marigold ("incoming / live / energy") ----
+        spark: {
+          DEFAULT: "rgb(var(--spark) / <alpha-value>)",
+          strong: "rgb(var(--spark-strong) / <alpha-value>)",
+          deep: "rgb(var(--spark-deep) / <alpha-value>)",
+          wash: "var(--spark-wash)",
+          inverse: "rgb(var(--spark-on-inverse) / <alpha-value>)",
+        },
+
+        // ---- Clay — earthy depth (illustration / warm support) ----
+        clay: "rgb(var(--clay) / <alpha-value>)",
+
+        // ---- Status ----
         ok: {
           DEFAULT: "rgb(var(--ok) / <alpha-value>)",
           deep: "rgb(var(--ok-deep) / <alpha-value>)",
@@ -42,11 +54,10 @@ const config: Config = {
           DEFAULT: "rgb(var(--error) / <alpha-value>)",
           deep: "rgb(var(--error-deep) / <alpha-value>)",
         },
-
       },
       fontFamily: {
-        display: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
-        sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
         arabic: ["var(--font-arabic)", "Tahoma", "sans-serif"],
       },
@@ -56,12 +67,13 @@ const config: Config = {
         panel: "22px",
       },
       maxWidth: {
-        content: "78rem",
+        content: "82rem",
       },
       boxShadow: {
         soft: "var(--shadow-card)",
         card: "var(--shadow-card)",
         cta: "var(--shadow-cta)",
+        spark: "var(--shadow-spark)",
       },
       keyframes: {
         "pulse-ring": {
@@ -72,10 +84,20 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "sheen": {
+          "0%": { transform: "translateX(-120%)" },
+          "60%,100%": { transform: "translateX(220%)" },
+        },
+        "drift": {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
       },
       animation: {
         "pulse-ring": "pulse-ring 2.6s ease-out infinite",
         "board-in": "board-in 0.6s cubic-bezier(0.22,1,0.36,1) both",
+        "sheen": "sheen 2.8s ease-in-out infinite",
+        "drift": "drift 6s ease-in-out infinite",
       },
     },
   },

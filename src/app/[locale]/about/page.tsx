@@ -4,10 +4,11 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
-import SectionHeading from "@/components/ui/SectionHeading";
-import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import Reveal from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import { CueMark } from "@/components/BrandMark";
+import EditorialSection from "@/components/home/EditorialSection";
+import EditorialList from "@/components/ui/EditorialList";
 
 export async function generateMetadata({
   params,
@@ -39,60 +40,47 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
       />
       <PageHero eyebrow={a.hero.eyebrow} title={a.hero.title} subtitle={a.hero.subtitle} />
 
-      {/* Mission */}
-      <section className="container-pad py-20 sm:py-28">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <SectionHeading kicker={a.mission.kicker} title={a.mission.title} />
+      {/* Mission — statement set against the spine */}
+      <EditorialSection num="01" label={a.mission.kicker} band="bg">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {a.mission.title}
+          </h2>
           <Reveal delay={1} className="flex items-center">
             <p className="text-xl leading-relaxed text-content/80 sm:text-2xl">
               {a.mission.body}
             </p>
           </Reveal>
         </div>
-      </section>
+      </EditorialSection>
 
-      {/* Problem — sunken band */}
-      <section className="border-y border-line bg-surface2">
-        <div className="container-pad py-20 sm:py-28">
-          <SectionHeading
-            kicker={a.problem.kicker}
-            title={a.problem.title}
-            body={a.problem.body}
-            className="mb-12"
-          />
-          <RevealGroup className="grid gap-6 sm:grid-cols-2">
-            {a.problem.columns.map((c) => (
-              <RevealItem key={c.title} className="card p-7">
-                <h3 className="text-2xl text-content">{c.title}</h3>
-                <p className="mt-3 text-muted">{c.body}</p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+      {/* What Cue solves — two sides, editorial rows */}
+      <EditorialSection num="02" label={a.problem.kicker} band="surface2">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {a.problem.title}
+          </h2>
+          <p className="mt-5 text-lg leading-[1.6] text-muted">{a.problem.body}</p>
         </div>
-      </section>
-
-      {/* Values */}
-      <section className="container-pad py-20 sm:py-28">
-        <SectionHeading
-          kicker={a.values.kicker}
-          title={a.values.title}
-          align="center"
-          className="mb-14"
+        <EditorialList
+          className="mt-12"
+          numbers={false}
+          items={a.problem.columns.map((c) => ({
+            title: c.title,
+            body: c.body,
+          }))}
         />
-        <RevealGroup className="grid gap-x-8 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
-          {a.values.items.map((item, i) => (
-            <RevealItem key={item.title} className="border-t border-line pt-5">
-              <div className="flex items-center gap-3">
-                <span className="text-lg font-[600] tabular-nums text-accent-deep">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg text-content">{item.title}</h3>
-              </div>
-              <p className="mt-2 text-muted">{item.body}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
+      </EditorialSection>
+
+      {/* Principles — the six, as an editorial index */}
+      <EditorialSection num="03" label={a.values.kicker} band="bg">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {a.values.title}
+          </h2>
+        </div>
+        <EditorialList className="mt-12" items={a.values.items} />
+      </EditorialSection>
 
       {/* Vision */}
       <section className="container-pad pb-24">

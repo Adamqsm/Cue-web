@@ -1,27 +1,29 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import SectionHeading from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
+import EditorialSection from "@/components/home/EditorialSection";
 import { cn } from "@/lib/utils";
 
 /** Three-tier plan comparison — side-by-side on desktop, stacked cards on mobile. */
 export default function PricingTiers({
   locale,
   pricing,
+  num = "03",
 }: {
   locale: Locale;
   pricing: Dictionary["partner"]["pricing"];
+  num?: string;
 }) {
   return (
-    <section className="container-pad py-20 sm:py-28" id="pricing">
-      <SectionHeading
-        kicker={pricing.kicker}
-        title={pricing.title}
-        body={pricing.body}
-        className="mb-14"
-      />
-      <RevealGroup className="grid gap-6 lg:grid-cols-3">
+    <EditorialSection num={num} label={pricing.kicker} band="bg" id="pricing">
+      <div className="max-w-2xl">
+        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+          {pricing.title}
+        </h2>
+        <p className="mt-5 text-lg leading-[1.6] text-muted">{pricing.body}</p>
+      </div>
+      <RevealGroup className="mt-12 grid gap-6 lg:grid-cols-3">
         {pricing.tiers.map((tier) => {
           const recommended = tier.id === "core";
           return (
@@ -67,6 +69,6 @@ export default function PricingTiers({
           );
         })}
       </RevealGroup>
-    </section>
+    </EditorialSection>
   );
 }

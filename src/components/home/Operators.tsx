@@ -1,50 +1,50 @@
 import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import Reveal from "@/components/ui/Reveal";
+import EditorialSection from "./EditorialSection";
 import LocaleLink from "@/components/ui/LocaleLink";
 
+/**
+ * "The control room" — the operator pitch on the olive brand band. High-warmth
+ * color moment: the one section that commits fully to olive, the dashboard shot
+ * floating in a light frame against it.
+ */
 export default function Operators({
   locale,
   dict,
+  num = "07",
 }: {
   locale: Locale;
   dict: Dictionary;
+  num?: string;
 }) {
   const o = dict.home.operators;
   return (
-    <section className="border-y border-line bg-surface2">
-      <div className="container-pad grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
-        {/* Copy */}
-        <Reveal>
-          <span className="label">
-            <span className="h-px w-6 bg-current opacity-60" aria-hidden />
-            {o.label}
-          </span>
-          <h2 className="mt-4 text-3xl text-content sm:text-4xl lg:text-[2.75rem]">
+    <EditorialSection num={num} label={o.label} band="olive">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div>
+          <h2 className="text-[clamp(1.9rem,3.6vw,3.25rem)] leading-[1.06] text-white">
             {o.title}
           </h2>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          <p className="mt-5 max-w-xl text-lg leading-[1.6] text-white/85">
             {o.body}
           </p>
           <ul className="mt-8 space-y-3.5">
             {o.points.map((point) => (
               <li key={point} className="flex items-start gap-3">
-                {/* Marketing bullets are decorative — accent wash, not --ok
-                    (ok is reserved for confirmed states). */}
-                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-wash text-accent-deep">
+                <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-white">
                   <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
-                <span className="text-content">{point}</span>
+                <span className="text-white/90">{point}</span>
               </li>
             ))}
           </ul>
           <LocaleLink
             href="/partner"
             locale={locale}
-            className="btn btn-primary mt-9 text-base"
+            className="btn mt-9 bg-white text-[rgb(var(--olive-band))] hover:bg-white/90"
           >
             {o.cta}
             <span className="nudge" aria-hidden="true">
@@ -53,11 +53,10 @@ export default function Operators({
               </svg>
             </span>
           </LocaleLink>
-        </Reveal>
+        </div>
 
-        {/* Dashboard shot — minimal device frame */}
-        <Reveal delay={1} className="flex justify-center lg:justify-end">
-          <div className="w-[264px] rounded-panel border border-line bg-surface p-1.5 sm:w-[300px]">
+        <div className="flex justify-center lg:justify-end">
+          <div className="w-[264px] rounded-panel border border-white/20 bg-white/10 p-1.5 shadow-card backdrop-blur-sm sm:w-[300px]">
             <div className="relative aspect-[1206/2622] w-full overflow-hidden rounded-card">
               <Image
                 src={o.image}
@@ -68,8 +67,8 @@ export default function Operators({
               />
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
-    </section>
+    </EditorialSection>
   );
 }

@@ -4,12 +4,11 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
-import SectionHeading from "@/components/ui/SectionHeading";
-import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import FeatureShowcase from "@/components/sections/FeatureShowcase";
 import CtaBand from "@/components/sections/CtaBand";
-import { CueMark } from "@/components/BrandMark";
+import EditorialSection from "@/components/home/EditorialSection";
+import EditorialList from "@/components/ui/EditorialList";
 
 export async function generateMetadata({
   params,
@@ -56,70 +55,55 @@ export default function HowItWorksPage({
         </LocaleLink>
       </PageHero>
 
-      {/* The loop */}
-      <section className="container-pad py-20 sm:py-28">
-        <SectionHeading kicker={h.loop.kicker} title={h.loop.title} className="mb-14" />
-        <RevealGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {h.loop.steps.map((step) => (
-            <RevealItem
-              key={step.n}
-              className="card card-hover relative overflow-hidden p-6"
-            >
-              <CueMark className="absolute -end-5 -top-5 h-16 w-16 text-content/[0.05]" />
-              <span className="text-4xl font-[650] tabular-nums text-accent-deep dark:text-accent">
-                {step.n}
-              </span>
-              <h3 className="mt-4 text-xl font-semibold text-content">{step.title}</h3>
-              <p className="mt-2 text-sm text-muted">{step.body}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
+      {/* The booking loop — editorial rows */}
+      <EditorialSection num="01" label={h.loop.kicker} band="bg">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {h.loop.title}
+          </h2>
+        </div>
+        <EditorialList
+          className="mt-12"
+          items={h.loop.steps.map((s) => ({ num: s.n, title: s.title, body: s.body }))}
+        />
+      </EditorialSection>
 
       {/* For guests */}
-      <section className="container-pad pb-20 sm:pb-28">
-        <SectionHeading
-          kicker={h.guest.kicker}
-          title={h.guest.title}
-          body={h.guest.body}
-          className="mb-14"
-        />
-        <FeatureShowcase features={h.guest.features} variant="light" />
-      </section>
+      <EditorialSection num="02" label={h.guest.kicker} band="surface2">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {h.guest.title}
+          </h2>
+          <p className="mt-5 text-lg leading-[1.6] text-muted">{h.guest.body}</p>
+        </div>
+        <div className="mt-10">
+          <FeatureShowcase features={h.guest.features} variant="light" />
+        </div>
+      </EditorialSection>
 
-      {/* For operators — inverse band */}
-      <section className="bg-content text-bg">
-        <div className="container-pad py-20 sm:py-28">
-          <SectionHeading
-            kicker={h.operator.kicker}
-            title={h.operator.title}
-            body={h.operator.body}
-            tone="paper"
-            className="mb-14"
-          />
+      {/* For operators — inverse ink band */}
+      <EditorialSection num="03" label={h.operator.kicker} band="ink">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-bg">
+            {h.operator.title}
+          </h2>
+          <p className="mt-5 text-lg leading-[1.6] text-bg/70">{h.operator.body}</p>
+        </div>
+        <div className="mt-10">
           <FeatureShowcase features={h.operator.features} variant="dark" />
         </div>
-      </section>
+      </EditorialSection>
 
-      {/* Philosophy */}
-      <section className="container-pad py-20 sm:py-28">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <SectionHeading kicker={h.philosophy.kicker} title={h.philosophy.title} body={h.philosophy.body} />
-          <RevealGroup className="flex flex-col gap-6">
-            {h.philosophy.points.map((p, i) => (
-              <RevealItem
-                key={p.title}
-                className="flex gap-5 border-s-2 border-accent/40 ps-5"
-              >
-                <div>
-                  <h3 className="text-xl font-semibold text-content">{p.title}</h3>
-                  <p className="mt-2 text-muted">{p.body}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+      {/* The thinking — principles as editorial rows */}
+      <EditorialSection num="04" label={h.philosophy.kicker} band="bg">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {h.philosophy.title}
+          </h2>
+          <p className="mt-5 text-lg leading-[1.6] text-muted">{h.philosophy.body}</p>
         </div>
-      </section>
+        <EditorialList className="mt-12" items={h.philosophy.points} />
+      </EditorialSection>
 
       <CtaBand
         locale={locale}

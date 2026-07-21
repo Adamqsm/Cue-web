@@ -6,6 +6,7 @@ import HomeHero from "@/components/sections/HomeHero";
 import Positioning from "@/components/home/Positioning";
 import HowItWorks from "@/components/home/HowItWorks";
 import Features from "@/components/home/Features";
+import Spotlight from "@/components/home/Spotlight";
 import Demo from "@/components/home/Demo";
 import Neighborhoods from "@/components/home/Neighborhoods";
 import Operators from "@/components/home/Operators";
@@ -47,15 +48,17 @@ export default function HomePage({ params }: { params: { locale: string } }) {
         }}
       />
 
+      {/* "Tonight" — one night of service in Amman, unfolding as you scroll. */}
       <HomeHero locale={locale} dict={dict} />
-      <Positioning dict={dict} />
-      <HowItWorks dict={dict} />
-      <Features dict={dict} />
-      <Demo dict={dict} />
-      <Neighborhoods dict={dict} />
-      <Operators locale={locale} dict={dict} />
-      <Traction dict={dict} />
-      <HomeFaq locale={locale} dict={dict} />
+      <Positioning dict={dict} num="01" />
+      <HowItWorks dict={dict} num="02" />
+      <Features dict={dict} num="03" />
+      <Spotlight dict={dict} num="04" />
+      <Demo dict={dict} num="05" />
+      <Neighborhoods dict={dict} num="06" />
+      <Operators locale={locale} dict={dict} num="07" />
+      <Traction dict={dict} num="08" />
+      <HomeFaq locale={locale} dict={dict} num="09" />
       <FinalCta locale={locale} dict={dict} />
     </>
   );

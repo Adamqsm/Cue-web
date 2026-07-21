@@ -4,10 +4,11 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
-import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import ServiceBoard from "@/components/home/ServiceBoard";
+import EditorialSection from "@/components/home/EditorialSection";
+import EditorialList from "@/components/ui/EditorialList";
 import CtaBand from "@/components/sections/CtaBand";
 import FoundingBanner from "@/components/partner/FoundingBanner";
 import PricingTiers from "@/components/partner/PricingTiers";
@@ -54,38 +55,24 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       {/* Founding partner offer — the outreach hook */}
       <FoundingBanner locale={locale} founding={p.founding} />
 
-      {/* Why */}
-      <section className="container-pad py-20 sm:py-28">
-        <SectionHeading kicker={p.why.kicker} title={p.why.title} className="mb-14" />
-        <RevealGroup className="grid gap-6 sm:grid-cols-2">
-          {p.why.items.map((item, i) => (
-            <RevealItem
-              key={item.title}
-              className="card card-hover p-7"
-            >
-              <div className="flex items-start gap-4">
-                <span className="text-3xl font-[650] tabular-nums tracking-[-0.025em] text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="text-xl font-semibold tracking-[-0.015em] text-content">{item.title}</h3>
-                  <p className="mt-2 leading-[1.65] text-muted">{item.body}</p>
-                </div>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
+      {/* Why partner — editorial rows */}
+      <EditorialSection num="01" label={p.why.kicker} band="bg">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {p.why.title}
+          </h2>
+        </div>
+        <EditorialList className="mt-12" items={p.why.items} />
+      </EditorialSection>
 
-      {/* Built for — surface-2 band split */}
-      <section className="border-y border-line bg-surface2">
-        <div className="container-pad grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
+      {/* Built for — the signature board recurs (spec: hero + partner page) */}
+      <EditorialSection num="02" label={p.builtFor.kicker} band="surface2">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <SectionHeading
-              kicker={p.builtFor.kicker}
-              title={p.builtFor.title}
-              body={p.builtFor.body}
-            />
+            <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+              {p.builtFor.title}
+            </h2>
+            <p className="mt-5 text-lg leading-[1.6] text-muted">{p.builtFor.body}</p>
             <RevealGroup className="mt-8 flex flex-col gap-3">
               {p.builtFor.items.map((item) => (
                 <RevealItem
@@ -98,8 +85,6 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
               ))}
             </RevealGroup>
           </div>
-          {/* The signature board recurs here (spec: homepage hero + partner
-              page) — the operator's live docket, shown rather than described. */}
           <Reveal delay={1} className="flex justify-center">
             <ServiceBoard
               board={dict.home.hero.board}
@@ -107,50 +92,38 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
             />
           </Reveal>
         </div>
-      </section>
+      </EditorialSection>
 
-      {/* Pricing tiers */}
-      <PricingTiers locale={locale} pricing={p.pricing} />
+      {/* Pricing tiers (03) */}
+      <PricingTiers locale={locale} pricing={p.pricing} num="03" />
 
-      {/* Commission structure + optional add-ons */}
-      <CommissionSection commission={p.commission} />
+      {/* Commission structure + optional add-ons (04) */}
+      <CommissionSection commission={p.commission} num="04" />
 
-      {/* Steps */}
-      <section className="container-pad py-20 sm:py-28">
-        <SectionHeading kicker={p.steps.kicker} title={p.steps.title} className="mb-14" />
-        <RevealGroup className="grid gap-6 md:grid-cols-3">
-          {p.steps.items.map((step) => (
-            <RevealItem
-              key={step.n}
-              className="card card-hover p-7"
-            >
-              <span className="text-5xl font-[650] tabular-nums tracking-[-0.025em] rtl:tracking-normal text-accent-deep dark:text-accent">
-                {step.n}
-              </span>
-              <h3 className="mt-3 text-xl font-semibold tracking-[-0.015em] text-content">{step.title}</h3>
-              <p className="mt-2 leading-[1.65] text-muted">{step.body}</p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
+      {/* How Cue works for partners — editorial rows */}
+      <EditorialSection num="05" label={p.steps.kicker} band="bg">
+        <div className="max-w-2xl">
+          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+            {p.steps.title}
+          </h2>
+        </div>
+        <EditorialList
+          className="mt-12"
+          items={p.steps.items.map((s) => ({ num: s.n, title: s.title, body: s.body }))}
+        />
+      </EditorialSection>
 
-      {/* Approach */}
-      <section className="container-pad pb-20 sm:pb-28">
-        <Reveal>
-          <div className="rounded-panel border border-line bg-surface2 p-8 sm:p-14">
-            <div className="max-w-3xl">
-              <span className="eyebrow">
-                <span className="h-px w-6 bg-current opacity-60" />
-                {p.approach.kicker}
-              </span>
-              <h2 className="mt-4 text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
-                {p.approach.title}
-              </h2>
-              <p className="mt-4 max-w-[65ch] text-lg leading-[1.65] text-muted">{p.approach.body}</p>
-            </div>
-          </div>
-        </Reveal>
-      </section>
+      {/* Approach — full-bleed olive moment */}
+      <EditorialSection num="06" label={p.approach.kicker} band="olive">
+        <div className="max-w-3xl">
+          <h2 className="text-[clamp(1.9rem,3.6vw,3.25rem)] leading-[1.06] text-white">
+            {p.approach.title}
+          </h2>
+          <p className="mt-5 max-w-[60ch] text-lg leading-[1.6] text-white/85">
+            {p.approach.body}
+          </p>
+        </div>
+      </EditorialSection>
 
       <CtaBand
         locale={locale}

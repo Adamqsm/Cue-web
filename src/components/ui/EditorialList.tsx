@@ -4,15 +4,15 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 type Row = { label?: string; num?: string; title: string; body: string };
 
 /**
- * The homepage "what you get" pattern (section 03), extracted for reuse across
- * inner pages: alternating editorial rows — index numeral + title on one edge,
- * body on the other, edges swapping row to row. Hairline-separated, no card
- * chrome. Numerals are marigold (spark-deep, AA) and decorative (aria-hidden).
+ * Ruled index rows: title on the reading edge, body on the far column, a
+ * hairline between rows — no cards, no alternation. Numerals render ONLY
+ * when the caller passes `numbers` (i.e. the rows are a real sequence);
+ * they're brass and decorative (aria-hidden).
  */
 export default function EditorialList({
   items,
   startNum = 1,
-  numbers = true,
+  numbers = false,
   className,
 }: {
   items: Row[];
@@ -23,24 +23,17 @@ export default function EditorialList({
   return (
     <RevealGroup className={cn("border-t border-line", className)}>
       {items.map((it, i) => {
-        const flip = i % 2 === 1;
         const num = it.num ?? String(startNum + i).padStart(2, "0");
         return (
           <RevealItem
             key={it.title}
-            className="border-b border-line py-8 sm:py-9"
+            className="border-b border-line py-7 sm:py-8"
           >
-            <div className="grid items-start gap-4 lg:grid-cols-12 lg:gap-8">
-              {/* Title cluster */}
-              <div
-                className={cn(
-                  "flex items-start gap-5 lg:col-span-6",
-                  flip && "lg:order-2 lg:col-start-7"
-                )}
-              >
+            <div className="grid items-baseline gap-3 lg:grid-cols-12 lg:gap-8">
+              <div className="flex items-baseline gap-5 lg:col-span-6">
                 {numbers && (
                   <span
-                    className="display shrink-0 text-2xl tabular-nums text-spark-deep"
+                    className="display shrink-0 text-lg tabular-nums text-brass"
                     aria-hidden
                   >
                     {num}
@@ -48,18 +41,12 @@ export default function EditorialList({
                 )}
                 <div>
                   {it.label && (
-                    <span className="eyebrow mb-1.5 block">{it.label}</span>
+                    <span className="label mb-1.5 block">{it.label}</span>
                   )}
                   <h3 className="text-xl text-content sm:text-2xl">{it.title}</h3>
                 </div>
               </div>
-              {/* Body */}
-              <p
-                className={cn(
-                  "text-[15px] leading-relaxed text-muted sm:text-base lg:col-span-5",
-                  flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"
-                )}
-              >
+              <p className="text-[15px] leading-relaxed text-muted sm:text-base lg:col-span-5 lg:col-start-8">
                 {it.body}
               </p>
             </div>

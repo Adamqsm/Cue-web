@@ -7,7 +7,7 @@ import PageHero from "@/components/sections/PageHero";
 import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import CtaBand from "@/components/sections/CtaBand";
-import EditorialSection from "@/components/home/EditorialSection";
+import RuledSection from "@/components/layout/RuledSection";
 import EditorialList from "@/components/ui/EditorialList";
 
 export async function generateMetadata({
@@ -45,20 +45,20 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
       </PageHero>
 
       {/* Why join — editorial rows */}
-      <EditorialSection num="01" label={c.why.kicker} band="bg">
+      <RuledSection head={c.why.kicker}>
         <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+          <h2 className="text-3xl text-content sm:text-4xl">
             {c.why.title}
           </h2>
           <p className="mt-5 text-lg leading-[1.6] text-muted">{c.why.body}</p>
         </div>
         <EditorialList className="mt-12" items={c.why.items} />
-      </EditorialSection>
+      </RuledSection>
 
-      {/* Roles — sunken band, editorial index of openings */}
-      <EditorialSection num="02" label={c.roles.kicker} band="surface2">
+      {/* Roles — editorial index of openings */}
+      <RuledSection head={c.roles.kicker}>
         <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+          <h2 className="text-3xl text-content sm:text-4xl">
             {c.roles.title}
           </h2>
         </div>
@@ -78,7 +78,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
                   <p className="max-w-sm text-sm text-muted">{role.body}</p>
                   <span
                     aria-hidden
-                    className="hidden shrink-0 text-spark-deep transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1 sm:inline-block"
+                    className="hidden shrink-0 text-brass transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1 sm:inline-block"
                   >
                     →
                   </span>
@@ -90,10 +90,11 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
         <Reveal className="mt-8">
           <p className="text-sm text-muted">{c.roles.note}</p>
         </Reveal>
-      </EditorialSection>
+      </RuledSection>
 
       <CtaBand
         locale={locale}
+        head={c.hero.eyebrow}
         title={c.cta.title}
         body={c.cta.body}
         primary={c.cta.primary}

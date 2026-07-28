@@ -4,7 +4,8 @@ export const alt = "Cue — book restaurant tables in Amman, Jordan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Branded social card shared across pages.
+// Branded social card — v4 "The White City at Night":
+// limestone ground, night ink, one bougainvillea mark.
 export default function OgImage() {
   return new ImageResponse(
     (
@@ -15,84 +16,102 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#FAF9F7",
+          background: "#E7E1D4",
           padding: "72px",
-          fontFamily: "sans-serif",
+          fontFamily: "serif",
         }}
       >
-        {/* top row */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        {/* running head row */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: "3px solid #1F242C",
+            paddingBottom: "20px",
+          }}
+        >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "18px",
-              height: "18px",
-              borderRadius: "9999px",
-              background: "#C86B4A",
-            }}
-          />
-          <div
-            style={{
-              color: "#6E675E",
+              color: "#1F242C",
               fontSize: "26px",
-              letterSpacing: "0.28em",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
+              fontFamily: "sans-serif",
+              fontWeight: 600,
             }}
           >
-            Amman · Jordan
+            Restaurant reservations · Amman
           </div>
+          <div style={{ color: "#545A63", fontSize: "26px" }}>عمّان · Amman</div>
         </div>
 
         {/* headline */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#1A1713",
-              fontSize: "78px",
-              fontWeight: 800,
-              lineHeight: 1.02,
-              letterSpacing: "-0.02em",
+              color: "#1F242C",
+              fontSize: "92px",
+              fontWeight: 500,
+              lineHeight: 1.05,
+              letterSpacing: "-0.015em",
             }}
           >
-            Book tables at Amman&#39;s
+            Where Amman eats tonight.
           </div>
           <div
             style={{
-              color: "#C86B4A",
-              fontSize: "78px",
-              fontWeight: 800,
-              lineHeight: 1.02,
-              letterSpacing: "-0.02em",
+              display: "flex",
+              alignItems: "center",
+              gap: "14px",
+              marginTop: "30px",
             }}
           >
-            best restaurants, instantly.
-          </div>
-          <div style={{ color: "#6E675E", fontSize: "30px", marginTop: "28px" }}>
-            Reservations · group dining · split payments
+            <div
+              style={{
+                display: "flex",
+                width: "14px",
+                height: "14px",
+                borderRadius: "9999px",
+                background: "#C2385F",
+              }}
+            />
+            <div
+              style={{
+                color: "#545A63",
+                fontSize: "30px",
+                fontFamily: "sans-serif",
+              }}
+            >
+              The guide · instant confirmations · group nights
+            </div>
           </div>
         </div>
 
-        {/* wordmark */}
+        {/* wordmark row */}
         <div
           style={{
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "space-between",
+            borderTop: "1px solid #1F242C",
+            paddingTop: "24px",
           }}
         >
           <div
             style={{
-              color: "#1A1713",
+              color: "#1F242C",
               fontSize: "56px",
-              fontWeight: 800,
+              fontWeight: 700,
               letterSpacing: "0.12em",
+              fontFamily: "sans-serif",
             }}
           >
             CUE
           </div>
-          <div style={{ color: "#6E675E", fontSize: "26px" }}>cue-app.net</div>
+          <div style={{ color: "#545A63", fontSize: "26px", fontFamily: "sans-serif" }}>
+            cue-app.net
+          </div>
         </div>
       </div>
     ),

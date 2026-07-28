@@ -41,11 +41,7 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
       <div className="container-pad grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div className="lg:sticky lg:top-28">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-content">
-              {/* live status dot — ok is semantic here */}
-              <span className="h-2 w-2 rounded-full bg-ok" />
-              {r.hero.status}
-            </span>
+            <p className="text-sm font-medium text-muted">{r.hero.status}</p>
           </Reveal>
           <Reveal delay={1}>
             <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)]">

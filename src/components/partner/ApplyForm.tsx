@@ -11,7 +11,7 @@ import LocaleLink from "@/components/ui/LocaleLink";
 type Status = "idle" | "submitting" | "success" | "error";
 
 // Canonical values stored on the application; labels are localized by index
-// from home.neighborhoods.areas so the dropdown matches the site list exactly.
+// from partnerApply.areas so the dropdown matches the site-wide Amman list.
 const NEIGHBORHOODS = [
   "Abdoun",
   "Sweifieh",
@@ -62,8 +62,8 @@ export default function ApplyForm({
   const labelBase = "mb-1.5 block text-sm font-medium text-content";
   const sectionLabel = "eyebrow mt-2";
   // Step numeral for section wayfinding — mirrors the homepage margin spine,
-  // scaled down for a form. Marigold (spark-deep, AA), decorative.
-  const stepNum = "display text-sm font-semibold tabular-nums text-spark-deep";
+  // scaled down for a form. Brass numerals, decorative.
+  const stepNum = "display text-sm font-semibold tabular-nums text-brass";
 
   function fail(key: typeof errorKey) {
     setErrorKey(key);

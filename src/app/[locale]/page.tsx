@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { buildMetadata, siteJsonLd, faqJsonLd } from "@/lib/seo";
-import HomeHero from "@/components/sections/HomeHero";
-import Positioning from "@/components/home/Positioning";
-import HowItWorks from "@/components/home/HowItWorks";
-import Features from "@/components/home/Features";
-import Spotlight from "@/components/home/Spotlight";
-import Demo from "@/components/home/Demo";
-import Neighborhoods from "@/components/home/Neighborhoods";
-import Operators from "@/components/home/Operators";
-import Traction from "@/components/home/Traction";
-import HomeFaq from "@/components/home/HomeFaq";
-import FinalCta from "@/components/home/FinalCta";
+import { buildMetadata, siteJsonLd } from "@/lib/seo";
+import Cover from "@/components/home/Cover";
+import GuideRail from "@/components/home/GuideRail";
+import PhotoEssay from "@/components/home/PhotoEssay";
+import ProductMoment from "@/components/home/ProductMoment";
+import NightClose from "@/components/home/NightClose";
 
 export async function generateMetadata({
   params,
@@ -41,25 +35,14 @@ export default function HomePage({ params }: { params: { locale: string } }) {
           __html: JSON.stringify(siteJsonLd(locale, dict.home.meta.description)),
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd(dict.faq.items.slice(0, 6))),
-        }}
-      />
 
-      {/* "Tonight" — one night of service in Amman, unfolding as you scroll. */}
-      <HomeHero locale={locale} dict={dict} />
-      <Positioning dict={dict} num="01" />
-      <HowItWorks dict={dict} num="02" />
-      <Features dict={dict} num="03" />
-      <Spotlight dict={dict} num="04" />
-      <Demo dict={dict} num="05" />
-      <Neighborhoods dict={dict} num="06" />
-      <Operators locale={locale} dict={dict} num="07" />
-      <Traction dict={dict} num="08" />
-      <HomeFaq locale={locale} dict={dict} num="09" />
-      <FinalCta locale={locale} dict={dict} />
+      {/* v4 "The White City at Night" — a front page in five moves:
+          cover story · the guide · photo essay · the product · the close. */}
+      <Cover locale={locale} c={dict.home.cover} />
+      <GuideRail locale={locale} g={dict.home.guide} />
+      <PhotoEssay e={dict.home.essay} />
+      <ProductMoment locale={locale} p={dict.home.product} />
+      <NightClose locale={locale} cl={dict.home.close} />
     </>
   );
 }

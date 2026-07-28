@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import {
-  Fraunces,
-  Instrument_Sans,
-  Reem_Kufi,
+  Newsreader,
+  El_Messiri,
+  IBM_Plex_Sans,
   IBM_Plex_Sans_Arabic,
 } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -14,33 +14,39 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
 import ConsentBanner from "@/components/ConsentBanner";
+import DuoFilter from "@/components/ui/DuoFilter";
 
-// v3 "Tonight" — editorial pairing. Fraunces (characterful soft-serif) for
-// display, Instrument Sans (warm humanist workhorse) for body/UI. Arabic gets
-// an equal pairing: Reem Kufi display + IBM Plex Sans Arabic body.
-const fraunces = Fraunces({
+// v4 "The White City at Night" — news-serif display (Newsreader) with a
+// cross-script Plex utility family. Arabic display is El Messiri: a tall,
+// modernised Naskh that carries mastheads the way Newsreader does in Latin.
+const newsreader = Newsreader({
   subsets: ["latin"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
-  // Variable font: the wght axis loads its full range; opsz + SOFT give
-  // Fraunces its warmth at display sizes. (No explicit `weight` — axes and a
-  // fixed weight can't be combined on a variable face.) Italic is loaded so the
-  // hero accent line renders a true italic, not a faux slant.
-  axes: ["opsz", "SOFT"],
+  // Variable face: full wght range plus the optical-size axis — text cuts
+  // for deks and pull-quotes, display cuts at masthead sizes.
+  axes: ["opsz"],
+  // Next 14's font table has no override metrics for Newsreader — skip the
+  // automatic fallback adjust and name the fallback stack explicitly.
+  adjustFontFallback: false,
+  fallback: ["Georgia", "serif"],
 });
 
-const instrumentSans = Instrument_Sans({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const reemKufi = Reem_Kufi({
+const elMessiri = El_Messiri({
   subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-arabic-display",
   display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Tahoma", "sans-serif"],
 });
 
 const plexArabic = IBM_Plex_Sans_Arabic({
@@ -124,19 +130,19 @@ export default function LocaleLayout({
           React-managed className stops hydration from reconciling it away
           (which stripped the theme class and caused a light-mode flash). */}
       <body
-        className={`${fraunces.variable} ${instrumentSans.variable} ${reemKufi.variable} ${plexArabic.variable} min-h-screen antialiased`}
+        className={`${newsreader.variable} ${plexSans.variable} ${elMessiri.variable} ${plexArabic.variable} min-h-screen antialiased`}
       >
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        {/* Reveal/HomeHero SSR framer-motion's hidden initial state as inline
+        {/* Reveal SSRs framer-motion's hidden initial state as inline
             styles — without JS, force everything visible (spec: content must
             never be hidden if JS fails). */}
         <noscript>
           <style>{`[style*="opacity"]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
-        <span className="grain" aria-hidden />
+        <DuoFilter />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-content focus:px-4 focus:py-2 focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-chip focus:bg-content focus:px-4 focus:py-2 focus:text-bg"
         >
           Skip to content
         </a>

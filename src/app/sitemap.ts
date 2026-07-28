@@ -1,10 +1,17 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
 import { SITE_URL } from "@/lib/utils";
+import { VENUES } from "@/data/venues";
+
+type RouteMeta = [number, MetadataRoute.Sitemap[number]["changeFrequency"]];
 
 // path -> [priority, changeFrequency]
-const routes: Record<string, [number, MetadataRoute.Sitemap[number]["changeFrequency"]]> = {
+const routes: Record<string, RouteMeta> = {
   "": [1.0, "weekly"],
+  "/venues": [0.9, "weekly"],
+  ...Object.fromEntries(
+    VENUES.map((v): [string, RouteMeta] => [`/venues/${v.id}`, [0.7, "weekly"]])
+  ),
   "/how-it-works": [0.8, "monthly"],
   "/partner": [0.8, "monthly"],
   "/partner/apply": [0.7, "monthly"],

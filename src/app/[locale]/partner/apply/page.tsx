@@ -42,7 +42,7 @@ export default function PartnerApplyPage({ params }: { params: { locale: string 
         <Reveal delay={1} className="mx-auto max-w-3xl">
           <ApplyForm
             form={p.form}
-            areas={dict.home.neighborhoods.areas}
+            areas={p.areas}
             locale={locale}
           />
         </Reveal>

@@ -3,95 +3,100 @@
 @tailwind utilities;
 
 /* ============================================================
-   Cue redesign v3 — "Tonight"
-   Warm editorial. Sand ground · olive brand · marigold spark · clay depth.
-   Tokens only — components never hardcode hex. See docs/design-tokens-v2.md
-   Metaphor: a booking arrives glowing (marigold) and settles (olive).
+   Cue redesign v4 — "The White City at Night"
+   Limestone ground · night ink · bougainvillea = availability.
+   Tokens only — components never hardcode hex.
+   Discipline: one continuous ruled page; sections divide by
+   rules and running heads, never by background slabs. At most
+   ONE field-colour moment per page (RuledSection tone="field").
+   Bougainvillea (--avail) is a semantic, not a decoration: it
+   marks things you can act on now (booking/early-access CTAs,
+   live availability). It never colours ornament.
    ============================================================ */
 
 :root {
-  /* Type: editorial serif display + humanist workhorse; Arabic gets its
-     own equal pairing (display Kufi + Plex Arabic body). */
-  --font-display: "Fraunces", "Instrument Sans", Georgia, serif;
-  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  /* Type: news serif display + cross-script Plex utility.
+     Arabic display is El Messiri — set taller, never tracked. */
+  --font-display: "Newsreader", Georgia, serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: ui-monospace, "Cascadia Mono", monospace;
   --font-arabic: "IBM Plex Sans Arabic", Tahoma, sans-serif;
-  --font-arabic-display: "Reem Kufi", "IBM Plex Sans Arabic", Tahoma, sans-serif;
+  --font-arabic-display: "El Messiri", "IBM Plex Sans Arabic", Tahoma, sans-serif;
 
-  /* ---- Semantic ground — light (rgb channels for alpha) ---- */
-  --bg: 242 236 223;         /* #F2ECDF warm sand */
-  --surface: 251 247 239;    /* #FBF7EF bone card */
-  --surface-2: 232 224 206;  /* #E8E0CE sunken band */
-  --content: 35 32 25;       /* #232019 warm olive-black */
-  --muted: 101 95 78;        /* #655F4E secondary text (AA ≥5:1 on sand) */
-  --line: 220 210 190;       /* #DCD2BE hairline */
-  --line-strong: 154 145 124;/* #9A917C input boundary (≥3:1, WCAG 1.4.11) */
+  /* ---- Ground — limestone day (rgb channels for alpha) ---- */
+  --bg: 231 225 212;          /* #E7E1D4 limestone */
+  --surface: 240 235 224;     /* #F0EBE0 raised paper (cards, forms) */
+  --surface-2: 219 211 192;   /* #DBD3C0 sunken paper */
+  --content: 31 36 44;        /* #1F242C night ink */
+  --muted: 84 90 99;          /* #545A63 cool slate (AA ≥4.5 on limestone) */
+  --line: 198 189 168;        /* #C6BDA8 hairline */
+  --line-strong: 124 115 97;  /* #7C7361 input boundary (≥3:1, WCAG 1.4.11) */
 
-  /* ---- Accent — OLIVE (brand + "confirmed / settled") ---- */
-  --accent: 91 106 56;         /* #5B6A38 olive */
-  --accent-strong: 76 90 46;   /* #4C5A2E hover / button ground (white AA) */
-  --accent-deep: 60 72 36;     /* #3C4824 olive text on wash / sand (AA) */
-  --accent-wash: rgb(228 229 204); /* #E4E5CC tinted olive fill */
-  --accent-on-inverse: 157 170 108; /* #9DAA6C olive on ink band (AA) */
+  /* ---- Action — ink (buttons, form focus; `accent` for compat) ---- */
+  --accent: 31 36 44;              /* night ink */
+  --accent-strong: 44 52 63;       /* #2C343F hover ink */
+  --accent-deep: 31 36 44;
+  --accent-wash: rgb(31 36 44 / 0.07);
+  --accent-on-inverse: 231 225 212;
 
-  /* ---- Spark — MARIGOLD ("incoming / live / energy") ---- */
-  --spark: 223 148 38;         /* #DF9426 marigold */
-  --spark-strong: 197 124 24;  /* #C57C18 */
-  --spark-deep: 150 89 15;     /* #96590F marigold text on wash / sand (AA) */
-  --spark-wash: rgb(247 231 197); /* #F7E7C5 tinted marigold fill */
-  --spark-on-inverse: 240 178 78;  /* #F0B24E marigold on ink band */
+  /* ---- Availability — bougainvillea. EXCLUSIVE: bookable-now only ---- */
+  --avail: 194 56 95;         /* #C2385F */
+  --avail-strong: 168 42 79;  /* #A82A4F hover ground */
+  --avail-deep: 143 32 64;    /* #8F2040 text on limestone (AA) */
+  --avail-wash: rgb(194 56 95 / 0.10);
 
-  /* ---- Clay — earthy depth (illustration mid-tone, warm support) ---- */
-  --clay: 180 120 80;          /* #B47850 */
+  /* ---- Print furniture ---- */
+  --brass: 143 111 61;        /* #8F6F3D rules, folios, numerals — never text blocks */
+  --sky: 132 155 176;         /* #849BB0 quiet washes only */
 
-  /* Olive brand band — a committed deep-olive moment that stays olive in
-     BOTH themes (the accent-strong token flips light in dark mode, so the
-     band needs its own fixed value). White text clears AA on both. */
-  --olive-band: 76 90 46;      /* #4C5A2E */
+  /* ---- The one field moment per page (night panel) ---- */
+  --field: 31 36 44;          /* #1F242C */
+  --field-content: 231 225 212;
 
   /* ---- Status — information, never decoration ---- */
-  --ok: 78 107 52;             /* #4E6B34 confirmed (reads olive — on brand) */
-  --ok-deep: 60 84 40;         /* #3C5428 AA text on ok wash */
-  --error: 178 58 44;          /* #B23A2C */
-  --error-deep: 141 43 32;     /* #8D2B20 AA text on error wash */
+  --ok: 63 106 78;            /* #3F6A4E confirmed */
+  --ok-deep: 47 84 60;
+  --error: 168 54 40;         /* #A83628 */
+  --error-deep: 132 41 30;
 
-  --shadow-card: 0 18px 44px -22px rgb(35 32 25 / 0.20);
-  --shadow-cta: 0 16px 34px -14px rgb(76 90 46 / 0.42);
-  --shadow-spark: 0 16px 34px -14px rgb(197 124 24 / 0.40);
+  /* Single elevation voice — overlays/modals only (consent gate) */
+  --shadow-card: 0 24px 48px -24px rgb(15 18 23 / 0.35);
 }
 
 .dark {
-  --bg: 22 20 14;            /* #16140E warm near-black */
-  --surface: 31 28 20;       /* #1F1C14 */
-  --surface-2: 40 36 26;     /* #28241A */
-  --content: 239 233 218;    /* #EFE9DA */
-  --muted: 167 158 136;      /* #A79E88 */
-  --line: 51 46 34;          /* #332E22 */
-  --line-strong: 115 107 88; /* #736B58 ≥3:1 on dark fields */
+  /* Night: the city after dark. The field moment becomes a lifted
+     panel (never a giant light slab — that was v3's dark-mode bug). */
+  --bg: 20 23 28;             /* #14171C */
+  --surface: 27 32 39;        /* #1B2027 */
+  --surface-2: 35 41 51;      /* #232933 */
+  --content: 231 225 212;     /* limestone text */
+  --muted: 155 161 171;       /* #9BA1AB */
+  --line: 44 51 61;           /* #2C333D */
+  --line-strong: 92 101 114;  /* #5C6572 */
 
-  --accent: 157 170 108;       /* #9DAA6C lifted olive */
-  --accent-strong: 176 188 128;/* #B0BC80 */
-  --accent-deep: 185 196 140;  /* #B9C48C text on dark */
-  --accent-wash: rgb(91 106 56 / 0.18);
-  --accent-on-inverse: 76 90 46; /* olive on the dark-theme light band */
+  --accent: 231 225 212;
+  --accent-strong: 214 207 192;
+  --accent-deep: 231 225 212;
+  --accent-wash: rgb(231 225 212 / 0.10);
+  --accent-on-inverse: 31 36 44;
 
-  --spark: 240 178 78;         /* #F0B24E */
-  --spark-strong: 244 190 104; /* #F4BE68 */
-  --spark-deep: 245 201 131;   /* #F5C983 text on dark */
-  --spark-wash: rgb(223 148 38 / 0.16);
-  --spark-on-inverse: 197 124 24;
+  --avail: 217 100 135;       /* #D96487 marks/dots on night */
+  --avail-strong: 194 56 95;  /* button ground stays committed */
+  --avail-deep: 229 143 168;  /* #E58FA8 text on night (AA) */
+  --avail-wash: rgb(194 56 95 / 0.16);
 
-  --clay: 198 138 94;          /* #C68A5E */
-  --olive-band: 56 69 33;      /* #384521 deeper olive for the dark-theme band */
+  --brass: 194 154 85;        /* #C29A55 */
+  --sky: 143 166 187;         /* #8FA6BB */
 
-  --ok: 157 170 108;           /* olive-green confirmed */
-  --ok-deep: 185 196 140;
-  --error: 224 122 106;        /* #E07A6A */
+  --field: 35 41 51;          /* lifted night panel */
+  --field-content: 231 225 212;
+
+  --ok: 122 160 136;
+  --ok-deep: 154 184 165;
+  --error: 224 122 106;
   --error-deep: 239 160 147;
 
-  --shadow-card: 0 18px 44px -22px rgb(0 0 0 / 0.55);
-  --shadow-cta: 0 16px 34px -14px rgb(0 0 0 / 0.5);
-  --shadow-spark: 0 16px 34px -14px rgb(0 0 0 / 0.5);
+  --shadow-card: 0 24px 48px -24px rgb(0 0 0 / 0.6);
 }
 
 @layer base {
@@ -110,42 +115,31 @@
     background-color: rgb(var(--bg));
     color: rgb(var(--content));
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* Two faint blooms: olive calm top-center, marigold warmth low-end —
-       the "night warming up." Ultra-subtle, fixed, never animated. */
-    background-image:
-      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.05), transparent 60%),
-      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.05), transparent 62%);
-    background-attachment: fixed;
-  }
-  .dark body {
-    background-image:
-      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.09), transparent 60%),
-      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.08), transparent 62%);
   }
 
-  /* Editorial serif display — Fraunces, optical sizing on for warmth at size */
+  /* News serif display — Newsreader, optical sizing on */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-optical-sizing: auto;
     text-wrap: balance;
   }
   h1 {
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.0;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.02;
   }
   h2 {
-    font-weight: 560;
-    letter-spacing: -0.018em;
-    line-height: 1.06;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
   }
   h3, h4 {
-    font-weight: 560;
-    letter-spacing: -0.012em;
+    font-weight: 500;
+    letter-spacing: -0.008em;
   }
 
-  /* Arabic — swap every role to the Arabic body face; headings to Kufi.
-     Never letter-space Arabic; give it a taller line box. */
+  /* Arabic — El Messiri carries display; Plex Arabic carries text.
+     Never letter-space Arabic; give headings a taller line box. */
   [dir="rtl"] body,
   [dir="rtl"] .font-display,
   [dir="rtl"] .font-sans,
@@ -160,22 +154,17 @@
     font-weight: 600;
     letter-spacing: 0;
   }
-  [dir="rtl"] h1 { line-height: 1.22; }
-  [dir="rtl"] h2 { line-height: 1.28; }
+  [dir="rtl"] h1 { line-height: 1.24; }
+  [dir="rtl"] h2 { line-height: 1.3; }
 
   ::selection {
-    background: rgb(var(--accent-strong));
-    color: #ffffff;
-  }
-  .dark ::selection {
-    background: rgb(var(--accent));
-    color: rgb(22 20 14);
+    background: rgb(var(--content));
+    color: rgb(var(--bg));
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--spark));
+    outline: 2px solid rgb(var(--content));
     outline-offset: 3px;
-    border-radius: 4px;
   }
 }
 
@@ -184,43 +173,40 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
-  /* Eyebrow / label — humanist workhorse, spark-deep voice */
-  .label,
+  /* Running head — sits on a section rule, always paired with content.
+     (.label kept for form field headings; .eyebrow kept as a compat
+     alias for surviving pages — same voice.) */
+  .running-head,
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em];
+    @apply inline-flex items-baseline gap-2 text-[12px] font-semibold uppercase tracking-[0.08em];
     font-family: var(--font-sans);
-    color: rgb(var(--spark-deep));
+    color: rgb(var(--content));
   }
-  .dark .label,
-  .dark .eyebrow {
-    color: rgb(var(--spark-deep));
+  .label {
+    @apply inline-flex items-center gap-2 text-[12px] font-medium;
+    font-family: var(--font-sans);
+    color: rgb(var(--muted));
   }
-  [dir="rtl"] .label,
-  [dir="rtl"] .eyebrow {
+  [dir="rtl"] .running-head,
+  [dir="rtl"] .eyebrow,
+  [dir="rtl"] .label {
     font-family: var(--font-arabic);
     letter-spacing: 0;
     text-transform: none;
-    font-size: 12px;
+    font-size: 13px;
   }
 
-  /* ---- Editorial spine: oversized margin numerals ---- */
-  .section-num {
-    font-family: var(--font-display);
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: rgb(var(--content) / 0.14);
-  }
-  .section-num[data-active="true"] {
-    color: rgb(var(--spark));
-  }
-  [dir="rtl"] .section-num {
+  /* Folio — the meta end of a rule row (counts, places, credits) */
+  .folio {
+    @apply text-[12px] font-medium tabular-nums;
     font-family: var(--font-sans);
+    color: rgb(var(--muted));
+  }
+  [dir="rtl"] .folio {
+    font-family: var(--font-arabic);
   }
 
-  /* Serif pull-quote / display accent for inline moments */
+  /* Serif display accent for inline moments */
   .display {
     font-family: var(--font-display);
     font-optical-sizing: auto;
@@ -229,49 +215,38 @@
     font-family: var(--font-arabic-display);
   }
 
-  /* ---- Buttons ---- */
+  /* ---- Buttons — print-flat: hard corners, colour shifts, no lift ---- */
   .btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-offset-4;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-chip px-5 py-3 text-sm font-semibold transition-colors duration-150 focus-visible:outline-offset-4;
+    font-family: var(--font-sans);
   }
+  [dir="rtl"] .btn {
+    font-family: var(--font-arabic);
+  }
+  /* Ink action (compat alias: btn-primary) */
+  .btn-ink,
   .btn-primary {
-    background-color: rgb(var(--accent-strong));
-    color: #ffffff;
-  }
-  .btn-primary:hover {
-    background-color: rgb(var(--accent-deep));
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-cta);
-  }
-  .dark .btn-primary {
     background-color: rgb(var(--accent));
-    color: rgb(22 20 14);
-  }
-  .dark .btn-primary:hover {
-    background-color: rgb(var(--accent-strong));
-  }
-  /* Spark button — the energetic CTA (used sparingly on real actions) */
-  .btn-spark {
-    background-color: rgb(var(--spark-strong));
-    color: #ffffff;
-  }
-  .btn-spark:hover {
-    background-color: rgb(var(--spark-deep));
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-spark);
-  }
-  .dark .btn-spark {
-    background-color: rgb(var(--spark));
-    color: rgb(22 20 14);
-  }
-  .dark .btn-spark:hover {
-    background-color: rgb(var(--spark-strong));
-  }
-  .btn-ink {
-    background-color: rgb(var(--content));
     color: rgb(var(--bg));
   }
-  .btn-ink:hover {
-    transform: translateY(-1px);
+  .btn-ink:hover,
+  .btn-primary:hover {
+    background-color: rgb(var(--accent-strong));
+  }
+  /* Availability action — the ONLY bougainvillea surface. Use solely for
+     book-now / early-access intents; everything else is ink or outline. */
+  .btn-book {
+    background-color: rgb(var(--avail));
+    color: #ffffff;
+  }
+  .btn-book:hover {
+    background-color: rgb(var(--avail-strong));
+  }
+  .dark .btn-book {
+    background-color: rgb(var(--avail-strong));
+  }
+  .dark .btn-book:hover {
+    background-color: rgb(var(--avail));
   }
   .btn-outline {
     @apply border;
@@ -279,17 +254,16 @@
     color: rgb(var(--content));
   }
   .btn-outline:hover {
-    border-color: rgb(var(--accent) / 0.6);
+    border-color: rgb(var(--content));
     background-color: var(--accent-wash);
   }
-  .btn-ghost-light {
-    @apply border;
-    border-color: rgb(255 255 255 / 0.34);
-    color: #ffffff;
+  /* Paper button on the night field panel */
+  .btn-paper {
+    background-color: rgb(var(--field-content));
+    color: rgb(var(--field));
   }
-  .btn-ghost-light:hover {
-    background-color: #ffffff;
-    color: rgb(35 32 25);
+  .btn-paper:hover {
+    background-color: rgb(var(--field-content) / 0.88);
   }
 
   /* Arrow nudge inside buttons/links — flips for RTL */
@@ -306,16 +280,15 @@
     transform: translateX(-3px);
   }
 
+  /* Quiet bordered surface (forms, FAQ). No hover theatrics. */
   .card {
     @apply rounded-card border;
     border-color: rgb(var(--line));
     background-color: rgb(var(--surface));
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    transition: border-color 0.2s ease;
   }
   .card-hover:hover {
-    border-color: rgb(var(--accent) / 0.4);
-    box-shadow: var(--shadow-card);
-    transform: translateY(-2px);
+    border-color: rgb(var(--line-strong));
   }
 
   /* Underline draws in from the reading edge; origin flips for RTL */
@@ -328,7 +301,7 @@
     @apply absolute -bottom-1 h-[2px] w-full scale-x-0 transition-transform duration-[220ms];
     inset-inline-start: 0;
     transform-origin: var(--underline-origin, left);
-    background-color: rgb(var(--spark));
+    background-color: rgb(var(--content));
   }
   .link-underline:hover::after,
   .link-underline[aria-current]::after {
@@ -351,11 +324,16 @@
     transform: translateX(-3px);
   }
 
-  /* Live pill — marigold, with a pulsing dot (used on the board + hero) */
-  .pill-live {
-    @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[11px] font-semibold;
-    background-color: var(--spark-wash);
-    color: rgb(var(--spark-deep));
+  /* ---- Duotone photography: night shadows × limestone highlights.
+     Photography only — product UI screenshots stay true-colour. ---- */
+  .duo img {
+    filter: url(#cue-duo);
+  }
+
+  /* Availability dot — paired with a text label wherever it appears */
+  .avail-dot {
+    @apply inline-block h-2 w-2 rounded-full;
+    background-color: rgb(var(--avail));
   }
 }
 
@@ -369,28 +347,5 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  body { background-attachment: scroll; }
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Fine film grain — barely-there, theme aware */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.03;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.dark .grain {
-  mix-blend-mode: screen;
-  opacity: 0.04;
-}

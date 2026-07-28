@@ -3,11 +3,11 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
-import PageHero from "@/components/sections/PageHero";
+import Masthead from "@/components/layout/Masthead";
+import RuledSection from "@/components/layout/RuledSection";
 import LocaleLink from "@/components/ui/LocaleLink";
 import FeatureShowcase from "@/components/sections/FeatureShowcase";
 import CtaBand from "@/components/sections/CtaBand";
-import EditorialSection from "@/components/home/EditorialSection";
 import EditorialList from "@/components/ui/EditorialList";
 
 export async function generateMetadata({
@@ -42,71 +42,63 @@ export default function HowItWorksPage({
           { name: h.hero.eyebrow, path: "/how-it-works" },
         ])}
       />
-      <PageHero
-        eyebrow={h.hero.eyebrow}
+      <Masthead
+        kicker={h.hero.eyebrow}
         title={h.hero.title}
-        subtitle={h.hero.subtitle}
+        dek={h.hero.subtitle}
       >
-        <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
-          {dict.common.getStarted}
+        <LocaleLink href="/reach-out" locale={locale} className="btn btn-book text-base">
+          {dict.common.joinWaitlist}
         </LocaleLink>
         <LocaleLink href="/partner" locale={locale} className="btn btn-outline text-base">
           {dict.common.partnerWithCue}
         </LocaleLink>
-      </PageHero>
+      </Masthead>
 
-      {/* The booking loop — editorial rows */}
-      <EditorialSection num="01" label={h.loop.kicker} band="bg">
-        <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
-            {h.loop.title}
-          </h2>
-        </div>
+      {/* The booking loop — a real sequence, numbered small, one screen */}
+      <RuledSection head={h.loop.kicker}>
+        <h2 className="max-w-2xl text-3xl sm:text-4xl">{h.loop.title}</h2>
         <EditorialList
-          className="mt-12"
+          className="mt-10"
+          numbers
           items={h.loop.steps.map((s) => ({ num: s.n, title: s.title, body: s.body }))}
         />
-      </EditorialSection>
+      </RuledSection>
 
-      {/* For guests */}
-      <EditorialSection num="02" label={h.guest.kicker} band="surface2">
+      {/* For guests — contact sheet */}
+      <RuledSection head={h.guest.kicker}>
         <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
-            {h.guest.title}
-          </h2>
-          <p className="mt-5 text-lg leading-[1.6] text-muted">{h.guest.body}</p>
+          <h2 className="text-3xl sm:text-4xl">{h.guest.title}</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{h.guest.body}</p>
         </div>
         <div className="mt-10">
-          <FeatureShowcase features={h.guest.features} variant="light" />
+          <FeatureShowcase features={h.guest.features} columns={3} />
         </div>
-      </EditorialSection>
+      </RuledSection>
 
-      {/* For operators — inverse ink band */}
-      <EditorialSection num="03" label={h.operator.kicker} band="ink">
+      {/* For operators — contact sheet */}
+      <RuledSection head={h.operator.kicker}>
         <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-bg">
-            {h.operator.title}
-          </h2>
-          <p className="mt-5 text-lg leading-[1.6] text-bg/70">{h.operator.body}</p>
+          <h2 className="text-3xl sm:text-4xl">{h.operator.title}</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{h.operator.body}</p>
         </div>
         <div className="mt-10">
-          <FeatureShowcase features={h.operator.features} variant="dark" />
+          <FeatureShowcase features={h.operator.features} columns={4} />
         </div>
-      </EditorialSection>
+      </RuledSection>
 
-      {/* The thinking — principles as editorial rows */}
-      <EditorialSection num="04" label={h.philosophy.kicker} band="bg">
+      {/* The thinking — plain ruled rows */}
+      <RuledSection head={h.philosophy.kicker}>
         <div className="max-w-2xl">
-          <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
-            {h.philosophy.title}
-          </h2>
-          <p className="mt-5 text-lg leading-[1.6] text-muted">{h.philosophy.body}</p>
+          <h2 className="text-3xl sm:text-4xl">{h.philosophy.title}</h2>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{h.philosophy.body}</p>
         </div>
-        <EditorialList className="mt-12" items={h.philosophy.points} />
-      </EditorialSection>
+        <EditorialList className="mt-10" items={h.philosophy.points} />
+      </RuledSection>
 
       <CtaBand
         locale={locale}
+        head={h.hero.eyebrow}
         title={h.cta.title}
         body={h.cta.body}
         primary={h.cta.primary}

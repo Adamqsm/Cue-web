@@ -88,7 +88,7 @@ export default function Nav({
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
           <Link
             href={localizedHref("/reach-out", locale)}
-            className="btn btn-spark px-5"
+            className="btn btn-book px-5"
           >
             {dict.nav.cta}
           </Link>
@@ -156,7 +156,7 @@ export default function Nav({
               <LanguageToggle locale={locale} label={dict.nav.langToggle} />
               <Link
                 href={localizedHref("/reach-out", locale)}
-                className="btn btn-spark flex-1"
+                className="btn btn-book flex-1"
               >
                 {dict.nav.cta}
               </Link>

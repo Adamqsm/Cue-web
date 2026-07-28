@@ -1,56 +1,59 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
-import EditorialSection from "@/components/home/EditorialSection";
+import RuledSection from "@/components/layout/RuledSection";
 import { cn } from "@/lib/utils";
 
-/** Three-tier plan comparison — side-by-side on desktop, stacked cards on mobile. */
+/**
+ * Plans as a printed tariff table — three columns divided by vertical
+ * hairlines under one heavy rule, prices in serif tabular numerals, each
+ * tier's tag set as a folio. One apply action per column, as a text link;
+ * no cards, no highlight box.
+ */
 export default function PricingTiers({
   locale,
   pricing,
-  num = "03",
 }: {
   locale: Locale;
   pricing: Dictionary["partner"]["pricing"];
-  num?: string;
 }) {
   return (
-    <EditorialSection num={num} label={pricing.kicker} band="bg" id="pricing">
+    <RuledSection head={pricing.kicker} id="pricing">
       <div className="max-w-2xl">
-        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
-          {pricing.title}
-        </h2>
-        <p className="mt-5 text-lg leading-[1.6] text-muted">{pricing.body}</p>
+        <h2 className="text-3xl sm:text-4xl">{pricing.title}</h2>
+        <p className="mt-4 text-lg leading-relaxed text-muted">{pricing.body}</p>
       </div>
-      <RevealGroup className="mt-12 grid gap-6 lg:grid-cols-3">
-        {pricing.tiers.map((tier) => {
+
+      <div className="mt-10 border-t-2 border-content lg:grid lg:grid-cols-3">
+        {pricing.tiers.map((tier, i) => {
           const recommended = tier.id === "core";
           return (
-            <RevealItem
+            <div
               key={tier.id}
               className={cn(
-                "card flex flex-col p-7 sm:p-8",
-                recommended ? "border-accent shadow-card" : "card-hover"
+                "flex flex-col py-7",
+                i > 0 && "border-t border-line lg:border-t-0 lg:border-s lg:border-line",
+                "lg:px-7",
+                i === 0 && "lg:ps-0",
+                i === pricing.tiers.length - 1 && "lg:pe-0"
               )}
             >
-              {/* !important so the override beats .dark .label's specificity
-                  (same pattern as Traction.tsx). */}
-              <span className={cn("label", !recommended && "!text-muted")}>
-                {tier.tag}
-              </span>
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.015em] text-content">
-                {tier.name}
-              </h3>
-              <div className="mt-4 flex items-baseline gap-2">
-                <span className="text-4xl font-[650] tabular-nums tracking-[-0.025em] rtl:tracking-normal text-content sm:text-5xl">
-                  {tier.price}
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="text-xl text-content sm:text-2xl">{tier.name}</h3>
+                <span className={cn("folio", recommended && "!text-brass")}>
+                  {tier.tag}
                 </span>
               </div>
+              <div className="display mt-4 text-4xl tabular-nums text-content sm:text-5xl">
+                {tier.price}
+              </div>
               <p className="mt-1 text-sm tabular-nums text-muted">{tier.priceNote}</p>
-              <ul className="mt-7 flex flex-1 flex-col divide-y divide-line border-t border-line">
+              <ul className="mt-6 flex flex-1 flex-col border-t border-line">
                 {tier.features.map((feature) => (
-                  <li key={feature} className="py-3 text-[15px] leading-relaxed text-content/80">
+                  <li
+                    key={feature}
+                    className="border-b border-line py-2.5 text-[15px] leading-relaxed text-content/80"
+                  >
                     {feature}
                   </li>
                 ))}
@@ -58,17 +61,27 @@ export default function PricingTiers({
               <LocaleLink
                 href="/partner/apply"
                 locale={locale}
-                className={cn(
-                  "btn mt-8 w-full",
-                  recommended ? "btn-primary" : "btn-outline"
-                )}
+                className="link-underline mt-6 text-sm"
               >
                 {pricing.cta}
+                <span className="nudge inline-flex" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 16 16"
+                    className="h-3.5 w-3.5 rtl:-scale-x-100"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M3 8h10M9.5 3.5 14 8l-4.5 4.5" />
+                  </svg>
+                </span>
               </LocaleLink>
-            </RevealItem>
+            </div>
           );
         })}
-      </RevealGroup>
-    </EditorialSection>
+      </div>
+    </RuledSection>
   );
 }

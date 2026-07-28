@@ -11,10 +11,10 @@ const en = {
 
   nav: {
     links: [
+      { href: "/venues", label: "The guide" },
       { href: "/how-it-works", label: "How it works" },
       { href: "/partner", label: "Partner" },
       { href: "/about", label: "About" },
-      { href: "/careers", label: "Careers" },
       { href: "/faq", label: "FAQ" },
     ],
     cta: "Get in Cue",
@@ -32,7 +32,6 @@ const en = {
     joinWaitlist: "Join early access",
     readMore: "Read more",
     backToTop: "Back to top",
-    preLaunch: "Pre-launch · Amman",
     theme: { light: "Switch to light mode", dark: "Switch to dark mode" },
   },
 
@@ -51,176 +50,131 @@ const en = {
       description:
         "Reserve a table at the best restaurants in Amman. Instant confirmations, group dining, split payments. Download Cue today.",
     },
-    hero: {
-      status: "Pre-launch · Amman",
-      titleTop: "Book tables at Amman's",
-      titleAccent: "best restaurants, instantly.",
-      subtitle:
-        "Reserve a table at the best restaurants in Amman — from Abdoun to Rainbow Street. Instant confirmations, easy group dining, and split payments so everyone covers their share.",
+    cover: {
+      kicker: "Restaurant reservations · Amman",
+      folio: "عمّان · Amman",
+      title: "Where Amman eats tonight.",
+      dek: "Cue is the city's dining guide with the booking built in — find the room, judge the night, and reserve a table at Amman's restaurants with a confirmation you can trust.",
       primary: "Join early access",
       secondary: "For restaurants",
-      note: "Now onboarding founding restaurants across Amman.",
-      board: {
-        title: "Tonight · Service board",
-        live: "Live",
-        states: {
-          incoming: "Incoming",
-          confirmed: "Confirmed",
-          seated: "Seated",
+      photo: "/images/photography/hero-phone-laugh.webp",
+      photoAlt: "Friends laughing around a phone at a restaurant table at night in Amman",
+      photoCaption: "Booking the table is the shortest part of the night.",
+      photoFolio: "Amman",
+    },
+    guide: {
+      head: "The guide",
+      folioVenues: "venues",
+      folioAreas: "neighborhoods",
+      title: "The launch roster, by neighborhood.",
+      intro:
+        "The rooms Cue is onboarding for launch — Abdoun terraces to Weibdeh corners — with the neighborhood, the kitchen, and the price band up front. Every seat on the roster opens for booking in the app.",
+      columns: {
+        venue: "Venue",
+        area: "Neighborhood",
+        cuisine: "Cuisine",
+        price: "Price",
+      },
+      priceBand: "Price band {n} of 4",
+      browseAll: "Browse the full guide",
+    },
+    essay: {
+      head: "The city, after dark",
+      folio: "Photography · Amman",
+      standfirst:
+        "The nights Cue is built for — long tables, late rooftops, and the walk home after.",
+      photos: [
+        {
+          img: "/images/photography/cta-golden-walk.webp",
+          caption: "The walk down to dinner, golden hour.",
+          alt: "Friends walking down an Amman street at golden hour",
         },
-        rows: [
-          { name: "Layali — party of 4", time: "8:30 PM" },
-          { name: "Nadia K. — party of 2", time: "9:00 PM" },
-          { name: "Sami R. — party of 6", time: "9:15 PM" },
-          { name: "Hold — party of 3", time: "9:45 PM" },
-        ],
-        footerLabel: "Covers tonight",
-        footerValue: "142",
-        confirmLabel: "Confirm",
-      },
+        {
+          img: "/images/photography/cta-cafe-laugh.webp",
+          caption: "A table you didn't have to chase.",
+          alt: "Friends laughing together at a cafe table",
+        },
+        {
+          img: "/images/photography/flex-portrait-arrival.webp",
+          caption: "Arriving to a table that's actually held.",
+          alt: "A guest arriving at a restaurant in the evening",
+        },
+      ],
     },
-    problem: {
-      label: "The problem",
-      title: "Bookings break in the gaps.",
-      body: "Reservations live across DMs, phone calls, walk-ins, and a paper book. Nobody holds the full picture — so tables get double-booked and no-shows go unnoticed.",
-      resolve: "Cue puts every request in one place and gives your team a single source of truth.",
-    },
-    hiw: {
-      label: "How it works",
-      title: "How restaurant reservations work",
-      body: "Simple for the guest booking a table. Structured for the team running the floor.",
-      tabs: {
-        guests: "For guests",
-        operators: "For operators",
-      },
-      guests: [
+    product: {
+      head: "How booking works",
+      folio: "The Cue app",
+      title: "Four steps. One confirmation.",
+      steps: [
         { title: "Discover", body: "Browse venues across Amman — by area, cuisine, and price." },
         { title: "Request", body: "Pick a date, time, and party size. Add a note. Send." },
         { title: "Get confirmed", body: "An instant, unambiguous status — no chasing a reply." },
         { title: "Arrive", body: "Show up to a table that's actually held for you." },
       ],
-      operators: [
-        { title: "Receive", body: "Every request lands in one queue the moment it's made." },
-        { title: "Decide", body: "Confirm, decline, or hold in a single tap." },
-        { title: "Coordinate", body: "Group bookings, event nights, and guest flow, handled in the background." },
-        { title: "Review", body: "See covers, confirmation rates, and what's working." },
-      ],
+      screenshot: "/images/cue-app-guest-reservation-confirmed.jpeg",
+      screenshotAlt: "A confirmed restaurant reservation in the Cue app",
+      screenshotCaption: "A confirmed table — unambiguous, held, yours.",
+      link: "See the whole loop",
     },
-    features: {
-      label: "What you get",
-      title: "Why choose Cue for restaurant reservations?",
-      items: [
-        {
-          icon: "inbox",
-          title: "Real-time requests",
-          body: "Every booking request in one live queue, the moment it's made.",
-        },
-        {
-          icon: "dashboard",
-          title: "Operator dashboard",
-          body: "Confirm, decline, and track covers from a single screen.",
-        },
-        {
-          icon: "shield",
-          title: "No-show controls",
-          body: "Automatic confirmations and reminders keep tables from going cold.",
-        },
-        {
-          icon: "language",
-          title: "Bilingual by default",
-          body: "Arabic and English as equals — for your guests and your team.",
-        },
-        {
-          icon: "flow",
-          title: "Guest flow",
-          body: "Group bookings and busy nights, coordinated without the back-and-forth.",
-        },
-        {
-          icon: "pin",
-          title: "Built for Amman",
-          body: "Launching local, tuned to how venues here actually run service.",
-        },
-      ],
-      spotlight: {
-        label: "Group payments",
-        title: "Split payments with your group.",
-        body: "Secure the table before the night. Everyone pays their share up front — send each guest a payment link over WhatsApp or Apple Pay, and watch the booking fill up. No chasing cash, no one stuck covering the whole bill.",
-        points: [
-          "A link per guest, paid in seconds",
-          "Prepayment secures the table and cuts no-shows",
-          "Live status as each share lands",
-        ],
-        image: "/images/cue-app-guest-payment-split.jpeg",
-        imageAlt: "Splitting a group restaurant booking payment in the Cue app, Amman",
+    close: {
+      head: "Launch",
+      folio: "Amman · 2026",
+      title: "The first roster is filling now.",
+      body: "Founding venues run the full platform free for a year. Early-access members book first when tables open. Both doors are open tonight.",
+      partner: "Partner with Cue",
+      early: "Join early access",
+    },
+  },
+
+  // ---------------- VENUES / THE GUIDE ----------------
+  venues: {
+    meta: {
+      title: "Amman Restaurant Guide — Venues on Cue | Cue",
+      description:
+        "Browse the venues joining Cue at launch — by neighborhood, cuisine, and price band. Restaurant tables across Amman, bookable in the Cue app.",
+    },
+    hero: {
+      kicker: "The guide",
+      folio: "عمّان · Amman",
+      title: "The venues, by neighborhood.",
+      dek: "The founding roster Cue is onboarding for launch — where each room is, what the kitchen serves, and the nights it's built for. Tables open for booking in the app at launch.",
+    },
+    rail: {
+      head: "Launch roster",
+      columns: {
+        venue: "Venue",
+        area: "Neighborhood",
+        cuisine: "Cuisine",
+        price: "Price",
       },
+      priceBand: "Price band {n} of 4",
+      status: "Onboarding for launch",
     },
-    demo: {
-      label: "The product",
-      title: "See Cue in motion.",
-      body: "A pass through the app your guests use and the dashboard your team runs on.",
-      play: "Play",
-      pause: "Pause",
-      slides: [
-        { img: "/images/cue-app-guest-booking-request.jpeg", caption: "Request a table at venues across Amman." },
-        { img: "/images/cue-app-profile-screen.jpeg", caption: "Tonight's floor, at a glance." },
-        { img: "/images/cue-app-search-filters.jpeg", caption: "Confirm or decline in one tap." },
-        { img: "/images/cue-app-booking-flow.jpeg", caption: "Event nights and table demand, in one view." },
-        { img: "/images/cue-app-venue-detail.jpeg", caption: "The numbers that tell you what's working." },
-      ],
-    },
-    operators: {
-      label: "For operators",
-      title: "The control room for your floor.",
-      body: "One screen for every reservation — confirmed covers, pending requests, event nights, and the numbers behind them. Cue runs quietly in the background so your team stays on service.",
-      points: [
-        "Confirm or decline requests in one tap",
-        "See tonight's covers before you open the doors",
-        "Cut no-shows with automatic confirmations",
-        "Coordinate group bookings and event nights",
-      ],
-      cta: "Partner with Cue",
-      image: "/images/cue-app-profile-screen.jpeg",
-      imageAlt: "Cue restaurant reservation dashboard in Amman — tonight's table bookings at a glance",
-    },
-    traction: {
-      label: "Traction",
-      title: "Operational truth over vanity metrics.",
-      body: "We're onboarding founding venues in Amman now. Real partner logos and results land here as they go live.",
-      logosLabel: "Founding partners",
-      logosPlaceholder: "Your venue here",
-      targetsLabel: "Where we're headed — 18-month targets",
-      targets: [
-        { value: "60+", label: "Live venues" },
-        { value: "12K+", label: "Monthly requests" },
-        { value: "90%+", label: "Confirmation rate" },
-        { value: "85%+", label: "Venue retention" },
-      ],
-    },
-    neighborhoods: {
-      label: "Across Amman",
-      title: "Browse restaurants by neighborhood",
-      body: "Cue is launching across Amman's busiest dining areas — from rooftop lounges to casual spots — with more neighborhoods added as new restaurants come online.",
-      areas: [
-        "Abdoun",
-        "Sweifieh",
-        "Rainbow Street",
-        "Seventh Circle",
-        "Jabal Amman",
-        "Shmeisani",
-        "Al Weibdeh",
-        "Dabouq",
-      ],
-    },
-    faqHome: {
-      label: "FAQ",
-      title: "Frequently asked questions",
-      seeAll: "See all questions",
-    },
-    finalCta: {
-      title: "Bring your floor onto Cue.",
-      body: "We partner with a small number of founding venues in Amman. If clarity and control matter to how you run service, let's talk.",
-      primary: "Partner with Cue",
-      secondary: "Join early access",
+    detail: {
+      kicker: "From the guide",
+      factsHead: "The facts",
+      facts: {
+        area: "Neighborhood",
+        cuisine: "Cuisine",
+        type: "Room",
+        price: "Price band",
+        party: "Largest table (guests)",
+        partyValue: "{n}",
+        cancel: "Cancellation window (hours)",
+        cancelValue: "{n}",
+      },
+      typeLabels: {
+        restaurant: "Restaurant",
+        rooftop: "Rooftop",
+        lounge: "Lounge",
+        cafe: "Cafe",
+      },
+      amenitiesHead: "Good to know",
+      statusHead: "Booking status",
+      statusBody:
+        "This venue is on the founding roster. Tables open for booking in the Cue app at launch — early-access members book first.",
+      cta: "Join early access",
+      back: "Back to the guide",
     },
   },
 
@@ -465,17 +419,6 @@ const en = {
         },
       ],
     },
-    builtFor: {
-      kicker: "Who Cue is built for",
-      title: "For operations that depend on timing, coordination, and reliability.",
-      body: "Cue partners with hospitality businesses that manage regular guest flow and group activity.",
-      items: [
-        "Restaurants and dining concepts",
-        "Event-focused venues",
-        "Hospitality groups and multi-location operators",
-        "Businesses modernizing reservations without overcomplication",
-      ],
-    },
     steps: {
       kicker: "How Cue works for partners",
       title: "Integrate. Automate. Operate with clarity.",
@@ -497,14 +440,9 @@ const en = {
         },
       ],
     },
-    approach: {
-      kicker: "Our partnership approach",
-      title: "Partnerships based on alignment — not volume.",
-      body: "Cue partners selectively with businesses that value operational discipline and long-term reliability. We build systems that support hospitality teams, not replace them. Partnerships are based on alignment, clarity, and shared standards.",
-    },
     cta: {
-      title: "First 12 months at JD 0.",
-      body: "Join as a founding partner — the full platform free for the first year, with hands-on onboarding for your team.",
+      title: "Bring your floor onto Cue.",
+      body: "Founding onboarding is open now — hands-on setup, staff training, and a place on the launch roster.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
@@ -512,6 +450,18 @@ const en = {
 
   // ---------------- PARTNER / APPLY ----------------
   partnerApply: {
+    // Area options for the application form — the site-wide Amman list
+    // (broader than the seeded launch roster on purpose).
+    areas: [
+      "Abdoun",
+      "Sweifieh",
+      "Rainbow Street",
+      "Seventh Circle",
+      "Jabal Amman",
+      "Shmeisani",
+      "Al Weibdeh",
+      "Dabouq",
+    ],
     meta: {
       title: "Apply to Join Cue — Restaurant Partner Application | Cue",
       description:

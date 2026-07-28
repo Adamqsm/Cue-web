@@ -14,6 +14,11 @@ export function localizedHref(href: string, locale: Locale): string {
   return `/${locale}${clean}`;
 }
 
+/** Fill a `{n}` slot in a dictionary template string. */
+export function tpl(template: string, n: number | string): string {
+  return template.replace("{n}", String(n));
+}
+
 // Primary host: the apex (cue-app.net) 308-redirects to www, so www is the
 // canonical host used for canonical tags, hreflang, sitemap, OG, and JSON-LD.
 export const SITE_URL =

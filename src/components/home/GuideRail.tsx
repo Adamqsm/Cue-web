@@ -3,6 +3,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import RuledSection from "@/components/layout/RuledSection";
 import VenueRail from "@/components/venues/VenueRail";
 import LocaleLink from "@/components/ui/LocaleLink";
+import { localeDigits } from "@/lib/utils";
 import { VENUES, venueAreas } from "@/data/venues";
 
 /**
@@ -21,7 +22,7 @@ export default function GuideRail({
   return (
     <RuledSection
       head={g.head}
-      folio={`${VENUES.length} ${g.folioVenues} · ${areas.length} ${g.folioAreas}`}
+      folio={`${localeDigits(VENUES.length, locale)} ${g.folioVenues} · ${localeDigits(areas.length, locale)} ${g.folioAreas}`}
       id="guide"
     >
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">

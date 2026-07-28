@@ -32,6 +32,7 @@ const en = {
     joinWaitlist: "Join early access",
     readMore: "Read more",
     backToTop: "Back to top",
+    skipToContent: "Skip to content",
     theme: { light: "Switch to light mode", dark: "Switch to dark mode" },
   },
 
@@ -1204,6 +1205,7 @@ const en = {
       {
         title: "Company",
         links: [
+          { href: "/venues", label: "The guide" },
           { href: "/about", label: "About" },
           { href: "/how-it-works", label: "How it works" },
           { href: "/partner", label: "Partner with Cue" },
@@ -1213,9 +1215,8 @@ const en = {
       {
         title: "Support",
         links: [
-          { href: "/faq", label: "Help center" },
-          { href: "/reach-out", label: "Get started" },
           { href: "/faq", label: "FAQ" },
+          { href: "/reach-out", label: "Get started" },
         ],
       },
       {

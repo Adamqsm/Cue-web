@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { localeDigits } from "@/lib/utils";
 import RuledSection from "@/components/layout/RuledSection";
 import LocaleLink from "@/components/ui/LocaleLink";
 
@@ -32,7 +33,7 @@ export default function ProductMoment({
                   className="display shrink-0 text-lg tabular-nums text-brass"
                   aria-hidden
                 >
-                  {String(i + 1).padStart(2, "0")}
+                  {localeDigits(i + 1, locale, 2)}
                 </span>
                 <div>
                   <h3 className="text-lg text-content">{s.title}</h3>

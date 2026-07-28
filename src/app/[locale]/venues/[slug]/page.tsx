@@ -46,7 +46,7 @@ function venueJsonLd(locale: Locale, venue: NonNullable<ReturnType<typeof getVen
     priceRange: "$".repeat(venue.priceRange),
     address: {
       "@type": "PostalAddress",
-      addressLocality: `${venue.area[locale]}, ${venue.city}`,
+      addressLocality: `${venue.area[locale]}, ${venue.city[locale]}`,
       addressCountry: "JO",
     },
   };
@@ -105,7 +105,7 @@ export default function VenuePage({
 
       <Masthead
         kicker={d.kicker}
-        folio={`${venue.area[locale]} · ${venue.city}`}
+        folio={`${venue.area[locale]} · ${venue.city[locale]}`}
         title={venue.name[locale]}
         dek={venue.description[locale]}
       />

@@ -7,6 +7,7 @@ import Masthead from "@/components/layout/Masthead";
 import RuledSection from "@/components/layout/RuledSection";
 import VenueRail from "@/components/venues/VenueRail";
 import LocaleLink from "@/components/ui/LocaleLink";
+import { localeDigits } from "@/lib/utils";
 import { VENUES, venueAreas, areaAnchor } from "@/data/venues";
 
 export async function generateMetadata({
@@ -52,14 +53,14 @@ export default function VenuesPage({
         {areas.map((a) => (
           <a key={a.key} href={`#${a.key}`} className="link-underline text-sm">
             {a.label}
-            <span className="folio">({a.count})</span>
+            <span className="folio">({localeDigits(a.count, locale)})</span>
           </a>
         ))}
       </Masthead>
 
       <RuledSection
         head={v.rail.head}
-        folio={`${VENUES.length} ${dict.home.guide.folioVenues} · ${areas.length} ${dict.home.guide.folioAreas}`}
+        folio={`${localeDigits(VENUES.length, locale)} ${dict.home.guide.folioVenues} · ${localeDigits(areas.length, locale)} ${dict.home.guide.folioAreas}`}
       >
         <div className="space-y-12">
           {areas.map((a, i) => {
@@ -70,7 +71,7 @@ export default function VenuesPage({
               <div key={a.key} id={a.key} className="scroll-mt-24">
                 <div className="flex items-baseline justify-between gap-4 pb-3">
                   <h2 className="text-2xl sm:text-3xl">{a.label}</h2>
-                  <span className="folio">{a.count}</span>
+                  <span className="folio">{localeDigits(a.count, locale)}</span>
                 </div>
                 <VenueRail
                   locale={locale}

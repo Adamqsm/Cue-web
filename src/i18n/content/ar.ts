@@ -34,6 +34,7 @@ const ar: Dictionary = {
     joinWaitlist: "انضم للوصول المبكر",
     readMore: "اقرأ المزيد",
     backToTop: "العودة للأعلى",
+    skipToContent: "تخطَّ إلى المحتوى",
     theme: { light: "التبديل إلى الوضع الفاتح", dark: "التبديل إلى الوضع الداكن" },
   },
 
@@ -110,7 +111,7 @@ const ar: Dictionary = {
       steps: [
         { title: "الاكتشاف", body: "تصفّح الأماكن في عمّان — حسب المنطقة والمطبخ والسعر." },
         { title: "الطلب", body: "اختر التاريخ والوقت وعدد الأشخاص. أضِف ملاحظة. أرسِل." },
-        { title: "احصل على التأكيد", body: "حالة فورية لا لبس فيها — دون ملاحقة ردّ." },
+        { title: "التأكيد", body: "حالة فورية لا لبس فيها — دون ملاحقة ردّ." },
         { title: "الوصول", body: "احضر إلى طاولة محجوزة لك فعلاً." },
       ],
       screenshot: "/images/cue-app-guest-reservation-confirmed.jpeg",
@@ -338,7 +339,7 @@ const ar: Dictionary = {
             "لوحة حجوزات موحّدة",
             "تأكيد أو رفض بلمسة واحدة",
             "تذكيرات تأكيد تلقائية",
-            "حتى ~١٠٠ ضيف شهرياً", // TODO: verify AR translation — "covers" rendered as "ضيف" (guests seated)
+            "حتى نحو ١٠٠ ضيف شهرياً",
           ],
         },
         {
@@ -364,7 +365,7 @@ const ar: Dictionary = {
           features: [
             "كل ما في Core",
             "تكامل مع أنظمة نقاط البيع / Foodics",
-            "استهداف أعضاء Insider", // TODO: verify AR translation — "Insider-member targeting" kept as product name
+            "استهداف أعضاء Insider",
             "أهلية الظهور المميّز",
             "دعم بأولوية",
           ],
@@ -379,7 +380,7 @@ const ar: Dictionary = {
       items: [
         {
           lead: "٠ دينار — دائماً",
-          body: "على حجوزاتك الخاصة، وضيوف الممرّ، وضيوفك المعتادين. في كل الخطط.", // TODO: verify AR translation — "walk-ins" rendered as "ضيوف الممرّ"
+          body: "على حجوزاتك الخاصة، وضيوفك بدون حجز مسبق، وضيوفك المعتادين. في كل الخطط.",
         },
         {
           lead: "٠٫٢٥–٠٫٥٠ دينار",
@@ -1203,6 +1204,7 @@ const ar: Dictionary = {
       {
         title: "الشركة",
         links: [
+          { href: "/venues", label: "الدليل" },
           { href: "/about", label: "عن Cue" },
           { href: "/how-it-works", label: "كيف تعمل" },
           { href: "/partner", label: "كن شريكاً لـ Cue" },
@@ -1212,9 +1214,8 @@ const ar: Dictionary = {
       {
         title: "الدعم",
         links: [
-          { href: "/faq", label: "مركز المساعدة" },
-          { href: "/reach-out", label: "ابدأ الآن" },
           { href: "/faq", label: "الأسئلة الشائعة" },
+          { href: "/reach-out", label: "ابدأ الآن" },
         ],
       },
       {

@@ -43,7 +43,10 @@ export default function OgImage() {
           >
             Restaurant reservations · Amman
           </div>
-          <div style={{ color: "#545A63", fontSize: "26px" }}>عمّان · Amman</div>
+          {/* Latin-only here on purpose: the bundled OG renderer ships no
+              Arabic font, and a request-time Google Fonts fetch can tofu.
+              Localized AR cards need an embedded font first. */}
+          <div style={{ color: "#545A63", fontSize: "26px" }}>Amman · Jordan</div>
         </div>
 
         {/* headline */}

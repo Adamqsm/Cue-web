@@ -17,7 +17,7 @@ export type Venue = {
   name: LText;
   description: LText;
   area: LText;
-  city: string;
+  city: LText;
   cuisineIds: string[];
   amenityKeys: string[];
   /** 1 (casual) … 4 (high-end) — rendered as the price-band scale */
@@ -39,7 +39,7 @@ export const VENUES: Venue[] = [
       ar: "مقعد ضمن قائمة الافتتاح في عبدون — مطبخ عالمي وجلسات على التراس وخدمة صف السيارات.",
     },
     area: { en: "Abdoun", ar: "عبدون" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["international"],
     amenityKeys: ["outdoor", "parking"],
     priceRange: 2,
@@ -58,7 +58,7 @@ export const VENUES: Venue[] = [
       ar: "أطباق متوسطية فوق جبل عمّان — سطح من الغروب حتى وقت متأخر بإطلالة ولباس رسمي.",
     },
     area: { en: "Jabal Amman", ar: "جبل عمّان" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["mediterranean"],
     amenityKeys: ["rooftop", "outdoor"],
     priceRange: 3,
@@ -77,7 +77,7 @@ export const VENUES: Venue[] = [
       ar: "لاونج لبناني في عبدون للسهرات الطويلة — أرجيلة على التراس وطاولات تتسع لعشرين.",
     },
     area: { en: "Abdoun", ar: "عبدون" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["lebanese"],
     amenityKeys: ["shisha", "outdoor"],
     priceRange: 3,
@@ -95,7 +95,7 @@ export const VENUES: Venue[] = [
       ar: "الإيطالي في زاوية اللويبدة — صالة صغيرة ومطبخ جاد وفطور متأخر في نهاية الأسبوع.",
     },
     area: { en: "Weibdeh", ar: "اللويبدة" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["italian"],
     amenityKeys: ["family"],
     priceRange: 4,
@@ -113,7 +113,7 @@ export const VENUES: Venue[] = [
       ar: "مشاوي أردنية في الصويفية للطاولات الكبيرة — أطباق عائلية وفحم وموقف سيارات مريح.",
     },
     area: { en: "Sweifieh", ar: "الصويفية" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["jordanian", "grill"],
     amenityKeys: ["family", "parking"],
     priceRange: 2,
@@ -131,7 +131,7 @@ export const VENUES: Venue[] = [
       ar: "صالة نهارية في الشميساني — من الفطور حتى الغداء المتأخر وبار قهوة يستحق الجلوس.",
     },
     area: { en: "Shmeisani", ar: "الشميساني" },
-    city: "Amman",
+    city: { en: "Amman", ar: "عمّان" },
     cuisineIds: ["cafe"],
     amenityKeys: ["outdoor"],
     priceRange: 1,

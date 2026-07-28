@@ -19,6 +19,16 @@ export function tpl(template: string, n: number | string): string {
   return template.replace("{n}", String(n));
 }
 
+/**
+ * Render an integer in the locale's digit system — Arabic-Indic for ar,
+ * matching the curated dictionary copy ("٠١"…"٠٤"). `pad` zero-pads first
+ * so sequences keep their two-digit print form in both scripts.
+ */
+export function localeDigits(n: number, locale: Locale, pad = 0): string {
+  const s = pad ? String(n).padStart(pad, "0") : String(n);
+  return locale === "ar" ? s.replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[+d]) : s;
+}
+
 // Primary host: the apex (cue-app.net) 308-redirects to www, so www is the
 // canonical host used for canonical tags, hreflang, sitemap, OG, and JSON-LD.
 export const SITE_URL =

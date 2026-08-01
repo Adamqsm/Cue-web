@@ -53,7 +53,11 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       </PageHero>
 
       {/* Founding partner offer — the outreach hook */}
-      <FoundingBanner locale={locale} founding={p.founding} />
+      <FoundingBanner
+        locale={locale}
+        founding={p.founding}
+        claimCta={dict.home.earlyAccess.guest.cta}
+      />
 
       {/* Why partner — editorial rows */}
       <EditorialSection num="01" label={p.why.kicker} band="bg">

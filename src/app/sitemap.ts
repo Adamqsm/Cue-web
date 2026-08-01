@@ -8,6 +8,7 @@ const routes: Record<string, [number, MetadataRoute.Sitemap[number]["changeFrequ
   "/how-it-works": [0.8, "monthly"],
   "/partner": [0.8, "monthly"],
   "/partner/apply": [0.7, "monthly"],
+  "/claim": [0.8, "weekly"],
   "/faq": [0.8, "monthly"],
   "/reach-out": [0.7, "monthly"],
   "/about": [0.6, "monthly"],

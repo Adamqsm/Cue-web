@@ -7,7 +7,7 @@ import LocaleLink from "@/components/ui/LocaleLink";
 
 /**
  * "Two doors" — the paired pre-launch offers, one per side of the booking:
- * guests claim a Qinsider code, operators take the founding-partner year.
+ * guests claim a Cue Insider code, operators take the founding-partner year.
  * Deliberately symmetric cards; only wash + button accent tell them apart.
  */
 export default function EarlyAccessPair({

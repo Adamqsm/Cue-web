@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import type { Locale } from "@/i18n/config";
-import { track } from "@/lib/qinsider/analytics";
+import { track } from "@/lib/cue-insider/analytics";
 
 /** Renders nothing — fires the claim-page view event once on mount. */
 export default function ClaimPageView({ locale }: { locale: Locale }) {

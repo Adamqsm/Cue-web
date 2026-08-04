@@ -66,7 +66,7 @@ function queueMail(
   args: { claimId: string; to: string; locale: Locale; reason: "issued" | "resend" }
 ): void {
   txn.create(ref, {
-    template: "qinsider-code",
+    template: "cue-insider-code",
     claimId: args.claimId,
     to: args.to,
     locale: args.locale,
@@ -101,7 +101,7 @@ export async function submitClaim(db: Firestore, input: ClaimInput): Promise<Cla
   const phoneHash = sha256Hex(phone.e164);
   const ipHash = hashIp(input.ip);
 
-  const rateLimitRef = db.collection("qinsiderRateLimits").doc(ipHash);
+  const rateLimitRef = db.collection("cueInsiderRateLimits").doc(ipHash);
   const limited = await db.runTransaction(async (txn) => {
     const snap = await txn.get(rateLimitRef);
     const now = Timestamp.now();
@@ -117,8 +117,8 @@ export async function submitClaim(db: Firestore, input: ClaimInput): Promise<Cla
   });
   if (limited) return { kind: "rate-limited" };
 
-  const indexCol = db.collection("qinsiderClaimIndex");
-  const claimsCol = db.collection("qinsiderClaims");
+  const indexCol = db.collection("cueInsiderClaimIndex");
+  const claimsCol = db.collection("cueInsiderClaims");
   const mailCol = db.collection("mailQueue");
   const emailIdxRef = indexCol.doc(emailHash);
   const phoneIdxRef = indexCol.doc(phoneHash);

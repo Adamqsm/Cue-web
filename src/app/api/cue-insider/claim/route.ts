@@ -5,8 +5,8 @@ import {
   CLAIM_SOURCES,
   submitClaim,
   type ClaimSource,
-} from "@/lib/qinsider/claim-service";
-import { verifyTurnstile } from "@/lib/qinsider/turnstile";
+} from "@/lib/cue-insider/claim-service";
+import { verifyTurnstile } from "@/lib/cue-insider/turnstile";
 
 export const runtime = "nodejs";
 
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
   try {
     db = getAdminDb();
   } catch (err) {
-    console.error("[qinsider] admin unconfigured:", err);
+    console.error("[cue-insider] admin unconfigured:", err);
     return unavailable();
   }
 
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, status: "issued", code: outcome.code });
     }
   } catch (err) {
-    console.error("[qinsider] claim failed:", err);
+    console.error("[cue-insider] claim failed:", err);
     return NextResponse.json({ ok: false, error: "server" }, { status: 500 });
   }
 }

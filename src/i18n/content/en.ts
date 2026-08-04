@@ -230,7 +230,7 @@ const en = {
       body: "Cue opens with an offer on each side of the booking — one for the people who dine, one for the rooms that host them.",
       guest: {
         eyebrow: "For guests",
-        title: "3 months of Qinsider, free",
+        title: "3 months of Cue Insider, free",
         body: "Claim your code now, redeem it in the app the day we launch. One code per person, emailed to you and kept safe until then.",
         cta: "Claim your code",
       },
@@ -385,7 +385,7 @@ const en = {
       ],
       cta: "Apply to Join",
       waitlistNote:
-        "The Qinsider early-access list is now open to guests — every claimed code is a diner committed to launch day.",
+        "The Cue Insider early-access list is now open to guests — every claimed code is a diner committed to launch day.",
     },
     pricing: {
       kicker: "Plans & pricing",
@@ -670,28 +670,29 @@ const en = {
     },
   },
 
-  // ---------------- CLAIM (Qinsider early access) ----------------
+  // ---------------- CLAIM (Cue Insider early access) ----------------
   claim: {
     meta: {
-      title: "Claim 3 Months of Qinsider Free | Cue",
+      title: "Claim 3 Months of Cue Insider Free | Cue",
       description:
-        "Join Cue's early-access list and claim 3 months of Qinsider membership free. One code per person, emailed to you now, redeemed in the app at launch.",
+        "Join Cue's early-access list and claim 3 months of Cue Insider membership free. One code per person, emailed to you now, redeemed in the app at launch.",
     },
     hero: {
-      eyebrow: "Qinsider · early access",
-      title: "Three months of Qinsider. On the house.",
+      eyebrow: "Cue Insider · early access",
+      // \u00A0 keeps the "Cue Insider" wordmark on one line under text-balance.
+      title: "Three months of Cue\u00A0Insider. On the house.",
       subtitle:
-        "Qinsider is Cue's membership for people who dine out. Claim your place before launch and your first three months are free — your code arrives by email and waits for opening night.",
+        "Cue Insider is Cue's membership for people who dine out. Claim your place before launch and your first three months are free — your code arrives by email and waits for opening night.",
     },
     offer: {
       kicker: "What you're claiming",
       title: "One code. Three months. Yours from day one.",
-      // TODO(adam): replace these three points with the real Qinsider
+      // TODO(adam): replace these three points with the real Cue Insider
       // benefit list — current copy states only what is confirmed.
       points: [
         {
-          title: "Full Qinsider membership",
-          body: "Three free months of the real Qinsider membership — not a cut-down trial.",
+          title: "Full Cue Insider membership",
+          body: "Three free months of the real Cue Insider membership — not a cut-down trial.",
         },
         {
           title: "Three months, JD 0",
@@ -732,7 +733,7 @@ const en = {
       phone: "Mobile number",
       phoneHint: "Jordan and GCC numbers — we default to +962.",
       consent:
-        "Keep me posted about Cue's launch and Qinsider news. No spam, unsubscribe any time.",
+        "Keep me posted about Cue's launch and Cue Insider news. No spam, unsubscribe any time.",
       submit: "Claim 3 months free",
       submitting: "Claiming…",
       protection: "Protected against automated signups.",
@@ -751,9 +752,9 @@ const en = {
     success: {
       eyebrow: "Claim confirmed",
       title: "Your code is in. Guard it well.",
-      body: "This is your Qinsider code — we've also emailed it to you for safekeeping.",
+      body: "This is your Cue Insider code — we've also emailed it to you for safekeeping.",
       ticket: {
-        label: "Qinsider · early seat",
+        label: "Cue Insider · early seat",
         codeLabel: "Redemption code",
         nameLabel: "Held for",
         issuedLabel: "Issued",
@@ -768,9 +769,9 @@ const en = {
     },
     duplicate: {
       title: "You already have a code.",
-      body: "This email already claimed its Qinsider code, so we didn't issue a new one — we've re-sent your original code to your inbox instead.",
+      body: "This email already claimed its Cue Insider code, so we didn't issue a new one — we've re-sent your original code to your inbox instead.",
       bodyPhone:
-        "This mobile number already claimed a Qinsider code. Your code lives with the email you signed up with — submit the form with that email and we'll re-send it there.",
+        "This mobile number already claimed a Cue Insider code. Your code lives with the email you signed up with — submit the form with that email and we'll re-send it there.",
       rateLimited:
         "You already have a code, and we re-sent it recently. Check your inbox (and spam folder) — you can request it again in a few minutes.",
       resendLimit:
@@ -786,7 +787,7 @@ const en = {
       ],
     },
     modal: {
-      title: "Claim 3 months of Qinsider",
+      title: "Claim 3 months of Cue Insider",
       close: "Close",
     },
   },
@@ -998,8 +999,8 @@ const en = {
         a: "Cue follows a strict data-minimization approach under Jordan's PDPL. We collect only what's needed to run a booking, share only what a venue needs to fulfill it, and never sell personal data. See our Privacy Policy for the full detail.",
       },
       {
-        q: "What is the Qinsider 3-months-free offer?",
-        a: "Qinsider is Cue's membership for guests. Anyone who joins the early-access list before launch gets their first three months of Qinsider free — you claim a personal redemption code now, and it activates when you redeem it in the Cue app.",
+        q: "What is the Cue Insider 3-months-free offer?",
+        a: "Cue Insider is Cue's membership for guests. Anyone who joins the early-access list before launch gets their first three months of Cue Insider free — you claim a personal redemption code now, and it activates when you redeem it in the Cue app.",
       },
       {
         q: "Who can claim the free 3 months, and how many codes can I get?",
@@ -1010,8 +1011,8 @@ const en = {
         a: "At redemption, not at signup. Your code waits until the Cue app launches; the day you redeem it in the app, your three free months begin. Claiming early never shortens your offer.",
       },
       {
-        q: "How do I use my Qinsider code?",
-        a: "When the Cue app launches, sign in and enter the code exactly as it appears in your email — it looks like CUE-XXXX-XXXX. The app checks it instantly and your Qinsider months start on the spot.",
+        q: "How do I use my Cue Insider code?",
+        a: "When the Cue app launches, sign in and enter the code exactly as it appears in your email — it looks like CUE-XXXX-XXXX. The app checks it instantly and your Cue Insider months start on the spot.",
       },
       {
         q: "I lost my code — what do I do?",
@@ -1427,7 +1428,7 @@ const en = {
         links: [
           { href: "/faq", label: "Help center" },
           { href: "/reach-out", label: "Get started" },
-          { href: "/claim", label: "Qinsider early access" },
+          { href: "/claim", label: "Cue Insider early access" },
           { href: "/faq", label: "FAQ" },
         ],
       },

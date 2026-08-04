@@ -39,7 +39,7 @@ describe("alphabet", () => {
 });
 
 describe("generateCode", () => {
-  const drbg = makeDrbg("qinsider-test-vectors-v1");
+  const drbg = makeDrbg("cue-insider-test-vectors-v1");
   const codes: { code: string; body: string }[] = [];
   for (let i = 0; i < 10_000; i++) codes.push(generateCode(drbg));
 
@@ -67,7 +67,7 @@ describe("generateCode", () => {
 });
 
 describe("checksum error detection", () => {
-  const drbg = makeDrbg("qinsider-tamper-suite-v1");
+  const drbg = makeDrbg("cue-insider-tamper-suite-v1");
   const sample = Array.from({ length: 200 }, () => generateCode(drbg).body);
 
   it("rejects every single-character substitution (exhaustive over 200 codes)", () => {
@@ -127,7 +127,7 @@ describe("validateCode reasons", () => {
 });
 
 describe("contract doc §6 vectors", () => {
-  // Kept in lockstep with docs/qinsider-code-contract.md — the doc's original
+  // Kept in lockstep with docs/cue-insider-code-contract.md — the doc's original
   // vectors were wrong and were regenerated from this implementation.
   it("checksum characters behind the valid vectors", () => {
     expect(checksumChar("AAAAAAA")).toBe("A");

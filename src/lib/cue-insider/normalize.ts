@@ -1,5 +1,5 @@
 /**
- * Normalization for Qinsider claim identity fields.
+ * Normalization for Cue Insider claim identity fields.
  *
  * Dedupe correctness depends on these functions being the single path every
  * email/phone takes before hashing — the server route, the reconcile script,

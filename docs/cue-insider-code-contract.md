@@ -1,8 +1,8 @@
-# Qinsider Redemption Code — Contract for the Flutter App
+# Cue Insider Redemption Code — Contract for the Flutter App
 
 Status: v1 · 2026-07-30 · owner: web/backend
 Audience: Flutter team implementing claim-code redemption at app launch.
-Source of truth for the algorithm: `src/lib/qinsider/code.ts` (Cue-web). This document restates it exactly; if they ever disagree, the TypeScript module wins and this doc must be fixed.
+Source of truth for the algorithm: `src/lib/cue-insider/code.ts` (Cue-web). This document restates it exactly; if they ever disagree, the TypeScript module wins and this doc must be fixed.
 
 ---
 
@@ -14,7 +14,7 @@ CUE-XXXX-XXXX
 
 - Display form: `CUE-` prefix + two groups of 4, uppercase, hyphen-separated.
 - The **body** is the 8 characters after the prefix. The first 7 are random payload; the 8th is a checksum character.
-- Canonical storage form (Firestore `qinsiderClaims.code`) is the full display form `CUE-XXXX-XXXX`.
+- Canonical storage form (Firestore `cueInsiderClaims.code`) is the full display form `CUE-XXXX-XXXX`.
 
 ### Alphabet (29 characters — index order is load-bearing)
 
@@ -48,7 +48,7 @@ const String kCodeAlphabet = 'ABCDEFGHJKMNPQRTUVWXYZ2346789';
 
 /// Returns the canonical body (8 chars) if [raw] is a structurally valid
 /// code, or null if it fails length/alphabet/checksum checks.
-String? normalizeAndValidateQinsiderCode(String raw) {
+String? normalizeAndValidateCueInsiderCode(String raw) {
   var s = raw.toUpperCase().replaceAll(RegExp(r'[\s-]'), '');
   if (s.startsWith('CUE')) s = s.substring(3);
   if (s.length != 8) return null;
@@ -61,7 +61,7 @@ String? normalizeAndValidateQinsiderCode(String raw) {
   return (sum % 29 == 0) ? s : null;
 }
 
-String formatQinsiderCode(String body) =>
+String formatCueInsiderCode(String body) =>
     'CUE-${body.substring(0, 4)}-${body.substring(4, 8)}';
 ```
 
@@ -77,7 +77,7 @@ String formatQinsiderCode(String body) =>
 Callable Cloud Function (Firebase Functions v2, region **me-central1**, project `cue-e00d5`):
 
 ```
-redeemQinsiderCode({ code: string })
+redeemCueInsiderCode({ code: string })
 ```
 
 - **Auth required** — called with a signed-in Firebase user. Unauthenticated calls are rejected (`unauthenticated`).
@@ -90,7 +90,7 @@ redeemQinsiderCode({ code: string })
   "status": "redeemed",
   "code": "CUE-ABCD-EFGH",           // canonical display form
   "entitlement": {
-    "product": "qinsider",
+    "product": "cue-insider",
     "months": 3,
     "startsAt": "2026-08-14T18:03:22.512Z",  // == redeemedAt (server time, ISO-8601 UTC)
     "endsAt": "2026-11-14T18:03:22.512Z"     // startsAt + 3 calendar months
@@ -120,12 +120,12 @@ Errors are `HttpsError`s. `details.reason` is the stable machine-readable key �
 | `failed-precondition` | `void`              | Code administratively voided                                    |
 | `internal`            | —                   | Unexpected server error — safe to retry (idempotent)            |
 
-Messages are English developer strings; localize user-facing copy in the app (suggested string keys: `qinsider_redeem_error_invalid`, `_notFound`, `_alreadyRedeemed`, `_void`, `_generic`).
+Messages are English developer strings; localize user-facing copy in the app (suggested string keys: `cue_insider_redeem_error_invalid`, `_notFound`, `_alreadyRedeemed`, `_void`, `_generic`).
 
 ## 5. Firestore facts the app may rely on
 
-- Codes live in `qinsiderClaims/{claimId}` with `status: 'issued' | 'redeemed' | 'void'`. **Clients have zero read/write access** to `qinsiderClaims`, `qinsiderClaimIndex`, and `qinsiderRedemptions` — all interaction is through the callable. Do not attempt direct reads; they will be denied by rules.
-- Redemption is transactional: `status → 'redeemed'`, `redeemedAt` (server timestamp), `redeemedByUid` are set atomically, plus a `qinsiderRedemptions/{uid}` doc that enforces one-entitlement-per-person and answers idempotent retries.
+- Codes live in `cueInsiderClaims/{claimId}` with `status: 'issued' | 'redeemed' | 'void'`. **Clients have zero read/write access** to `cueInsiderClaims`, `cueInsiderClaimIndex`, and `cueInsiderRedemptions` — all interaction is through the callable. Do not attempt direct reads; they will be denied by rules.
+- Redemption is transactional: `status → 'redeemed'`, `redeemedAt` (server timestamp), `redeemedByUid` are set atomically, plus a `cueInsiderRedemptions/{uid}` doc that enforces one-entitlement-per-person and answers idempotent retries.
 - A code is issued exactly once, at claim time, and is persisted before the claimant is ever shown or emailed it — any code that passes checksum but is `not-found` is a typo or a fabrication, never a "not yet synced" state.
 
 ## 6. Test vectors
@@ -147,6 +147,6 @@ Invalid:
 | `CUE-AAA0-AAAG`   | `invalid-characters` (`0` not in alphabet) |
 | `CUE-ABCD-EFGH`   | `invalid-checksum`                         |
 
-> **Correction 2026-07-31:** the vectors originally published here (`CUE-AAAA-AAAG`, `CUE-BBBB-BBBN`, `2346789Y` as valid; `CUE-AAAA-AAAA` as invalid) did **not** match the reference implementation — per §2, `checksumChar("AAAAAAA") = A`, `checksumChar("BBBBBBB") = 3`, `checksumChar("2346789") = 3`. Per the header rule ("the TypeScript module wins"), the tables above were regenerated from `code.ts` and verified independently by the Functions port (`cue-app/functions/test-qinsider-core.mjs`).
+> **Correction 2026-07-31:** the vectors originally published here (`CUE-AAAA-AAAG`, `CUE-BBBB-BBBN`, `2346789Y` as valid; `CUE-AAAA-AAAA` as invalid) did **not** match the reference implementation — per §2, `checksumChar("AAAAAAA") = A`, `checksumChar("BBBBBBB") = 3`, `checksumChar("2346789") = 3`. Per the header rule ("the TypeScript module wins"), the tables above were regenerated from `code.ts` and verified independently by the Functions port (`cue-app/functions/test-cue-insider-core.mjs`).
 
-(The web test suite regenerates these vectors from `code.ts` — see `src/lib/qinsider/__tests__/code.test.ts`.)
+(The web test suite regenerates these vectors from `code.ts` — see `src/lib/cue-insider/__tests__/code.test.ts`.)

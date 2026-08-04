@@ -4,7 +4,7 @@
  * failure ever escapes into the claim flow.
  */
 
-export type QinsiderEvent =
+export type CueInsiderEvent =
   | "claim_view"
   | "claim_submit"
   | "claim_success"
@@ -12,14 +12,14 @@ export type QinsiderEvent =
   | "claim_error";
 
 export function track(
-  event: QinsiderEvent,
+  event: CueInsiderEvent,
   props?: { source?: string; locale?: string }
 ): void {
   try {
     if (typeof window === "undefined") return;
     if (localStorage.getItem("cue-consent") !== "v1") return;
 
-    const url = "/api/qinsider/event";
+    const url = "/api/cue-insider/event";
     const payload = JSON.stringify({ event, ...props });
     const blob = new Blob([payload], { type: "application/json" });
 

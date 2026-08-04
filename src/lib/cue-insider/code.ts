@@ -1,5 +1,5 @@
 /**
- * Qinsider redemption code — generation, formatting, and validation.
+ * Cue Insider redemption code — generation, formatting, and validation.
  *
  * Format: CUE-XXXX-XXXX (8 body characters; the final character is a
  * weighted mod-29 checksum over the preceding 7, so a typo can be rejected
@@ -12,7 +12,7 @@
  * or hand-typed at a restaurant table: O/0, I/1/L, S/5.
  *
  * This module is pure and dependency-free on purpose: the same algorithm is
- * specified in docs/qinsider-code-contract.md for the Flutter app, and the
+ * specified in docs/cue-insider-code-contract.md for the Flutter app, and the
  * server route, Cloud Functions, and tests all import from here.
  */
 

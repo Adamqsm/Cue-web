@@ -22,8 +22,8 @@ type ClaimModalStrings = Pick<
 type ClaimModalSource = "nav-cta" | "claim-modal";
 
 // Written by ClaimForm on issue/duplicate — presence means "never auto-nag".
-const CLAIMED_KEY = "cue-qinsider-claimed";
-const SEEN_KEY = "cue-qinsider-modal-seen";
+const CLAIMED_KEY = "cue-insider-claimed";
+const SEEN_KEY = "cue-insider-modal-seen";
 const SEEN_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 // While the consent banner is still up its focus trap would fight the

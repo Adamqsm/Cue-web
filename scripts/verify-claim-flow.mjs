@@ -1,5 +1,5 @@
 /**
- * Qinsider claim flow — cross-stack E2E verify (emulator).
+ * Cue Insider claim flow — cross-stack E2E verify (emulator).
  *
  * Runbook:
  *   1. cue-app:  firebase emulators:start --only auth,firestore,functions --project cue-e00d5
@@ -84,7 +84,7 @@ function outboxLines() {
 }
 
 async function submit(payload, ip) {
-  const res = await fetch(`${SITE}/api/qinsider/claim`, {
+  const res = await fetch(`${SITE}/api/cue-insider/claim`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -131,7 +131,7 @@ check("fresh claim → 200 issued", r1.status === 200 && r1.json?.status === "is
 check("issued code passes offline checksum", codeIsValid(r1.json?.code || ""), r1.json?.code);
 
 const claimSnap = await poll("claim doc exists", async () => {
-  const q = await db.collection("qinsiderClaims").where("email", "==", A.email).get();
+  const q = await db.collection("cueInsiderClaims").where("email", "==", A.email).get();
   return q.empty ? null : q.docs[0];
 });
 let claimId = null;
@@ -144,7 +144,7 @@ if (claimSnap) {
   const c = claimSnap.data();
   check("claim doc fields", c.code === r1.json.code && c.status === "issued" && c.phone === A.phone && c.locale === "en" && c.source === "claim-page" && c.marketingConsent === true && c.emailResendCount === 0 && !!c.emailHash && !!c.phoneHash && c.ipHash === undefined && c.redeemedAt === null);
   check("raw ip not stored", JSON.stringify(c).indexOf("10.1.1.1") === -1);
-  const idx = await db.collection("qinsiderClaimIndex").get();
+  const idx = await db.collection("cueInsiderClaimIndex").get();
   const kinds = idx.docs.filter((d) => d.data().claimId === claimId).map((d) => d.data().kind).sort();
   check("3 index docs (code,email,phone)", kinds.join(",") === "code,email,phone", kinds.join(","));
 }
@@ -159,7 +159,7 @@ if (sent1) {
   check("email has html + text", !!mail.html && !!mail.text);
 }
 await poll("claim.emailSentAt written back", async () => {
-  const c = (await db.collection("qinsiderClaims").doc(claimId).get()).data();
+  const c = (await db.collection("cueInsiderClaims").doc(claimId).get()).data();
   return c?.emailSentAt ? true : null;
 });
 const row1 = await poll("sheet row appended", async () => {
@@ -177,23 +177,23 @@ check("duplicate right after signup → duplicate/rate-limited (initial send cou
 check("duplicate response carries NO code", !("code" in (r2.json || {})));
 
 // age the last send, then duplicate again → real resend
-await db.collection("qinsiderClaims").doc(claimId).update({ lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
+await db.collection("cueInsiderClaims").doc(claimId).update({ lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
 const r3 = await submit(A, "10.1.1.2");
 check("aged duplicate email → duplicate/email (resend)", r3.status === 200 && r3.json?.status === "duplicate" && r3.json?.variant === "email", JSON.stringify(r3.json));
 await poll("resend email delivered (2nd outbox entry)", async () => {
   const lines = outboxLines().filter((l) => (l.to || [l.to]).toString().includes(A.email));
   return lines.length >= 2 ? lines : null;
 });
-const afterResend = (await db.collection("qinsiderClaims").doc(claimId).get()).data();
+const afterResend = (await db.collection("cueInsiderClaims").doc(claimId).get()).data();
 check("emailResendCount incremented to 1", afterResend.emailResendCount === 1);
-const countDocs = await db.collection("qinsiderClaims").where("emailHash", "==", afterResend.emailHash).get();
+const countDocs = await db.collection("cueInsiderClaims").where("emailHash", "==", afterResend.emailHash).get();
 check("no second claim doc for duplicate email", countDocs.size === 1);
 
 // ---- Phase 3: duplicate phone, different email ----
 console.log("\n== Phase 3: duplicate phone ==");
 // Age the last send so a resend WOULD be allowed by timing — the phone-only
 // match must still send nothing (submitter hasn't proven the stored email).
-await db.collection("qinsiderClaims").doc(claimId).update({ lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
+await db.collection("cueInsiderClaims").doc(claimId).update({ lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
 const outboxBefore = outboxLines().filter((l) => (l.to || [l.to]).toString().includes(A.email)).length;
 const r4 = await submit({ ...A, email: `verify-other-${run}@example.com` }, "10.1.1.3");
 check("duplicate phone (new email) → duplicate/phone", r4.status === 200 && r4.json?.status === "duplicate" && r4.json?.variant === "phone", JSON.stringify(r4.json));
@@ -203,14 +203,14 @@ const outboxAfter = outboxLines().filter((l) => (l.to || [l.to]).toString().incl
 check("phone-only match sends NO email to the original address", outboxAfter === outboxBefore, `before=${outboxBefore} after=${outboxAfter}`);
 const newEmailLeaks = outboxLines().filter((l) => (l.to || [l.to]).toString().includes(`verify-other-${run}`));
 check("nothing sent to the submitted (unproven) email", newEmailLeaks.length === 0);
-const afterPhoneDup = (await db.collection("qinsiderClaims").doc(claimId).get()).data();
+const afterPhoneDup = (await db.collection("cueInsiderClaims").doc(claimId).get()).data();
 check("resend state untouched by phone-only match", afterPhoneDup.emailResendCount === 1);
-const otherDocs = await db.collection("qinsiderClaims").where("email", "==", `verify-other-${run}@example.com`).get();
+const otherDocs = await db.collection("cueInsiderClaims").where("email", "==", `verify-other-${run}@example.com`).get();
 check("no claim doc for the new email", otherDocs.empty);
 
 // ---- Phase 4: resend cap ----
 console.log("\n== Phase 4: resend cap ==");
-await db.collection("qinsiderClaims").doc(claimId).update({ emailResendCount: 3, lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
+await db.collection("cueInsiderClaims").doc(claimId).update({ emailResendCount: 3, lastEmailQueuedAt: Timestamp.fromMillis(Date.now() - 11 * 60 * 1000) });
 const r5 = await submit(A, "10.1.1.4");
 check("resend cap → duplicate/resend-limit", r5.status === 200 && r5.json?.status === "duplicate" && r5.json?.variant === "resend-limit", JSON.stringify(r5.json));
 
@@ -222,7 +222,7 @@ const v2 = await submit({ ...A, email: `v2-${run}@example.com`, phone: "12345" }
 check("bad phone → 422 field phone", v2.status === 422 && (v2.json?.field === "phone" || v2.json?.field === "phone-country"), JSON.stringify(v2.json));
 const v3 = await submit({ ...A, email: `v3-${run}@example.com`, phone: "+15551234567" }, "10.1.2.1");
 check("US phone → 422 phone-country", v3.status === 422 && v3.json?.field === "phone-country", JSON.stringify(v3.json));
-const v4res = await fetch(`${SITE}/api/qinsider/claim`, {
+const v4res = await fetch(`${SITE}/api/cue-insider/claim`, {
   method: "POST",
   headers: { "content-type": "application/json", "x-forwarded-for": "10.1.2.1" },
   body: JSON.stringify({ ...A, email: `v4-${run}@example.com`, phone: "+962781234567" }),
@@ -249,7 +249,7 @@ const su = await fetch(AUTH_SIGNUP, {
   body: JSON.stringify({ email: `redeemer-${run}@example.com`, password: "test1234", returnSecureToken: true }),
 });
 const { idToken } = await su.json();
-const redeemRes = await fetch(`${FN_BASE}/redeemQinsiderCode`, {
+const redeemRes = await fetch(`${FN_BASE}/redeemCueInsiderCode`, {
   method: "POST",
   headers: { "content-type": "application/json", authorization: `Bearer ${idToken}` },
   body: JSON.stringify({ data: { code: r1.json.code } }),

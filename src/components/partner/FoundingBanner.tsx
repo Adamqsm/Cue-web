@@ -63,7 +63,7 @@ export default function FoundingBanner({
             </ul>
           </div>
 
-          {/* Guest-side proof point: the Qinsider list is already filling. */}
+          {/* Guest-side proof point: the Cue Insider list is already filling. */}
           <p className="mt-6 border-t border-line/60 pt-4 text-sm text-muted">
             {founding.waitlistNote}{" "}
             <LocaleLink href="/claim" locale={locale} className="link-underline">

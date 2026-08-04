@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAdminDb } from "@/lib/firebase-admin";
-import { CLAIM_SOURCES } from "@/lib/qinsider/claim-service";
+import { CLAIM_SOURCES } from "@/lib/cue-insider/claim-service";
 
 export const runtime = "nodejs";
 
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     const day = new Date().toISOString().slice(0, 10);
     getAdminDb()
-      .collection("qinsiderStats")
+      .collection("cueInsiderStats")
       .doc(day)
       .set(increments, { merge: true })
       .catch(() => {});

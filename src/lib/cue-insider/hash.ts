@@ -10,6 +10,6 @@ export function sha256Hex(input: string): string {
  * requests for the rate-limit window to work.
  */
 export function hashIp(ip: string): string {
-  const salt = process.env.QINSIDER_IP_HASH_SALT || "qinsider-v1";
+  const salt = process.env.CUE_INSIDER_IP_HASH_SALT || "cue-insider-v1";
   return sha256Hex(`${salt}|${ip}`);
 }

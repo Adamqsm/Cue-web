@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import ClaimForm from "@/components/claim/ClaimForm";
-import { track } from "@/lib/qinsider/analytics";
+import { track } from "@/lib/cue-insider/analytics";
 
 type ClaimModalStrings = Pick<
   Dictionary["claim"],

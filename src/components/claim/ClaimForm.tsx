@@ -4,8 +4,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
-import { isValidEmail, normalizePhone } from "@/lib/qinsider/normalize";
-import { track } from "@/lib/qinsider/analytics";
+import { isValidEmail, normalizePhone } from "@/lib/cue-insider/normalize";
+import { track } from "@/lib/cue-insider/analytics";
 import TurnstileWidget from "@/components/claim/TurnstileWidget";
 import ClaimTicket from "@/components/claim/ClaimTicket";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -21,7 +21,7 @@ export type ClaimFormProps = {
   onClaimed?: (o: { status: "issued" | "duplicate" }) => void;
 };
 
-const CLAIMED_KEY = "cue-qinsider-claimed";
+const CLAIMED_KEY = "cue-insider-claimed";
 
 // Copied verbatim from ApplyForm — the site's field styling.
 const fieldBase =
@@ -95,7 +95,7 @@ export default function ClaimForm({
     track("claim_submit", { source, locale });
 
     try {
-      const res = await fetch("/api/qinsider/claim", {
+      const res = await fetch("/api/cue-insider/claim", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

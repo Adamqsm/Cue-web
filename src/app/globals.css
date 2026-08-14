@@ -152,6 +152,11 @@
   [dir="rtl"] .font-mono {
     font-family: var(--font-arabic);
   }
+  /* Exception: Latin-only content that marks itself dir="ltr" (redemption
+     codes) keeps the mono face inside Arabic pages. */
+  [dir="rtl"] .font-mono[dir="ltr"] {
+    font-family: var(--font-mono);
+  }
   [dir="rtl"] h1,
   [dir="rtl"] h2,
   [dir="rtl"] h3,

@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { localizedHref, cn } from "@/lib/utils";
+import { useClaimModal } from "@/components/claim/ClaimModalProvider";
 import { Logo } from "./BrandMark";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
@@ -20,6 +21,15 @@ export default function Nav({
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+  const claimModal = useClaimModal();
+
+  // Modal when the provider is mounted; plain navigation to /claim otherwise.
+  const onClaim = () => {
+    setOpen(false);
+    if (claimModal) claimModal.openClaimModal("nav-cta");
+    else router.push(localizedHref("/claim", locale));
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -86,6 +96,9 @@ export default function Nav({
         <div className="hidden items-center gap-2 lg:flex">
           <ThemeToggle labels={themeLabels} />
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
+          <button type="button" onClick={onClaim} className="btn btn-outline px-5">
+            {dict.nav.claimCta}
+          </button>
           <Link
             href={localizedHref("/reach-out", locale)}
             className="btn btn-spark px-5"
@@ -152,6 +165,13 @@ export default function Nav({
                 </Link>
               ))}
             </div>
+            <button
+              type="button"
+              onClick={onClaim}
+              className="btn btn-outline mt-3 w-full"
+            >
+              {dict.nav.claimCta}
+            </button>
             <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
               <LanguageToggle locale={locale} label={dict.nav.langToggle} />
               <Link

@@ -10,6 +10,7 @@ import Spotlight from "@/components/home/Spotlight";
 import Demo from "@/components/home/Demo";
 import Neighborhoods from "@/components/home/Neighborhoods";
 import Operators from "@/components/home/Operators";
+import EarlyAccessPair from "@/components/home/EarlyAccessPair";
 import Traction from "@/components/home/Traction";
 import HomeFaq from "@/components/home/HomeFaq";
 import FinalCta from "@/components/home/FinalCta";
@@ -57,8 +58,9 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       <Demo dict={dict} num="05" />
       <Neighborhoods dict={dict} num="06" />
       <Operators locale={locale} dict={dict} num="07" />
-      <Traction dict={dict} num="08" />
-      <HomeFaq locale={locale} dict={dict} num="09" />
+      <EarlyAccessPair locale={locale} dict={dict} num="08" />
+      <Traction dict={dict} num="09" />
+      <HomeFaq locale={locale} dict={dict} num="10" />
       <FinalCta locale={locale} dict={dict} />
     </>
   );

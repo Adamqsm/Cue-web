@@ -13,6 +13,7 @@ import { SITE_URL } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
+import ClaimModalProvider from "@/components/claim/ClaimModalProvider";
 import ConsentBanner from "@/components/ConsentBanner";
 
 // v3 "Tonight" — editorial pairing. Fraunces (characterful soft-serif) for
@@ -141,11 +142,22 @@ export default function LocaleLayout({
           Skip to content
         </a>
         <MotionProvider>
-          <Nav locale={locale} dict={dict} />
-          <main id="main" tabIndex={-1} className="outline-none">
-            {children}
-          </main>
-          <Footer locale={locale} dict={dict} />
+          {/* Slim strings only — the claim dialog subtrees, not the whole dict. */}
+          <ClaimModalProvider
+            locale={locale}
+            strings={{
+              modal: dict.claim.modal,
+              form: dict.claim.form,
+              success: dict.claim.success,
+              duplicate: dict.claim.duplicate,
+            }}
+          >
+            <Nav locale={locale} dict={dict} />
+            <main id="main" tabIndex={-1} className="outline-none">
+              {children}
+            </main>
+            <Footer locale={locale} dict={dict} />
+          </ClaimModalProvider>
         </MotionProvider>
         <ConsentBanner
           locale={locale}

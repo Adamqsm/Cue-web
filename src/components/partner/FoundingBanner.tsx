@@ -7,9 +7,11 @@ import LocaleLink from "@/components/ui/LocaleLink";
 export default function FoundingBanner({
   locale,
   founding,
+  claimCta,
 }: {
   locale: Locale;
   founding: Dictionary["partner"]["founding"];
+  claimCta: string;
 }) {
   return (
     <section className="container-pad pt-10 sm:pt-14">
@@ -60,6 +62,14 @@ export default function FoundingBanner({
               ))}
             </ul>
           </div>
+
+          {/* Guest-side proof point: the Cue Insider list is already filling. */}
+          <p className="mt-6 border-t border-line/60 pt-4 text-sm text-muted">
+            {founding.waitlistNote}{" "}
+            <LocaleLink href="/claim" locale={locale} className="link-underline">
+              {claimCta}
+            </LocaleLink>
+          </p>
         </div>
       </Reveal>
     </section>

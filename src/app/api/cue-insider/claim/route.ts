@@ -39,8 +39,15 @@ export async function POST(request: Request) {
   if (typeof body.name !== "string") return validationError("name");
   const name = body.name.trim();
   if (name.length < 2 || name.length > 120) return validationError("name");
+  // `name` was already capped; email/phone were not, so an arbitrarily large
+  // string reached normalisation, lower-casing and regex matching before
+  // anything could reject it. Cap them here, at the edge, on the raw value.
+  // 254 = RFC 5321 max address length; 32 comfortably exceeds any E.164 number
+  // written with spaces, dashes and parentheses.
   if (typeof body.email !== "string" || !body.email.trim()) return validationError("email");
+  if (body.email.length > 254) return validationError("email");
   if (typeof body.phone !== "string" || !body.phone.trim()) return validationError("phone");
+  if (body.phone.length > 32) return validationError("phone");
   if (typeof body.locale !== "string" || !isLocale(body.locale)) return validationError("locale");
   if (
     typeof body.source !== "string" ||

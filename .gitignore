@@ -25,6 +25,16 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+# .env.production / .env.development were NOT matched by the two lines above.
+# FIREBASE_SERVICE_ACCOUNT_JSON is a server-only credential and the natural
+# mistake is to park it in one of these while debugging.
+.env.*
+!.env.example
+serviceAccount*.json
+service-account*.json
+*credentials*.json
+*.p12
+*.p8
 
 # vercel
 .vercel

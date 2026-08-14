@@ -8,7 +8,7 @@ import {
 } from "firebase-admin/firestore";
 import type { Locale } from "@/i18n/config";
 import { generateCode } from "./code";
-import { hashIp, sha256Hex } from "./hash";
+import { hashIp, hashPii } from "./hash";
 import { isValidEmail, normalizeEmail, normalizePhone } from "./normalize";
 
 export const CLAIM_SOURCES = ["claim-page", "claim-modal", "nav-cta"] as const;
@@ -97,8 +97,12 @@ export async function submitClaim(db: Firestore, input: ClaimInput): Promise<Cla
     };
   }
 
-  const emailHash = sha256Hex(email);
-  const phoneHash = sha256Hex(phone.e164);
+  // Salted (hashPii), not bare sha256: these are the dedupe index doc IDs and
+  // are mirrored nowhere, but an unsalted hash of a Jordanian mobile number is
+  // brute-forceable in seconds, which would make any export of this collection
+  // a de-anonymisable PII set rather than a pseudonymised one.
+  const emailHash = hashPii(email);
+  const phoneHash = hashPii(phone.e164);
   const ipHash = hashIp(input.ip);
 
   const rateLimitRef = db.collection("cueInsiderRateLimits").doc(ipHash);

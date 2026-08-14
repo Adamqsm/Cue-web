@@ -19,6 +19,25 @@ type LeadPayload = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/**
+ * Vercel function logs are retained and readable by everyone with access to
+ * the project, so `console.log(JSON.stringify(lead))` was a standing plaintext
+ * copy of every submitter's name, email, phone and free-text message. These
+ * mask helpers keep a log line useful for debugging and de-duplication
+ * without making it a PII store.
+ */
+function maskEmail(value: string): string {
+  const at = value.lastIndexOf("@");
+  if (at < 1) return "***";
+  return `${value.slice(0, 1)}***${value.slice(at)}`;
+}
+
+function maskPhone(value: string | null): string | null {
+  if (!value) return null;
+  const digits = value.replace(/\D/g, "");
+  return digits.length <= 3 ? "***" : `***${digits.slice(-3)}`;
+}
+
 export async function POST(request: Request) {
   let body: LeadPayload;
   try {
@@ -84,8 +103,43 @@ export async function POST(request: Request) {
     }
   }
 
-  // 3) Always log so submissions are visible in serverless logs.
-  console.log("[lead] captured:", JSON.stringify(lead));
+  // 3) Always log so submissions are visible in serverless logs — but
+  //    REDACTED. This line used to be JSON.stringify(lead), i.e. the full
+  //    name/email/phone/message of every submitter, sitting in Vercel's log
+  //    retention forever and readable by anyone on the project.
+  //
+  //    If LEAD_WEBHOOK_URL is unset this log is the ONLY record of a
+  //    submission, so the escape hatch is explicit and opt-in rather than the
+  //    default: set LEAD_LOG_PII=1 to restore full-payload logging until a
+  //    webhook/CRM destination is wired up.
+  if (process.env.LEAD_LOG_PII === "1") {
+    console.log("[lead] captured (FULL PAYLOAD — LEAD_LOG_PII=1):", JSON.stringify(lead));
+  } else {
+    console.log(
+      "[lead] captured:",
+      JSON.stringify({
+        receivedAt: lead.receivedAt,
+        audience: lead.audience,
+        source: lead.source,
+        locale: lead.locale,
+        contactPreference: lead.contactPreference,
+        email: maskEmail(lead.email),
+        phone: maskPhone(lead.phone),
+        nameChars: lead.name.length,
+        establishment: lead.establishment ? "present" : null,
+        instagram: lead.instagram ? "present" : null,
+        messageChars: lead.message?.length ?? 0,
+        forwardedToWebhook: Boolean(webhook),
+      })
+    );
+    if (!webhook) {
+      console.warn(
+        "[lead] LEAD_WEBHOOK_URL is not set — this submission was redacted in " +
+          "logs and stored nowhere else. Configure LEAD_WEBHOOK_URL, or set " +
+          "LEAD_LOG_PII=1 to accept full PII in logs as the capture mechanism."
+      );
+    }
+  }
 
   return NextResponse.json({ ok: true });
 }

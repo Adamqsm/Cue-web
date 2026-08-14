@@ -38,8 +38,24 @@ export function normalizeEmail(raw: string): string {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** RFC 5321 maximum forward-path length. */
+export const EMAIL_MAX_LENGTH = 254;
+
+/**
+ * Length FIRST, then the pattern. The two clauses used to be the other way
+ * round, which ran the regex across the whole of whatever the caller passed
+ * before the 254-cap could reject it.
+ *
+ * To be precise about the risk, since this is easy to overstate: EMAIL_RE is
+ * NOT vulnerable to catastrophic backtracking. `[^\s@]` excludes `@`, so the
+ * `+` quantifiers cannot overlap across the separator and the match is linear
+ * — measured at ~15 ms for a 600 KB input, scaling linearly. The problem was
+ * only that an unbounded string reached the matcher (and .toLowerCase() before
+ * it) at all, which is wasted CPU per request. Checking the cheap bound first
+ * makes the cost constant.
+ */
 export function isValidEmail(email: string): boolean {
-  return EMAIL_RE.test(email) && email.length <= 254;
+  return email.length <= EMAIL_MAX_LENGTH && EMAIL_RE.test(email);
 }
 
 export type PhoneResult =

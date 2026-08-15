@@ -3,6 +3,7 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { buildMetadata, siteJsonLd, faqJsonLd } from "@/lib/seo";
 import HomeHero from "@/components/sections/HomeHero";
+import WaitlistCounter from "@/components/home/WaitlistCounter";
 import Positioning from "@/components/home/Positioning";
 import HowItWorks from "@/components/home/HowItWorks";
 import Features from "@/components/home/Features";
@@ -10,7 +11,9 @@ import Spotlight from "@/components/home/Spotlight";
 import Demo from "@/components/home/Demo";
 import Neighborhoods from "@/components/home/Neighborhoods";
 import Operators from "@/components/home/Operators";
+import SocialProof from "@/components/home/SocialProof";
 import EarlyAccessPair from "@/components/home/EarlyAccessPair";
+import FounderNote from "@/components/home/FounderNote";
 import Traction from "@/components/home/Traction";
 import HomeFaq from "@/components/home/HomeFaq";
 import FinalCta from "@/components/home/FinalCta";
@@ -49,8 +52,10 @@ export default function HomePage({ params }: { params: { locale: string } }) {
         }}
       />
 
-      {/* "Tonight" — one night of service in Amman, unfolding as you scroll. */}
+      {/* v5 "Queue Blue" — the launch story: join the queue, see the product,
+          meet the people behind it, claim your seat. */}
       <HomeHero locale={locale} dict={dict} />
+      <WaitlistCounter locale={locale} dict={dict} />
       <Positioning dict={dict} num="01" />
       <HowItWorks dict={dict} num="02" />
       <Features dict={dict} num="03" />
@@ -58,9 +63,11 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       <Demo dict={dict} num="05" />
       <Neighborhoods dict={dict} num="06" />
       <Operators locale={locale} dict={dict} num="07" />
-      <EarlyAccessPair locale={locale} dict={dict} num="08" />
-      <Traction dict={dict} num="09" />
-      <HomeFaq locale={locale} dict={dict} num="10" />
+      <SocialProof dict={dict} num="08" />
+      <EarlyAccessPair locale={locale} dict={dict} num="09" />
+      <FounderNote dict={dict} num="10" />
+      <Traction dict={dict} num="11" />
+      <HomeFaq locale={locale} dict={dict} num="12" />
       <FinalCta locale={locale} dict={dict} />
     </>
   );

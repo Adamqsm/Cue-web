@@ -35,9 +35,14 @@ export default function PricingTiers({
                 recommended ? "border-accent shadow-card" : "card-hover"
               )}
             >
-              {/* !important so the override beats .dark .label's specificity
-                  (same pattern as Traction.tsx). */}
-              <span className={cn("label", !recommended && "!text-muted")}>
+              {/* Recommended tier keeps a blue badge (the accent-as-highlight
+                  rule); other tiers get the neutral chip. */}
+              <span
+                className={cn(
+                  "label",
+                  recommended && "!border-transparent !bg-accent !text-white dark:!text-bg"
+                )}
+              >
                 {tier.tag}
               </span>
               <h3 className="mt-5 text-2xl font-semibold tracking-[-0.015em] text-content">

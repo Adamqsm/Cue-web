@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Fraunces,
-  Instrument_Sans,
-  Reem_Kufi,
-  IBM_Plex_Sans_Arabic,
-} from "next/font/google";
+import { Plus_Jakarta_Sans, Cairo } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { locales, isLocale, localeDirection, type Locale } from "@/i18n/config";
@@ -18,37 +13,19 @@ import ConsentBanner from "@/components/ConsentBanner";
 import FloatingContact from "@/components/FloatingContact";
 import UtmCapture from "@/components/UtmCapture";
 
-// v3 "Tonight" — editorial pairing. Fraunces (characterful soft-serif) for
-// display, Instrument Sans (warm humanist workhorse) for body/UI. Arabic gets
-// an equal pairing: Reem Kufi display + IBM Plex Sans Arabic body.
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-  // Variable font: the wght axis loads its full range; opsz + SOFT give
-  // Fraunces its warmth at display sizes. (No explicit `weight` — axes and a
-  // fixed weight can't be combined on a variable face.) Italic is loaded so the
-  // hero accent line renders a true italic, not a faux slant.
-  axes: ["opsz", "SOFT"],
-});
-
-const instrumentSans = Instrument_Sans({
+// v5 "Queue Blue" — one friendly sans per script, weight does the hierarchy.
+// Plus Jakarta Sans (variable, 200-800) carries every Latin role; Cairo
+// (variable, includes a Latin subset so mixed strings inside Arabic pages
+// stay in one face) carries every Arabic role. Both self-hosted through
+// next/font, which is what the CSP's `font-src 'self'` requires.
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const reemKufi = Reem_Kufi({
+const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-arabic-display",
-  display: "swap",
-});
-
-const plexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-arabic",
   display: "swap",
 });
@@ -127,7 +104,7 @@ export default function LocaleLayout({
           React-managed className stops hydration from reconciling it away
           (which stripped the theme class and caused a light-mode flash). */}
       <body
-        className={`${fraunces.variable} ${instrumentSans.variable} ${reemKufi.variable} ${plexArabic.variable} min-h-screen antialiased`}
+        className={`${jakarta.variable} ${cairo.variable} min-h-screen antialiased`}
       >
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Reveal/HomeHero SSR framer-motion's hidden initial state as inline
@@ -136,7 +113,6 @@ export default function LocaleLayout({
         <noscript>
           <style>{`[style*="opacity"]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
-        <span className="grain" aria-hidden />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:rounded-full focus:bg-content focus:px-4 focus:py-2 focus:text-bg"

@@ -78,9 +78,11 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
                   <p className="max-w-sm text-sm text-muted">{role.body}</p>
                   <span
                     aria-hidden
-                    className="hidden shrink-0 text-spark-deep transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1 sm:inline-block"
+                    className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-wash text-accent-deep transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 sm:inline-flex"
                   >
-                    →
+                    <svg viewBox="0 0 16 16" className="h-4 w-4 rtl:-scale-x-100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 8h10M9.5 3.5 14 8l-4.5 4.5" />
+                    </svg>
                   </span>
                 </div>
               </LocaleLink>

@@ -1,5 +1,6 @@
 // English content — source of truth for the Dictionary shape.
-// Voice: direct, confident, human. Short sentences. No inflated claims.
+// Voice: friendly, direct, human. Short sentences. No inflated claims,
+// no corporate hedging, and no em-dashes anywhere in on-page copy.
 
 const en = {
   dir: "ltr",
@@ -53,14 +54,24 @@ const en = {
         "Reserve a table at the best restaurants in Amman. Instant confirmations, group dining, split payments. Download Cue today.",
     },
     hero: {
-      status: "Pre-launch · Amman",
-      titleTop: "Book tables at Amman's",
-      titleAccent: "best restaurants, instantly.",
+      status: "Launching soon · Amman",
+      titleTop: "Don't wait in the queue.",
+      titleAccent: "Join the Cue.",
       subtitle:
-        "Reserve a table at the best restaurants in Amman — from Abdoun to Rainbow Street. Instant confirmations, easy group dining, and split payments so everyone covers their share.",
-      primary: "Join early access",
+        "Book tables at Amman's best restaurants, from Abdoun to Rainbow Street. Instant confirmations, easy group plans, and split payments so everyone covers their share.",
+      primary: "Claim 3 months free",
       secondary: "For restaurants",
-      note: "Now onboarding founding restaurants across Amman.",
+      proof: "2,300+ people are already in the queue",
+      phoneFrontAlt:
+        "A confirmed restaurant reservation in the Cue app, Amman",
+      phoneBackAlt:
+        "Requesting a table at an Amman restaurant in the Cue app",
+      chips: {
+        confirmed: "Table confirmed",
+        ticketLabel: "Your queue spot",
+        ticket: "№ 048",
+        time: "Tonight · 8:30 PM",
+      },
       board: {
         title: "Tonight · Service board",
         live: "Live",
@@ -70,20 +81,29 @@ const en = {
           seated: "Seated",
         },
         rows: [
-          { name: "Layali — party of 4", time: "8:30 PM" },
-          { name: "Nadia K. — party of 2", time: "9:00 PM" },
-          { name: "Sami R. — party of 6", time: "9:15 PM" },
-          { name: "Hold — party of 3", time: "9:45 PM" },
+          { name: "Layali · party of 4", time: "8:30 PM" },
+          { name: "Nadia K. · party of 2", time: "9:00 PM" },
+          { name: "Sami R. · party of 6", time: "9:15 PM" },
+          { name: "Hold · party of 3", time: "9:45 PM" },
         ],
         footerLabel: "Covers tonight",
         footerValue: "142",
         confirmLabel: "Confirm",
       },
     },
+    waitlist: {
+      label: "The queue",
+      title: "The queue is filling up.",
+      body: "Every number here is a real person holding a Cue Insider code for launch day. Claim yours and you're in from night one.",
+      cta: "Claim your spot",
+      note: "Free to join. One code per person.",
+      ticketLabel: "Now in the queue",
+      countLabel: "and counting",
+    },
     problem: {
       label: "The problem",
       title: "Bookings break in the gaps.",
-      body: "Reservations live across DMs, phone calls, walk-ins, and a paper book. Nobody holds the full picture — so tables get double-booked and no-shows go unnoticed.",
+      body: "Reservations live across DMs, phone calls, walk-ins, and a paper book. Nobody holds the full picture, so tables get double-booked and no-shows go unnoticed.",
       resolve: "Cue puts every request in one place and gives your team a single source of truth.",
     },
     hiw: {
@@ -95,9 +115,9 @@ const en = {
         operators: "For operators",
       },
       guests: [
-        { title: "Discover", body: "Browse venues across Amman — by area, cuisine, and price." },
+        { title: "Discover", body: "Browse venues across Amman by area, cuisine, and price." },
         { title: "Request", body: "Pick a date, time, and party size. Add a note. Send." },
-        { title: "Get confirmed", body: "An instant, unambiguous status — no chasing a reply." },
+        { title: "Get confirmed", body: "An instant, unambiguous status. No chasing a reply." },
         { title: "Arrive", body: "Show up to a table that's actually held for you." },
       ],
       operators: [
@@ -129,7 +149,7 @@ const en = {
         {
           icon: "language",
           title: "Bilingual by default",
-          body: "Arabic and English as equals — for your guests and your team.",
+          body: "Arabic and English as equals, for your guests and your team.",
         },
         {
           icon: "flow",
@@ -145,7 +165,7 @@ const en = {
       spotlight: {
         label: "Group payments",
         title: "Split payments with your group.",
-        body: "Secure the table before the night. Everyone pays their share up front — send each guest a payment link over WhatsApp or Apple Pay, and watch the booking fill up. No chasing cash, no one stuck covering the whole bill.",
+        body: "Secure the table before the night. Everyone pays their share up front: send each guest a payment link over WhatsApp or Apple Pay, and watch the booking fill up. No chasing cash, and no one stuck covering the whole bill.",
         points: [
           "A link per guest, paid in seconds",
           "Prepayment secures the table and cuts no-shows",
@@ -172,7 +192,7 @@ const en = {
     operators: {
       label: "For operators",
       title: "The control room for your floor.",
-      body: "One screen for every reservation — confirmed covers, pending requests, event nights, and the numbers behind them. Cue runs quietly in the background so your team stays on service.",
+      body: "One screen for every reservation: confirmed covers, pending requests, event nights, and the numbers behind them. Cue runs quietly in the background so your team stays on service.",
       points: [
         "Confirm or decline requests in one tap",
         "See tonight's covers before you open the doors",
@@ -180,8 +200,44 @@ const en = {
         "Coordinate group bookings and event nights",
       ],
       cta: "Partner with Cue",
-      image: "/images/cue-app-profile-screen.jpeg",
-      imageAlt: "Cue restaurant reservation dashboard in Amman — tonight's table bookings at a glance",
+    },
+    socialProof: {
+      label: "Early words",
+      title: "What people say about Cue.",
+      body: "Real quotes from early guests and founding venues will live here as they come in.",
+      placeholderTag: "Placeholder · real quotes before launch",
+      quotes: [
+        {
+          text: "Placeholder quote. What an early guest says about booking a table with Cue goes here, in their own words.",
+          initial: "G",
+          name: "Guest name",
+          role: "Early access member",
+        },
+        {
+          text: "Placeholder quote. What a founding restaurant says about running service on Cue goes here.",
+          initial: "R",
+          name: "Owner name",
+          role: "Founding partner venue",
+        },
+        {
+          text: "Placeholder quote. What a group organizer says about splitting the bill on Cue goes here.",
+          initial: "O",
+          name: "Organizer name",
+          role: "Cue Insider member",
+        },
+      ],
+      pressLabel: "Launch coverage",
+      pressSlots: ["Press logo", "Press logo", "Press logo", "Press logo"],
+    },
+    founder: {
+      label: "From the founder",
+      placeholderTag: "Placeholder · awaiting the real note",
+      paragraphs: [
+        "We're building Cue for a simple reason: booking a table in Amman still runs on phone calls, DMs, and a notebook by the door. Guests deserve a confirmed seat, and the teams running the floor deserve one clean system instead of five scattered channels.",
+        "This space is reserved for a personal note from the founder. The real letter, in his own words, lands here before launch.",
+      ],
+      signName: "Adam",
+      signRole: "Founder, Cue",
     },
     traction: {
       label: "Traction",
@@ -189,7 +245,7 @@ const en = {
       body: "We're onboarding founding venues in Amman now. Real partner logos and results land here as they go live.",
       logosLabel: "Founding partners",
       logosPlaceholder: "Your venue here",
-      targetsLabel: "Where we're headed — 18-month targets",
+      targetsLabel: "Where we're headed: 18-month targets",
       targets: [
         { value: "60+", label: "Live venues" },
         { value: "12K+", label: "Monthly requests" },
@@ -200,7 +256,7 @@ const en = {
     neighborhoods: {
       label: "Across Amman",
       title: "Browse restaurants by neighborhood",
-      body: "Cue is launching across Amman's busiest dining areas — from rooftop lounges to casual spots — with more neighborhoods added as new restaurants come online.",
+      body: "Cue is launching across Amman's busiest dining areas, from rooftop lounges to casual spots, with more neighborhoods added as new restaurants come online.",
       areas: [
         "Abdoun",
         "Sweifieh",
@@ -227,7 +283,7 @@ const en = {
     earlyAccess: {
       label: "Get in early",
       title: "Two seats at the early table.",
-      body: "Cue opens with an offer on each side of the booking — one for the people who dine, one for the rooms that host them.",
+      body: "Cue opens with an offer on each side of the booking: one for the people who dine, one for the rooms that host them.",
       guest: {
         eyebrow: "For guests",
         title: "3 months of Cue Insider, free",
@@ -237,7 +293,7 @@ const en = {
       operator: {
         eyebrow: "For restaurants",
         title: "12 months free as a founding partner",
-        body: "The full platform at JD 0 for your first year, with hands-on onboarding — for venues that join before launch.",
+        body: "The full platform at JD 0 for your first year, with hands-on onboarding, for venues that join before launch.",
         cta: "Partner with Cue",
       },
     },
@@ -254,7 +310,7 @@ const en = {
       eyebrow: "How it works",
       title: "The platform, and the thinking behind it.",
       subtitle:
-        "Cue is built end to end — a clean experience for guests, a structured system for operators. Here's how the whole loop fits together.",
+        "Cue is built end to end: a clean experience for guests, a structured system for operators. Here's how the whole loop fits together.",
     },
     loop: {
       kicker: "The booking loop",
@@ -268,7 +324,7 @@ const en = {
         {
           n: "02",
           title: "Request",
-          body: "A guest picks a date, time, party size, and adds any notes. The request lands in your queue as pending — nothing is confirmed until you say so.",
+          body: "A guest picks a date, time, party size, and adds any notes. The request lands in your queue as pending. Nothing is confirmed until you say so.",
         },
         {
           n: "03",
@@ -278,41 +334,41 @@ const en = {
         {
           n: "04",
           title: "Coordinate",
-          body: "Group activity, guest flow, and reminders are handled in the background — so service stays the focus.",
+          body: "Group activity, guest flow, and reminders are handled in the background, so service stays the focus.",
         },
       ],
     },
     guest: {
       kicker: "For guests",
       title: "A booking experience that feels effortless.",
-      body: "Guests get a simple, transparent way to plan and manage outings — from first browse to a confirmed table.",
+      body: "Guests get a simple, transparent way to plan and manage outings, from first browse to a confirmed table.",
       features: [
         {
           img: "/images/cue-app-guest-booking-request.jpeg",
           title: "Request a table",
-          body: "Pick a venue, date, time, and party size — a fast, clear booking flow with any special requests.",
+          body: "Pick a venue, date, time, and party size. A fast, clear booking flow with any special requests.",
         },
         {
           img: "/images/cue-app-guest-payment-split.jpeg",
           title: "Split the prepayment",
-          body: "For group nights, everyone pays their share up front — a secure link each, over WhatsApp or Apple Pay.",
+          body: "For group nights, everyone pays their share up front: a secure link each, over WhatsApp or Apple Pay.",
         },
         {
           img: "/images/cue-app-guest-reservation-confirmed.jpeg",
           title: "Confirmed, in one place",
-          body: "An instant, unambiguous status — plus every reservation and its history on tap.",
+          body: "An instant, unambiguous status, plus every reservation and its history on tap.",
         },
       ],
     },
     operator: {
       kicker: "For operators",
       title: "A dashboard built for the pass, not the boardroom.",
-      body: "Cue gives your team visibility and control without adding load. Confirm bookings, manage busy nights, and understand performance — all in one structured system.",
+      body: "Cue gives your team visibility and control without adding load. Confirm bookings, manage busy nights, and understand performance, all in one structured system.",
       features: [
         {
           img: "/images/cue-app-profile-screen.jpeg",
           title: "Today at a glance",
-          body: "Confirmed covers, pending requests, and the night ahead — the moment you open the app.",
+          body: "Confirmed covers, pending requests, and the night ahead, the moment you open the app.",
         },
         {
           img: "/images/cue-app-search-filters.jpeg",
@@ -322,23 +378,23 @@ const en = {
         {
           img: "/images/cue-app-booking-flow.jpeg",
           title: "Event nights",
-          body: "Coordinate high-demand nights — table sessions, capacity, and group activity in one place.",
+          body: "Coordinate high-demand nights: table sessions, capacity, and group activity in one place.",
         },
         {
           img: "/images/cue-app-venue-detail.jpeg",
           title: "Performance",
-          body: "Booking volume, confirmation rates, and trends — the numbers that tell you what's working.",
+          body: "Booking volume, confirmation rates, and trends. The numbers that tell you what's working.",
         },
       ],
     },
     philosophy: {
       kicker: "The thinking",
       title: "We build on what actually works on the ground.",
-      body: "Cue isn't here to replace your team or force a new process. It's structured infrastructure that fits how hospitality already operates — fast to adopt, reliable under pressure, and bilingual from day one.",
+      body: "Cue isn't here to replace your team or force a new process. It's structured infrastructure that fits how hospitality already operates: fast to adopt, reliable under pressure, and bilingual from day one.",
       points: [
         {
           title: "Operational truth",
-          body: "Every feature is grounded in how venues really run a service — not how software wishes they would.",
+          body: "Every feature is grounded in how venues really run a service, not how software wishes they would.",
         },
         {
           title: "Fast before complex",
@@ -346,7 +402,7 @@ const en = {
         },
         {
           title: "Bilingual by design",
-          body: "Arabic and English as equals — for guests and for your team, everywhere in the product.",
+          body: "Arabic and English as equals, for guests and for your team, everywhere in the product.",
         },
       ],
     },
@@ -369,14 +425,14 @@ const en = {
       eyebrow: "Partner with Cue",
       title: "A booking platform built to support modern operations.",
       subtitle:
-        "Cue partners with restaurants, venues, and hospitality businesses to simplify reservations, reduce manual coordination, and improve operational control — without disrupting how your team works.",
+        "Cue partners with restaurants, venues, and hospitality businesses to simplify reservations, reduce manual coordination, and improve operational control, without disrupting how your team works.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
     founding: {
       badge: "Founding partner offer",
       title: "Founding partners: first 12 months at JD 0",
-      body: "Full platform free for the first year — plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training.",
+      body: "Full platform free for the first year, plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training.",
       perks: [
         "Full platform free for 12 months",
         "Founding-partner badge in the app",
@@ -385,7 +441,7 @@ const en = {
       ],
       cta: "Apply to Join",
       waitlistNote:
-        "The Cue Insider early-access list is now open to guests — every claimed code is a diner committed to launch day.",
+        "The Cue Insider early-access list is now open to guests. Every claimed code is a diner committed to launch day.",
     },
     pricing: {
       kicker: "Plans & pricing",
@@ -440,24 +496,24 @@ const en = {
     commission: {
       kicker: "Commission structure",
       title: "Your own guests are never taxed.",
-      body: "Commission applies only where Cue clearly created the value — never on the business you already own.",
+      body: "Commission applies only where Cue clearly created the value, never on the business you already own.",
       items: [
         {
-          lead: "JD 0 — always",
+          lead: "JD 0, always",
           body: "on your own bookings, walk-ins, and repeat guests. On every plan.",
         },
         {
           lead: "JD 0.25–0.50",
-          body: "per net-new, Cue-discovered seated diner — only when Cue originated the booking. Core & Pro only, with an optional monthly cap.",
+          body: "per net-new, Cue-discovered seated diner, only when Cue originated the booking. Core & Pro only, with an optional monthly cap.",
         },
         {
           lead: "2.5–4%",
-          body: "of the prepaid amount on group prepayments, bill-splitting, and event-night tickets — only when that feature is used.",
+          body: "of the prepaid amount on group prepayments, bill-splitting, and event-night tickets, only when that feature is used.",
         },
       ],
       addons: {
         title: "Optional visibility add-ons",
-        note: "Explicitly optional — never a tax on bookings.",
+        note: "Explicitly optional. Never a tax on bookings.",
         items: [
           { name: "Featured placement", price: "JD 120–350 / month" },
           { name: "Promoted event night", price: "JD 40–90 / event" },
@@ -482,7 +538,7 @@ const en = {
         },
         {
           title: "Designed for real-world use",
-          body: "Cue aligns with how hospitality teams already operate — no forced process changes.",
+          body: "Cue aligns with how hospitality teams already operate. No forced process changes.",
         },
       ],
     },
@@ -520,12 +576,12 @@ const en = {
     },
     approach: {
       kicker: "Our partnership approach",
-      title: "Partnerships based on alignment — not volume.",
+      title: "Partnerships based on alignment, not volume.",
       body: "Cue partners selectively with businesses that value operational discipline and long-term reliability. We build systems that support hospitality teams, not replace them. Partnerships are based on alignment, clarity, and shared standards.",
     },
     cta: {
       title: "First 12 months at JD 0.",
-      body: "Join as a founding partner — the full platform free for the first year, with hands-on onboarding for your team.",
+      body: "Join as a founding partner: the full platform free for the first year, with hands-on onboarding for your team.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
@@ -542,7 +598,7 @@ const en = {
       eyebrow: "Apply to join",
       title: "Tell us about your venue.",
       subtitle:
-        "A few structured details so we can set your venue up properly. It takes about five minutes — our team reviews every application personally.",
+        "A few structured details so we can set your venue up properly. It takes about five minutes, and our team reviews every application personally.",
     },
     form: {
       heading: "Partner application",
@@ -592,7 +648,7 @@ const en = {
         role: "Optional",
         optional: "Optional",
         cuisines: "Pick everything that applies.",
-        menu: "Upload a PDF menu, share a link, or both — at least one is required.",
+        menu: "Upload a PDF menu, share a link, or both. At least one is required.",
         photos: "Up to 6 images (JPG/PNG/WebP, max 8MB each). Optional.",
         whatsappBusiness: "Only if different from the contact number.",
         hours: "Set your opening and closing time for each day, or mark it closed.",
@@ -653,7 +709,7 @@ const en = {
       errors: {
         required: "Please fill in all required fields.",
         email: "Please enter a valid email address.",
-        menu: "Please upload a menu PDF or add a menu link — at least one is required.",
+        menu: "Please upload a menu PDF or add a menu link. At least one is required.",
         menuType: "The menu must be a PDF file.",
         menuSize: "The menu PDF must be under 10MB.",
         photoType: "Photos must be images (JPG, PNG, or WebP).",
@@ -682,10 +738,10 @@ const en = {
     },
     hero: {
       eyebrow: "Cue Insider · early access",
-      // \u00A0 keeps the "Cue Insider" wordmark on one line under text-balance.
-      title: "Three months of Cue\u00A0Insider. On the house.",
+      //   keeps the "Cue Insider" wordmark on one line under text-balance.
+      title: "Three months of Cue Insider. On the house.",
       subtitle:
-        "Cue Insider is Cue's membership for people who dine out. Claim your place before launch and your first three months are free — your code arrives by email and waits for opening night.",
+        "Cue Insider is Cue's membership for people who dine out. Claim your place before launch and your first three months are free. Your code arrives by email and waits for opening night.",
     },
     offer: {
       kicker: "What you're claiming",
@@ -695,11 +751,11 @@ const en = {
       points: [
         {
           title: "Full Cue Insider membership",
-          body: "Three free months of the real Cue Insider membership — not a cut-down trial.",
+          body: "Three free months of the real Cue Insider membership, not a cut-down trial.",
         },
         {
           title: "Three months, JD 0",
-          body: "Your first three months are free. No card, no commitment — the code alone is your claim.",
+          body: "Your first three months are free. No card, no commitment. The code alone is your claim.",
         },
         {
           title: "A held seat at launch",
@@ -707,7 +763,7 @@ const en = {
         },
       ],
       timing:
-        "Your three months start when you redeem the code in the Cue app at launch — not today. Claiming now just holds your place.",
+        "Your three months start when you redeem the code in the Cue app at launch, not today. Claiming now just holds your place.",
     },
     steps: {
       kicker: "How it works",
@@ -719,7 +775,7 @@ const en = {
         },
         {
           title: "Keep the email",
-          body: "Your personal code arrives in your inbox — one code, issued once, tied to you.",
+          body: "Your personal code arrives in your inbox. One code, issued once, tied to you.",
         },
         {
           title: "Redeem at launch",
@@ -734,7 +790,7 @@ const en = {
       email: "Email",
       emailPlaceholder: "you@example.com",
       phone: "Mobile number",
-      phoneHint: "Jordan and GCC numbers — we default to +962.",
+      phoneHint: "Jordan and GCC numbers. We default to +962.",
       consent:
         "Keep me posted about Cue's launch and Cue Insider news. No spam, unsubscribe any time.",
       submit: "Claim 3 months free",
@@ -755,35 +811,35 @@ const en = {
     success: {
       eyebrow: "Claim confirmed",
       title: "Your code is in. Guard it well.",
-      body: "This is your Cue Insider code — we've also emailed it to you for safekeeping.",
+      body: "This is your Cue Insider code. We've also emailed it to you for safekeeping.",
       ticket: {
         label: "Cue Insider · early seat",
         codeLabel: "Redemption code",
         nameLabel: "Held for",
         issuedLabel: "Issued",
         statusLabel: "Status",
-        statusIssued: "Issued — waiting for launch",
+        statusIssued: "Issued, waiting for launch",
       },
       copy: "Copy code",
       copied: "Copied",
       emailedTo: "Sent to {email}",
-      next: "We'll email you the day Cue goes live. Until then, there's nothing else to do — your seat is held.",
+      next: "We'll email you the day Cue goes live. Until then, there's nothing else to do. Your seat is held.",
       home: "Back to home",
     },
     duplicate: {
       title: "You already have a code.",
-      body: "This email already claimed its Cue Insider code, so we didn't issue a new one — we've re-sent your original code to your inbox instead.",
+      body: "This email already claimed its Cue Insider code, so we didn't issue a new one. We've re-sent your original code to your inbox instead.",
       bodyPhone:
-        "This mobile number already claimed a Cue Insider code. Your code lives with the email you signed up with — submit the form with that email and we'll re-send it there.",
+        "This mobile number already claimed a Cue Insider code. Your code lives with the email you signed up with. Submit the form with that email and we'll re-send it there.",
       rateLimited:
-        "You already have a code, and we re-sent it recently. Check your inbox (and spam folder) — you can request it again in a few minutes.",
+        "You already have a code, and we re-sent it recently. Check your inbox (and spam folder). You can request it again in a few minutes.",
       resendLimit:
         "You already have a code and we've re-sent it the maximum number of times for now. Reach us through the help center and we'll sort it out.",
     },
     terms: {
       title: "The small print",
       items: [
-        "One code per person — a claim matching your email or your mobile number returns your original code.",
+        "One code per person. A claim matching your email or your mobile number returns your original code.",
         "Codes are personal and non-transferable.",
         "Redeeming requires the Cue app, at launch.",
         "Your three free months start at redemption, not at signup.",
@@ -816,11 +872,11 @@ const en = {
     problem: {
       kicker: "What Cue solves",
       title: "Booking is fragmented. Coordination is manual. Cue fixes both.",
-      body: "Cue addresses common challenges in hospitality — fragmented booking processes, group coordination, and operational inefficiencies. By bringing these elements onto a single platform, Cue supports reservations, group activity, and guest flow in a clear, controlled way.",
+      body: "Cue addresses common challenges in hospitality: fragmented booking processes, group coordination, and operational inefficiencies. By bringing these elements onto a single platform, Cue supports reservations, group activity, and guest flow in a clear, controlled way.",
       columns: [
         {
           title: "For guests",
-          body: "A simple and transparent way to plan and manage outings — from browsing to a confirmed table.",
+          body: "A simple and transparent way to plan and manage outings, from browsing to a confirmed table.",
         },
         {
           title: "For operators",
@@ -835,7 +891,7 @@ const en = {
         { title: "Local before broad", body: "Win Amman first. Build depth before breadth." },
         { title: "Fast before complex", body: "Ship the core loop, keep it clean, add depth without clutter." },
         { title: "Operational truth", body: "Build on what actually works on the ground." },
-        { title: "Bilingual by design", body: "Arabic and English as equals — everywhere." },
+        { title: "Bilingual by design", body: "Arabic and English as equals, everywhere." },
         { title: "Licensed rails", body: "Compliant and considered from day one." },
         { title: "Data minimization", body: "Collect only what's needed. Nothing more." },
       ],
@@ -843,7 +899,7 @@ const en = {
     vision: {
       kicker: "The vision",
       title: "A higher standard for hospitality bookings.",
-      body: "Cue's goal is to deliver dependable booking infrastructure that balances guest experience with operational control — starting in Amman, and built to grow across the region.",
+      body: "Cue's goal is to deliver dependable booking infrastructure that balances guest experience with operational control, starting in Amman and built to grow across the region.",
       cta: "Discover Cue",
     },
   },
@@ -898,7 +954,7 @@ const en = {
       requiredNote: "Required fields are marked with an asterisk (*).",
       success: {
         title: "You're in.",
-        body: "Thanks — we've got your details. We'll be in touch with early access updates and next steps.",
+        body: "Thanks. We've got your details, and we'll be in touch with early access updates and next steps.",
         again: "Submit another response",
       },
       error: "Something went wrong. Please try again, or email us directly.",
@@ -923,17 +979,17 @@ const en = {
     why: {
       kicker: "Why Cue",
       title: "Small team. Real product. Room to shape it.",
-      body: "We operate as a global team and welcome applications from professionals across all regions. Whether your expertise is technology, operations, partnerships, marketing, design, or customer success — if you believe in building simple, powerful solutions for real-world businesses, we want to hear from you.",
+      body: "We operate as a global team and welcome applications from professionals across all regions. Whether your expertise is technology, operations, partnerships, marketing, design, or customer success: if you believe in building simple, powerful solutions for real-world businesses, we want to hear from you.",
       items: [
         { title: "Real ownership", body: "Early enough that your work defines the product, not just maintains it." },
-        { title: "Craft matters", body: "We care about the details — in code, in design, and in how we treat partners." },
+        { title: "Craft matters", body: "We care about the details, in code, in design, and in how we treat partners." },
         { title: "Global & bilingual", body: "A team that works across regions and builds for Arabic and English as equals." },
       ],
     },
     roles: {
       kicker: "Where we're hiring",
       title: "Current focus areas.",
-      note: "Don't see your exact role? Send an open application — we're always meeting exceptional people.",
+      note: "Don't see your exact role? Send an open application. We're always meeting exceptional people.",
       items: [
         { title: "Application development", area: "Engineering", body: "Ship and scale the Cue app and partner dashboard." },
         { title: "Brand management", area: "Brand", body: "Own and grow the Cue brand across every touchpoint." },
@@ -958,68 +1014,68 @@ const en = {
     hero: {
       eyebrow: "Help center",
       title: "Restaurant booking questions, answered.",
-      subtitle: "How to book a table in Amman, what it costs, split payments, group dining, and cancellations.",
+      subtitle: "How to book a table in Amman, what it costs, split payments, group dining, and cancellations. Straight answers, no runaround.",
     },
     items: [
       {
         q: "How do I book a table on Cue?",
-        a: "Open Cue, browse restaurants in Amman, and choose a venue, date, time, and party size. Send the request and the restaurant confirms it — you get an instant status with no phone calls or back-and-forth. Your table is held the moment it's confirmed.",
+        a: "Pick a restaurant, pick a date and time, tell us how many of you are coming, and send the request. The restaurant confirms it in the app and the table is yours. No phone calls, no DMs, no wondering whether anyone actually wrote it down.",
       },
       {
         q: "Is Cue free for guests?",
-        a: "Yes. Browsing restaurants and booking a table on Cue is free for guests. Some high-demand tables and event nights ask for a small prepayment to secure the booking, and that amount goes toward your visit.",
+        a: "Yes, completely. Browsing and booking cost nothing. The only time money comes into it is when a venue asks for a small deposit on a high-demand table or an event night, and that deposit counts toward your bill when you show up.",
       },
       {
         q: "How do split payments work?",
-        a: "Booking for a group? Cue lets everyone pay their share up front. The organizer sends each guest a secure payment link over WhatsApp or Apple Pay, and the table is secured once every share is in — so no one gets stuck covering the whole bill.",
+        a: "You book the table, then everyone pays their own share up front. Each person in your group gets a secure payment link over WhatsApp or Apple Pay, and you can literally watch the booking fill up as the shares land. Nobody fronts the whole bill and spends the next week collecting.",
       },
       {
         q: "What restaurants are available in Amman?",
-        a: "Cue is launching with restaurants across Amman's main dining areas — Abdoun, Sweifieh, Rainbow Street, Seventh Circle and more — spanning fine dining, casual spots, and lounges. New venues are added as they come online.",
+        a: "We're launching with venues across the areas people actually go out in: Abdoun, Sweifieh, Rainbow Street, Seventh Circle, and more. Fine dining, casual spots, lounges. We're adding venues every week as onboarding continues, so if your favorite spot is missing, tell them to talk to us.",
       },
       {
         q: "Can I book for large groups?",
-        a: "Yes. Cue is built for group dining. Set your party size when you request a table, split the prepayment across everyone, and let the restaurant coordinate the rest. Larger tables and event nights are supported too.",
+        a: "Yes, that's half the reason we built Cue. Set your party size when you book, split the deposit across the group so nobody carries it alone, and the restaurant sees exactly what's coming. Big tables and event nights work the same way.",
       },
       {
         q: "How do I cancel a reservation?",
-        a: "Open the booking in Cue and cancel it there — the earlier you cancel, the better for the restaurant. Each venue sets its own terms for holds and no-shows, and those are shown before you confirm. Repeated no-shows may limit an account.",
+        a: "Open the booking in the app and cancel it. That's it. Cancel early when your plans change; the restaurant would rather re-sell the table than eat the no-show. Each venue sets its own deposit and no-show terms and you see them before you confirm. If someone keeps no-showing, their account gets limited.",
       },
       {
         q: "What is Cue?",
-        a: "Cue is a restaurant reservation platform for Amman. Guests get a simple way to find and book tables; restaurants get one structured system for reservations, group activity, and guest flow — one source of truth for both sides of every booking.",
+        a: "A restaurant reservation platform, built in Amman for Amman. Guests get a simple way to find and book tables. Restaurants get one system for requests, group bookings, and busy nights, instead of a phone, an Instagram inbox, and a paper book that never agree with each other.",
       },
       {
         q: "How does my restaurant sign up?",
-        a: "Cue partners with restaurants and venues across Amman. Go to Partner with Cue, share a few details, and our team reaches out to check fit and walk you through onboarding. Founding partners in Amman onboard at zero risk.",
+        a: "Head to Partner with Cue and tell us about your venue. It takes about five minutes. We read every application ourselves and reach out to see if it's a fit. Founding partners in Amman get their first year free, so there's genuinely no catch to trying it.",
       },
       {
         q: "Is Cue available in Arabic?",
-        a: "Yes. Cue is bilingual by design — full English and Arabic across the app, the dashboard, this site, and every form and notification. Neither language is an afterthought.",
+        a: "Yes, fully. The app, the dashboard, this site, every form and every notification exist in Arabic and English as equals. We didn't translate an English product into Arabic as an afterthought; we built both from the start.",
       },
       {
         q: "How is my data handled?",
-        a: "Cue follows a strict data-minimization approach under Jordan's PDPL. We collect only what's needed to run a booking, share only what a venue needs to fulfill it, and never sell personal data. See our Privacy Policy for the full detail.",
+        a: "We collect only what a booking needs, share only what the restaurant needs to seat you, and never sell personal data. Full stop. We operate under Jordan's Personal Data Protection Law, and the Privacy Policy spells out the details in plain language.",
       },
       {
         q: "What is the Cue Insider 3-months-free offer?",
-        a: "Cue Insider is Cue's membership for guests. Anyone who joins the early-access list before launch gets their first three months of Cue Insider free — you claim a personal redemption code now, and it activates when you redeem it in the Cue app.",
+        a: "Cue Insider is our membership for people who dine out. Join the early-access list before launch and your first three months are free. You claim a personal code now, we email it to you, and it activates the day you redeem it in the app.",
       },
       {
         q: "Who can claim the free 3 months, and how many codes can I get?",
-        a: "One code per person. We match claims on both email address and mobile number, so a second claim with either returns your original code rather than issuing a new one. Codes are personal and non-transferable.",
+        a: "One code per person. We match claims on both email and mobile number, so submitting twice just gets you your original code again. Codes are tied to you and can't be passed around.",
       },
       {
         q: "When do my free months start?",
-        a: "At redemption, not at signup. Your code waits until the Cue app launches; the day you redeem it in the app, your three free months begin. Claiming early never shortens your offer.",
+        a: "When you redeem the code in the app, not when you claim it. Your code sits safely until launch day, so claiming early never costs you a single day of the offer.",
       },
       {
         q: "How do I use my Cue Insider code?",
-        a: "When the Cue app launches, sign in and enter the code exactly as it appears in your email — it looks like CUE-XXXX-XXXX. The app checks it instantly and your Cue Insider months start on the spot.",
+        a: "When the app launches, sign in and type the code exactly as it appears in your email. It looks like CUE-XXXX-XXXX. The app checks it on the spot and your three months start right there.",
       },
       {
-        q: "I lost my code — what do I do?",
-        a: "Submit the claim form again with the same email or mobile number. We won't issue a duplicate; we'll re-send your original code to the email it was claimed with. If you no longer have access to that inbox, contact us through the form below.",
+        q: "I lost my code. What do I do?",
+        a: "Fill in the claim form again with the same email or phone number. We don't issue duplicates; we re-send your original code to the email you claimed with. If you've lost access to that inbox too, message us through the form below and we'll sort it out.",
       },
     ],
     contact: {
@@ -1032,7 +1088,7 @@ const en = {
         message: "Message",
       },
       submit: "Send message",
-      success: "Thanks — your message is on its way. We'll reply within 48 hours.",
+      success: "Thanks! Your message is on its way. We'll reply within 48 hours.",
     },
   },
 

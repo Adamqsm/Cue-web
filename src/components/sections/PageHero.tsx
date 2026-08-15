@@ -30,10 +30,7 @@ export default function PageHero({
           )}
         >
           <Reveal>
-            <span className="eyebrow">
-              <span className="h-px w-6 bg-current opacity-60" aria-hidden />
-              {eyebrow}
-            </span>
+            <span className="eyebrow">{eyebrow}</span>
           </Reveal>
           <Reveal delay={1}>
             <h1 className="mt-5 text-balance text-[clamp(2.5rem,6vw,4.75rem)]">

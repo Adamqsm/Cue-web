@@ -19,10 +19,7 @@ export default function FoundingBanner({
         <div className="rounded-panel border border-accent/25 bg-accent-wash px-6 py-12 sm:px-14 sm:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <span className="label">
-                <span className="h-px w-6 bg-current opacity-60" />
-                {founding.badge}
-              </span>
+              <span className="label !bg-accent !text-white">{founding.badge}</span>
               <h2 className="mt-5 text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
                 {founding.title}
               </h2>

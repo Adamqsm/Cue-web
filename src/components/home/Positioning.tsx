@@ -2,11 +2,11 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import EditorialSection from "./EditorialSection";
 
 /**
- * "The gap" — the problem, promoted and made a full-bleed ink moment. Short,
- * sharp, high-contrast. A bespoke motif carries the metaphor: fragmented
- * channels (DMs, calls, walk-ins, paper) scatter on the reading edge and
- * resolve into one confirmed olive line. Drawn with explicit light strokes
- * because it lives only on the ink band (token stroke-content would vanish).
+ * "The gap" — the problem, made a full-bleed ink moment. Short, sharp,
+ * high-contrast. The motif carries the metaphor: fragmented channels (DMs,
+ * calls, walk-ins, paper) scatter on the reading edge and resolve into one
+ * confirmed blue line. Drawn with explicit strokes because it lives only on
+ * the ink band (token stroke-content would vanish there).
  */
 export default function Positioning({
   dict,
@@ -20,7 +20,7 @@ export default function Positioning({
     <EditorialSection num={num} label={p.label} band="ink">
       <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div>
-          <h2 className="text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.04] text-bg">
+          <h2 className="text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.08] text-bg">
             {p.title}
           </h2>
           <p className="mt-6 max-w-[52ch] text-lg leading-[1.6] text-bg/70 sm:text-xl">
@@ -43,7 +43,10 @@ export default function Positioning({
   );
 }
 
-/* Scattered fragmented channels → one settled confirmed line. */
+/* Scattered fragmented channels → one settled confirmed blue line.
+   Explicit hexes are v5 tokens: ticket yellow #FFC838 for incoming signals,
+   lifted blue #7FB0FF / queue blue #1465EB for the confirmed rail — both
+   read on the ink band in either theme. */
 function GapMotif({ className }: { className?: string }) {
   return (
     <svg
@@ -62,8 +65,8 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M18 184h84" />
         <path d="M18 230h110" />
       </g>
-      {/* Marigold origin dots (incoming, scattered) */}
-      <g fill="#DF9426">
+      {/* Ticket-yellow origin dots (incoming, scattered) */}
+      <g fill="#FFC838">
         <circle cx="18" cy="46" r="4" />
         <circle cx="18" cy="92" r="4" />
         <circle cx="18" cy="138" r="4" />
@@ -78,10 +81,10 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M120 184C200 184 214 138 250 138" />
         <path d="M146 230C212 230 214 138 250 138" />
       </g>
-      {/* The single settled olive line + confirmed node */}
-      <path d="M250 138H352" stroke="#9DAA6C" strokeWidth={3} />
-      <circle cx="250" cy="138" r="9" fill="#5B6A38" />
-      <circle cx="352" cy="138" r="14" fill="#5B6A38" />
+      {/* The single settled blue line + confirmed node */}
+      <path d="M250 138H352" stroke="#7FB0FF" strokeWidth={3} />
+      <circle cx="250" cy="138" r="9" fill="#1465EB" />
+      <circle cx="352" cy="138" r="14" fill="#1465EB" />
       <path
         d="M346 138l4 4 8-8"
         stroke="#fff"

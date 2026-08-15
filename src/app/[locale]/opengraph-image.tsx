@@ -4,7 +4,9 @@ export const alt = "Cue — book restaurant tables in Amman, Jordan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Branded social card shared across pages.
+// Branded social card shared across pages — v5 "Queue Blue" tokens
+// (docs/design-tokens-v5.md): cool paper ground, navy ink, queue blue,
+// ticket yellow.
 export default function OgImage() {
   return new ImageResponse(
     (
@@ -15,27 +17,25 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#FAF9F7",
+          background: "#F6F9FD",
           padding: "72px",
           fontFamily: "sans-serif",
         }}
       >
-        {/* top row */}
+        {/* top row — ticket dot + place */}
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               width: "18px",
               height: "18px",
               borderRadius: "9999px",
-              background: "#C86B4A",
+              background: "#FFC838",
             }}
           />
           <div
             style={{
-              color: "#6E675E",
+              color: "#4A5D7A",
               fontSize: "26px",
               letterSpacing: "0.28em",
               textTransform: "uppercase",
@@ -45,36 +45,36 @@ export default function OgImage() {
           </div>
         </div>
 
-        {/* headline */}
+        {/* headline — the queue tagline */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#1A1713",
-              fontSize: "78px",
+              color: "#0B1B36",
+              fontSize: "82px",
               fontWeight: 800,
-              lineHeight: 1.02,
+              lineHeight: 1.04,
               letterSpacing: "-0.02em",
             }}
           >
-            Book tables at Amman&#39;s
+            Don&#39;t wait in the queue.
           </div>
           <div
             style={{
-              color: "#C86B4A",
-              fontSize: "78px",
+              color: "#1465EB",
+              fontSize: "82px",
               fontWeight: 800,
-              lineHeight: 1.02,
+              lineHeight: 1.04,
               letterSpacing: "-0.02em",
             }}
           >
-            best restaurants, instantly.
+            Join the Cue.
           </div>
-          <div style={{ color: "#6E675E", fontSize: "30px", marginTop: "28px" }}>
-            Reservations · group dining · split payments
+          <div style={{ color: "#4A5D7A", fontSize: "30px", marginTop: "28px" }}>
+            Restaurant reservations · group dining · split payments
           </div>
         </div>
 
-        {/* wordmark */}
+        {/* wordmark row */}
         <div
           style={{
             display: "flex",
@@ -84,7 +84,7 @@ export default function OgImage() {
         >
           <div
             style={{
-              color: "#1A1713",
+              color: "#0B1B36",
               fontSize: "56px",
               fontWeight: 800,
               letterSpacing: "0.12em",
@@ -92,7 +92,7 @@ export default function OgImage() {
           >
             CUE
           </div>
-          <div style={{ color: "#6E675E", fontSize: "26px" }}>cue-app.net</div>
+          <div style={{ color: "#4A5D7A", fontSize: "26px" }}>cue-app.net</div>
         </div>
       </div>
     ),

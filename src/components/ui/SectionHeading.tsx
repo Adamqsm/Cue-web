@@ -37,7 +37,6 @@ export default function SectionHeading({
               tone === "paper" && "!text-accent-inverse"
             )}
           >
-            <span className="h-px w-6 bg-current opacity-60" />
             {kicker}
           </span>
         </Reveal>

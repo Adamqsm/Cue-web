@@ -3,95 +3,101 @@
 @tailwind utilities;
 
 /* ============================================================
-   Cue redesign v3 — "Tonight"
-   Warm editorial. Sand ground · olive brand · marigold spark · clay depth.
-   Tokens only — components never hardcode hex. See docs/design-tokens-v2.md
-   Metaphor: a booking arrives glowing (marigold) and settles (olive).
+   Cue redesign v5 — "Queue Blue"
+   Friendly consumer energy. Cool paper ground · queue-blue brand ·
+   ticket-yellow spark · deep navy ink. One confident hue, used the way
+   Talabat uses its orange: sparingly, on white, next to near-black.
+   Tokens only — components never hardcode hex. See docs/design-tokens-v5.md
+   (the same table is the source of truth for the Flutter port).
    ============================================================ */
 
 :root {
-  /* Type: editorial serif display + humanist workhorse; Arabic gets its
-     own equal pairing (display Kufi + Plex Arabic body). */
-  --font-display: "Fraunces", "Instrument Sans", Georgia, serif;
-  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  /* Type: one friendly sans per script. Plus Jakarta Sans carries every
+     Latin role; Cairo carries every Arabic role. Weight does the hierarchy
+     work, exactly like the consumer apps this brand sits beside. */
+  --font-display: var(--font-sans);
   --font-mono: ui-monospace, "Cascadia Mono", monospace;
-  --font-arabic: "IBM Plex Sans Arabic", Tahoma, sans-serif;
-  --font-arabic-display: "Reem Kufi", "IBM Plex Sans Arabic", Tahoma, sans-serif;
+  --font-arabic-display: var(--font-arabic);
 
   /* ---- Semantic ground — light (rgb channels for alpha) ---- */
-  --bg: 242 236 223;         /* #F2ECDF warm sand */
-  --surface: 251 247 239;    /* #FBF7EF bone card */
-  --surface-2: 232 224 206;  /* #E8E0CE sunken band */
-  --content: 35 32 25;       /* #232019 warm olive-black */
-  --muted: 101 95 78;        /* #655F4E secondary text (AA ≥5:1 on sand) */
-  --line: 220 210 190;       /* #DCD2BE hairline */
-  --line-strong: 154 145 124;/* #9A917C input boundary (≥3:1, WCAG 1.4.11) */
+  --bg: 246 249 253;         /* #F6F9FD cool paper */
+  --surface: 255 255 255;    /* #FFFFFF card */
+  --surface-2: 233 240 250;  /* #E9F0FA sky band */
+  --content: 11 27 54;       /* #0B1B36 deep navy ink */
+  --muted: 74 93 122;        /* #4A5D7A secondary text (AA ≥5:1 on paper) */
+  --line: 216 226 240;       /* #D8E2F0 hairline */
+  --line-strong: 130 148 176;/* #8294B0 input boundary (≥3:1, WCAG 1.4.11) */
 
-  /* ---- Accent — OLIVE (brand + "confirmed / settled") ---- */
-  --accent: 91 106 56;         /* #5B6A38 olive */
-  --accent-strong: 76 90 46;   /* #4C5A2E hover / button ground (white AA) */
-  --accent-deep: 60 72 36;     /* #3C4824 olive text on wash / sand (AA) */
-  --accent-wash: rgb(228 229 204); /* #E4E5CC tinted olive fill */
-  --accent-on-inverse: 157 170 108; /* #9DAA6C olive on ink band (AA) */
+  /* ---- Accent — QUEUE BLUE (brand + primary actions) ---- */
+  --accent: 20 101 235;        /* #1465EB queue blue */
+  --accent-strong: 15 85 204;  /* #0F55CC hover / button ground (white AA) */
+  --accent-deep: 12 63 156;    /* #0C3F9C blue text on wash / paper (AA) */
+  --accent-wash: rgb(227 237 255); /* #E3EDFF tinted blue fill */
+  --accent-on-inverse: 127 176 255; /* #7FB0FF blue on navy band (AA) */
 
-  /* ---- Spark — MARIGOLD ("incoming / live / energy") ---- */
-  --spark: 223 148 38;         /* #DF9426 marigold */
-  --spark-strong: 197 124 24;  /* #C57C18 */
-  --spark-deep: 150 89 15;     /* #96590F marigold text on wash / sand (AA) */
-  --spark-wash: rgb(247 231 197); /* #F7E7C5 tinted marigold fill */
-  --spark-on-inverse: 240 178 78;  /* #F0B24E marigold on ink band */
+  /* ---- Spark — TICKET YELLOW (the queue ticket; used sparingly) ---- */
+  --spark: 255 200 56;         /* #FFC838 ticket yellow */
+  --spark-strong: 240 181 24;  /* #F0B518 hover */
+  --spark-deep: 122 90 0;      /* #7A5A00 yellow text on wash / paper (AA) */
+  --spark-wash: rgb(255 243 209); /* #FFF3D1 tinted yellow fill */
+  --spark-on-inverse: 255 214 102; /* #FFD666 yellow on navy band */
 
-  /* ---- Clay — earthy depth (illustration mid-tone, warm support) ---- */
-  --clay: 180 120 80;          /* #B47850 */
+  /* ---- Clay — support mid-tone (illustrations, warm depth) ----
+     Token name kept from v3 for compatibility; value is now a slate blue. */
+  --clay: 91 130 196;          /* #5B82C4 */
 
-  /* Olive brand band — a committed deep-olive moment that stays olive in
-     BOTH themes (the accent-strong token flips light in dark mode, so the
-     band needs its own fixed value). White text clears AA on both. */
-  --olive-band: 76 90 46;      /* #4C5A2E */
+  /* Navy brand band — a committed deep-navy moment that stays navy in
+     BOTH themes. White text clears AA on both. (Name kept from v3.) */
+  --olive-band: 10 27 61;      /* #0A1B3D */
 
   /* ---- Status — information, never decoration ---- */
-  --ok: 78 107 52;             /* #4E6B34 confirmed (reads olive — on brand) */
-  --ok-deep: 60 84 40;         /* #3C5428 AA text on ok wash */
-  --error: 178 58 44;          /* #B23A2C */
-  --error-deep: 141 43 32;     /* #8D2B20 AA text on error wash */
+  --ok: 17 138 80;             /* #118A50 confirmed */
+  --ok-deep: 12 107 60;        /* #0C6B3C AA text on ok wash */
+  --error: 217 48 54;          /* #D93036 */
+  --error-deep: 168 35 43;     /* #A8232B AA text on error wash */
 
-  --shadow-card: 0 18px 44px -22px rgb(35 32 25 / 0.20);
-  --shadow-cta: 0 16px 34px -14px rgb(76 90 46 / 0.42);
-  --shadow-spark: 0 16px 34px -14px rgb(197 124 24 / 0.40);
+  /* Focus ring flips per theme so it is always visible. */
+  --ring: 15 85 204;           /* #0F55CC */
+
+  --shadow-card: 0 16px 40px -20px rgb(11 27 54 / 0.16);
+  --shadow-cta: 0 14px 30px -12px rgb(20 101 235 / 0.45);
+  --shadow-spark: 0 14px 30px -12px rgb(240 181 24 / 0.45);
 }
 
 .dark {
-  --bg: 22 20 14;            /* #16140E warm near-black */
-  --surface: 31 28 20;       /* #1F1C14 */
-  --surface-2: 40 36 26;     /* #28241A */
-  --content: 239 233 218;    /* #EFE9DA */
-  --muted: 167 158 136;      /* #A79E88 */
-  --line: 51 46 34;          /* #332E22 */
-  --line-strong: 115 107 88; /* #736B58 ≥3:1 on dark fields */
+  --bg: 6 13 28;             /* #060D1C navy near-black */
+  --surface: 12 22 48;       /* #0C1630 */
+  --surface-2: 19 32 67;     /* #132043 */
+  --content: 232 238 251;    /* #E8EEFB */
+  --muted: 152 167 198;      /* #98A7C6 */
+  --line: 30 44 78;          /* #1E2C4E */
+  --line-strong: 74 94 136;  /* #4A5E88 ≥3:1 on dark fields */
 
-  --accent: 157 170 108;       /* #9DAA6C lifted olive */
-  --accent-strong: 176 188 128;/* #B0BC80 */
-  --accent-deep: 185 196 140;  /* #B9C48C text on dark */
-  --accent-wash: rgb(91 106 56 / 0.18);
-  --accent-on-inverse: 76 90 46; /* olive on the dark-theme light band */
+  --accent: 76 141 255;        /* #4C8DFF lifted blue */
+  --accent-strong: 107 161 255;/* #6BA1FF */
+  --accent-deep: 138 180 255;  /* #8AB4FF text on dark */
+  --accent-wash: rgb(20 101 235 / 0.18);
+  --accent-on-inverse: 15 85 204; /* blue on the dark-theme light band */
 
-  --spark: 240 178 78;         /* #F0B24E */
-  --spark-strong: 244 190 104; /* #F4BE68 */
-  --spark-deep: 245 201 131;   /* #F5C983 text on dark */
-  --spark-wash: rgb(223 148 38 / 0.16);
-  --spark-on-inverse: 197 124 24;
+  --spark: 255 210 77;         /* #FFD24D */
+  --spark-strong: 255 221 112; /* #FFDD70 */
+  --spark-deep: 255 225 138;   /* #FFE18A text on dark */
+  --spark-wash: rgb(255 200 56 / 0.14);
+  --spark-on-inverse: 240 181 24;
 
-  --clay: 198 138 94;          /* #C68A5E */
-  --olive-band: 56 69 33;      /* #384521 deeper olive for the dark-theme band */
+  --clay: 122 158 219;         /* #7A9EDB */
+  --olive-band: 8 20 46;       /* #08142E deeper navy for the dark-theme band */
 
-  --ok: 157 170 108;           /* olive-green confirmed */
-  --ok-deep: 185 196 140;
-  --error: 224 122 106;        /* #E07A6A */
-  --error-deep: 239 160 147;
+  --ok: 76 201 138;            /* #4CC98A confirmed */
+  --ok-deep: 123 220 169;
+  --error: 242 109 109;        /* #F26D6D */
+  --error-deep: 247 158 158;
 
-  --shadow-card: 0 18px 44px -22px rgb(0 0 0 / 0.55);
-  --shadow-cta: 0 16px 34px -14px rgb(0 0 0 / 0.5);
-  --shadow-spark: 0 16px 34px -14px rgb(0 0 0 / 0.5);
+  --ring: 107 161 255;         /* #6BA1FF */
+
+  --shadow-card: 0 16px 40px -20px rgb(0 0 0 / 0.55);
+  --shadow-cta: 0 14px 30px -12px rgb(0 0 0 / 0.5);
+  --shadow-spark: 0 14px 30px -12px rgb(0 0 0 / 0.5);
 }
 
 @layer base {
@@ -110,42 +116,46 @@
     background-color: rgb(var(--bg));
     color: rgb(var(--content));
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* Two faint blooms: olive calm top-center, marigold warmth low-end —
-       the "night warming up." Ultra-subtle, fixed, never animated. */
-    background-image:
-      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.05), transparent 60%),
-      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.05), transparent 62%);
+    /* One faint sky bloom up top — morning-clear, not moody. Fixed, never
+       animated. */
+    background-image: radial-gradient(
+      1200px 640px at 50% -18%,
+      rgb(var(--accent) / 0.06),
+      transparent 62%
+    );
     background-attachment: fixed;
   }
   .dark body {
-    background-image:
-      radial-gradient(1100px 620px at 50% -14%, rgb(var(--accent) / 0.09), transparent 60%),
-      radial-gradient(900px 520px at 88% 108%, rgb(var(--spark) / 0.08), transparent 62%);
+    background-image: radial-gradient(
+      1200px 640px at 50% -18%,
+      rgb(var(--accent) / 0.1),
+      transparent 62%
+    );
   }
 
-  /* Editorial serif display — Fraunces, optical sizing on for warmth at size */
+  /* Headlines: same family as body, weight does the talking. Chunky and
+     friendly at display sizes, tightened just enough to feel set. */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-optical-sizing: auto;
     text-wrap: balance;
   }
   h1 {
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.0;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
   }
   h2 {
-    font-weight: 560;
-    letter-spacing: -0.018em;
-    line-height: 1.06;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
   h3, h4 {
-    font-weight: 560;
+    font-weight: 700;
     letter-spacing: -0.012em;
   }
 
-  /* Arabic — swap every role to the Arabic body face; headings to Kufi.
-     Never letter-space Arabic; give it a taller line box. */
+  /* Arabic — swap every role to Cairo. Never letter-space Arabic; give it a
+     taller line box. */
   [dir="rtl"] body,
   [dir="rtl"] .font-display,
   [dir="rtl"] .font-sans,
@@ -162,11 +172,11 @@
   [dir="rtl"] h3,
   [dir="rtl"] h4 {
     font-family: var(--font-arabic-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0;
   }
-  [dir="rtl"] h1 { line-height: 1.22; }
-  [dir="rtl"] h2 { line-height: 1.28; }
+  [dir="rtl"] h1 { line-height: 1.28; }
+  [dir="rtl"] h2 { line-height: 1.32; }
 
   ::selection {
     background: rgb(var(--accent-strong));
@@ -174,13 +184,13 @@
   }
   .dark ::selection {
     background: rgb(var(--accent));
-    color: rgb(22 20 14);
+    color: rgb(6 13 28);
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--spark));
+    outline: 2px solid rgb(var(--ring));
     outline-offset: 3px;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 }
 
@@ -189,54 +199,42 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
-  /* Eyebrow / label — humanist workhorse, spark-deep voice */
+  /* Kicker — a small friendly pill, not a letter-spaced editorial eyebrow.
+     (.label/.eyebrow names kept so untouched components restyle for free.) */
   .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em];
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-[13px] font-semibold;
     font-family: var(--font-sans);
-    color: rgb(var(--spark-deep));
-  }
-  .dark .label,
-  .dark .eyebrow {
-    color: rgb(var(--spark-deep));
+    letter-spacing: 0;
+    text-transform: none;
+    background-color: var(--accent-wash);
+    color: rgb(var(--accent-deep));
   }
   [dir="rtl"] .label,
   [dir="rtl"] .eyebrow {
     font-family: var(--font-arabic);
-    letter-spacing: 0;
-    text-transform: none;
-    font-size: 12px;
   }
 
-  /* ---- Editorial spine: oversized margin numerals ---- */
+  /* v3's editorial margin numerals are retired in v5 — the class is kept as
+     a no-op so any straggling `num` prop renders nothing instead of breaking. */
   .section-num {
-    font-family: var(--font-display);
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: rgb(var(--content) / 0.14);
-  }
-  .section-num[data-active="true"] {
-    color: rgb(var(--spark));
-  }
-  [dir="rtl"] .section-num {
-    font-family: var(--font-sans);
+    display: none;
   }
 
-  /* Serif pull-quote / display accent for inline moments */
+  /* Display accent for inline moments — same family, heavier voice. */
   .display {
     font-family: var(--font-display);
-    font-optical-sizing: auto;
+    font-weight: 800;
   }
   [dir="rtl"] .display {
     font-family: var(--font-arabic-display);
+    font-weight: 700;
   }
 
-  /* ---- Buttons ---- */
+  /* ---- Buttons — full pills, chunky and obvious ---- */
   .btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline-offset-4;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-7 py-3 text-[15px] font-bold transition-all duration-200 focus-visible:outline-offset-4;
+    cursor: pointer;
   }
   .btn-primary {
     background-color: rgb(var(--accent-strong));
@@ -249,24 +247,24 @@
   }
   .dark .btn-primary {
     background-color: rgb(var(--accent));
-    color: rgb(22 20 14);
+    color: rgb(6 13 28);
   }
   .dark .btn-primary:hover {
     background-color: rgb(var(--accent-strong));
   }
-  /* Spark button — the energetic CTA (used sparingly on real actions) */
+  /* Spark button — the ticket-yellow CTA. Reserved for joining the queue. */
   .btn-spark {
-    background-color: rgb(var(--spark-strong));
-    color: #ffffff;
+    background-color: rgb(var(--spark));
+    color: rgb(11 27 54);
   }
   .btn-spark:hover {
-    background-color: rgb(var(--spark-deep));
+    background-color: rgb(var(--spark-strong));
     transform: translateY(-1px);
     box-shadow: var(--shadow-spark);
   }
   .dark .btn-spark {
     background-color: rgb(var(--spark));
-    color: rgb(22 20 14);
+    color: rgb(6 13 28);
   }
   .dark .btn-spark:hover {
     background-color: rgb(var(--spark-strong));
@@ -279,22 +277,22 @@
     transform: translateY(-1px);
   }
   .btn-outline {
-    @apply border;
+    @apply border-[1.5px];
     border-color: rgb(var(--line-strong));
     color: rgb(var(--content));
   }
   .btn-outline:hover {
-    border-color: rgb(var(--accent) / 0.6);
+    border-color: rgb(var(--accent) / 0.7);
     background-color: var(--accent-wash);
   }
   .btn-ghost-light {
-    @apply border;
-    border-color: rgb(255 255 255 / 0.34);
+    @apply border-[1.5px];
+    border-color: rgb(255 255 255 / 0.4);
     color: #ffffff;
   }
   .btn-ghost-light:hover {
     background-color: #ffffff;
-    color: rgb(35 32 25);
+    color: rgb(11 27 54);
   }
 
   /* Arrow nudge inside buttons/links — flips for RTL */
@@ -318,7 +316,7 @@
     transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
   .card-hover:hover {
-    border-color: rgb(var(--accent) / 0.4);
+    border-color: rgb(var(--accent) / 0.45);
     box-shadow: var(--shadow-card);
     transform: translateY(-2px);
   }
@@ -333,7 +331,7 @@
     @apply absolute -bottom-1 h-[2px] w-full scale-x-0 transition-transform duration-[220ms];
     inset-inline-start: 0;
     transform-origin: var(--underline-origin, left);
-    background-color: rgb(var(--spark));
+    background-color: rgb(var(--accent));
   }
   .link-underline:hover::after,
   .link-underline[aria-current]::after {
@@ -356,11 +354,36 @@
     transform: translateX(-3px);
   }
 
-  /* Live pill — marigold, with a pulsing dot (used on the board + hero) */
+  /* Live pill — blue wash with a pulsing dot (board + hero) */
   .pill-live {
-    @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[11px] font-semibold;
+    @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[12px] font-semibold;
+    background-color: var(--accent-wash);
+    color: rgb(var(--accent-deep));
+  }
+
+  /* Placeholder flag — a visible, unmissable badge on sections that ship
+     with stand-in content (founder note, social proof). Remove the badge by
+     deleting the dict string once real content lands. */
+  .tag-placeholder {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-dashed px-3 py-1 text-[11px] font-bold uppercase tracking-wide rtl:tracking-normal;
+    border-color: rgb(var(--spark-deep) / 0.5);
     background-color: var(--spark-wash);
     color: rgb(var(--spark-deep));
+  }
+
+  /* Queue ticket — the waitlist-counter motif. A solid, stamped-looking
+     number chip; nothing bubbly about it. */
+  .ticket {
+    @apply rounded-card border-[1.5px];
+    border-color: rgb(var(--content) / 0.85);
+    background-color: rgb(var(--spark));
+    color: rgb(11 27 54);
+    box-shadow: 4px 4px 0 0 rgb(var(--content) / 0.9);
+  }
+  .dark .ticket {
+    border-color: rgb(var(--spark-strong));
+    color: rgb(6 13 28);
+    box-shadow: 4px 4px 0 0 rgb(0 0 0 / 0.6);
   }
 }
 
@@ -383,19 +406,4 @@
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-/* Fine film grain — barely-there, theme aware */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.03;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.dark .grain {
-  mix-blend-mode: screen;
-  opacity: 0.04;
 }

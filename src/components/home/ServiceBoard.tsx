@@ -47,9 +47,13 @@ function partyOf(name: string): number {
 export default function ServiceBoard({
   board,
   labels,
+  tone = "page",
 }: {
   board: Board;
   labels?: { play: string; pause: string };
+  /** "band": the board sits on the navy brand band — the pause control
+      restyles light so it stays visible there. */
+  tone?: "page" | "band";
 }) {
   const [rows, setRows] = useState<Row[]>(() =>
     board.rows
@@ -181,7 +185,12 @@ export default function ServiceBoard({
             type="button"
             onClick={() => setPlaying((p) => !p)}
             aria-label={playing ? labels.pause : labels.play}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-content transition-colors duration-200 hover:border-spark/50 hover:bg-spark-wash hover:text-spark-deep"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-200",
+              tone === "band"
+                ? "border-white/40 text-white hover:bg-white/10"
+                : "border-line text-content hover:border-spark/50 hover:bg-spark-wash hover:text-spark-deep"
+            )}
           >
             {playing ? (
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">

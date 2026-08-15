@@ -70,6 +70,10 @@ describe("checksum error detection", () => {
   const drbg = makeDrbg("cue-insider-tamper-suite-v1");
   const sample = Array.from({ length: 200 }, () => generateCode(drbg).body);
 
+  // ~50k validations (200 codes x 8 positions x 31 wrong characters). That is
+  // a few seconds on a slow machine, which sat right on vitest's 5s default
+  // and flaked. The coverage is the point, so give it room rather than
+  // shrinking the sample.
   it("rejects every single-character substitution (exhaustive over 200 codes)", () => {
     for (const body of sample) {
       for (let pos = 0; pos < body.length; pos++) {
@@ -80,7 +84,7 @@ describe("checksum error detection", () => {
         }
       }
     }
-  });
+  }, 30_000);
 
   it("rejects every adjacent transposition", () => {
     for (const body of sample) {

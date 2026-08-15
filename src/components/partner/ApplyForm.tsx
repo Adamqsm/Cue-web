@@ -6,6 +6,8 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn, localizedHref } from "@/lib/utils";
 import { firebaseApp } from "@/lib/firebase";
+import { newApplicationId } from "@/lib/partner-application";
+import { EMAIL_RE } from "@/lib/validation";
 import LocaleLink from "@/components/ui/LocaleLink";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -31,7 +33,6 @@ type DayHours = { open: string; close: string; closed: boolean };
 const MENU_MAX_BYTES = 10 * 1024 * 1024;
 const PHOTO_MAX_BYTES = 8 * 1024 * 1024;
 const PHOTO_MAX_COUNT = 6;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const defaultHours = (): Record<DayKey, DayHours> =>
   Object.fromEntries(
@@ -123,9 +124,9 @@ export default function ApplyForm({
     // as localized maps, phone/whatsapp/instagram, cuisineIds, priceRange,
     // openingHours {mon..sun:{open,close,closed}} — so an approved application
     // can feed the importer without remapping.
+    // `status` and `source` are set by /api/partner-apply, not here — a form
+    // submission does not get to declare its own provenance or approval state.
     const application = {
-      status: "new",
-      source: "partner-apply-web",
       locale,
       name: { en: venueName },
       area: { en: areaEn },
@@ -156,62 +157,50 @@ export default function ApplyForm({
       consent: true,
     };
 
-    let applicationId: string | null = null;
+    // Minted here rather than by doc(collection(db, ...)): the Firestore
+    // document is written by /api/partner-apply with the Admin SDK, because
+    // `partnerApplications` has no client-write rule and never should. Shape
+    // still matches what storage.rules accepts — see @/lib/partner-application.
+    const applicationId = newApplicationId();
+
     try {
       const app = firebaseApp();
-      if (app) {
-        const [{ getFirestore, collection, doc, setDoc, serverTimestamp }, { getStorage, ref, uploadBytes }] =
-          await Promise.all([import("firebase/firestore"), import("firebase/storage")]);
-        const db = getFirestore(app);
-        const storage = getStorage(app);
-        const docRef = doc(collection(db, "partnerApplications"));
-        applicationId = docRef.id;
 
-        // Files go to Storage under partner-applications/{applicationId}/ and the
-        // doc stores their storage PATHS (the convention seed.cjs establishes).
-        let menuPath: string | null = null;
+      // Uploads stay client-side: Storage rules already allow exactly these
+      // two path shapes under partner-applications/{applicationId}/, and the
+      // doc stores their storage PATHS (the convention seed.cjs establishes).
+      let menuPath: string | null = null;
+      const photoPaths: string[] = [];
+      if (app && (menuFile || photos.length)) {
+        const { getStorage, ref, uploadBytes } = await import("firebase/storage");
+        const storage = getStorage(app);
+
         if (menuFile) {
-          menuPath = `partner-applications/${docRef.id}/menu.pdf`;
+          menuPath = `partner-applications/${applicationId}/menu.pdf`;
           await uploadBytes(ref(storage, menuPath), menuFile, {
             contentType: "application/pdf",
           });
         }
-        const photoPaths: string[] = [];
         for (let i = 0; i < photos.length; i++) {
           const ext = (photos[i].name.split(".").pop() || "jpg").toLowerCase();
-          const path = `partner-applications/${docRef.id}/photos/photo-${i + 1}.${ext}`;
+          const path = `partner-applications/${applicationId}/photos/photo-${i + 1}.${ext}`;
           await uploadBytes(ref(storage, path), photos[i], { contentType: photos[i].type });
           photoPaths.push(path);
         }
-
-        await setDoc(docRef, {
-          ...application,
-          menuPath,
-          photoPaths,
-          createdAt: serverTimestamp(),
-        });
       }
 
-      // Notify through the existing lead pipeline (webhook + serverless logs).
-      // Runs in both modes; without Firebase env it is the submission itself.
-      const res = await fetch("/api/lead", {
+      // One call: the route persists the application (Admin SDK) and forwards
+      // to the lead webhook, and reports ok if either destination took it.
+      const res = await fetch("/api/partner-apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          audience: "operator",
-          source: "partner-apply",
-          locale,
-          name: contactName,
-          email,
-          phone,
-          establishment: venueName,
-          instagram: get("instagram"),
-          message:
-            `Partner application${applicationId ? ` ${applicationId}` : " (webhook only — Firebase env not configured)"}: ` +
-            JSON.stringify({ ...application, menuFile: menuFile?.name ?? null, photoCount: photos.length }),
-        }),
+        body: JSON.stringify({ ...application, applicationId, menuPath, photoPaths }),
       });
-      if (!app && !res.ok) throw new Error("lead fallback failed");
+      // The IP budget is shared with everyone behind the same address, so a
+      // rate-limited applicant is not a broken form — say so instead of
+      // inviting an immediate retry.
+      if (res.status === 429) return fail("rateLimited");
+      if (!res.ok) throw new Error(`partner-apply failed: ${res.status}`);
 
       setStatus("success");
     } catch (err) {

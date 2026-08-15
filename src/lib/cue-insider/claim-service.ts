@@ -7,6 +7,9 @@ import {
   type Transaction,
 } from "firebase-admin/firestore";
 import type { Locale } from "@/i18n/config";
+// Relative, not "@/lib/rate-limit": vitest resolves no path aliases, and this
+// module is imported by claim-service.test.ts.
+import { consumeRateLimit } from "../rate-limit";
 import { generateCode } from "./code";
 import { hashIp, hashPii } from "./hash";
 import { isValidEmail, normalizeEmail, normalizePhone } from "./normalize";
@@ -18,8 +21,7 @@ export const RESEND_LIMIT = 3;
 export const RESEND_WINDOW_MS = 10 * 60 * 1000;
 export const RESEND_RESET_MS = 24 * 60 * 60 * 1000;
 
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+export const CLAIM_RATE_LIMIT = { max: 5, windowMs: 10 * 60 * 1000 };
 const CODE_ATTEMPTS = 5;
 
 export type ClaimInput = {
@@ -80,9 +82,10 @@ function queueMail(
 /**
  * Rate limit + dedupe + issue, per the shared Firestore contract.
  *
- * Two transactions: the IP rate limit commits even when the main transaction
- * retries, and it keeps the main transaction read-then-write only — the Admin
- * SDK requires every read to happen before the first write.
+ * Two transactions: the IP rate limit (now @/lib/rate-limit, shared with
+ * /api/partner-apply) commits even when the main transaction retries, and it
+ * keeps the main transaction read-then-write only — the Admin SDK requires
+ * every read to happen before the first write.
  */
 export async function submitClaim(db: Firestore, input: ClaimInput): Promise<ClaimOutcome> {
   const email = normalizeEmail(input.email);
@@ -105,20 +108,7 @@ export async function submitClaim(db: Firestore, input: ClaimInput): Promise<Cla
   const phoneHash = hashPii(phone.e164);
   const ipHash = hashIp(input.ip);
 
-  const rateLimitRef = db.collection("cueInsiderRateLimits").doc(ipHash);
-  const limited = await db.runTransaction(async (txn) => {
-    const snap = await txn.get(rateLimitRef);
-    const now = Timestamp.now();
-    const data = snap.data();
-    const windowStart = data?.windowStart as Timestamp | undefined;
-    if (!snap.exists || !windowStart || now.toMillis() - windowStart.toMillis() >= RATE_LIMIT_WINDOW_MS) {
-      txn.set(rateLimitRef, { count: 1, windowStart: now });
-      return false;
-    }
-    if (((data?.count as number | undefined) ?? 0) >= RATE_LIMIT_MAX) return true;
-    txn.update(rateLimitRef, { count: FieldValue.increment(1) });
-    return false;
-  });
+  const limited = await consumeRateLimit(db, "cueInsiderRateLimits", ipHash, CLAIM_RATE_LIMIT);
   if (limited) return { kind: "rate-limited" };
 
   const indexCol = db.collection("cueInsiderClaimIndex");

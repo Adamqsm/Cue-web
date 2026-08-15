@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { EMAIL_RE } from "@/lib/validation";
+import { maskEmail, maskPhone } from "@/lib/log-redact";
 
 export const runtime = "nodejs";
 
@@ -16,27 +18,6 @@ type LeadPayload = {
   instagram?: string;
   message?: string;
 };
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/**
- * Vercel function logs are retained and readable by everyone with access to
- * the project, so `console.log(JSON.stringify(lead))` was a standing plaintext
- * copy of every submitter's name, email, phone and free-text message. These
- * mask helpers keep a log line useful for debugging and de-duplication
- * without making it a PII store.
- */
-function maskEmail(value: string): string {
-  const at = value.lastIndexOf("@");
-  if (at < 1) return "***";
-  return `${value.slice(0, 1)}***${value.slice(at)}`;
-}
-
-function maskPhone(value: string | null): string | null {
-  if (!value) return null;
-  const digits = value.replace(/\D/g, "");
-  return digits.length <= 3 ? "***" : `***${digits.slice(-3)}`;
-}
 
 export async function POST(request: Request) {
   let body: LeadPayload;

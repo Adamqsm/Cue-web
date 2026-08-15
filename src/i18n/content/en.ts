@@ -660,6 +660,9 @@ const en = {
         photoSize: "Each photo must be under 8MB.",
         photoCount: "You can upload up to 6 photos.",
         consent: "Please agree to be contacted so we can follow up on your application.",
+        // Verbatim from claim.form.errors.rateLimited — same situation, same
+        // wording, already translated.
+        rateLimited: "Too many attempts from this connection. Please wait a few minutes and try again.",
         submit: "Something went wrong while submitting. Please try again, or reach out to us directly.",
       },
       success: {

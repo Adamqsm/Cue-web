@@ -1,8 +1,9 @@
 import type { Config } from "tailwindcss";
 
-// Cue redesign v5 — "Queue Blue". Token-driven friendly-consumer palette.
-// Cool paper ground · queue-blue brand (accent) · ticket-yellow spark ·
-// deep navy ink. Components style through semantic roles; never hardcode hex.
+// Cue redesign v5.1 — "Queue Blue" on neutral ground. Token-driven palette:
+// neutral off-white/near-black surfaces · queue-blue accent (restrained) ·
+// confirm-green spark (queue/claim/live moments). Components style through
+// semantic roles; never hardcode hex.
 // See docs/design-tokens-v5.md (also the source of truth for the Flutter port).
 const config: Config = {
   darkMode: "class",

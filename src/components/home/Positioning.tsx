@@ -43,9 +43,10 @@ export default function Positioning({
   );
 }
 
-/* Scattered fragmented channels → one settled confirmed blue line.
-   Explicit hexes are v5 tokens: ticket yellow #FFC838 for incoming signals,
-   lifted blue #7FB0FF / queue blue #1465EB for the confirmed rail — both
+/* Scattered fragmented channels → one settled confirmed green line.
+   Explicit hexes are v5 tokens: lifted blue #7FB0FF for incoming/in-flight
+   signals, confirm green #5EEAB0 / #10B981 for the settled rail — the same
+   blue-in-flight / green-confirmed language as the service board. Both
    read on the ink band in either theme. */
 function GapMotif({ className }: { className?: string }) {
   return (
@@ -65,8 +66,8 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M18 184h84" />
         <path d="M18 230h110" />
       </g>
-      {/* Ticket-yellow origin dots (incoming, scattered) */}
-      <g fill="#FFC838">
+      {/* Lifted-blue origin dots (incoming/in-flight, scattered) */}
+      <g fill="#7FB0FF">
         <circle cx="18" cy="46" r="4" />
         <circle cx="18" cy="92" r="4" />
         <circle cx="18" cy="138" r="4" />
@@ -81,10 +82,10 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M120 184C200 184 214 138 250 138" />
         <path d="M146 230C212 230 214 138 250 138" />
       </g>
-      {/* The single settled blue line + confirmed node */}
-      <path d="M250 138H352" stroke="#7FB0FF" strokeWidth={3} />
-      <circle cx="250" cy="138" r="9" fill="#1465EB" />
-      <circle cx="352" cy="138" r="14" fill="#1465EB" />
+      {/* The single settled confirmed-green line + node */}
+      <path d="M250 138H352" stroke="#5EEAB0" strokeWidth={3} />
+      <circle cx="250" cy="138" r="9" fill="#10B981" />
+      <circle cx="352" cy="138" r="14" fill="#10B981" />
       <path
         d="M346 138l4 4 8-8"
         stroke="#fff"

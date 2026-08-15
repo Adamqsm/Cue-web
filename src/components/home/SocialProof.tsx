@@ -69,7 +69,7 @@ export default function SocialProof({
 
       {/* Press strip — dashed slots until real coverage lands */}
       <Reveal className="mt-12">
-        <span className="label !bg-transparent !px-0 !text-muted">
+        <span className="label !border-0 !bg-transparent !px-0 !text-muted">
           {s.pressLabel}
         </span>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">

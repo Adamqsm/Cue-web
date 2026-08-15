@@ -4,9 +4,9 @@ export const alt = "Cue — book restaurant tables in Amman, Jordan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Branded social card shared across pages — v5 "Queue Blue" tokens
-// (docs/design-tokens-v5.md): cool paper ground, navy ink, queue blue,
-// ticket yellow.
+// Branded social card shared across pages — v5.1 neutral-first tokens
+// (docs/design-tokens-v5.md): neutral off-white ground, near-black ink,
+// queue blue accent, confirm green dot.
 export default function OgImage() {
   return new ImageResponse(
     (
@@ -17,7 +17,7 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#F6F9FD",
+          background: "#FAFAFA",
           padding: "72px",
           fontFamily: "sans-serif",
         }}
@@ -30,12 +30,12 @@ export default function OgImage() {
               width: "18px",
               height: "18px",
               borderRadius: "9999px",
-              background: "#FFC838",
+              background: "#34D399",
             }}
           />
           <div
             style={{
-              color: "#4A5D7A",
+              color: "#555D6B",
               fontSize: "26px",
               letterSpacing: "0.28em",
               textTransform: "uppercase",
@@ -49,7 +49,7 @@ export default function OgImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#0B1B36",
+              color: "#161A23",
               fontSize: "82px",
               fontWeight: 800,
               lineHeight: 1.04,
@@ -69,7 +69,7 @@ export default function OgImage() {
           >
             Join the Cue.
           </div>
-          <div style={{ color: "#4A5D7A", fontSize: "30px", marginTop: "28px" }}>
+          <div style={{ color: "#555D6B", fontSize: "30px", marginTop: "28px" }}>
             Restaurant reservations · group dining · split payments
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function OgImage() {
         >
           <div
             style={{
-              color: "#0B1B36",
+              color: "#161A23",
               fontSize: "56px",
               fontWeight: 800,
               letterSpacing: "0.12em",
@@ -92,7 +92,7 @@ export default function OgImage() {
           >
             CUE
           </div>
-          <div style={{ color: "#4A5D7A", fontSize: "26px" }}>cue-app.net</div>
+          <div style={{ color: "#555D6B", fontSize: "26px" }}>cue-app.net</div>
         </div>
       </div>
     ),

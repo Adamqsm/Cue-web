@@ -78,10 +78,11 @@ export default function HomeHero({
       ref={sectionRef}
       className="relative overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-36"
     >
-      {/* Ground: one blue bloom + one yellow ember, fixed and quiet */}
+      {/* Ground: two whisper-faint accent blooms on the neutral page — kept
+          barely-there so the hero reads neutral-first. */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <span className="absolute -top-24 end-[-10%] h-96 w-96 rounded-full bg-accent-wash opacity-70 blur-3xl" />
-        <span className="absolute bottom-[-20%] start-[-8%] h-80 w-80 rounded-full bg-spark-wash opacity-60 blur-3xl" />
+        <span className="absolute -top-24 end-[-10%] h-96 w-96 rounded-full bg-accent-wash opacity-40 blur-3xl" />
+        <span className="absolute bottom-[-20%] start-[-8%] h-80 w-80 rounded-full bg-spark-wash opacity-35 blur-3xl" />
       </div>
 
       <motion.div

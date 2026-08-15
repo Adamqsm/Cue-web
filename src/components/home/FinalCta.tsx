@@ -6,7 +6,7 @@ import { CueMark } from "@/components/BrandMark";
 
 /**
  * "Close" — the launch-moment sendoff: a committed navy panel, big friendly
- * type, and the ticket-yellow CTA. The one full-bleed color moment that ends
+ * type, and the confirm-green CTA. The one full-bleed color moment that ends
  * the page the way the relaunch means to begin.
  */
 export default function FinalCta({

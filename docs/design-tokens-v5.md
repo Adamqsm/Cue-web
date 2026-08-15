@@ -1,67 +1,96 @@
-# Cue design tokens — v5 "Queue Blue"
+# Cue design tokens — v5.1 "Queue Blue" on neutral ground
 
-Source of truth for the v5 colorway and type system. The website reads these
+Source of truth for the v5.1 colorway and type system. The website reads these
 values from `src/app/globals.css` (CSS custom properties) exposed through
 `tailwind.config.ts` as semantic roles. **This table is also the port target
 for the Flutter app**: map each role to a `Color` in the app's theme, keep the
 role names, and never hardcode hex per widget.
 
 Voice of the system: friendly consumer energy in the Talabat / OpenTable
-category. One confident blue used sparingly on white next to near-black ink,
-with a ticket-yellow reserved for "join the queue" moments. Not luxury, not
-minimal, no orange, no purple.
+category, grounded on true neutrals. Blue is a restrained accent (actions,
+active states, small highlights). Confirm green is the secondary accent for
+queue/claim/"live" moments. The navy band is the one deliberate full-bleed
+brand block per page. Not luxury, not minimal, no orange, no purple, no
+yellow.
+
+## v5.0 → v5.1 change summary
+
+- Ground moved from blue-tinted "cool paper" (`#F6F9FD` / `#E9F0FA`) to true
+  neutrals (`#FAFAFA` / `#F4F4F5`); ink from deep navy `#0B1B36` to
+  near-black `#161A23`. Dark surfaces desaturated the same way (they were
+  visibly blue: `#0C1630`, `#132043`).
+- The body's blue radial "sky bloom" is gone.
+- Ticket Yellow (`#FFC838`/`#FFD24D`) fully replaced by **Confirm Green**
+  (`#34D399`/`#3DDC97`) in the same `spark` role. All spark semantics
+  (queue/claim CTA, live signals, the stamped ticket) carry over.
+- Blue washes demoted from default chip/label surfaces to interactive states
+  and small tiles only; label pills are neutral bordered chips.
+
+## Secondary-accent candidates considered (v5.1 decision record)
+
+| Candidate | Fill | Deep (text) | Verdict |
+| --- | --- | --- | --- |
+| **Confirm Green** (chosen) | `#34D399` | `#047857` | Classic pair with blue-on-neutral; carries the product's key beat ("table secured"); category precedent (TheFork, Careem) and the palette dataset's own "calendar blue + available green" booking pairing |
+| Raspberry | `#E7386E` | `#B01A4E` | Boldest consumer energy (Foodpanda-adjacent); rejected as louder than the brand's friendly-trustworthy tone, and reads adjacent to error red |
+| Teal | `#0D9488` | `#0F766E` | Calm and clean; rejected as too close to blue to create a real second voice |
+
+Swapping candidates later = the `--spark-*` values in `globals.css` (both
+themes), the two shadow tokens, plus two literal hexes (the Positioning
+motif's dot group, the OG-image dot) — everything else flows from tokens.
 
 ## Color roles — light theme
 
 | Role            | Hex       | Usage                                                    |
 | --------------- | --------- | -------------------------------------------------------- |
-| bg              | `#F6F9FD` | Page ground (cool paper)                                  |
+| bg              | `#FAFAFA` | Page ground (neutral off-white)                           |
 | surface         | `#FFFFFF` | Cards, panels                                             |
-| surface-2       | `#E9F0FA` | Sunken bands, secondary fills (sky band)                  |
-| content         | `#0B1B36` | Primary text (deep navy ink)                              |
-| muted           | `#4A5D7A` | Secondary text (AA ≥ 5:1 on bg)                           |
-| line            | `#D8E2F0` | Hairlines, dividers                                       |
-| line-strong     | `#8294B0` | Input borders (≥ 3:1 non-text, WCAG 1.4.11)               |
-| accent          | `#1465EB` | Queue blue. Brand + primary actions                       |
+| surface-2       | `#F4F4F5` | Sunken bands, secondary fills                             |
+| content         | `#161A23` | Primary text (near-black, whisper of cool)                |
+| muted           | `#555D6B` | Secondary text (≥ 6:1 on bg)                              |
+| line            | `#E5E7EB` | Hairlines, dividers                                       |
+| line-strong     | `#7C8492` | Input borders (≥ 3:1 non-text, WCAG 1.4.11)               |
+| accent          | `#1465EB` | Queue blue. Actions, active states, small highlights ONLY |
 | accent-strong   | `#0F55CC` | Button ground / hover (white text is AA)                  |
 | accent-deep     | `#0C3F9C` | Blue text on washes and bg (AA)                           |
-| accent-wash     | `#E3EDFF` | Tinted blue fill (chips, icon tiles)                      |
+| accent-wash     | `#E8F0FE` | Selected/hover states and small icon tiles; never large surfaces |
 | accent-inverse  | `#7FB0FF` | Blue accents on the navy band (AA on `#0A1B3D`)           |
-| spark           | `#FFC838` | Ticket yellow. Queue/claim CTAs, live signals             |
-| spark-strong    | `#F0B518` | Yellow hover                                              |
-| spark-deep      | `#7A5A00` | Yellow-tinted text on washes and bg (AA)                  |
-| spark-wash      | `#FFF3D1` | Tinted yellow fill                                        |
-| spark-inverse   | `#FFD666` | Yellow accents on the navy band                           |
-| clay            | `#5B82C4` | Slate-blue support mid-tone (illustrations)               |
+| spark           | `#34D399` | Confirm green. Queue/claim CTAs, live signals, the ticket |
+| spark-strong    | `#10B981` | Green hover                                               |
+| spark-deep      | `#047857` | Green-tinted text on washes and bg (AA)                   |
+| spark-wash      | `#D7F5E7` | Tinted green fill (live pill, tiles)                      |
+| spark-inverse   | `#5EEAB0` | Green accents on the navy band                            |
+| clay            | `#64748B` | Neutral slate support mid-tone (illustrations)            |
 | navy band       | `#0A1B3D` | Committed brand band (CSS var `--olive-band`, name kept from v3 for compatibility) |
-| ok              | `#118A50` | Confirmed / success                                       |
-| ok-deep         | `#0C6B3C` | Success text on washes                                    |
+| ok              | `#0D9458` | Confirmed / success (aligned to the spark family)         |
+| ok-deep         | `#066E41` | Success text on washes                                    |
 | error           | `#D93036` | Errors                                                    |
 | error-deep      | `#A8232B` | Error text on washes                                      |
 | ring            | `#0F55CC` | Focus ring                                                |
+
+Spark fills always take dark ink text (`#161A23`), never white.
 
 ## Color roles — dark theme
 
 | Role            | Hex       |
 | --------------- | --------- |
-| bg              | `#060D1C` |
-| surface         | `#0C1630` |
-| surface-2       | `#132043` |
-| content         | `#E8EEFB` |
-| muted           | `#98A7C6` |
-| line            | `#1E2C4E` |
-| line-strong     | `#4A5E88` |
+| bg              | `#0B0D12` |
+| surface         | `#14161D` |
+| surface-2       | `#1C1F28` |
+| content         | `#ECEEF2` |
+| muted           | `#9CA3AF` |
+| line            | `#262A34` |
+| line-strong     | `#5D6472` |
 | accent          | `#4C8DFF` |
 | accent-strong   | `#6BA1FF` |
 | accent-deep     | `#8AB4FF` |
-| accent-wash     | `rgba(20,101,235,0.18)` |
+| accent-wash     | `rgba(20,101,235,0.16)` |
 | accent-inverse  | `#0F55CC` |
-| spark           | `#FFD24D` |
-| spark-strong    | `#FFDD70` |
-| spark-deep      | `#FFE18A` |
-| spark-wash      | `rgba(255,200,56,0.14)` |
-| spark-inverse   | `#F0B518` |
-| clay            | `#7A9EDB` |
+| spark           | `#3DDC97` |
+| spark-strong    | `#5EEAB0` |
+| spark-deep      | `#86EFC0` |
+| spark-wash      | `rgba(52,211,153,0.13)` |
+| spark-inverse   | `#10B981` |
+| clay            | `#8B98AB` |
 | navy band       | `#08142E` |
 | ok              | `#4CC98A` |
 | ok-deep         | `#7BDCA9` |
@@ -70,7 +99,7 @@ minimal, no orange, no purple.
 | ring            | `#6BA1FF` |
 
 Dark-theme buttons flip polarity: primary buttons use `accent` fill with
-near-black ink text (`#060D1C`), not white text.
+near-black ink text (`#0B0D12`), not white text.
 
 ## Typography
 
@@ -91,9 +120,9 @@ Both faces are self-hosted via `next/font` (the CSP allows only
 | radius-card  | 18px   | Cards                             |
 | radius-panel | 28px   | Large panels, bands, device frames|
 | radius-full  | 9999px | Buttons and pills (full pill)     |
-| shadow-card  | `0 16px 40px -20px rgb(11 27 54 / 0.16)` | Lifted cards |
-| shadow-cta   | `0 14px 30px -12px rgb(20 101 235 / 0.45)` | Blue CTA hover |
-| shadow-spark | `0 14px 30px -12px rgb(240 181 24 / 0.45)` | Yellow CTA hover |
+| shadow-card  | `0 16px 40px -20px rgb(22 26 35 / 0.14)` | Lifted cards |
+| shadow-cta   | `0 14px 30px -12px rgb(20 101 235 / 0.4)` | Blue CTA hover |
+| shadow-spark | `0 14px 30px -12px rgb(16 185 129 / 0.4)` | Green CTA hover |
 | ticket shadow| `4px 4px 0 0 content` | The "queue ticket" hard offset — waitlist counter + claim ticket motif |
 
 ## Motion
@@ -104,8 +133,11 @@ Both faces are self-hosted via `next/font` (the CSP allows only
 
 ## Color rules
 
-1. Blue is the brand and the default action. Yellow is reserved for
-   queue/claim/"live" moments so it stays special.
-2. Washes carry chips and icon tiles; saturated fills carry buttons only.
-3. Status colors (ok/error) are information, never decoration.
-4. The navy band is the one full-bleed committed color moment per page.
+1. Neutral first: surfaces, labels, and chrome are neutral by default.
+   Color enters through actions, states, and small highlights.
+2. Blue is the brand and the default action; it never carries large
+   surfaces outside the navy band.
+3. Green is reserved for queue/claim/live/confirmed moments so it stays
+   meaningful (spark and ok are one family).
+4. Status colors are information, never decoration.
+5. The navy band is the one full-bleed committed color moment per page.

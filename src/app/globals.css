@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 /* ============================================================
-   Cue redesign v5 — "Queue Blue"
-   Friendly consumer energy. Cool paper ground · queue-blue brand ·
-   ticket-yellow spark · deep navy ink. One confident hue, used the way
-   Talabat uses its orange: sparingly, on white, next to near-black.
+   Cue redesign v5.1 — "Queue Blue" on neutral ground
+   Neutral-first: true off-white/near-black surfaces carry the page;
+   queue blue is a restrained accent (CTAs, active states, small
+   highlights); confirm green is the secondary accent for queue/claim/
+   "live" moments (the old ticket-yellow role). The navy band stays the
+   one deliberate brand block per page.
    Tokens only — components never hardcode hex. See docs/design-tokens-v5.md
    (the same table is the source of truth for the Flutter port).
    ============================================================ */
@@ -19,73 +21,79 @@
   --font-mono: ui-monospace, "Cascadia Mono", monospace;
   --font-arabic-display: var(--font-arabic);
 
-  /* ---- Semantic ground — light (rgb channels for alpha) ---- */
-  --bg: 246 249 253;         /* #F6F9FD cool paper */
+  /* ---- Semantic ground — light, true neutrals (rgb channels) ---- */
+  --bg: 250 250 250;         /* #FAFAFA neutral off-white */
   --surface: 255 255 255;    /* #FFFFFF card */
-  --surface-2: 233 240 250;  /* #E9F0FA sky band */
-  --content: 11 27 54;       /* #0B1B36 deep navy ink */
-  --muted: 74 93 122;        /* #4A5D7A secondary text (AA ≥5:1 on paper) */
-  --line: 216 226 240;       /* #D8E2F0 hairline */
-  --line-strong: 130 148 176;/* #8294B0 input boundary (≥3:1, WCAG 1.4.11) */
+  --surface-2: 244 244 245;  /* #F4F4F5 sunken band */
+  --content: 22 26 35;       /* #161A23 near-black ink (whisper of cool) */
+  --muted: 85 93 107;        /* #555D6B secondary text (≥6:1 on bg) */
+  --line: 229 231 235;       /* #E5E7EB hairline */
+  --line-strong: 124 132 146;/* #7C8492 input boundary (≥3:1, WCAG 1.4.11) */
 
-  /* ---- Accent — QUEUE BLUE (brand + primary actions) ---- */
+  /* ---- Accent — QUEUE BLUE (restrained: actions + highlights only) ---- */
   --accent: 20 101 235;        /* #1465EB queue blue */
   --accent-strong: 15 85 204;  /* #0F55CC hover / button ground (white AA) */
-  --accent-deep: 12 63 156;    /* #0C3F9C blue text on wash / paper (AA) */
-  --accent-wash: rgb(227 237 255); /* #E3EDFF tinted blue fill */
+  --accent-deep: 12 63 156;    /* #0C3F9C blue text on wash / bg (AA) */
+  --accent-wash: rgb(232 240 254); /* #E8F0FE tinted blue fill — selected/hover states and small tiles only, never large surfaces */
   --accent-on-inverse: 127 176 255; /* #7FB0FF blue on navy band (AA) */
 
-  /* ---- Spark — TICKET YELLOW (the queue ticket; used sparingly) ---- */
-  --spark: 255 200 56;         /* #FFC838 ticket yellow */
-  --spark-strong: 240 181 24;  /* #F0B518 hover */
-  --spark-deep: 122 90 0;      /* #7A5A00 yellow text on wash / paper (AA) */
-  --spark-wash: rgb(255 243 209); /* #FFF3D1 tinted yellow fill */
-  --spark-on-inverse: 255 214 102; /* #FFD666 yellow on navy band */
+  /* ---- Spark — CONFIRM GREEN (the queue/claim accent; replaces
+     ticket yellow). Fills take dark ink text, never white. ---- */
+  --spark: 52 211 153;         /* #34D399 confirm green */
+  --spark-strong: 16 185 129;  /* #10B981 hover */
+  --spark-deep: 4 120 87;      /* #047857 green text on wash / bg (AA) */
+  --spark-wash: rgb(215 245 231); /* #D7F5E7 tinted green fill */
+  --spark-on-inverse: 94 234 176; /* #5EEAB0 green on navy band */
 
-  /* ---- Clay — support mid-tone (illustrations, warm depth) ----
-     Token name kept from v3 for compatibility; value is now a slate blue. */
-  --clay: 91 130 196;          /* #5B82C4 */
+  /* ---- Clay — support mid-tone (illustrations, avatar depth) ----
+     Token name kept from v3 for compatibility; now a neutral slate. */
+  --clay: 100 116 139;         /* #64748B */
 
-  /* Navy brand band — a committed deep-navy moment that stays navy in
+  /* Navy brand band — the one committed deep-navy moment, kept navy in
      BOTH themes. White text clears AA on both. (Name kept from v3.) */
   --olive-band: 10 27 61;      /* #0A1B3D */
 
   /* ---- Status — information, never decoration ---- */
-  --ok: 17 138 80;             /* #118A50 confirmed */
-  --ok-deep: 12 107 60;        /* #0C6B3C AA text on ok wash */
+  --ok: 13 148 88;             /* #0D9458 confirmed (aligned to spark family) */
+  --ok-deep: 6 110 65;         /* #066E41 AA text on ok wash */
   --error: 217 48 54;          /* #D93036 */
   --error-deep: 168 35 43;     /* #A8232B AA text on error wash */
 
   /* Focus ring flips per theme so it is always visible. */
   --ring: 15 85 204;           /* #0F55CC */
 
-  --shadow-card: 0 16px 40px -20px rgb(11 27 54 / 0.16);
-  --shadow-cta: 0 14px 30px -12px rgb(20 101 235 / 0.45);
-  --shadow-spark: 0 14px 30px -12px rgb(240 181 24 / 0.45);
+  --shadow-card: 0 16px 40px -20px rgb(22 26 35 / 0.14);
+  --shadow-cta: 0 14px 30px -12px rgb(20 101 235 / 0.4);
+  --shadow-spark: 0 14px 30px -12px rgb(16 185 129 / 0.4);
 }
 
 .dark {
-  --bg: 6 13 28;             /* #060D1C navy near-black */
-  --surface: 12 22 48;       /* #0C1630 */
-  --surface-2: 19 32 67;     /* #132043 */
-  --content: 232 238 251;    /* #E8EEFB */
-  --muted: 152 167 198;      /* #98A7C6 */
-  --line: 30 44 78;          /* #1E2C4E */
-  --line-strong: 74 94 136;  /* #4A5E88 ≥3:1 on dark fields */
+  /* Dark ground desaturated too — the v5.0 dark surfaces (#0C1630,
+     #132043) read distinctly blue; these keep the depth, drop the tint.
+     The navy character now lives only in the brand band + accents. */
+  --bg: 11 13 18;            /* #0B0D12 neutral near-black */
+  --surface: 20 22 29;       /* #14161D */
+  --surface-2: 28 31 40;     /* #1C1F28 */
+  --content: 236 238 242;    /* #ECEEF2 */
+  --muted: 156 163 175;      /* #9CA3AF */
+  --line: 38 42 52;          /* #262A34 */
+  --line-strong: 93 100 114; /* #5D6472 ≥3:1 on dark fields */
 
   --accent: 76 141 255;        /* #4C8DFF lifted blue */
   --accent-strong: 107 161 255;/* #6BA1FF */
   --accent-deep: 138 180 255;  /* #8AB4FF text on dark */
-  --accent-wash: rgb(20 101 235 / 0.18);
-  --accent-on-inverse: 15 85 204; /* blue on the dark-theme light band */
+  --accent-wash: rgb(20 101 235 / 0.16);
+  /* The brand band stays navy in dark mode too, so on-inverse stays a
+     light blue (the v5.0 dark value #0F55CC was 2.8:1 on the band). */
+  --accent-on-inverse: 127 176 255; /* #7FB0FF */
 
-  --spark: 255 210 77;         /* #FFD24D */
-  --spark-strong: 255 221 112; /* #FFDD70 */
-  --spark-deep: 255 225 138;   /* #FFE18A text on dark */
-  --spark-wash: rgb(255 200 56 / 0.14);
-  --spark-on-inverse: 240 181 24;
+  --spark: 61 220 151;         /* #3DDC97 */
+  --spark-strong: 94 234 176;  /* #5EEAB0 */
+  --spark-deep: 134 239 192;   /* #86EFC0 text on dark */
+  --spark-wash: rgb(52 211 153 / 0.13);
+  --spark-on-inverse: 16 185 129;
 
-  --clay: 122 158 219;         /* #7A9EDB */
+  --clay: 139 152 171;         /* #8B98AB */
   --olive-band: 8 20 46;       /* #08142E deeper navy for the dark-theme band */
 
   --ok: 76 201 138;            /* #4CC98A confirmed */
@@ -113,24 +121,11 @@
 
   body {
     @apply font-sans;
+    /* Pure neutral ground — the v5.0 blue "sky bloom" gradient is gone;
+       color now enters only through accents and the brand band. */
     background-color: rgb(var(--bg));
     color: rgb(var(--content));
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* One faint sky bloom up top — morning-clear, not moody. Fixed, never
-       animated. */
-    background-image: radial-gradient(
-      1200px 640px at 50% -18%,
-      rgb(var(--accent) / 0.06),
-      transparent 62%
-    );
-    background-attachment: fixed;
-  }
-  .dark body {
-    background-image: radial-gradient(
-      1200px 640px at 50% -18%,
-      rgb(var(--accent) / 0.1),
-      transparent 62%
-    );
   }
 
   /* Headlines: same family as body, weight does the talking. Chunky and
@@ -184,7 +179,7 @@
   }
   .dark ::selection {
     background: rgb(var(--accent));
-    color: rgb(6 13 28);
+    color: rgb(11 13 18);
   }
 
   :focus-visible {
@@ -200,15 +195,18 @@
   }
 
   /* Kicker — a small friendly pill, not a letter-spaced editorial eyebrow.
-     (.label/.eyebrow names kept so untouched components restyle for free.) */
+     (.label/.eyebrow names kept so untouched components restyle for free.)
+     Neutral by default (v5.1): a quiet bordered chip. Color arrives only
+     where a component opts in (e.g. the founding-partner badge). */
   .label,
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-[13px] font-semibold;
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-semibold;
     font-family: var(--font-sans);
     letter-spacing: 0;
     text-transform: none;
-    background-color: var(--accent-wash);
-    color: rgb(var(--accent-deep));
+    border-color: rgb(var(--line));
+    background-color: rgb(var(--surface));
+    color: rgb(var(--muted));
   }
   [dir="rtl"] .label,
   [dir="rtl"] .eyebrow {
@@ -247,15 +245,16 @@
   }
   .dark .btn-primary {
     background-color: rgb(var(--accent));
-    color: rgb(6 13 28);
+    color: rgb(11 13 18);
   }
   .dark .btn-primary:hover {
     background-color: rgb(var(--accent-strong));
   }
-  /* Spark button — the ticket-yellow CTA. Reserved for joining the queue. */
+  /* Spark button — the confirm-green CTA. Reserved for joining the queue.
+     Fixed dark ink on the green fill in both themes. */
   .btn-spark {
     background-color: rgb(var(--spark));
-    color: rgb(11 27 54);
+    color: rgb(22 26 35);
   }
   .btn-spark:hover {
     background-color: rgb(var(--spark-strong));
@@ -264,7 +263,7 @@
   }
   .dark .btn-spark {
     background-color: rgb(var(--spark));
-    color: rgb(6 13 28);
+    color: rgb(11 13 18);
   }
   .dark .btn-spark:hover {
     background-color: rgb(var(--spark-strong));
@@ -292,7 +291,7 @@
   }
   .btn-ghost-light:hover {
     background-color: #ffffff;
-    color: rgb(11 27 54);
+    color: rgb(22 26 35);
   }
 
   /* Arrow nudge inside buttons/links — flips for RTL */
@@ -354,35 +353,37 @@
     transform: translateX(-3px);
   }
 
-  /* Live pill — blue wash with a pulsing dot (board + hero) */
+  /* Live pill — green wash with a pulsing dot (board + hero). "Live" is a
+     spark moment, not a blue one. */
   .pill-live {
     @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[12px] font-semibold;
-    background-color: var(--accent-wash);
-    color: rgb(var(--accent-deep));
-  }
-
-  /* Placeholder flag — a visible, unmissable badge on sections that ship
-     with stand-in content (founder note, social proof). Remove the badge by
-     deleting the dict string once real content lands. */
-  .tag-placeholder {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-dashed px-3 py-1 text-[11px] font-bold uppercase tracking-wide rtl:tracking-normal;
-    border-color: rgb(var(--spark-deep) / 0.5);
     background-color: var(--spark-wash);
     color: rgb(var(--spark-deep));
   }
 
+  /* Placeholder flag — a visible, unmissable badge on sections that ship
+     with stand-in content (founder note, social proof). Deliberately
+     neutral: it marks missing content, not a brand moment. Remove the
+     badge by deleting the dict string once real content lands. */
+  .tag-placeholder {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-dashed px-3 py-1 text-[11px] font-bold uppercase tracking-wide rtl:tracking-normal;
+    border-color: rgb(var(--line-strong));
+    background-color: rgb(var(--surface-2));
+    color: rgb(var(--muted));
+  }
+
   /* Queue ticket — the waitlist-counter motif. A solid, stamped-looking
-     number chip; nothing bubbly about it. */
+     number chip; nothing bubbly about it. Confirm-green fill, fixed ink. */
   .ticket {
     @apply rounded-card border-[1.5px];
     border-color: rgb(var(--content) / 0.85);
     background-color: rgb(var(--spark));
-    color: rgb(11 27 54);
+    color: rgb(22 26 35);
     box-shadow: 4px 4px 0 0 rgb(var(--content) / 0.9);
   }
   .dark .ticket {
     border-color: rgb(var(--spark-strong));
-    color: rgb(6 13 28);
+    color: rgb(11 13 18);
     box-shadow: 4px 4px 0 0 rgb(0 0 0 / 0.6);
   }
 }
@@ -397,7 +398,6 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  body { background-attachment: scroll; }
 }
 
 .hide-scrollbar::-webkit-scrollbar {

@@ -38,11 +38,12 @@ function partyOf(name: string): number {
 
 /**
  * The signature element: a live "service board" docket.
- * The color moment made literal — every ~4s a new request slides in *glowing
- * marigold* (incoming/live), then settles to *olive* (confirmed) after a beat,
- * and the covers counter ticks up. A booking arrives as a warm signal and
- * settles into place: the product's core promise, shown not described.
- * Pausable (WCAG 2.2.2); reduced-motion users get a static all-confirmed board.
+ * The color moment made literal — every ~4s a new request slides in on a
+ * *queue-blue* wash (incoming, in flight), then settles to *confirm green*
+ * after a beat, and the covers counter ticks up. A booking arrives and gets
+ * confirmed: the product's core promise, shown not described, in the same
+ * blue-action/green-confirmed language as the rest of the site. Pausable
+ * (WCAG 2.2.2); reduced-motion users get a static all-confirmed board.
  */
 export default function ServiceBoard({
   board,
@@ -135,17 +136,22 @@ export default function ServiceBoard({
               className={cn(
                 "relative flex items-center gap-3 ps-5 pe-5 py-3.5 transition-colors duration-500",
                 row.id >= VISIBLE && "animate-board-in",
-                row.status === "incoming" && "bg-spark-wash/60"
+                // Plain wash (no /opacity modifier — wash tokens are full
+                // colors, so Tailwind can't alpha them; a modifier silently
+                // generates nothing).
+                row.status === "incoming" && "bg-accent-wash"
               )}
             >
-              {/* Reading-edge glow bar on the live row */}
+              {/* Reading-edge glow bar on the live row. Incoming = blue
+                  (request in flight), confirmed = green — matching the ok
+                  semantics everywhere else on the site. */}
               <span
                 className={cn(
                   "absolute inset-y-0 start-0 w-[3px] transition-colors duration-500",
                   row.status === "incoming"
-                    ? "bg-spark"
+                    ? "bg-accent"
                     : row.status === "confirmed"
-                      ? "bg-accent"
+                      ? "bg-spark"
                       : "bg-transparent"
                 )}
                 style={{ insetInlineStart: 0 }}
@@ -209,14 +215,14 @@ export default function ServiceBoard({
   );
 }
 
-/* Color moment: incoming = marigold spark, confirmed = olive, seated = muted. */
+/* Color moment: incoming = blue (in flight), confirmed = green, seated = muted. */
 function StatusPill({ label, status }: { label: string; status: Status }) {
   return (
     <span
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 rounded-full ps-2.5 pe-2.5 py-1 text-[11px] font-semibold transition-colors duration-500",
-        status === "incoming" && "bg-spark-wash text-spark-deep",
-        status === "confirmed" && "bg-accent-wash text-accent-deep",
+        status === "incoming" && "bg-accent-wash text-accent-deep",
+        status === "confirmed" && "bg-spark-wash text-spark-deep",
         status === "seated" && "bg-muted/10 text-muted"
       )}
     >

@@ -57,7 +57,7 @@ export default function EditorialSection({
             <span
               className={cn(
                 "label mb-6",
-                inverse && "!bg-white/10 !text-white"
+                inverse && "!border-white/25 !bg-white/10 !text-white"
               )}
             >
               {label}

@@ -182,8 +182,10 @@ export default function ClaimForm({
       "rate-limited": strings.duplicate.rateLimited,
       "resend-limit": strings.duplicate.resendLimit,
     };
+    // Neutral info panel (v5.1: washes are for interactive states, not
+    // large informational surfaces).
     return (
-      <div className="rounded-card bg-accent-wash p-6">
+      <div className="rounded-card border border-line bg-surface2 p-6">
         <h3
           ref={outcomeHeadingRef}
           tabIndex={-1}

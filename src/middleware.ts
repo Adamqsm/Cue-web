@@ -8,6 +8,7 @@ const legacyMap: Record<string, string> = {
   "/career": "/careers",
   "/dpa": "/legal/dpa",
   "/privacy": "/legal/privacy",
+  "/privacypolicy": "/legal/privacy",
   "/terms": "/legal/terms",
   "/cookies": "/legal/cookies",
   "/notice": "/legal/notice",

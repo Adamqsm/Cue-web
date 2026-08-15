@@ -232,12 +232,10 @@ const en = {
     },
     founder: {
       label: "From the founder",
-      placeholderTag: "Placeholder · awaiting the real note",
       paragraphs: [
-        "We're building Cue for a simple reason: booking a table in Amman still runs on phone calls, DMs, and a notebook by the door. Guests deserve a confirmed seat, and the teams running the floor deserve one clean system instead of five scattered channels.",
-        "This space is reserved for a personal note from the founder. The real letter, in his own words, lands here before launch.",
+        "Cue was founded out of a simple, persistent observation: the experience of booking a table, whether as a diner or a restaurant, had never been given the attention it deserved. Having encountered these difficulties myself, from locating available tables to managing and confirming reservations, I came to believe that a more thoughtful solution was needed, one that went beyond the conventional approach. Our goal is to build a seamless and dependable experience, from discovery through reservation and payment, for both guests and the restaurants that welcome them.",
       ],
-      signName: "Adam",
+      signName: "Adam Qasem",
       signRole: "Founder, Cue",
     },
     traction: {

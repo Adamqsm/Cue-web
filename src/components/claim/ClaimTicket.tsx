@@ -78,6 +78,7 @@ export default function ClaimTicket({
         <button
           type="button"
           onClick={onCopy}
+          aria-live="polite"
           className="btn btn-outline mt-5 min-h-0 px-4 py-2 text-xs"
         >
           {copied ? strings.copied : strings.copy}

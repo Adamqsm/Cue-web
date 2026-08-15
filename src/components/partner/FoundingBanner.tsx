@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import Reveal from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
+import { withUtm } from "@/lib/utm";
 
 /** High-weight founding-partner offer banner — the outreach hook, shown directly under the page hero. */
 export default function FoundingBanner({
@@ -20,7 +21,9 @@ export default function FoundingBanner({
         <div className="rounded-panel border border-line bg-surface2 px-6 py-12 sm:px-14 sm:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              <span className="label !border-transparent !bg-accent !text-white">{founding.badge}</span>
+              {/* Dark ink on the lifted dark-mode blue, matching .dark .btn-primary —
+    white on #4C8DFF is 3.2:1 and fails AA at this size. */}
+              <span className="label !border-transparent !bg-accent !text-white dark:!text-bg">{founding.badge}</span>
               <h2 className="mt-5 text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
                 {founding.title}
               </h2>
@@ -29,7 +32,7 @@ export default function FoundingBanner({
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <LocaleLink
-                  href="/partner/apply"
+                  href={withUtm("/partner/apply", "founding-banner")}
                   locale={locale}
                   className="btn btn-primary text-base"
                 >
@@ -64,7 +67,11 @@ export default function FoundingBanner({
           {/* Guest-side proof point: the Cue Insider list is already filling. */}
           <p className="mt-6 border-t border-line/60 pt-4 text-sm text-muted">
             {founding.waitlistNote}{" "}
-            <LocaleLink href="/claim" locale={locale} className="link-underline">
+            <LocaleLink
+              href={withUtm("/claim", "founding-banner")}
+              locale={locale}
+              className="link-underline"
+            >
               {claimCta}
             </LocaleLink>
           </p>

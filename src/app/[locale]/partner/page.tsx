@@ -14,6 +14,7 @@ import FoundingBanner from "@/components/partner/FoundingBanner";
 import PricingTiers from "@/components/partner/PricingTiers";
 import CommissionSection from "@/components/partner/CommissionSection";
 import { CueMark } from "@/components/BrandMark";
+import { withUtm } from "@/lib/utm";
 
 export async function generateMetadata({
   params,
@@ -44,7 +45,11 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         ])}
       />
       <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle}>
-        <LocaleLink href="/partner/apply" locale={locale} className="btn btn-primary text-base">
+        <LocaleLink
+          href={withUtm("/partner/apply", "partner-hero")}
+          locale={locale}
+          className="btn btn-primary text-base"
+        >
           {p.hero.primary}
         </LocaleLink>
         <LocaleLink href="/how-it-works" locale={locale} className="btn btn-outline text-base">
@@ -134,7 +139,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
         title={p.cta.title}
         body={p.cta.body}
         primary={p.cta.primary}
-        primaryHref="/partner/apply"
+        primaryHref={withUtm("/partner/apply", "partner-cta-band")}
         secondary={p.cta.secondary}
         secondaryHref="/how-it-works"
       />

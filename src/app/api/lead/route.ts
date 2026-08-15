@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { EMAIL_RE } from "@/lib/validation";
 import { maskEmail, maskPhone } from "@/lib/log-redact";
+import { sanitizeUtm } from "@/lib/utm";
 
 export const runtime = "nodejs";
 
@@ -17,6 +18,7 @@ type LeadPayload = {
   establishment?: string;
   instagram?: string;
   message?: string;
+  utm?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -49,6 +51,8 @@ export async function POST(request: Request) {
     establishment: (body.establishment || "").trim() || null,
     instagram: (body.instagram || "").trim() || null,
     message: (body.message || "").trim() || null,
+    // Whitelisted + clamped campaign attribution; null when absent.
+    utm: sanitizeUtm(body.utm),
   };
 
   // 1) Forward to a webhook if configured (Zapier / Make / Sheets / CRM).

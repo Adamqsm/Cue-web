@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
@@ -8,6 +8,7 @@ import { cn, localizedHref } from "@/lib/utils";
 import { firebaseApp } from "@/lib/firebase";
 import { newApplicationId } from "@/lib/partner-application";
 import { EMAIL_RE } from "@/lib/validation";
+import { getUtmParams } from "@/lib/utm";
 import LocaleLink from "@/components/ui/LocaleLink";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -57,6 +58,13 @@ export default function ApplyForm({
   const [menuFile, setMenuFile] = useState<File | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
+  // Focused when the success panel replaces the form, so SR users hear it —
+  // same pattern as ClaimForm's outcome heading.
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (status === "success") successHeadingRef.current?.focus();
+  }, [status]);
 
   const fieldBase =
     "w-full rounded-chip border border-line-strong bg-surface px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-accent";
@@ -194,7 +202,13 @@ export default function ApplyForm({
       const res = await fetch("/api/partner-apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...application, applicationId, menuPath, photoPaths }),
+        body: JSON.stringify({
+          ...application,
+          applicationId,
+          menuPath,
+          photoPaths,
+          utm: getUtmParams(),
+        }),
       });
       // The IP budget is shared with everyone behind the same address, so a
       // rate-limited applicant is not a broken form — say so instead of
@@ -217,7 +231,13 @@ export default function ApplyForm({
             <path d="m5 13 4 4L19 7" />
           </svg>
         </span>
-        <h3 className="mt-6 text-3xl font-semibold tracking-[-0.015em] text-content">{form.success.title}</h3>
+        <h3
+          ref={successHeadingRef}
+          tabIndex={-1}
+          className="mt-6 text-3xl font-semibold tracking-[-0.015em] text-content outline-none"
+        >
+          {form.success.title}
+        </h3>
         <p className="mt-3 max-w-md leading-[1.65] text-muted">{form.success.body}</p>
         <LocaleLink href="/" locale={locale} className="mt-6 inline-flex min-h-[44px] items-center">
           <span className="link-underline">{form.success.home}</span>
@@ -561,7 +581,7 @@ export default function ApplyForm({
           </label>
 
           {(status === "error" || fileError) && (
-            <p className="rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
+            <p role="alert" className="rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
               {fileError ?? form.errors[errorKey]}
             </p>
           )}

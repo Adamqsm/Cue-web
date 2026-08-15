@@ -4,6 +4,7 @@ import EditorialSection from "./EditorialSection";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
+import { withUtm } from "@/lib/utm";
 
 /**
  * "Two doors" — the paired pre-launch offers, one per side of the booking:
@@ -33,13 +34,17 @@ export default function EarlyAccessPair({
           </h3>
           <p className="mt-3 leading-[1.65] text-muted">{ea.guest.body}</p>
           <div className="mt-auto pt-8">
-            <LocaleLink href="/claim" locale={locale} className="btn btn-spark">
+            <LocaleLink
+              href={withUtm("/claim", "home-early-access")}
+              locale={locale}
+              className="btn btn-spark"
+            >
               {ea.guest.cta}
             </LocaleLink>
           </div>
         </RevealItem>
         <RevealItem className="flex flex-col rounded-panel border border-line bg-surface p-7 shadow-soft md:p-9">
-          <p className="eyebrow !border-transparent !bg-accent !text-white">{ea.operator.eyebrow}</p>
+          <p className="eyebrow !border-transparent !bg-accent !text-white dark:!text-bg">{ea.operator.eyebrow}</p>
           <h3 className="mt-4 font-display text-2xl text-content">
             {ea.operator.title}
           </h3>

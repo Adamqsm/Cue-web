@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 import { isValidEmail, normalizePhone } from "@/lib/cue-insider/normalize";
 import { track } from "@/lib/cue-insider/analytics";
+import { getUtmParams } from "@/lib/utm";
 import TurnstileWidget from "@/components/claim/TurnstileWidget";
 import ClaimTicket from "@/components/claim/ClaimTicket";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -106,6 +107,7 @@ export default function ClaimForm({
           source,
           marketingConsent,
           turnstileToken: token,
+          utm: getUtmParams(),
         }),
       });
       const body = await res.json().catch(() => null);

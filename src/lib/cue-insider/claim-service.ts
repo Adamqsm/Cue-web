@@ -10,6 +10,7 @@ import type { Locale } from "@/i18n/config";
 // Relative, not "@/lib/rate-limit": vitest resolves no path aliases, and this
 // module is imported by claim-service.test.ts.
 import { consumeRateLimit } from "../rate-limit";
+import type { UtmParams } from "../utm";
 import { generateCode } from "./code";
 import { hashIp, hashPii } from "./hash";
 import { isValidEmail, normalizeEmail, normalizePhone } from "./normalize";
@@ -31,6 +32,8 @@ export type ClaimInput = {
   locale: Locale;
   source: ClaimSource;
   marketingConsent: boolean;
+  /** Sanitized campaign attribution (route applies sanitizeUtm), or null. */
+  utm?: UtmParams | null;
   ip: string;
 };
 
@@ -199,6 +202,7 @@ export async function submitClaim(db: Firestore, input: ClaimInput): Promise<Cla
       lastEmailQueuedAt: FieldValue.serverTimestamp(),
       source: input.source,
       marketingConsent: input.marketingConsent,
+      utm: input.utm ?? null,
     });
     const indexBase = { claimId: claimRef.id, code, createdAt: FieldValue.serverTimestamp() };
     txn.create(emailIdxRef, { kind: "email", ...indexBase });

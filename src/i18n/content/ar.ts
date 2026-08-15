@@ -34,8 +34,9 @@ const ar: Dictionary = {
     seeHowItWorks: "شاهد كيف تعمل",
     joinWaitlist: "انضم للوصول المبكر",
     readMore: "اقرأ المزيد",
-    backToTop: "العودة للأعلى",
     preLaunch: "قبل الإطلاق · عمّان",
+    skipToContent: "تخطَّ إلى المحتوى",
+    contactUs: "تواصل معنا",
     theme: { light: "التبديل إلى الوضع الفاتح", dark: "التبديل إلى الوضع الداكن" },
   },
 
@@ -1430,7 +1431,10 @@ const ar: Dictionary = {
         links: [
           { href: "/faq", label: "مركز المساعدة" },
           { href: "/reach-out", label: "ابدأ الآن" },
-          { href: "/claim", label: "الوصول المبكر إلى Cue Insider" },
+          {
+            href: "/claim?utm_source=cue-site&utm_medium=internal&utm_content=footer",
+            label: "الوصول المبكر إلى Cue Insider",
+          },
           { href: "/faq", label: "الأسئلة الشائعة" },
         ],
       },

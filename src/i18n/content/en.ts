@@ -32,8 +32,9 @@ const en = {
     seeHowItWorks: "See how it works",
     joinWaitlist: "Join early access",
     readMore: "Read more",
-    backToTop: "Back to top",
     preLaunch: "Pre-launch · Amman",
+    skipToContent: "Skip to content",
+    contactUs: "Talk to us",
     theme: { light: "Switch to light mode", dark: "Switch to dark mode" },
   },
 
@@ -1431,7 +1432,10 @@ const en = {
         links: [
           { href: "/faq", label: "Help center" },
           { href: "/reach-out", label: "Get started" },
-          { href: "/claim", label: "Cue Insider early access" },
+          {
+            href: "/claim?utm_source=cue-site&utm_medium=internal&utm_content=footer",
+            label: "Cue Insider early access",
+          },
           { href: "/faq", label: "FAQ" },
         ],
       },

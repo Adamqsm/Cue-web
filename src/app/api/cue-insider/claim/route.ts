@@ -7,6 +7,7 @@ import {
   type ClaimSource,
 } from "@/lib/cue-insider/claim-service";
 import { verifyTurnstile } from "@/lib/cue-insider/turnstile";
+import { sanitizeUtm } from "@/lib/utm";
 
 export const runtime = "nodejs";
 
@@ -18,6 +19,7 @@ type ClaimPayload = {
   source?: unknown;
   marketingConsent?: unknown;
   turnstileToken?: unknown;
+  utm?: unknown;
 };
 
 function validationError(field: string) {
@@ -83,6 +85,9 @@ export async function POST(request: Request) {
       locale: body.locale,
       source: body.source as ClaimSource,
       marketingConsent: body.marketingConsent,
+      // Attribution is best-effort: sanitized to the utm_* whitelist, never a
+      // reason to reject a claim.
+      utm: sanitizeUtm(body.utm),
       ip,
     });
 

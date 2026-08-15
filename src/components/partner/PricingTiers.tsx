@@ -4,6 +4,7 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
 import EditorialSection from "@/components/home/EditorialSection";
 import { cn } from "@/lib/utils";
+import { withUtm } from "@/lib/utm";
 
 /** Three-tier plan comparison — side-by-side on desktop, stacked cards on mobile. */
 export default function PricingTiers({
@@ -56,7 +57,7 @@ export default function PricingTiers({
                 ))}
               </ul>
               <LocaleLink
-                href="/partner/apply"
+                href={withUtm("/partner/apply", "pricing-tiers")}
                 locale={locale}
                 className={cn(
                   "btn mt-8 w-full",

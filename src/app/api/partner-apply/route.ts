@@ -10,6 +10,7 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 // shared with the claim flow deliberately: one salt to rotate, and the counter
 // key never contains a raw address. The COUNTERS are separate collections.
 import { hashIp } from "@/lib/cue-insider/hash";
+import { sanitizeUtm, type UtmParams } from "@/lib/utm";
 
 export const runtime = "nodejs";
 
@@ -75,6 +76,7 @@ type Application = {
   consent: true;
   menuPath: string | null;
   photoPaths: string[];
+  utm: UtmParams | null;
 };
 
 /** 422 in the shape /api/lead uses — a human message, plus the offending field. */
@@ -208,6 +210,9 @@ export async function POST(request: Request) {
   const interestedInPrepayment = body.interestedInPrepayment === true;
   if (body.consent !== true) return invalid("consent", "Consent is required.");
 
+  // Attribution is best-effort: whitelist + clamp, never a reason to 422.
+  const utm = sanitizeUtm(body.utm);
+
   // -- Storage paths -------------------------------------------------------
   // Paths are client-supplied (the browser did the upload), so they are pinned
   // to this application's own prefix — a submission cannot make its document
@@ -259,6 +264,7 @@ export async function POST(request: Request) {
     consent: true,
     menuPath,
     photoPaths,
+    utm,
   };
 
   // 1) Rate limit, before anything is persisted or forwarded. This is an

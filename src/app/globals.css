@@ -37,7 +37,11 @@
   /* ---- Spark — MARIGOLD ("incoming / live / energy") ---- */
   --spark: 223 148 38;         /* #DF9426 marigold */
   --spark-strong: 197 124 24;  /* #C57C18 */
-  --spark-deep: 150 89 15;     /* #96590F marigold text on wash / sand (AA) */
+  /* Marigold text on every light ground it appears on. #96590F only cleared
+     AA on sand/surface; on surface-2 (footer labels) it was 4.28:1 and on
+     accent-wash (founding badge) 4.39:1. #8A520E is the same marigold a
+     step darker: worst pair is now 4.85:1. */
+  --spark-deep: 138 82 14;     /* #8A520E marigold text on wash / sand / surface-2 (AA) */
   --spark-wash: rgb(247 231 197); /* #F7E7C5 tinted marigold fill */
   --spark-on-inverse: 240 178 78;  /* #F0B24E marigold on ink band */
 

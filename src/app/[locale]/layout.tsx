@@ -15,6 +15,8 @@ import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
 import ClaimModalProvider from "@/components/claim/ClaimModalProvider";
 import ConsentBanner from "@/components/ConsentBanner";
+import FloatingContact from "@/components/FloatingContact";
+import UtmCapture from "@/components/UtmCapture";
 
 // v3 "Tonight" — editorial pairing. Fraunces (characterful soft-serif) for
 // display, Instrument Sans (warm humanist workhorse) for body/UI. Arabic gets
@@ -137,10 +139,11 @@ export default function LocaleLayout({
         <span className="grain" aria-hidden />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-content focus:px-4 focus:py-2 focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:rounded-full focus:bg-content focus:px-4 focus:py-2 focus:text-bg"
         >
-          Skip to content
+          {dict.common.skipToContent}
         </a>
+        <UtmCapture />
         <MotionProvider>
           {/* Slim strings only — the claim dialog subtrees, not the whole dict. */}
           <ClaimModalProvider
@@ -157,6 +160,7 @@ export default function LocaleLayout({
               {children}
             </main>
             <Footer locale={locale} dict={dict} />
+            <FloatingContact locale={locale} label={dict.common.contactUs} />
           </ClaimModalProvider>
         </MotionProvider>
         <ConsentBanner

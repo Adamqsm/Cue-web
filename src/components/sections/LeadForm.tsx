@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
+import { getUtmParams } from "@/lib/utm";
 import { CueMark } from "@/components/BrandMark";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -19,6 +20,13 @@ export default function LeadForm({
   const [audience, setAudience] = useState<string>("operator");
   const [contact, setContact] = useState<string>("email");
   const [status, setStatus] = useState<Status>("idle");
+  // Focused when the success panel replaces the form, so SR users hear it —
+  // same pattern as ClaimForm's outcome heading.
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (status === "success") successHeadingRef.current?.focus();
+  }, [status]);
 
   const isOperator = audience === "operator";
 
@@ -36,6 +44,7 @@ export default function LeadForm({
       establishment: String(data.get("establishment") || ""),
       instagram: String(data.get("instagram") || ""),
       message: String(data.get("message") || ""),
+      utm: getUtmParams(),
     };
     try {
       const res = await fetch("/api/lead", {
@@ -73,7 +82,13 @@ export default function LeadForm({
                 <path d="m5 13 4 4L19 7" />
               </svg>
             </span>
-            <h3 className="mt-6 text-3xl text-content">{form.success.title}</h3>
+            <h3
+              ref={successHeadingRef}
+              tabIndex={-1}
+              className="mt-6 text-3xl text-content outline-none"
+            >
+              {form.success.title}
+            </h3>
             <p className="mt-3 max-w-sm text-muted">{form.success.body}</p>
             <button
               type="button"
@@ -196,7 +211,7 @@ export default function LeadForm({
             </div>
 
             {status === "error" && (
-              <p className="rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
+              <p role="alert" className="rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
                 {form.error}
               </p>
             )}

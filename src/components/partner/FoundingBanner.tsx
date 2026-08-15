@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import Reveal from "@/components/ui/Reveal";
 import LocaleLink from "@/components/ui/LocaleLink";
+import { withUtm } from "@/lib/utm";
 
 /** High-weight founding-partner offer banner — the outreach hook, shown directly under the page hero. */
 export default function FoundingBanner({
@@ -31,7 +32,7 @@ export default function FoundingBanner({
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <LocaleLink
-                  href="/partner/apply"
+                  href={withUtm("/partner/apply", "founding-banner")}
                   locale={locale}
                   className="btn btn-primary text-base"
                 >
@@ -66,7 +67,11 @@ export default function FoundingBanner({
           {/* Guest-side proof point: the Cue Insider list is already filling. */}
           <p className="mt-6 border-t border-line/60 pt-4 text-sm text-muted">
             {founding.waitlistNote}{" "}
-            <LocaleLink href="/claim" locale={locale} className="link-underline">
+            <LocaleLink
+              href={withUtm("/claim", "founding-banner")}
+              locale={locale}
+              className="link-underline"
+            >
               {claimCta}
             </LocaleLink>
           </p>

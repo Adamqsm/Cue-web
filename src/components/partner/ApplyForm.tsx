@@ -63,7 +63,7 @@ export default function ApplyForm({
   const labelBase = "mb-1.5 block text-sm font-medium text-content";
   const sectionLabel = "eyebrow mt-2";
   // Step numeral for section wayfinding — mirrors the homepage margin spine,
-  // scaled down for a form. Marigold (spark-deep, AA), decorative.
+  // scaled down for a form. Confirm green (spark-deep, AA), decorative.
   const stepNum = "display text-sm font-semibold tabular-nums text-spark-deep";
 
   function fail(key: typeof errorKey) {

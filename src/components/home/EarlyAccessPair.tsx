@@ -23,12 +23,11 @@ export default function EarlyAccessPair({
   return (
     <EditorialSection num={num} label={ea.label} band="surface2" id="early-access">
       <SectionHeading title={ea.title} body={ea.body} />
+      {/* Neutral cards; the offer color arrives only through the small pill
+          and the button, per the restrained-accent rule. */}
       <RevealGroup className="mt-12 grid gap-6 md:grid-cols-2">
-        <RevealItem className="flex flex-col rounded-panel border border-line bg-spark-wash p-7 md:p-9">
-          <p className="eyebrow">
-            <span className="h-px w-6 bg-current opacity-60" />
-            {ea.guest.eyebrow}
-          </p>
+        <RevealItem className="flex flex-col rounded-panel border border-line bg-surface p-7 shadow-soft md:p-9">
+          <p className="eyebrow !border-transparent !bg-spark !text-[rgb(22,26,35)]">{ea.guest.eyebrow}</p>
           <h3 className="mt-4 font-display text-2xl text-content">
             {ea.guest.title}
           </h3>
@@ -39,11 +38,8 @@ export default function EarlyAccessPair({
             </LocaleLink>
           </div>
         </RevealItem>
-        <RevealItem className="flex flex-col rounded-panel border border-line bg-accent-wash p-7 md:p-9">
-          <p className="eyebrow">
-            <span className="h-px w-6 bg-current opacity-60" />
-            {ea.operator.eyebrow}
-          </p>
+        <RevealItem className="flex flex-col rounded-panel border border-line bg-surface p-7 shadow-soft md:p-9">
+          <p className="eyebrow !border-transparent !bg-accent !text-white">{ea.operator.eyebrow}</p>
           <h3 className="mt-4 font-display text-2xl text-content">
             {ea.operator.title}
           </h3>

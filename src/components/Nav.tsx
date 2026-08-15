@@ -96,12 +96,13 @@ export default function Nav({
         <div className="hidden items-center gap-2 lg:flex">
           <ThemeToggle labels={themeLabels} />
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
-          <button type="button" onClick={onClaim} className="btn btn-outline px-5">
+          {/* Green = the queue/claim moment; blue = the brand action. */}
+          <button type="button" onClick={onClaim} className="btn btn-spark px-5">
             {dict.nav.claimCta}
           </button>
           <Link
             href={localizedHref("/reach-out", locale)}
-            className="btn btn-spark px-5"
+            className="btn btn-primary px-5"
           >
             {dict.nav.cta}
           </Link>
@@ -168,7 +169,7 @@ export default function Nav({
             <button
               type="button"
               onClick={onClaim}
-              className="btn btn-outline mt-3 w-full"
+              className="btn btn-spark mt-3 w-full"
             >
               {dict.nav.claimCta}
             </button>
@@ -176,7 +177,7 @@ export default function Nav({
               <LanguageToggle locale={locale} label={dict.nav.langToggle} />
               <Link
                 href={localizedHref("/reach-out", locale)}
-                className="btn btn-spark flex-1"
+                className="btn btn-primary flex-1"
               >
                 {dict.nav.cta}
               </Link>

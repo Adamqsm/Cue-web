@@ -1,6 +1,6 @@
 import type { Dictionary } from "@/i18n/dictionaries";
 import EditorialSection from "./EditorialSection";
-import Reveal, { RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 
 const icons: Record<string, JSX.Element> = {
@@ -43,11 +43,13 @@ const icons: Record<string, JSX.Element> = {
   ),
 };
 
+/* "Live" capabilities carry the confirm-green tile; everything else is blue. */
+const SPARK_ICONS = new Set(["inbox", "shield"]);
+
 /**
- * "What you get" — deliberately NOT a 3-icon feature grid. Six capabilities as
- * alternating editorial rows: index numeral + serif title on one edge, body on
- * the other, edges swapping row to row for an off-grid rhythm. Hairline-
- * separated, no card chrome.
+ * "What you get" — v5: a friendly card grid. Six capabilities as lifted
+ * cards with colored icon tiles, the consumer-app pattern the brand sits
+ * beside (v3's alternating editorial hairline rows are retired).
  */
 export default function Features({
   dict,
@@ -60,52 +62,35 @@ export default function Features({
   return (
     <EditorialSection num={num} label={f.label} band="bg">
       <div className="max-w-2xl">
-        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.1] text-content">
           {f.title}
         </h2>
       </div>
 
-      <RevealGroup className="mt-12 border-t border-line">
-        {f.items.map((item, i) => {
-          const flip = i % 2 === 1;
+      <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {f.items.map((item) => {
+          const spark = SPARK_ICONS.has(item.icon);
           return (
             <RevealItem
               key={item.title}
-              className="border-b border-line py-8 sm:py-9"
+              className="card card-hover flex flex-col p-7"
             >
-              <div className="grid items-start gap-4 lg:grid-cols-12 lg:gap-8">
-                {/* Title cluster */}
-                <div
-                  className={cn(
-                    "flex items-start gap-5 lg:col-span-6",
-                    flip && "lg:order-2 lg:col-start-7"
-                  )}
-                >
-                  <span
-                    className="display shrink-0 text-2xl tabular-nums text-spark-deep"
-                    aria-hidden
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="flex items-center gap-4">
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-chip bg-accent-wash text-accent-deep">
-                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        {icons[item.icon] ?? icons.inbox}
-                      </svg>
-                    </span>
-                    <h3 className="text-xl text-content sm:text-2xl">{item.title}</h3>
-                  </div>
-                </div>
-                {/* Body */}
-                <p
-                  className={cn(
-                    "text-[15px] leading-relaxed text-muted lg:col-span-5 sm:text-base",
-                    flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"
-                  )}
-                >
-                  {item.body}
-                </p>
-              </div>
+              <span
+                className={cn(
+                  "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-chip",
+                  spark
+                    ? "bg-spark-wash text-spark-deep"
+                    : "bg-accent-wash text-accent-deep"
+                )}
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  {icons[item.icon] ?? icons.inbox}
+                </svg>
+              </span>
+              <h3 className="mt-5 text-xl text-content">{item.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">
+                {item.body}
+              </p>
             </RevealItem>
           );
         })}

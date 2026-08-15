@@ -1,9 +1,10 @@
 import type { Config } from "tailwindcss";
 
-// Cue redesign v3 — "Tonight". Token-driven warm-editorial palette.
-// Sand ground · olive brand (accent) · marigold spark · clay depth.
-// Components style through semantic roles; never hardcode hex.
-// See docs/design-tokens-v2.md.
+// Cue redesign v5.1 — "Queue Blue" on neutral ground. Token-driven palette:
+// neutral off-white/near-black surfaces · queue-blue accent (restrained) ·
+// confirm-green spark (queue/claim/live moments). Components style through
+// semantic roles; never hardcode hex.
+// See docs/design-tokens-v5.md (also the source of truth for the Flutter port).
 const config: Config = {
   darkMode: "class",
   content: [
@@ -24,7 +25,7 @@ const config: Config = {
           strong: "rgb(var(--line-strong) / <alpha-value>)",
         },
 
-        // ---- Accent — olive (brand + "confirmed") ----
+        // ---- Accent — queue blue (brand + primary actions) ----
         accent: {
           DEFAULT: "rgb(var(--accent) / <alpha-value>)",
           strong: "rgb(var(--accent-strong) / <alpha-value>)",
@@ -33,7 +34,7 @@ const config: Config = {
           inverse: "rgb(var(--accent-on-inverse) / <alpha-value>)",
         },
 
-        // ---- Spark — marigold ("incoming / live / energy") ----
+        // ---- Spark — ticket yellow ("the queue ticket" / live / energy) ----
         spark: {
           DEFAULT: "rgb(var(--spark) / <alpha-value>)",
           strong: "rgb(var(--spark-strong) / <alpha-value>)",
@@ -42,7 +43,7 @@ const config: Config = {
           inverse: "rgb(var(--spark-on-inverse) / <alpha-value>)",
         },
 
-        // ---- Clay — earthy depth (illustration / warm support) ----
+        // ---- Clay — slate-blue support mid-tone (illustration depth) ----
         clay: "rgb(var(--clay) / <alpha-value>)",
 
         // ---- Status ----
@@ -56,15 +57,16 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
         arabic: ["var(--font-arabic)", "Tahoma", "sans-serif"],
       },
+      // Rounder shape language than v3 — consumer-app friendly, not bubbly.
       borderRadius: {
-        chip: "8px",
-        card: "14px",
-        panel: "22px",
+        chip: "12px",
+        card: "18px",
+        panel: "28px",
       },
       maxWidth: {
         content: "82rem",

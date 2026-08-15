@@ -62,7 +62,7 @@ const en = {
         "Book tables at Amman's best restaurants, from Abdoun to Rainbow Street. Instant confirmations, easy group plans, and split payments so everyone covers their share.",
       primary: "Claim 3 months free",
       secondary: "For restaurants",
-      proof: "2,300+ people are already in the queue",
+      proof: "People are already in the queue — see the live count",
       phoneFrontAlt:
         "A confirmed restaurant reservation in the Cue app, Amman",
       phoneBackAlt:

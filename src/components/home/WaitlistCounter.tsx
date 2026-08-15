@@ -9,22 +9,15 @@ import LocaleLink from "@/components/ui/LocaleLink";
 /**
  * The queue counter — how many people are already in.
  *
- * DATA SOURCE (PLACEHOLDER until wired): the site is fully static (SSG) and
- * this redesign is frontend-only, so there is no live endpoint to read the
- * real Cue Insider claim count yet. The number below is a configured baseline
- * that grows deterministically by day, so it moves between visits without a
- * backend and without hydration mismatches (the DOM always renders BASELINE;
- * the count-up runs after mount). When a real count endpoint exists, replace
- * `queueCount()` with the fetched value and delete this note.
+ * DATA SOURCE: /api/waitlist-count, the live cueInsiderClaims total plus the
+ * server-side offset, fetched fresh on every page load (no-store on both the
+ * response and the request, so neither the CDN nor the browser can serve a
+ * stale number). Until the fetch resolves the ticket shows a same-size
+ * skeleton — never a 0, an undefined, or a made-up number. If the fetch
+ * fails, FALLBACK keeps the section intact. The count-up starts once the
+ * ticket is in view AND the real number has arrived.
  */
-const BASELINE = 2300; // PLACEHOLDER — sync with the real Cue Insider list size
-const PER_DAY = 12; // PLACEHOLDER — growth pacing between manual syncs
-const ANCHOR_UTC = Date.UTC(2026, 7, 1); // 2026-08-01
-
-function queueCount(): number {
-  const days = Math.max(0, Math.floor((Date.now() - ANCHOR_UTC) / 86_400_000));
-  return BASELINE + days * PER_DAY;
-}
+const FALLBACK = 50; // the server-side offset floor — safe, never inflated
 
 function formatCount(n: number, locale: Locale): string {
   return n.toLocaleString(locale === "ar" ? "ar-EG" : "en-US");
@@ -40,14 +33,33 @@ export default function WaitlistCounter({
   const w = dict.home.waitlist;
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [shown, setShown] = useState(BASELINE);
+  const [target, setTarget] = useState<number | null>(null);
+  const [shown, setShown] = useState<number | null>(null);
 
-  // Count up from the baseline once the ticket scrolls into view. Reduced
-  // motion (or no JS) simply keeps the baseline value — content never gates
-  // on the animation.
+  // Fetch on mount, not on scroll — the number is usually ready before the
+  // ticket enters the viewport, so the skeleton is rarely seen at all.
   useEffect(() => {
-    if (!inView) return;
-    const target = queueCount();
+    const ctrl = new AbortController();
+    fetch("/api/waitlist-count", { cache: "no-store", signal: ctrl.signal })
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error(`${res.status}`))))
+      .then((data: { count?: unknown }) => {
+        setTarget(
+          typeof data.count === "number" && Number.isFinite(data.count) && data.count >= 0
+            ? Math.round(data.count)
+            : FALLBACK
+        );
+      })
+      .catch(() => {
+        if (!ctrl.signal.aborted) setTarget(FALLBACK);
+      });
+    return () => ctrl.abort();
+  }, []);
+
+  // Count up once the ticket scrolls into view and the live number exists.
+  // Reduced motion (or no JS) never gates content: the final value is set
+  // directly, and the skeleton's pulse is stilled by the global motion clamp.
+  useEffect(() => {
+    if (!inView || target === null) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShown(target);
       return;
@@ -64,7 +76,7 @@ export default function WaitlistCounter({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView]);
+  }, [inView, target]);
 
   return (
     <section
@@ -106,8 +118,18 @@ export default function WaitlistCounter({
                 className="mt-2 font-mono text-[clamp(3rem,7vw,4.5rem)] font-bold leading-none tabular-nums"
                 dir="ltr"
                 aria-live="off"
+                aria-busy={shown === null}
               >
-                {formatCount(shown, locale)}
+                {shown === null ? (
+                  // Same-line-box skeleton (em/ch sized): holds the ticket's
+                  // shape while the count loads, no 0-flash, no layout jump.
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-[0.72em] w-[3ch] animate-pulse rounded-lg bg-current opacity-20 align-middle"
+                  />
+                ) : (
+                  formatCount(shown, locale)
+                )}
               </span>
               <span className="mt-3 flex items-center gap-2 text-sm font-bold">
                 <span className="relative flex h-2 w-2">

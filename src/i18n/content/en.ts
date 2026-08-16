@@ -745,20 +745,30 @@ const en = {
     offer: {
       kicker: "What you're claiming",
       title: "One code. Three months. Yours from day one.",
-      // TODO(adam): replace these three points with the real Cue Insider
-      // benefit list — current copy states only what is confirmed.
       points: [
         {
-          title: "Full Cue Insider membership",
-          body: "Three free months of the real Cue Insider membership, not a cut-down trial.",
+          title: "Skip the wait",
+          body: "Get your table confirmed faster, no back-and-forth.",
         },
         {
-          title: "Three months, JD 0",
-          body: "Your first three months are free. No card, no commitment. The code alone is your claim.",
+          title: "Front of the line",
+          body: "Priority booking at peak times, when everyone else is stuck waiting.",
         },
         {
-          title: "A held seat at launch",
-          body: "You're on the early-access list: we'll email you the day the app goes live, and your code will be waiting.",
+          title: "Save on every booking",
+          body: "Reduced fees on reservations, every time.",
+        },
+        {
+          title: "Deals from your favorite spots",
+          body: "Exclusive discounts at partner restaurants across Amman.",
+        },
+        {
+          title: "Earn as you dine",
+          body: "Collect points with every booking, redeem them for more.",
+        },
+        {
+          title: "Move up the list",
+          body: "When a spot opens up, Insiders get first dibs before anyone else on the waitlist.",
         },
       ],
       timing:

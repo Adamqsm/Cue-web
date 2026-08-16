@@ -62,6 +62,11 @@ export default function ClaimModal({
     };
     const onKeydown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        // A nested popover that owns its Escape (the phone country selector)
+        // marks itself — let it consume the key instead of closing the dialog.
+        if (e.target instanceof Element && e.target.closest("[data-swallows-escape]")) {
+          return;
+        }
         e.preventDefault();
         onCloseRef.current();
         return;

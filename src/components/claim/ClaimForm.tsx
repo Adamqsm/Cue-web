@@ -3,11 +3,13 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
+import { isValidPhoneNumber } from "libphonenumber-js";
 import { cn } from "@/lib/utils";
-import { isValidEmail, normalizePhone } from "@/lib/cue-insider/normalize";
+import { isValidEmail } from "@/lib/cue-insider/normalize";
 import { track } from "@/lib/cue-insider/analytics";
 import { getUtmParams } from "@/lib/utm";
 import TurnstileWidget from "@/components/claim/TurnstileWidget";
+import PhoneField from "@/components/claim/PhoneField";
 import ClaimTicket from "@/components/claim/ClaimTicket";
 import LocaleLink from "@/components/ui/LocaleLink";
 
@@ -49,6 +51,8 @@ export default function ClaimForm({
   const [errorKey, setErrorKey] =
     useState<keyof Dictionary["claim"]["form"]["errors"]>("server");
   const [token, setToken] = useState<string | null>(null);
+  // E.164 from the phone widget ("+962…", "+1…"), or undefined while empty.
+  const [phone, setPhone] = useState<string | undefined>(undefined);
   // Bumped to remount (and thus reset) Turnstile after a rejected token.
   const [turnstileKey, setTurnstileKey] = useState(0);
   const [duplicateVariant, setDuplicateVariant] =
@@ -86,10 +90,7 @@ export default function ClaimForm({
 
     if (name.length < 2) return fail("name");
     if (!isValidEmail(email.toLowerCase())) return fail("email");
-    const phone = normalizePhone(get("phone"));
-    if (!phone.ok) {
-      return fail(phone.reason === "unsupported-country" ? "phoneCountry" : "phone");
-    }
+    if (!phone || !isValidPhoneNumber(phone)) return fail("phone");
     if (!token) return fail("turnstile");
 
     setStatus("submitting");
@@ -102,7 +103,7 @@ export default function ClaimForm({
         body: JSON.stringify({
           name,
           email,
-          phone: phone.e164,
+          phone,
           locale,
           source,
           marketingConsent,
@@ -236,15 +237,14 @@ export default function ClaimForm({
         <label htmlFor={`${uid}-phone`} className={labelBase}>
           {f.phone} *
         </label>
-        <input
+        <PhoneField
           id={`${uid}-phone`}
-          name="phone"
-          type="tel"
-          required
-          autoComplete="tel"
-          defaultValue="+962 "
-          dir="ltr"
-          className={cn(fieldBase, "text-start")}
+          value={phone}
+          onChange={setPhone}
+          locale={locale}
+          strings={f.countrySelect}
+          placeholder={f.phonePlaceholder}
+          className={fieldBase}
         />
         <p className="mt-1.5 text-xs text-muted">{f.phoneHint}</p>
       </div>

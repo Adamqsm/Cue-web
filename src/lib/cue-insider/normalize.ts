@@ -6,23 +6,18 @@
  * and any future importer must all normalize through here.
  */
 
-/** Accepted dialing countries: Jordan + GCC. */
-export const PHONE_COUNTRIES: {
-  cc: string;
-  nationalLength: number;
-  mobilePrefix: RegExp;
-  label: string;
-}[] = [
-  // Mobile-range prefixes are deliberately loose (leading digit families only)
-  // so carrier changes don't strand real customers.
-  { cc: "962", nationalLength: 9, mobilePrefix: /^7[789]/, label: "JO" },
-  { cc: "971", nationalLength: 9, mobilePrefix: /^5/, label: "AE" },
-  { cc: "966", nationalLength: 9, mobilePrefix: /^5/, label: "SA" },
-  { cc: "965", nationalLength: 8, mobilePrefix: /^[569]/, label: "KW" },
-  { cc: "973", nationalLength: 8, mobilePrefix: /^3/, label: "BH" },
-  { cc: "974", nationalLength: 8, mobilePrefix: /^[34567]/, label: "QA" },
-  { cc: "968", nationalLength: 8, mobilePrefix: /^[79]/, label: "OM" },
-];
+import {
+  ParseError,
+  parsePhoneNumberWithError,
+  type CountryCode,
+  type PhoneNumber,
+} from "libphonenumber-js";
+
+/**
+ * Country assumed for numbers typed with no dialing prefix ("0791234567" →
+ * +962…). Mirrors the claim form's pre-selected country.
+ */
+export const DEFAULT_PHONE_COUNTRY: CountryCode = "JO";
 
 /** Map Arabic-Indic (٠-٩) and Extended Arabic-Indic (۰-۹) digits to ASCII. */
 export function toAsciiDigits(value: string): string {
@@ -60,42 +55,84 @@ export function isValidEmail(email: string): boolean {
 
 export type PhoneResult =
   | { ok: true; e164: string; country: string }
-  | { ok: false; reason: "empty" | "invalid-characters" | "unsupported-country" | "invalid-length" | "not-mobile" };
+  | {
+      ok: false;
+      reason:
+        | "empty"
+        | "invalid-characters"
+        | "unsupported-country"
+        | "invalid-length"
+        | "invalid-number";
+    };
+
+type PhoneFailureReason = Extract<PhoneResult, { ok: false }>["reason"];
+
+function mapParseError(err: unknown): PhoneFailureReason {
+  const code = err instanceof ParseError ? err.message : "";
+  if (code === "INVALID_COUNTRY") return "unsupported-country";
+  if (code === "TOO_SHORT" || code === "TOO_LONG") return "invalid-length";
+  if (code === "NOT_A_NUMBER") return "invalid-characters";
+  return "invalid-number";
+}
+
+type ParseAttempt =
+  | { ok: true; phone: PhoneNumber }
+  | { ok: false; reason: PhoneFailureReason };
+
+function tryParse(input: string): ParseAttempt {
+  try {
+    const phone = parsePhoneNumberWithError(input, {
+      defaultCountry: DEFAULT_PHONE_COUNTRY,
+      // The whole input must be the number — never fish one out of free text.
+      extract: false,
+    });
+    return phone.isValid()
+      ? { ok: true, phone }
+      : { ok: false, reason: "invalid-number" };
+  } catch (err) {
+    return { ok: false, reason: mapParseError(err) };
+  }
+}
+
+function accepted(phone: PhoneNumber): PhoneResult {
+  // country is undefined only for non-geographic ranges (+800, +870): valid,
+  // so accepted, just with no ISO label to report.
+  return { ok: true, e164: phone.number, country: phone.country ?? "" };
+}
 
 /**
- * Normalize user phone input to E.164 for Jordan + GCC.
+ * Normalize user phone input to E.164 — any country libphonenumber knows.
  *
- * Accepts: "+9627...", "009627...", "07XXXXXXXX" (Jordanian local form),
- * "7XXXXXXXX", Arabic-Indic digits, and any spacing/dash/paren formatting.
- * Numbers without an explicit country code are assumed Jordanian.
+ * This was a hand-rolled Jordan+GCC whitelist, which hard-blocked real
+ * customers elsewhere (a US +1 claim, Aug 2026). Validation is now
+ * libphonenumber's isValid() for the parsed country, and the old mobile-only
+ * prefix check went with it: mobile vs fixed isn't reliably distinguishable
+ * worldwide (US ranges are shared), and the claim only needs a reachable,
+ * dedupeable number.
+ *
+ * Accepts "+…"/"00…" international forms, bare international digits
+ * ("9627…", "1415…"), local forms of DEFAULT_PHONE_COUNTRY ("07…", "7…"),
+ * Arabic-Indic digits, and ordinary separator formatting. E.164 output is
+ * byte-identical to the old implementation for every number it accepted, so
+ * existing phoneHash dedupe entries keep matching.
  */
 export function normalizePhone(raw: string): PhoneResult {
-  let s = toAsciiDigits(raw).replace(/[\s\-().]/g, "");
-  if (!s) return { ok: false, reason: "empty" };
-  if (s.startsWith("+")) s = s.slice(1);
-  else if (s.startsWith("00")) s = s.slice(2);
-  if (!/^\d+$/.test(s)) return { ok: false, reason: "invalid-characters" };
+  const input = toAsciiDigits(raw).trim();
+  if (!input) return { ok: false, reason: "empty" };
+  // Letters are typos, not formatting — reject them before the parser can
+  // read anything as a vanity number.
+  if (/[a-z]/i.test(input)) return { ok: false, reason: "invalid-characters" };
 
-  const country = PHONE_COUNTRIES.find((c) => s.startsWith(c.cc));
-  let national: string;
-  let cc: string;
-  if (country && s.length > country.nationalLength) {
-    cc = country.cc;
-    national = s.slice(country.cc.length);
-  } else {
-    // No recognizable country code — treat as a Jordanian national number.
-    cc = "962";
-    national = s.replace(/^0/, "");
-    if (s.length >= 11) return { ok: false, reason: "unsupported-country" };
+  const direct = tryParse(input);
+  if (direct.ok) return accepted(direct.phone);
+
+  // Bare international digits ("9627…", "1415…"): not readable as a national
+  // number, so retry as if the "+" had been typed. The no-prefix attempt runs
+  // first so 9-digit Jordanian mobiles keep their national reading.
+  if (!input.startsWith("+") && !input.startsWith("00")) {
+    const prefixed = tryParse(`+${input}`);
+    if (prefixed.ok) return accepted(prefixed.phone);
   }
 
-  const spec = PHONE_COUNTRIES.find((c) => c.cc === cc)!;
-  // Local convention writes a leading 0 before the national number (07x...).
-  if (national.length === spec.nationalLength + 1 && national.startsWith("0")) {
-    national = national.slice(1);
-  }
-  if (national.length !== spec.nationalLength) return { ok: false, reason: "invalid-length" };
-  if (!spec.mobilePrefix.test(national)) return { ok: false, reason: "not-mobile" };
-
-  return { ok: true, e164: `+${cc}${national}`, country: spec.label };
+  return { ok: false, reason: direct.reason };
 }

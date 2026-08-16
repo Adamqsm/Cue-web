@@ -19,9 +19,9 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// Branded social card shared across pages — v5.1 neutral-first tokens
+// Branded social card shared across pages — v5.2 neutral-first tokens
 // (docs/design-tokens-v5.md): neutral off-white ground, near-black ink,
-// queue blue accent, confirm green dot.
+// queue blue accent, confirm orange dot.
 //
 // Two locale variants. The English card keeps next/og's bundled default
 // font and must stay exactly as it was; the Arabic card registers Cairo
@@ -123,7 +123,7 @@ function arCard() {
             width: "18px",
             height: "18px",
             borderRadius: "9999px",
-            background: "#34D399",
+            background: "#F97316",
           }}
         />
       </div>
@@ -215,7 +215,7 @@ function enCard() {
             width: "18px",
             height: "18px",
             borderRadius: "9999px",
-            background: "#34D399",
+            background: "#F97316",
           }}
         />
         <div

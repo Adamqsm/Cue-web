@@ -107,9 +107,11 @@ Swapping in Firebase, Resend, or a database is a small change to that one file.
 
 ## Brand & content notes
 
-- Palette: warm charcoal (`ink`), cream (`paper`), terracotta / sunset-orange
-  accent (`clay`), with a deep hospitality green (`pine`) as a secondary accent —
-  consistent with the Cue app concepts.
+- Palette (v5.2 "Queue Blue"): neutral off-white/near-black ground, Queue Blue
+  `#1465EB` as the restrained primary accent, and Confirm Orange `#F97316` as
+  the secondary accent for queue/claim/"live" moments (accent-only — buttons,
+  chips, highlights). Full token tables and the decision records live in
+  `docs/design-tokens-v5.md`.
 - Legal copy carries over the substance of the drafted Terms faithfully and adds
   PDPL-aligned Privacy, Cookie, DPA, and Legal Notice documents. Have counsel
   review before launch.

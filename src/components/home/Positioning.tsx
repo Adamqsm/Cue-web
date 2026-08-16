@@ -5,7 +5,7 @@ import EditorialSection from "./EditorialSection";
  * "The gap" — the problem, made a full-bleed ink moment. Short, sharp,
  * high-contrast. The motif carries the metaphor: fragmented channels (DMs,
  * calls, walk-ins, paper) scatter on the reading edge and resolve into one
- * confirmed blue line. Drawn with explicit strokes because it lives only on
+ * confirmed orange line. Drawn with explicit strokes because it lives only on
  * the ink band (token stroke-content would vanish there).
  */
 export default function Positioning({
@@ -43,11 +43,11 @@ export default function Positioning({
   );
 }
 
-/* Scattered fragmented channels → one settled confirmed green line.
+/* Scattered fragmented channels → one settled confirmed orange line.
    Explicit hexes are v5 tokens: lifted blue #7FB0FF for incoming/in-flight
-   signals, confirm green #5EEAB0 / #10B981 for the settled rail — the same
-   blue-in-flight / green-confirmed language as the service board. Both
-   read on the ink band in either theme. */
+   signals, confirm orange #FDBA74 / #EA580C for the settled rail — the same
+   blue-in-flight / orange-confirmed language as the service board. Both
+   read on the ink band in either theme (node ≥3:1 on both band grounds). */
 function GapMotif({ className }: { className?: string }) {
   return (
     <svg
@@ -82,10 +82,10 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M120 184C200 184 214 138 250 138" />
         <path d="M146 230C212 230 214 138 250 138" />
       </g>
-      {/* The single settled confirmed-green line + node */}
-      <path d="M250 138H352" stroke="#5EEAB0" strokeWidth={3} />
-      <circle cx="250" cy="138" r="9" fill="#10B981" />
-      <circle cx="352" cy="138" r="14" fill="#10B981" />
+      {/* The single settled confirmed-orange line + node */}
+      <path d="M250 138H352" stroke="#FDBA74" strokeWidth={3} />
+      <circle cx="250" cy="138" r="9" fill="#EA580C" />
+      <circle cx="352" cy="138" r="14" fill="#EA580C" />
       <path
         d="M346 138l4 4 8-8"
         stroke="#fff"

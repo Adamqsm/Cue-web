@@ -96,7 +96,7 @@ export default function Nav({
         <div className="hidden items-center gap-2 lg:flex">
           <ThemeToggle labels={themeLabels} />
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
-          {/* Green = the queue/claim moment; blue = the brand action. */}
+          {/* Orange = the queue/claim moment; blue = the brand action. */}
           <button type="button" onClick={onClaim} className="btn btn-spark px-5">
             {dict.nav.claimCta}
           </button>

@@ -8,4 +8,8 @@ export default defineConfig({
   resolve: {
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
+  // tsconfig has jsx: "preserve" (Next/SWC territory), which esbuild maps to
+  // the classic transform — component tests then crash on "React is not
+  // defined". Match the app's automatic runtime instead.
+  esbuild: { jsx: "automatic" },
 });

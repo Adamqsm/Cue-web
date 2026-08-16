@@ -46,9 +46,13 @@ const flagFrame =
   "w-6 shrink-0 overflow-hidden rounded-[3px] leading-none [&_img]:block [&_img]:w-full [&_svg]:block [&_svg]:w-full";
 
 /**
- * Searchable replacement for react-phone-number-input's native <select>:
- * a flag button opening a panel where typing filters the country list live,
- * with the top match pre-highlighted (Enter confirms, arrows move).
+ * The claim form's country code picker: a tap-only trigger (flag + dial code —
+ * the code itself is never typeable) opening a searchable list of every
+ * country. On phones the list presents as a bottom sheet over a scrim; from
+ * `sm:` up it anchors under the trigger as a popover. Typing in the search box
+ * filters live with the top match pre-highlighted (Enter confirms, arrows
+ * move); picking a country closes the picker and hands focus to the number
+ * input.
  */
 function CountrySearchSelect({
   value,
@@ -102,6 +106,11 @@ function CountrySearchSelect({
     setOpen(true);
   }
 
+  function close(refocusTrigger: boolean) {
+    setOpen(false);
+    if (refocusTrigger) triggerRef.current?.focus();
+  }
+
   function select(code: CountryCode) {
     onChange(code);
     setOpen(false);
@@ -110,7 +119,11 @@ function CountrySearchSelect({
   }
 
   useEffect(() => {
-    if (open) searchRef.current?.focus();
+    // Auto-focusing the search box on phones would pop the keyboard over the
+    // fresh sheet — only do it where a hardware keyboard is the norm.
+    if (open && window.matchMedia("(min-width: 640px)").matches) {
+      searchRef.current?.focus();
+    }
   }, [open]);
 
   useEffect(() => {
@@ -126,6 +139,16 @@ function CountrySearchSelect({
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
+
+  function onRootKeyDown(e: React.KeyboardEvent) {
+    // While open, Escape closes just the picker — the data-swallows-escape
+    // marker (only present while open) stops the claim dialog's own Escape
+    // handler from closing the whole modal on the same keypress.
+    if (e.key === "Escape" && open) {
+      e.preventDefault();
+      close(true);
+    }
+  }
 
   function onSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "ArrowDown") {
@@ -143,13 +166,6 @@ function CountrySearchSelect({
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (active) select(active.code);
-    } else if (e.key === "Escape") {
-      // Swallow it — inside the claim modal, Escape would otherwise also
-      // close the whole dialog.
-      e.preventDefault();
-      e.stopPropagation();
-      setOpen(false);
-      triggerRef.current?.focus();
     } else if (e.key === "Tab") {
       setOpen(false);
     }
@@ -158,7 +174,12 @@ function CountrySearchSelect({
   const label = ariaLabel ?? strings.label;
 
   return (
-    <div ref={rootRef} className="relative flex">
+    <div
+      ref={rootRef}
+      className="relative flex"
+      onKeyDown={onRootKeyDown}
+      {...(open ? { "data-swallows-escape": "" } : {})}
+    >
       <button
         ref={triggerRef}
         type="button"
@@ -178,6 +199,11 @@ function CountrySearchSelect({
         <span className={flagFrame}>
           <Icon country={value} label={current?.label ?? label} />
         </span>
+        {current && (
+          <span dir="ltr" className="text-sm font-medium tabular-nums text-content">
+            {`+${current.callingCode}`}
+          </span>
+        )}
         <svg
           viewBox="0 0 12 12"
           aria-hidden
@@ -191,65 +217,85 @@ function CountrySearchSelect({
       </button>
 
       {open && (
-        <div
-          data-swallows-escape=""
-          className="absolute start-0 top-[calc(100%+0.4rem)] z-50 w-[19rem] max-w-[calc(100vw-2.5rem)] rounded-card border border-line bg-surface p-2 shadow-card"
-        >
-          <input
-            ref={searchRef}
-            type="text"
-            role="combobox"
-            aria-expanded="true"
-            aria-controls={listboxId}
-            aria-activedescendant={activeOptionId}
-            aria-autocomplete="list"
-            aria-label={strings.searchPlaceholder}
-            placeholder={strings.searchPlaceholder}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setActiveIndex(0);
-            }}
-            onKeyDown={onSearchKeyDown}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-            className="w-full rounded-chip border border-line bg-surface2 px-3 py-2 text-sm text-content placeholder:text-muted transition-colors focus:border-accent"
+        <>
+          {/* Phone-size scrim behind the bottom sheet; tap dismisses. */}
+          <div
+            aria-hidden
+            onClick={() => close(false)}
+            className="fixed inset-0 z-40 bg-black/40 sm:hidden"
           />
-          <ul
-            id={listboxId}
-            role="listbox"
+          <div
+            role="dialog"
             aria-label={label}
-            className="mt-2 max-h-64 overflow-y-auto overscroll-contain"
+            className={cn(
+              // Phones: viewport-pinned bottom sheet. (ClaimModal keeps its
+              // panel free of retained transforms so `fixed` here means the
+              // viewport, not the dialog card.)
+              "fixed inset-x-0 bottom-0 z-50 rounded-t-panel border-t border-line bg-surface p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-card motion-safe:animate-board-in",
+              // ≥sm: anchored popover under the trigger, as before.
+              "sm:absolute sm:inset-x-auto sm:bottom-auto sm:start-0 sm:top-[calc(100%+0.4rem)] sm:w-[19rem] sm:max-w-[calc(100vw-2.5rem)] sm:rounded-card sm:border sm:p-2"
+            )}
           >
-            {results.map((c, i) => (
-              <li
-                key={c.code}
-                id={`${listboxId}-${c.code}`}
-                role="option"
-                aria-selected={i === clampedIndex}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => select(c.code)}
-                onMouseMove={() => setActiveIndex(i)}
-                className={cn(
-                  "flex cursor-pointer items-center gap-3 rounded-chip px-3 py-2 text-sm text-content",
-                  i === clampedIndex && "bg-accent/10"
-                )}
-              >
-                <span className={flagFrame}>
-                  <Icon country={c.code} label={c.label} />
-                </span>
-                <span className="min-w-0 flex-1 truncate text-start">{c.label}</span>
-                <span dir="ltr" className="shrink-0 text-xs text-muted">
-                  +{c.callingCode}
-                </span>
-              </li>
-            ))}
-          </ul>
-          {results.length === 0 && (
-            <p className="px-3 py-4 text-center text-sm text-muted">{strings.noResults}</p>
-          )}
-        </div>
+            <div aria-hidden className="mx-auto mb-2 h-1 w-9 rounded-full bg-line sm:hidden" />
+            <p className="mb-2 px-1 text-sm font-medium text-content sm:hidden">
+              {strings.label}
+            </p>
+            <input
+              ref={searchRef}
+              type="text"
+              role="combobox"
+              aria-expanded="true"
+              aria-controls={listboxId}
+              aria-activedescendant={activeOptionId}
+              aria-autocomplete="list"
+              aria-label={strings.searchPlaceholder}
+              placeholder={strings.searchPlaceholder}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setActiveIndex(0);
+              }}
+              onKeyDown={onSearchKeyDown}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              className="w-full rounded-chip border border-line bg-surface2 px-3 py-2 text-base text-content placeholder:text-muted transition-colors focus:border-accent sm:text-sm"
+            />
+            <ul
+              id={listboxId}
+              role="listbox"
+              aria-label={label}
+              className="mt-2 max-h-[min(22rem,55dvh)] overflow-y-auto overscroll-contain sm:max-h-64"
+            >
+              {results.map((c, i) => (
+                <li
+                  key={c.code}
+                  id={`${listboxId}-${c.code}`}
+                  role="option"
+                  aria-selected={i === clampedIndex}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => select(c.code)}
+                  onMouseMove={() => setActiveIndex(i)}
+                  className={cn(
+                    "flex cursor-pointer items-center gap-3 rounded-chip px-3 py-2.5 text-base text-content sm:py-2 sm:text-sm",
+                    i === clampedIndex && "bg-accent/10"
+                  )}
+                >
+                  <span className={flagFrame}>
+                    <Icon country={c.code} label={c.label} />
+                  </span>
+                  <span className="min-w-0 flex-1 truncate text-start">{c.label}</span>
+                  <span dir="ltr" className="shrink-0 text-xs text-muted">
+                    {`+${c.callingCode}`}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {results.length === 0 && (
+              <p className="px-3 py-4 text-center text-sm text-muted">{strings.noResults}</p>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
@@ -269,9 +315,12 @@ export type PhoneFieldProps = {
 };
 
 /**
- * International phone input for the claim form: searchable country selector
- * (defaulting to Jordan) + E.164-valued number input. Country names come
- * from react-phone-number-input's locale files, so /ar lists them in Arabic.
+ * International phone input for the claim form: tap-only country code picker
+ * (defaulting to Jordan) + a national-format number input. `international`
+ * is explicitly false so the dial code can never be typed or edited in the
+ * number field — changing it goes through the picker alone; the E.164 value
+ * handed to onChange is unchanged. Country names come from
+ * react-phone-number-input's locale files, so /ar lists them in Arabic.
  */
 export default function PhoneField({
   id,
@@ -286,7 +335,8 @@ export default function PhoneField({
     <PhoneInput
       id={id}
       name="phone"
-      international
+      international={false}
+      addInternationalOption={false}
       defaultCountry={DEFAULT_PHONE_COUNTRY}
       flags={flags}
       labels={locale === "ar" ? arLabels : enLabels}

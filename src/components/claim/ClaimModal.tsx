@@ -123,6 +123,10 @@ export default function ClaimModal({
         aria-modal="true"
         aria-labelledby="claim-modal-title"
         className="relative max-h-[calc(100dvh-2rem)] w-full max-w-lg animate-board-in overflow-y-auto rounded-panel border border-line bg-surface p-6 shadow-card md:p-8"
+        // board-in's default fill keeps an identity transform after the entry
+        // animation, which would silently turn this panel into the containing
+        // block for the phone country picker's fixed-position bottom sheet.
+        style={{ animationFillMode: "backwards" }}
       >
         <button
           type="button"

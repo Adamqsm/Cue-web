@@ -789,7 +789,7 @@ const en = {
       email: "Email",
       emailPlaceholder: "you@example.com",
       phone: "Phone number",
-      phonePlaceholder: "+962 7 9012 3456",
+      phonePlaceholder: "07 9012 3456",
       phoneHint: "All countries work — we default to Jordan (+962).",
       countrySelect: {
         label: "Country code",

@@ -786,7 +786,7 @@ const ar: Dictionary = {
       email: "البريد الإلكتروني",
       emailPlaceholder: "you@example.com",
       phone: "رقم الهاتف",
-      phonePlaceholder: "+962 7 9012 3456",
+      phonePlaceholder: "07 9012 3456",
       phoneHint: "جميع الدول مدعومة — الافتراضي الأردن ‎+962.",
       countrySelect: {
         label: "رمز الدولة",

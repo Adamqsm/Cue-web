@@ -788,8 +788,14 @@ const en = {
       namePlaceholder: "Your name",
       email: "Email",
       emailPlaceholder: "you@example.com",
-      phone: "Mobile number",
-      phoneHint: "Jordan and GCC numbers. We default to +962.",
+      phone: "Phone number",
+      phonePlaceholder: "+962 7 9012 3456",
+      phoneHint: "All countries work — we default to Jordan (+962).",
+      countrySelect: {
+        label: "Country code",
+        searchPlaceholder: "Type a country name…",
+        noResults: "No matching countries.",
+      },
       consent:
         "Keep me posted about Cue's launch and Cue Insider news. No spam, unsubscribe any time.",
       submit: "Claim 3 months free",
@@ -799,8 +805,8 @@ const en = {
       errors: {
         name: "Please enter your name.",
         email: "Please enter a valid email address.",
-        phone: "Please enter a valid mobile number.",
-        phoneCountry: "We currently support Jordan and GCC mobile numbers.",
+        phone: "Please enter a valid phone number.",
+        phoneCountry: "We couldn't recognize that country code. Check the number and try again.",
         turnstile: "We couldn't verify you're human. Please retry the check and submit again.",
         rateLimited: "Too many attempts from this connection. Please wait a few minutes and try again.",
         server: "Something went wrong on our side and your claim was not saved. Please try again.",

@@ -35,6 +35,7 @@ describe("normalizePhone", () => {
     expect(normalizePhone("0791234567")).toEqual(expected);
     expect(normalizePhone("791234567")).toEqual(expected);
     expect(normalizePhone("07 9123 4567")).toEqual(expected);
+    expect(normalizePhone("962791234567")).toEqual(expected);
   });
 
   it("maps Arabic-Indic digits before parsing", () => {
@@ -45,7 +46,18 @@ describe("normalizePhone", () => {
     });
   });
 
-  it("accepts GCC mobiles with + and 00 prefixes", () => {
+  it("accepts numbers from any country, not just Jordan + GCC", () => {
+    // The US case is the real-world regression: a +1 claim was hard-blocked.
+    expect(normalizePhone("+1 (212) 555-0123")).toEqual({
+      ok: true,
+      e164: "+12125550123",
+      country: "US",
+    });
+    expect(normalizePhone("+442071838750")).toEqual({
+      ok: true,
+      e164: "+442071838750",
+      country: "GB",
+    });
     expect(normalizePhone("+971501234567")).toEqual({
       ok: true,
       e164: "+971501234567",
@@ -63,28 +75,53 @@ describe("normalizePhone", () => {
     });
   });
 
-  it("rejects unsupported countries", () => {
-    expect(normalizePhone("+15551234567")).toEqual({
+  it("retries bare international digits as if the + had been typed", () => {
+    // Not a readable Jordanian number, so the +-prefixed reading wins.
+    expect(normalizePhone("12125550123")).toEqual({
+      ok: true,
+      e164: "+12125550123",
+      country: "US",
+    });
+  });
+
+  it("accepts landlines now that validity is per-country isValid, not mobile ranges", () => {
+    // Amman fixed line — previously rejected by the 9-digit mobile gate.
+    expect(normalizePhone("+96265551234")).toEqual({
+      ok: true,
+      e164: "+96265551234",
+      country: "JO",
+    });
+  });
+
+  it("rejects unassigned country codes", () => {
+    expect(normalizePhone("+999123456")).toEqual({
       ok: false,
       reason: "unsupported-country",
     });
   });
 
-  it("rejects too-short and too-long numbers", () => {
-    expect(normalizePhone("0791234")).toEqual({ ok: false, reason: "invalid-length" });
-    expect(normalizePhone("+9627912345678")).toEqual({ ok: false, reason: "invalid-length" });
+  it("rejects numbers that fail their country's validity pattern", () => {
+    // 555 is not an assigned NANP area code.
+    expect(normalizePhone("+15551234567")).toEqual({
+      ok: false,
+      reason: "invalid-number",
+    });
+    // 10-digit Jordanian national number (max is 9).
+    expect(normalizePhone("+9627912345678")).toEqual({
+      ok: false,
+      reason: "invalid-number",
+    });
+  });
+
+  it("rejects too-short input", () => {
+    // 7 national digits parse but fail Jordan's validity pattern…
+    expect(normalizePhone("0791234")).toEqual({ ok: false, reason: "invalid-number" });
+    // …while input below the parser's absolute floor is a length error.
+    expect(normalizePhone("1")).toEqual({ ok: false, reason: "invalid-length" });
   });
 
   it("rejects empty and non-numeric input", () => {
     expect(normalizePhone("   ")).toEqual({ ok: false, reason: "empty" });
     expect(normalizePhone("+9627ABCD567")).toEqual({ ok: false, reason: "invalid-characters" });
-  });
-
-  it("rejects landlines", () => {
-    // Amman landline: 8-digit national number, so it fails the length gate
-    // before the mobile-prefix check ever runs.
-    expect(normalizePhone("+96265551234")).toEqual({ ok: false, reason: "invalid-length" });
-    // 9-digit number outside the 77/78/79 mobile ranges hits not-mobile.
-    expect(normalizePhone("+962701234567")).toEqual({ ok: false, reason: "not-mobile" });
   });
 });

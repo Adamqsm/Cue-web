@@ -1,10 +1,11 @@
 import type { Config } from "tailwindcss";
 
-// Cue redesign v5.3 — "Queue Blue" on neutral ground. Token-driven palette:
+// Cue redesign v5.4 — "Queue Blue" on neutral ground. Token-driven palette:
 // neutral off-white/near-black surfaces · queue-blue accent (restrained) ·
-// confirm-olive spark (queue/claim/live moments). Components style through
-// semantic roles; never hardcode hex.
-// See docs/design-tokens-v5.md (also the source of truth for the Flutter port).
+// terracotta spark (queue/claim/live moments, matched to the Flutter app's
+// CueColors.primary). Components style through semantic roles; never
+// hardcode hex. See docs/design-tokens-v5.md (also the source of truth for
+// the Flutter port; the spark family is ported FROM cue_colors.dart).
 const config: Config = {
   darkMode: "class",
   content: [
@@ -34,7 +35,7 @@ const config: Config = {
           inverse: "rgb(var(--accent-on-inverse) / <alpha-value>)",
         },
 
-        // ---- Spark — confirm olive ("the queue ticket" / live / energy) ----
+        // ---- Spark — terracotta ("the queue ticket" / live / energy) ----
         spark: {
           DEFAULT: "rgb(var(--spark) / <alpha-value>)",
           strong: "rgb(var(--spark-strong) / <alpha-value>)",

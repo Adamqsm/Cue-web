@@ -5,8 +5,8 @@ import EditorialSection from "./EditorialSection";
  * "The gap" — the problem, made a full-bleed ink moment. Short, sharp,
  * high-contrast. The motif carries the metaphor: fragmented channels (DMs,
  * calls, walk-ins, paper) scatter on the reading edge and resolve into one
- * confirmed olive line. Drawn with explicit strokes because it lives only on
- * the ink band (token stroke-content would vanish there).
+ * confirmed terracotta line. Drawn with explicit strokes because it lives
+ * only on the ink band (token stroke-content would vanish there).
  */
 export default function Positioning({
   dict,
@@ -43,12 +43,13 @@ export default function Positioning({
   );
 }
 
-/* Scattered fragmented channels → one settled confirmed olive line.
+/* Scattered fragmented channels → one settled confirmed terracotta line.
    Explicit hexes are v5 tokens: lifted blue #7FB0FF for incoming/in-flight
-   signals, confirm olive #D6E0B0 (rail = light fill) / #71824A (nodes = ok)
-   for the settled rail — the same blue-in-flight / olive-confirmed language
-   as the service board. Both read on the ink band in either theme (node
-   ≥3:1 on both band grounds). */
+   signals, terracotta #C86B4A for the settled rail AND its nodes — the same
+   blue-in-flight / terracotta-confirmed language as the service board. The
+   mid-tone base is the rare step that reads on both band grounds (4.69:1 on
+   the ink band, 3.20:1 on the flipped light band), so the olive-era split
+   into a pale rail + darker ok nodes is gone. */
 function GapMotif({ className }: { className?: string }) {
   return (
     <svg
@@ -83,10 +84,10 @@ function GapMotif({ className }: { className?: string }) {
         <path d="M120 184C200 184 214 138 250 138" />
         <path d="M146 230C212 230 214 138 250 138" />
       </g>
-      {/* The single settled confirmed-olive line + node */}
-      <path d="M250 138H352" stroke="#D6E0B0" strokeWidth={3} />
-      <circle cx="250" cy="138" r="9" fill="#71824A" />
-      <circle cx="352" cy="138" r="14" fill="#71824A" />
+      {/* The single settled confirmed-terracotta line + node */}
+      <path d="M250 138H352" stroke="#C86B4A" strokeWidth={3} />
+      <circle cx="250" cy="138" r="9" fill="#C86B4A" />
+      <circle cx="352" cy="138" r="14" fill="#C86B4A" />
       <path
         d="M346 138l4 4 8-8"
         stroke="#fff"

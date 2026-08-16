@@ -19,10 +19,11 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// Branded social card shared across pages — v5.3 neutral-first tokens
+// Branded social card shared across pages — v5.4 neutral-first tokens
 // (docs/design-tokens-v5.md): neutral off-white ground, near-black ink,
-// queue blue accent, confirm olive dot (#A8B87A, the olive-400 dark fill —
-// the light fill #D6E0B0 is too close to the #FAFAFA card ground to read).
+// queue blue accent, terracotta dot (#C86B4A, the spark base — 3.56:1 on
+// the #FAFAFA card, so no darker deviation is needed the way olive's pale
+// fill needed one).
 //
 // Two locale variants. The English card keeps next/og's bundled default
 // font and must stay exactly as it was; the Arabic card registers Cairo
@@ -124,7 +125,7 @@ function arCard() {
             width: "18px",
             height: "18px",
             borderRadius: "9999px",
-            background: "#A8B87A",
+            background: "#C86B4A",
           }}
         />
       </div>
@@ -216,7 +217,7 @@ function enCard() {
             width: "18px",
             height: "18px",
             borderRadius: "9999px",
-            background: "#A8B87A",
+            background: "#C86B4A",
           }}
         />
         <div

@@ -22,13 +22,13 @@ const routes: Record<string, [number, MetadataRoute.Sitemap[number]["changeFrequ
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // No lastModified: it would be the build timestamp, which re-stamps all 30
+  // URLs as "changed" on every deploy — a signal Google learns to distrust.
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of locales) {
     for (const [path, [priority, changeFrequency]] of Object.entries(routes)) {
       entries.push({
         url: `${SITE_URL}/${locale}${path}`,
-        lastModified: now,
         changeFrequency,
         priority,
         alternates: {

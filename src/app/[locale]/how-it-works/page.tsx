@@ -77,7 +77,7 @@ export default function HowItWorksPage({
           <p className="mt-5 text-lg leading-[1.6] text-muted">{h.guest.body}</p>
         </div>
         <div className="mt-10">
-          <FeatureShowcase features={h.guest.features} variant="light" />
+          <FeatureShowcase features={h.guest.features} altSuffix={h.showcaseAlt} variant="light" />
         </div>
       </EditorialSection>
 
@@ -90,7 +90,7 @@ export default function HowItWorksPage({
           <p className="mt-5 text-lg leading-[1.6] text-bg/70">{h.operator.body}</p>
         </div>
         <div className="mt-10">
-          <FeatureShowcase features={h.operator.features} variant="dark" />
+          <FeatureShowcase features={h.operator.features} altSuffix={h.showcaseAlt} variant="dark" />
         </div>
       </EditorialSection>
 

@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CueMark } from "@/components/BrandMark";
 
-// 404s must never be indexed or surface a canonical of their own.
+// 404s must never be indexed or surface a canonical of their own. The
+// explicit null canonical overrides the locale layout's alternates, which
+// would otherwise stamp every 404 with the homepage canonical.
 export const metadata: Metadata = {
   title: "Page not found · Cue",
   robots: { index: false, follow: true },
+  alternates: { canonical: null },
 };
 
 export default function NotFound() {

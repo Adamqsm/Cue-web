@@ -50,9 +50,11 @@ const en = {
   // ---------------- HOME ----------------
   home: {
     meta: {
-      title: "Book Restaurant Tables in Amman | Cue",
+      title: "Book Restaurant Tables in Amman, Jordan | Cue",
       description:
-        "Reserve a table at the best restaurants in Amman. Instant confirmations, group dining, split payments. Download Cue today.",
+        "Reserve a table at the best restaurants in Amman — from Abdoun to Rainbow Street. Instant confirmations, group dining, split payments. Download Cue today.",
+      serviceDescription:
+        "Book tables at restaurants across Amman with instant confirmations, group dining, and split payments.",
     },
     hero: {
       status: "Launching soon · Amman",
@@ -305,6 +307,7 @@ const en = {
       description:
         "See how booking a restaurant table in Amman works on Cue — discover venues, request, confirm, split payments, and a full dashboard for restaurant operators.",
     },
+    showcaseAlt: "Cue restaurant reservation app, Amman",
     hero: {
       eyebrow: "How it works",
       title: "The platform, and the thinking behind it.",
@@ -416,7 +419,7 @@ const en = {
   // ---------------- PARTNER ----------------
   partner: {
     meta: {
-      title: "For Restaurants: Partner with Cue in Amman | Cue",
+      title: "Partner with Cue — Restaurant Reservation System in Amman",
       description:
         "List your Amman restaurant on Cue. Take reservations, reduce no-shows, coordinate group dining and event nights, and run it all from one dashboard.",
     },
@@ -424,7 +427,7 @@ const en = {
       eyebrow: "Partner with Cue",
       title: "A booking platform built to support modern operations.",
       subtitle:
-        "Cue partners with restaurants, venues, and hospitality businesses to simplify reservations, reduce manual coordination, and improve operational control, without disrupting how your team works.",
+        "Cue partners with restaurants, venues, and hospitality businesses across Amman to simplify reservations, reduce manual coordination, and improve operational control, without disrupting how your team works.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
@@ -589,7 +592,7 @@ const en = {
   // ---------------- PARTNER / APPLY ----------------
   partnerApply: {
     meta: {
-      title: "Apply to Join Cue — Restaurant Partner Application | Cue",
+      title: "Apply to Join Cue — Restaurant Partner Application in Amman",
       description:
         "Apply to list your restaurant on Cue. Tell us about your venue and our team will reach out to walk you through onboarding as a founding partner in Amman.",
     },
@@ -733,7 +736,7 @@ const en = {
     meta: {
       title: "Claim 3 Months of Cue Insider Free | Cue",
       description:
-        "Join Cue's early-access list and claim 3 months of Cue Insider membership free. One code per person, emailed to you now, redeemed in the app at launch.",
+        "Join Cue's early-access list and claim 3 months of Cue Insider membership free. One code per person, emailed now, redeemed when Cue launches in Amman.",
     },
     hero: {
       eyebrow: "Cue Insider · early access",
@@ -1014,7 +1017,7 @@ const en = {
     meta: {
       title: "Restaurant Booking FAQs | Cue Amman",
       description:
-        "How to book a table on Cue, whether it's free for guests, how split payments and group reservations work, which Amman restaurants are available, and how to cancel a reservation.",
+        "How to book a table in Amman on Cue, whether it's free for guests, how split payments and group reservations work, and how to cancel a reservation.",
     },
     hero: {
       eyebrow: "Help center",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { SITE_URL } from "@/lib/utils";
 
 /** Keyword sets woven into metadata (not visible copy — read-human copy lives in the content files). */
@@ -20,6 +21,9 @@ const KEYWORDS_EN = [
   "book restaurant table online Amman",
   "restaurant reservation app for groups Jordan",
   "how to book a restaurant in Amman",
+  "restaurants in Amman Jordan",
+  "swefieh village restaurants",
+  "restaurant reservation system Amman",
   "Cue app",
 ];
 
@@ -33,6 +37,10 @@ const KEYWORDS_AR = [
   "تطبيق حجز مطاعم",
   "مطاعم شارع الرينبو",
   "حجز مطعم جماعي",
+  "مطاعم عمان الاردن",
+  "تطبيق حجز مطاعم الاردن",
+  "حجز مطعم في عمان",
+  "مطاعم جبل عمان",
 ];
 
 type BuildArgs = {
@@ -85,13 +93,40 @@ export function buildMetadata({
   };
 }
 
+/**
+ * Amman as a schema.org place, shared by every node in the site graph.
+ * City-centre coordinates only — Cue is a service-area business with no
+ * public street address yet, so the graph carries locality-level address
+ * and geo, never an invented street or phone.
+ */
+const AMMAN_GEO = {
+  "@type": "GeoCoordinates",
+  latitude: 31.9539,
+  longitude: 35.9106,
+};
+
+const AMMAN_CITY = {
+  "@type": "City",
+  name: "Amman",
+  alternateName: "عمّان",
+  geo: AMMAN_GEO,
+  containedInPlace: {
+    "@type": "Country",
+    name: "Jordan",
+    alternateName: "الأردن",
+  },
+};
+
 /** Organization + LocalBusiness + WebSite + reservation Service graph for the homepage. */
-export function siteJsonLd(locale: Locale, description: string) {
-  const sameAs = [
-    "https://instagram.com",
-    "https://facebook.com",
-    "https://x.com",
-  ];
+export function siteJsonLd(locale: Locale, dict: Dictionary) {
+  const description = dict.home.meta.description;
+  // Neighbourhood coverage mirrors the visible "Across Amman" section, in the
+  // page's own language. Names are qualified with the city so generic ones
+  // (Rainbow Street, Boulevard) can't be read as another city's.
+  const neighborhoods = dict.home.neighborhoods.areas.map((name) => ({
+    "@type": "Place",
+    name: locale === "ar" ? `${name}، عمّان` : `${name}, Amman`,
+  }));
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -103,8 +138,11 @@ export function siteJsonLd(locale: Locale, description: string) {
         url: SITE_URL,
         logo: `${SITE_URL}/brand/logo-ink.png`,
         description,
-        areaServed: { "@type": "City", name: "Amman", addressCountry: "JO" },
-        sameAs,
+        areaServed: AMMAN_CITY,
+        knowsLanguage: ["en", "ar"],
+        // sameAs deliberately omitted until real Cue profiles exist — the
+        // previous values were bare social-network roots, which claim the
+        // wrong entity. Add the real handles here and in footer.social.
       },
       {
         "@type": "WebSite",
@@ -127,17 +165,17 @@ export function siteJsonLd(locale: Locale, description: string) {
           addressLocality: "Amman",
           addressCountry: "JO",
         },
-        areaServed: { "@type": "City", name: "Amman" },
+        geo: AMMAN_GEO,
+        areaServed: AMMAN_CITY,
       },
       {
         "@type": "Service",
         "@id": `${SITE_URL}/#reservationservice`,
         serviceType: "Restaurant reservation service",
         name: "Cue restaurant reservations",
-        description:
-          "Book tables at restaurants across Amman with instant confirmations, group dining, and split payments.",
+        description: dict.home.meta.serviceDescription,
         provider: { "@id": `${SITE_URL}/#organization` },
-        areaServed: { "@type": "City", name: "Amman", addressCountry: "JO" },
+        areaServed: [AMMAN_CITY, ...neighborhoods],
         audience: { "@type": "Audience", audienceType: "Diners and restaurant operators in Amman" },
       },
     ],

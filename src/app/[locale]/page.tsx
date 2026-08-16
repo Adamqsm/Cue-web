@@ -42,7 +42,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(siteJsonLd(locale, dict.home.meta.description)),
+          __html: JSON.stringify(siteJsonLd(locale, dict)),
         }}
       />
       <script

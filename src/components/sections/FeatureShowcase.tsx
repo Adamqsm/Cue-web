@@ -9,9 +9,12 @@ type Feature = { img: string; title: string; body: string };
 
 export default function FeatureShowcase({
   features,
+  altSuffix,
   variant = "light",
 }: {
   features: Feature[];
+  /** Localized alt-text tail (e.g. "Cue restaurant reservation app, Amman"). */
+  altSuffix: string;
   variant?: "light" | "dark";
 }) {
   const [active, setActive] = useState(0);
@@ -107,7 +110,7 @@ export default function FeatureShowcase({
           >
             <PhoneFrame
               src={current.img}
-              alt={`${current.title} — Cue restaurant reservation app, Amman`}
+              alt={`${current.title} — ${altSuffix}`}
               width={280}
             />
           </motion.div>

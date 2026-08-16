@@ -1,6 +1,6 @@
-# Cue design tokens — v5.2 "Queue Blue" on neutral ground
+# Cue design tokens — v5.3 "Queue Blue" on neutral ground
 
-Source of truth for the v5.2 colorway and type system. The website reads these
+Source of truth for the v5.3 colorway and type system. The website reads these
 values from `src/app/globals.css` (CSS custom properties) exposed through
 `tailwind.config.ts` as semantic roles. **This table is also the port target
 for the Flutter app**: map each role to a `Color` in the app's theme, keep the
@@ -8,11 +8,39 @@ role names, and never hardcode hex per widget.
 
 Voice of the system: friendly consumer energy in the Talabat / OpenTable
 category, grounded on true neutrals. Blue is a restrained accent (actions,
-active states, small highlights). Confirm orange is the secondary accent for
-queue/claim/"live" moments — accent-only (buttons, chips, highlights), never
-a ground or dominant surface; the v1 all-over terracotta treatment stays
-retired. The navy band is the one deliberate full-bleed brand block per page.
-Not luxury, not minimal, no purple, no yellow.
+active states, small highlights). Confirm olive is the secondary accent for
+queue/claim/"live" moments — deliberately light and desaturated, accent-only
+(buttons, chips, highlights), never a ground or dominant surface. The navy
+band is the one deliberate full-bleed brand block per page. Not luxury, not
+minimal, no orange, no purple, no yellow.
+
+## v5.2 → v5.3 change summary (Confirm Olive)
+
+**Decision note: direction set by Adam — a light olive green secondary
+accent (light, not dark/muddy, not heavily saturated); his four anchor
+values ship verbatim (light `#D6E0B0`/`#5C6B3A`, dark `#A8B87A`/`#EEF2DE`,
+every in-system pair measured AA), with the rest of the family derived in
+the same hue and tuned only for contrast.**
+
+- **Confirm Orange (`#F97316`/`#FB923C`) fully replaced by Confirm Olive
+  (`#D6E0B0`/`#A8B87A`) in the same `spark` role**; footprint unchanged.
+  `ok` moves with it as always (one family, rule 3).
+- Derived members and the two AA-forced deviations from a plain
+  lighten/darken ramp: the Positioning-motif **nodes** use `ok` `#71824A`
+  (the only olive step that clears ≥3:1 on both the ink band and the dark
+  theme's flipped light band: 4.14 / 3.62); the **OG dot** uses the
+  olive-400 dark fill `#A8B87A` (2.05:1 presence on the `#FAFAFA` card —
+  the light fill at 1.33:1 would effectively vanish).
+- Key measured pairs (light / dark): ink on fill 12.56 / 9.07 · ink on
+  hover 10.46 / 11.68 · deep on wash 4.96 / 11.66 · deep on bg 5.56 / 15.82
+  · inverse on navy 13.36 / 13.17 · white glyph on ok 4.20 / 3.69 · ok on
+  its 15% wash 3.53 / 4.06.
+- Queue Blue primary tokens and all neutrals untouched.
+
+Swapping the accent later = the `--spark-*` and `--ok*` values in
+`globals.css` (both themes), the light `--shadow-spark`, plus four literal
+hexes (the Positioning motif's rail + two nodes, the OG-image dot in both
+locale cards) — everything else flows from tokens.
 
 ## v5.1 → v5.2 change summary
 
@@ -40,29 +68,18 @@ Not luxury, not minimal, no purple, no yellow.
 - Blue washes demoted from default chip/label surfaces to interactive states
   and small tiles only; label pills are neutral bordered chips.
 
-## Secondary-accent candidates considered (v5.2 decision record)
+### Superseded: v5.2 decision record (Confirm Orange era)
 
 Same method as the v5.1 swap below: every real token pair measured (WCAG 2.x
 relative luminance, both themes, washes composited over their actual
-surfaces), binding text pairs at ≥4.5:1, non-text UI at ≥3:1.
+surfaces), binding text pairs at ≥4.5:1, non-text UI at ≥3:1. The v5.3
+olive swap reused this exact matrix.
 
 | Candidate | Fill | Deep (text) | Verdict |
 | --- | --- | --- | --- |
 | **Vivid Tangerine** (chosen) | `#F97316` | `#9A3412` | The only family where **every** measured pair clears AA, including the motif node on the dark theme's flipped band (3.06:1, green shipped 2.18:1); strongest deep-text margins (6.4–7.3:1 on light grounds vs green's 4.7–5.5); crispest fill presence on neutral ground (2.69:1 vs green's 1.84); the category-canonical consumer orange (Talabat energy) while staying ~20°+ of hue from error red `#D93036` |
 | Soft Tangerine | `#FB923C` | `#C2410C` | Friendliest fill with the highest ink-on-fill ratio (7.69:1), but deep-on-wash lands at 4.52:1 (no margin over the 4.5 line) and the motif node stays sub-3 (2.41:1) on the flipped band |
 | Marigold | `#F59E0B` | `#92400E` | Strong numbers across the board but hue ~38–42° reads amber — too close to the retired Ticket Yellow this role deliberately moved away from |
-
-Key measured pairs for the chosen family (light / dark):
-ink on spark fill 6.21 / 8.59 · ink on spark-strong (hover) 4.89 / 11.52 ·
-spark-deep on wash 6.38 / 11.23 · spark-deep on bg 7.00 / 13.35 ·
-spark-inverse on navy band 10.07 / 6.52 · white glyph on ok 5.18 / 3.56 ·
-ok on its 15% wash 4.17 / 4.31. Dark `spark-wash` composites to `#32221c`
-over surface.
-
-Swapping candidates later = the `--spark-*` and `--ok*` values in
-`globals.css` (both themes), the light `--shadow-spark`, plus four literal
-hexes (the Positioning motif's rail + two nodes, the OG-image dot in both
-locale cards) — everything else flows from tokens.
 
 ### Superseded: v5.1 decision record (Confirm Green era)
 
@@ -88,15 +105,15 @@ locale cards) — everything else flows from tokens.
 | accent-deep     | `#0C3F9C` | Blue text on washes and bg (AA)                           |
 | accent-wash     | `#E8F0FE` | Selected/hover states and small icon tiles; never large surfaces |
 | accent-inverse  | `#7FB0FF` | Blue accents on the navy band (AA on `#0A1B3D`)           |
-| spark           | `#F97316` | Confirm orange. Queue/claim CTAs, live signals, the ticket |
-| spark-strong    | `#EA580C` | Orange hover                                              |
-| spark-deep      | `#9A3412` | Orange-tinted text on washes and bg (AA)                  |
-| spark-wash      | `#FFEDD5` | Tinted orange fill (live pill, tiles)                     |
-| spark-inverse   | `#FDBA74` | Orange accents on the navy band                           |
+| spark           | `#D6E0B0` | Confirm olive. Queue/claim CTAs, live signals, the ticket |
+| spark-strong    | `#C2CF8F` | Olive hover                                               |
+| spark-deep      | `#5C6B3A` | Olive-tinted text on washes and bg (AA)                   |
+| spark-wash      | `#EBF0D6` | Tinted olive fill (live pill, tiles)                      |
+| spark-inverse   | `#E1E8C2` | Olive accents on the navy band                            |
 | clay            | `#64748B` | Neutral slate support mid-tone (illustrations)            |
 | navy band       | `#0A1B3D` | Committed brand band (CSS var `--olive-band`, name kept from v3 for compatibility) |
-| ok              | `#C2410C` | Confirmed / success (aligned to the spark family)         |
-| ok-deep         | `#7C2D12` | Success text on washes                                    |
+| ok              | `#71824A` | Confirmed / success (aligned to the spark family)         |
+| ok-deep         | `#46522C` | Success text on washes                                    |
 | error           | `#D93036` | Errors                                                    |
 | error-deep      | `#A8232B` | Error text on washes                                      |
 | ring            | `#0F55CC` | Focus ring                                                |
@@ -119,15 +136,15 @@ Spark fills always take dark ink text (`#161A23`), never white.
 | accent-deep     | `#8AB4FF` |
 | accent-wash     | `rgba(20,101,235,0.16)` |
 | accent-inverse  | `#0F55CC` |
-| spark           | `#FB923C` |
-| spark-strong    | `#FDBA74` |
-| spark-deep      | `#FED7AA` |
-| spark-wash      | `rgba(249,115,22,0.13)` |
-| spark-inverse   | `#F97316` |
+| spark           | `#A8B87A` |
+| spark-strong    | `#C2CF8F` |
+| spark-deep      | `#EEF2DE` |
+| spark-wash      | `rgba(214,224,176,0.13)` |
+| spark-inverse   | `#D6E0B0` |
 | clay            | `#8B98AB` |
 | navy band       | `#08142E` |
-| ok              | `#EA580C` |
-| ok-deep         | `#FDBA74` |
+| ok              | `#7A8C50` |
+| ok-deep         | `#C9D69B` |
 | error           | `#F26D6D` |
 | error-deep      | `#F79E9E` |
 | ring            | `#6BA1FF` |
@@ -156,7 +173,7 @@ Both faces are self-hosted via `next/font` (the CSP allows only
 | radius-full  | 9999px | Buttons and pills (full pill)     |
 | shadow-card  | `0 16px 40px -20px rgb(22 26 35 / 0.14)` | Lifted cards |
 | shadow-cta   | `0 14px 30px -12px rgb(20 101 235 / 0.4)` | Blue CTA hover |
-| shadow-spark | `0 14px 30px -12px rgb(234 88 12 / 0.4)` | Orange CTA hover |
+| shadow-spark | `0 14px 30px -12px rgb(138 156 92 / 0.4)` | Olive CTA hover (mid-olive glow — the pale fill itself reads as no shadow) |
 | ticket shadow| `4px 4px 0 0 content` | The "queue ticket" hard offset — waitlist counter + claim ticket motif |
 
 ## Motion
@@ -171,7 +188,7 @@ Both faces are self-hosted via `next/font` (the CSP allows only
    Color enters through actions, states, and small highlights.
 2. Blue is the brand and the default action; it never carries large
    surfaces outside the navy band.
-3. Orange is reserved for queue/claim/live/confirmed moments so it stays
+3. Olive is reserved for queue/claim/live/confirmed moments so it stays
    meaningful (spark and ok are one family). It is an accent, never a
    ground — the one lesson kept from the retired v1 terracotta.
 4. Status colors are information, never decoration.

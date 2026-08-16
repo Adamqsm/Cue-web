@@ -7,7 +7,7 @@ type Row = { label?: string; num?: string; title: string; body: string };
  * The homepage "what you get" pattern (section 03), extracted for reuse across
  * inner pages: alternating editorial rows — index numeral + title on one edge,
  * body on the other, edges swapping row to row. Hairline-separated, no card
- * chrome. Numerals are confirm orange (spark-deep, AA) and decorative (aria-hidden).
+ * chrome. Numerals are confirm olive (spark-deep, AA) and decorative (aria-hidden).
  */
 export default function EditorialList({
   items,

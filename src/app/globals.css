@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 /* ============================================================
-   Cue redesign v5.2 — "Queue Blue" on neutral ground
+   Cue redesign v5.3 — "Queue Blue" on neutral ground
    Neutral-first: true off-white/near-black surfaces carry the page;
    queue blue is a restrained accent (CTAs, active states, small
-   highlights); confirm orange is the secondary accent for queue/claim/
-   "live" moments (the old confirm-green, before that ticket-yellow,
+   highlights); confirm olive is the secondary accent for queue/claim/
+   "live" moments (the confirm-orange → confirm-green → ticket-yellow
    role — accent-only, never a ground). The navy band stays the
    one deliberate brand block per page.
    Tokens only — components never hardcode hex. See docs/design-tokens-v5.md
@@ -38,14 +38,14 @@
   --accent-wash: rgb(232 240 254); /* #E8F0FE tinted blue fill — selected/hover states and small tiles only, never large surfaces */
   --accent-on-inverse: 127 176 255; /* #7FB0FF blue on navy band (AA) */
 
-  /* ---- Spark — CONFIRM ORANGE (the queue/claim accent; v5.2 replaces
-     confirm green in the same role). Fills take dark ink text, never
-     white. ---- */
-  --spark: 249 115 22;         /* #F97316 confirm orange */
-  --spark-strong: 234 88 12;   /* #EA580C hover */
-  --spark-deep: 154 52 18;     /* #9A3412 orange text on wash / bg (AA) */
-  --spark-wash: rgb(255 237 213); /* #FFEDD5 tinted orange fill */
-  --spark-on-inverse: 253 186 116; /* #FDBA74 orange on navy band */
+  /* ---- Spark — CONFIRM OLIVE (the queue/claim accent; v5.3 replaces
+     confirm orange in the same role — deliberately light and
+     desaturated). Fills take dark ink text, never white. ---- */
+  --spark: 214 224 176;        /* #D6E0B0 confirm olive */
+  --spark-strong: 194 207 143; /* #C2CF8F hover */
+  --spark-deep: 92 107 58;     /* #5C6B3A olive text on wash / bg (AA) */
+  --spark-wash: rgb(235 240 214); /* #EBF0D6 tinted olive fill */
+  --spark-on-inverse: 225 232 194; /* #E1E8C2 olive on navy band */
 
   /* ---- Clay — support mid-tone (illustrations, avatar depth) ----
      Token name kept from v3 for compatibility; now a neutral slate. */
@@ -56,8 +56,8 @@
   --olive-band: 10 27 61;      /* #0A1B3D */
 
   /* ---- Status — information, never decoration ---- */
-  --ok: 194 65 12;             /* #C2410C confirmed (aligned to spark family) */
-  --ok-deep: 124 45 18;        /* #7C2D12 AA text on ok wash */
+  --ok: 113 130 74;            /* #71824A confirmed (aligned to spark family) */
+  --ok-deep: 70 82 44;         /* #46522C AA text on ok wash */
   --error: 217 48 54;          /* #D93036 */
   --error-deep: 168 35 43;     /* #A8232B AA text on error wash */
 
@@ -66,7 +66,7 @@
 
   --shadow-card: 0 16px 40px -20px rgb(22 26 35 / 0.14);
   --shadow-cta: 0 14px 30px -12px rgb(20 101 235 / 0.4);
-  --shadow-spark: 0 14px 30px -12px rgb(234 88 12 / 0.4);
+  --shadow-spark: 0 14px 30px -12px rgb(138 156 92 / 0.4);
 }
 
 .dark {
@@ -89,17 +89,17 @@
      light blue (the v5.0 dark value #0F55CC was 2.8:1 on the band). */
   --accent-on-inverse: 127 176 255; /* #7FB0FF */
 
-  --spark: 251 146 60;         /* #FB923C */
-  --spark-strong: 253 186 116; /* #FDBA74 */
-  --spark-deep: 254 215 170;   /* #FED7AA text on dark */
-  --spark-wash: rgb(249 115 22 / 0.13);
-  --spark-on-inverse: 249 115 22;
+  --spark: 168 184 122;        /* #A8B87A */
+  --spark-strong: 194 207 143; /* #C2CF8F */
+  --spark-deep: 238 242 222;   /* #EEF2DE text on dark */
+  --spark-wash: rgb(214 224 176 / 0.13);
+  --spark-on-inverse: 214 224 176;
 
   --clay: 139 152 171;         /* #8B98AB */
   --olive-band: 8 20 46;       /* #08142E deeper navy for the dark-theme band */
 
-  --ok: 234 88 12;             /* #EA580C confirmed (white glyphs ≥3:1) */
-  --ok-deep: 253 186 116;      /* #FDBA74 */
+  --ok: 122 140 80;            /* #7A8C50 confirmed (white glyphs ≥3:1) */
+  --ok-deep: 201 214 155;      /* #C9D69B */
   --error: 242 109 109;        /* #F26D6D */
   --error-deep: 247 158 158;
 
@@ -252,8 +252,8 @@
   .dark .btn-primary:hover {
     background-color: rgb(var(--accent-strong));
   }
-  /* Spark button — the confirm-orange CTA. Reserved for joining the queue.
-     Fixed dark ink on the orange fill in both themes. */
+  /* Spark button — the confirm-olive CTA. Reserved for joining the queue.
+     Fixed dark ink on the olive fill in both themes. */
   .btn-spark {
     background-color: rgb(var(--spark));
     color: rgb(22 26 35);
@@ -355,7 +355,7 @@
     transform: translateX(-3px);
   }
 
-  /* Live pill — orange wash with a pulsing dot (board + hero). "Live" is a
+  /* Live pill — olive wash with a pulsing dot (board + hero). "Live" is a
      spark moment, not a blue one. */
   .pill-live {
     @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[12px] font-semibold;
@@ -375,7 +375,7 @@
   }
 
   /* Queue ticket — the waitlist-counter motif. A solid, stamped-looking
-     number chip; nothing bubbly about it. Confirm-orange fill, fixed ink. */
+     number chip; nothing bubbly about it. Confirm-olive fill, fixed ink. */
   .ticket {
     @apply rounded-card border-[1.5px];
     border-color: rgb(var(--content) / 0.85);

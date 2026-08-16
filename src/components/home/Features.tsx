@@ -43,7 +43,7 @@ const icons: Record<string, JSX.Element> = {
   ),
 };
 
-/* "Live" capabilities carry the confirm-orange tile; everything else is blue. */
+/* "Live" capabilities carry the confirm-olive tile; everything else is blue. */
 const SPARK_ICONS = new Set(["inbox", "shield"]);
 
 /**

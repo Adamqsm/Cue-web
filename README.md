@@ -107,8 +107,8 @@ Swapping in Firebase, Resend, or a database is a small change to that one file.
 
 ## Brand & content notes
 
-- Palette (v5.2 "Queue Blue"): neutral off-white/near-black ground, Queue Blue
-  `#1465EB` as the restrained primary accent, and Confirm Orange `#F97316` as
+- Palette (v5.3 "Queue Blue"): neutral off-white/near-black ground, Queue Blue
+  `#1465EB` as the restrained primary accent, and Confirm Olive `#D6E0B0` as
   the secondary accent for queue/claim/"live" moments (accent-only — buttons,
   chips, highlights). Full token tables and the decision records live in
   `docs/design-tokens-v5.md`.

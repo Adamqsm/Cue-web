@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
-// Cue redesign v5.2 — "Queue Blue" on neutral ground. Token-driven palette:
+// Cue redesign v5.3 — "Queue Blue" on neutral ground. Token-driven palette:
 // neutral off-white/near-black surfaces · queue-blue accent (restrained) ·
-// confirm-orange spark (queue/claim/live moments). Components style through
+// confirm-olive spark (queue/claim/live moments). Components style through
 // semantic roles; never hardcode hex.
 // See docs/design-tokens-v5.md (also the source of truth for the Flutter port).
 const config: Config = {
@@ -34,7 +34,7 @@ const config: Config = {
           inverse: "rgb(var(--accent-on-inverse) / <alpha-value>)",
         },
 
-        // ---- Spark — confirm orange ("the queue ticket" / live / energy) ----
+        // ---- Spark — confirm olive ("the queue ticket" / live / energy) ----
         spark: {
           DEFAULT: "rgb(var(--spark) / <alpha-value>)",
           strong: "rgb(var(--spark-strong) / <alpha-value>)",

@@ -39,10 +39,10 @@ function partyOf(name: string): number {
 /**
  * The signature element: a live "service board" docket.
  * The color moment made literal — every ~4s a new request slides in on a
- * *queue-blue* wash (incoming, in flight), then settles to *confirm orange*
+ * *queue-blue* wash (incoming, in flight), then settles to *confirm olive*
  * after a beat, and the covers counter ticks up. A booking arrives and gets
  * confirmed: the product's core promise, shown not described, in the same
- * blue-action/orange-confirmed language as the rest of the site. Pausable
+ * blue-action/olive-confirmed language as the rest of the site. Pausable
  * (WCAG 2.2.2); reduced-motion users get a static all-confirmed board.
  */
 export default function ServiceBoard({
@@ -143,7 +143,7 @@ export default function ServiceBoard({
               )}
             >
               {/* Reading-edge glow bar on the live row. Incoming = blue
-                  (request in flight), confirmed = orange — matching the ok
+                  (request in flight), confirmed = olive — matching the ok
                   semantics everywhere else on the site. */}
               <span
                 className={cn(
@@ -215,7 +215,7 @@ export default function ServiceBoard({
   );
 }
 
-/* Color moment: incoming = blue (in flight), confirmed = orange, seated = muted. */
+/* Color moment: incoming = blue (in flight), confirmed = olive, seated = muted. */
 function StatusPill({ label, status }: { label: string; status: Status }) {
   return (
     <span

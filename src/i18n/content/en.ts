@@ -1511,9 +1511,11 @@ const en = {
       },
     ],
     social: [
-      { label: "Instagram", href: "https://instagram.com" },
-      { label: "Facebook", href: "https://facebook.com" },
-      { label: "X", href: "https://x.com" },
+      {
+        icon: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/cuebooking",
+      },
     ],
     rights: "© 2026 Cue. All rights reserved.",
     ownedBy: "A Qasem Capital & Enterprise company.",

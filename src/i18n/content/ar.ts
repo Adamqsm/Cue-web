@@ -1507,9 +1507,11 @@ const ar: Dictionary = {
       },
     ],
     social: [
-      { label: "إنستغرام", href: "https://instagram.com" },
-      { label: "فيسبوك", href: "https://facebook.com" },
-      { label: "X", href: "https://x.com" },
+      {
+        icon: "linkedin",
+        label: "لينكد إن",
+        href: "https://www.linkedin.com/company/cuebooking",
+      },
     ],
     rights: "© 2026 Cue. جميع الحقوق محفوظة.",
     ownedBy: "شركة تابعة لـ Qasem Capital & Enterprise.",

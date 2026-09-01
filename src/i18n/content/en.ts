@@ -1518,7 +1518,7 @@ const en = {
       },
     ],
     rights: "© 2026 Cue. All rights reserved.",
-    ownedBy: "A Qasem Capital & Enterprise company.",
+    ownedBy: "A Qasem Portal company.",
   },
 };
 

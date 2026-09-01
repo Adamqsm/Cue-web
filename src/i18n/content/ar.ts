@@ -1514,7 +1514,7 @@ const ar: Dictionary = {
       },
     ],
     rights: "© 2026 Cue. جميع الحقوق محفوظة.",
-    ownedBy: "شركة تابعة لـ Qasem Capital & Enterprise.",
+    ownedBy: "شركة تابعة لـ Qasem Portal.",
   },
 };
 

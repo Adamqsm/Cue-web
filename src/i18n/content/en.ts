@@ -1108,14 +1108,14 @@ const en = {
       eyebrow: "Legal center",
       title: "Terms & policies.",
       subtitle:
-        "Cue Technologies operates under the laws of the Hashemite Kingdom of Jordan, with jurisdiction in the courts of Amman. We follow a data-minimization approach and never sell personal data.",
+        "Cue operates under the laws of the Hashemite Kingdom of Jordan, with jurisdiction in the courts of Amman. We follow a data-minimization approach and never sell personal data.",
       docsLabel: "Documents",
       docs: [
         { href: "/legal/terms", title: "Terms of Service", body: "The terms that govern use of the Cue app, website, and services." },
         { href: "/legal/privacy", title: "Privacy Policy", body: "How we collect, use, and protect personal data under Jordan's PDPL." },
         { href: "/legal/cookies", title: "Cookie Policy", body: "How Cue uses cookies and similar technologies." },
         { href: "/legal/dpa", title: "Data Processing Agreement", body: "How Cue processes personal data on behalf of partners." },
-        { href: "/legal/notice", title: "Legal Notice", body: "Company identity, entity details, and general legal terms." },
+        { href: "/legal/notice", title: "Legal Notice", body: "Service identity and general legal terms." },
       ],
     },
     common: {
@@ -1129,7 +1129,7 @@ const en = {
     terms: {
       title: "Terms of Service",
       intro:
-        "These Terms and Conditions (“Terms”) govern access to and use of the Cue mobile application, website, and related services (“Cue” or the “Service”). By creating an account, accessing the platform, or submitting a reservation, the user (“User”) agrees to be legally bound by these Terms. Cue is operated by Cue Technologies (“Company”), registered in the Hashemite Kingdom of Jordan. If the User does not agree to these Terms, the User must not access or use Cue.",
+        "These Terms and Conditions (“Terms”) govern access to and use of the Cue mobile application, website, and related services (“Cue” or the “Service”). By creating an account, accessing the platform, or submitting a reservation, the user (“User”) agrees to be legally bound by these Terms. The Service is operated under the trading name “Cue.” If the User does not agree to these Terms, the User must not access or use Cue.",
       sections: [
         {
           h: "1. Acceptance of Terms",
@@ -1273,7 +1273,7 @@ const en = {
     privacy: {
       title: "Privacy Policy",
       intro:
-        "This Privacy Policy explains how Cue Technologies (“Cue,” “we,” “us”) collects, uses, and protects personal data when you use the Cue app, website, and services. Cue is committed to the Jordan Personal Data Protection Law (PDPL) and follows a strict data-minimization approach: we collect only what we need to operate the Service, and we never sell personal data.",
+        "This Privacy Policy explains how Cue (“we,” “us”) collects, uses, and protects personal data when you use the Cue app, website, and services. Cue is committed to the Jordan Personal Data Protection Law (PDPL) and follows a strict data-minimization approach: we collect only what we need to operate the Service, and we never sell personal data.",
       sections: [
         {
           h: "1. Data We Collect",
@@ -1378,7 +1378,7 @@ const en = {
     dpa: {
       title: "Data Processing Agreement",
       intro:
-        "This Data Processing Agreement (“DPA”) describes how Cue Technologies processes personal data on behalf of partner venues (“Controllers”) in connection with the Cue platform. It supplements the Restaurant Partnership Agreement and reflects the requirements of the Jordan Personal Data Protection Law (PDPL).",
+        "This Data Processing Agreement (“DPA”) describes how Cue processes personal data on behalf of partner venues (“Controllers”) in connection with the Cue platform. It supplements the Restaurant Partnership Agreement and reflects the requirements of the Jordan Personal Data Protection Law (PDPL).",
       sections: [
         {
           h: "1. Roles",
@@ -1432,13 +1432,13 @@ const en = {
     notice: {
       title: "Legal Notice",
       intro:
-        "This Legal Notice sets out the identity of the entity operating Cue and general legal terms applicable to the website and services.",
+        "This Legal Notice sets out the identity of the Cue service and general legal terms applicable to the website and services.",
       sections: [
         {
-          h: "1. Company Identity",
+          h: "1. Service Identity",
           list: [
-            "Operating entity: Cue Technologies, operating under the registered trade name “Cue.”",
-            "Jurisdiction of registration: Hashemite Kingdom of Jordan.",
+            "The platform and its services are provided under the trading name “Cue.”",
+            "Base of operations: Amman, the Hashemite Kingdom of Jordan.",
             "Nature of service: a digital reservation and hospitality coordination platform.",
           ],
         },
@@ -1451,7 +1451,7 @@ const en = {
         {
           h: "3. Intellectual Property",
           p: [
-            "The Cue name, logo, platform design, and content are the property of Cue Technologies and may not be used without written permission.",
+            "All rights in the Cue name, logo, platform design, and content are reserved; they may not be used without written permission.",
           ],
         },
         {

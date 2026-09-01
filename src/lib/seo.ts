@@ -99,7 +99,6 @@ export function siteJsonLd(locale: Locale, description: string) {
         "@type": "Organization",
         "@id": `${SITE_URL}/#organization`,
         name: "Cue",
-        legalName: "Cue Technologies",
         url: SITE_URL,
         logo: `${SITE_URL}/brand/logo-ink.png`,
         description,

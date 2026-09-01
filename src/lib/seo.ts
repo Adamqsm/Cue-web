@@ -87,11 +87,7 @@ export function buildMetadata({
 
 /** Organization + LocalBusiness + WebSite + reservation Service graph for the homepage. */
 export function siteJsonLd(locale: Locale, description: string) {
-  const sameAs = [
-    "https://instagram.com",
-    "https://facebook.com",
-    "https://x.com",
-  ];
+  const sameAs = ["https://www.linkedin.com/company/cuebooking"];
   return {
     "@context": "https://schema.org",
     "@graph": [

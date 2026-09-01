@@ -86,11 +86,12 @@ Console** (property `https://www.cue-app.net/`, read 2026-08-17, window 5/15–8
    "Internet marketing service" until a physical office/storefront exists — do NOT claim
    "Restaurant"). Needs your Google account + verification. The "CUE & CAFE" name collision on
    Maps makes owning the real profile more valuable, not less.
-2. **Real social profile URLs** — schema `sameAs` is now empty by design; the footer still shows
-   placeholder roots. Provide the real Instagram/Facebook/X handles (the Instagram launch-ad set
-   is ready, so presumably the handle exists or is imminent) and they go into both.
+2. **Real social profile URLs** — partly resolved: the footer and schema `sameAs` now both carry
+   the real LinkedIn company page, and the placeholder roots are gone. Still outstanding: provide
+   the real Instagram/Facebook/X handles (the Instagram launch-ad set is ready, so presumably the
+   handle exists or is imminent) and they go into both.
 3. **Backlinks (currently zero)** — realistic first targets: Jordan startup press (Jordan Times
-   tech desk, ammannet, startup MENA outlets covering the launch), Qasem Group corporate site
+   tech desk, ammannet, startup MENA outlets covering the launch), Qasem Portal corporate site
    linking to cue-app.net, partner restaurants linking "Reserve with Cue" once live, Amman food
    bloggers/Instagram food guides, Jordan Startup/tech directories. Even 3–5 real Jordanian
    links changes the picture from zero.

@@ -16,7 +16,7 @@
 | # | Blocker | Why | Resolution |
 |---|---|---|---|
 | 1 | **No business phone number exists** — the site has no phone anywhere (only form placeholders like "+962 7X XXX XXXX"). | GBP requires a phone in the create flow and may call it during verification. | Adam provides a Jordanian number (a dedicated mobile/eSIM is ideal; your own number works). It can be **hidden from the public profile** after creation if desired — but the number entered becomes NAP ground truth, so whatever you choose here should later go on the site footer/schema too, identically formatted. |
-| 2 | **Legal-entity name mismatch.** Site legal pages: "**Cue Technologies**, operating under the registered trade name 'Cue'" + footer "A **Qasem Capital & Enterprise** company." Your brief: parent "**Qasem Portal, LLC**", legal entity "**Adam Qasem Enterprise Holdings L.L.C.**". | GBP's profile never shows a legal name, but **video/document verification** will — the registration document you show must be the real one, and ideally the site's legal pages shouldn't contradict it. | Confirm which entity actually holds the JO registration. If it isn't "Cue Technologies", the legal pages (`legal.terms/privacy/dpa/notice` in both dictionaries) need a correction pass — separate task, your call. For GBP purposes: bring the *actual* registration paper; the profile name stays "Cue" regardless (see §4). |
+| 2 | **Registered legal entity unconfirmed.** The site no longer asserts one: legal pages say only that the platform is "provided under the trading name 'Cue'", the footer says "A **Qasem Portal** company", and the schema carries no `legalName`. So there is nothing on-site left to contradict — but we still don't have it on record which entity holds the JO registration. | GBP's profile never shows a legal name, but **video/document verification** will — the registration document you show must be the real one. | Confirm which entity actually holds the JO registration and bring that *actual* registration paper to verification. No site copy change is needed for this any more (the "Cue Technologies" claims were removed site-wide in PR #23); the profile name stays "Cue" regardless (see §4). |
 | 3 | Square logo + 16:9 cover don't exist as files yet (§6). | GBP needs both for a complete profile. | Two quick exports from existing art — listed in §6. |
 
 ---
@@ -95,8 +95,8 @@ Cue
 ```
 
 - This is the guideline-correct choice, and it's defensible: the legal notice on the site says
-  Cue Technologies operates "under the registered trade name **'Cue'**", and the schema
-  `Organization.name` is `Cue`. GBP's rules require the real-world name **without descriptors**.
+  the platform is provided **under the trading name "Cue"**, and the schema `Organization.name`
+  is `Cue`. GBP's rules require the real-world name **without descriptors**.
 - **The collision question** (the audit found "CUE & CAFE" in Amman plus Cue-named restaurants
   in Tel Aviv/Amsterdam/India on Maps): do **not** solve it with a keyword suffix like
   "Cue – Restaurant Reservations" — added descriptors violate GBP's name policy and are a
@@ -134,7 +134,7 @@ address exists on the site; the GBP **account** is adam@cue-app.net (not display
 
 - **Attributes** (available set varies by category — enable what appears):
   - *From the business* → **Identifies as family-owned**: only if you want it public (true —
-    "A Qasem Capital & Enterprise company"); optional.
+    "A Qasem Portal company"); optional.
   - **Online appointments / Online booking: Yes** — the product *is* online booking.
   - *Service options* → **Online service: Yes**; anything "onsite/in-store": **No**.
 - **Opening date:** GBP supports future dates — when the launch date is fixed, set it (this also

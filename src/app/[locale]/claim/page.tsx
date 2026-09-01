@@ -33,7 +33,10 @@ export default function ClaimPage({ params }: { params: { locale: string } }) {
   return (
     <>
       <JsonLd
-        data={breadcrumbJsonLd(locale, [{ name: c.hero.eyebrow, path: "/claim" }])}
+        data={breadcrumbJsonLd(locale, [
+          { name: "Cue", path: "" },
+          { name: c.hero.eyebrow, path: "/claim" },
+        ])}
       />
       <ClaimPageView locale={locale} />
       <PageHero eyebrow={c.hero.eyebrow} title={c.hero.title} subtitle={c.hero.subtitle} />

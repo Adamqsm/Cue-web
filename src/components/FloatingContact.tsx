@@ -11,7 +11,9 @@ import LocaleLink from "@/components/ui/LocaleLink";
  * in the content. Appears after the fold so it never competes with a hero CTA,
  * and stays off the pages that are themselves a form (reach-out, claim,
  * partner apply): covering the submit button of the thing the visitor is
- * already filling in would be worse than absent.
+ * already filling in would be worse than absent. It also steps aside while
+ * the footer is on screen — anchored to the same logical end corner, it would
+ * otherwise sit exactly on the footer's social link at full scroll.
  *
  * z-40: under the fixed nav (50) and every modal scrim (85/90).
  */
@@ -25,15 +27,28 @@ export default function FloatingContact({
   locale: Locale;
   label: string;
 }) {
-  const [shown, setShown] = useState(false);
+  const [pastFold, setPastFold] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setShown(window.scrollY > SHOW_AFTER_PX);
+    const onScroll = () => setPastFold(window.scrollY > SHOW_AFTER_PX);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const io = new IntersectionObserver(([entry]) =>
+      setFooterInView(entry.isIntersecting)
+    );
+    io.observe(footer);
+    return () => io.disconnect();
+  }, []);
+
+  const shown = pastFold && !footerInView;
 
   if (HIDDEN_ROUTES.test(pathname ?? "")) return null;
 

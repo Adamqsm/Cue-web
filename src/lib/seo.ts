@@ -134,15 +134,12 @@ export function siteJsonLd(locale: Locale, dict: Dictionary) {
         "@type": "Organization",
         "@id": `${SITE_URL}/#organization`,
         name: "Cue",
-        legalName: "Cue Technologies",
         url: SITE_URL,
         logo: `${SITE_URL}/brand/logo-ink.png`,
         description,
         areaServed: AMMAN_CITY,
         knowsLanguage: ["en", "ar"],
-        // sameAs deliberately omitted until real Cue profiles exist — the
-        // previous values were bare social-network roots, which claim the
-        // wrong entity. Add the real handles here and in footer.social.
+        sameAs: ["https://www.linkedin.com/company/cuebooking"],
       },
       {
         "@type": "WebSite",

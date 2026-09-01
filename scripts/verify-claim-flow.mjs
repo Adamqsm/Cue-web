@@ -27,14 +27,20 @@ const FN_BASE = "http://127.0.0.1:5001/cue-e00d5/me-central1";
 const AUTH_SIGNUP =
   "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=fake-api-key";
 const SHEETS_STATE = "http://127.0.0.1:8965/__state";
+// Outbox written by cue-app/functions/mock-resend.cjs. Defaults to the
+// sibling cue-app checkout; override if your checkouts are not side by side.
 const OUTBOX =
-  "C:\\Users\\Adam\\Desktop\\Claude Code OC\\cue-app\\functions\\mock-resend-outbox.ndjson";
+  process.env.MOCK_RESEND_OUTBOX ||
+  fileURLToPath(
+    new URL("../../cue-app/functions/mock-resend-outbox.ndjson", import.meta.url),
+  );
 
 process.env.FIRESTORE_EMULATOR_HOST ??= "127.0.0.1:8080";
 initializeApp({ projectId: "cue-e00d5" });
 const db = getFirestore();
 
 import { readFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 let failures = 0;
 function check(label, ok, detail = "") {

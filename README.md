@@ -94,6 +94,22 @@ Airtable, or a CRM. Payload shape:
 
 Swapping in Firebase, Resend, or a database is a small change to that one file.
 
+The route is unauthenticated and has no Turnstile in front of it, so every
+submission is counted against a salted hash of the caller's IP — 5 per 10
+minutes, the same budget `/api/partner-apply` and the Cue Insider claim flow
+use, through the same helper (`src/lib/rate-limit.ts`). The counter lives in its
+own `leadRateLimits` Firestore collection so a contact-form message and a
+partner application from the same address never spend each other's budget.
+Over-budget callers get `429 { ok: false, error: "rate-limited" }` before
+anything is forwarded or logged.
+
+That counter needs the Admin SDK (`FIREBASE_SERVICE_ACCOUNT_JSON` or
+`FIRESTORE_EMULATOR_HOST`) and `CUE_INSIDER_IP_HASH_SALT`. **In production**, if
+either is missing the route fails closed with a 503 — an endpoint we cannot
+count is not one to leave open. Outside production it logs the problem and
+accepts the lead, so the documented no-Firebase fallback (webhook only) still
+works locally.
+
 ---
 
 ## Deploy to Vercel

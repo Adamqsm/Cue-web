@@ -46,6 +46,8 @@ export default function EditorialSection({
       id={id}
       className={cn(
         bandClass,
+        // Anchor targets stop below the fixed nav (72px) with a little air.
+        id && "scroll-mt-24",
         divide && band === "bg" && "border-t border-line",
         (band === "surface2" || inverse) && "border-y border-line/60",
         className

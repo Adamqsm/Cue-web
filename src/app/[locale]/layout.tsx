@@ -12,6 +12,7 @@ import ClaimModalProvider from "@/components/claim/ClaimModalProvider";
 import ConsentBanner from "@/components/ConsentBanner";
 import FloatingContact from "@/components/FloatingContact";
 import UtmCapture from "@/components/UtmCapture";
+import HashLanding from "@/components/HashLanding";
 
 // v5 "Queue Blue" — one friendly sans per script, weight does the hierarchy.
 // Plus Jakarta Sans (variable, 200-800) carries every Latin role; Cairo
@@ -120,6 +121,7 @@ export default function LocaleLayout({
           {dict.common.skipToContent}
         </a>
         <UtmCapture />
+        <HashLanding />
         <MotionProvider>
           {/* Slim strings only — the claim dialog subtrees, not the whole dict. */}
           <ClaimModalProvider

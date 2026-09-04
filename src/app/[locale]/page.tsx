@@ -14,6 +14,8 @@ import Operators from "@/components/home/Operators";
 import SocialProof from "@/components/home/SocialProof";
 import EarlyAccessPair from "@/components/home/EarlyAccessPair";
 import FounderNote from "@/components/home/FounderNote";
+import CareerGrowth from "@/components/home/CareerGrowth";
+import SocialImpact from "@/components/home/SocialImpact";
 import Traction from "@/components/home/Traction";
 import HomeFaq from "@/components/home/HomeFaq";
 import FinalCta from "@/components/home/FinalCta";
@@ -53,7 +55,7 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       />
 
       {/* v5 "Queue Blue" — the launch story: join the queue, see the product,
-          meet the people behind it, claim your seat. */}
+          meet the people behind it and what they stand for, claim your seat. */}
       <HomeHero locale={locale} dict={dict} />
       <WaitlistCounter locale={locale} dict={dict} />
       <Positioning dict={dict} num="01" />
@@ -66,8 +68,12 @@ export default function HomePage({ params }: { params: { locale: string } }) {
       <SocialProof dict={dict} num="08" />
       <EarlyAccessPair locale={locale} dict={dict} num="09" />
       <FounderNote dict={dict} num="10" />
-      <Traction dict={dict} num="11" />
-      <HomeFaq locale={locale} dict={dict} num="12" />
+      {/* The commitments behind the company: how the team grows, and what
+          every subscription gives back. Both anchored for public linking. */}
+      <CareerGrowth locale={locale} dict={dict} num="11" />
+      <SocialImpact dict={dict} num="12" />
+      <Traction dict={dict} num="13" />
+      <HomeFaq locale={locale} dict={dict} num="14" />
       <FinalCta locale={locale} dict={dict} />
     </>
   );

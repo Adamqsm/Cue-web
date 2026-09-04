@@ -240,6 +240,43 @@ const en = {
       signName: "Adam Qasem",
       signRole: "Founder, Cue",
     },
+    growth: {
+      label: "Life at Cue",
+      title: "Growing with Cue.",
+      body: "We're building something new, and we want our team growing right alongside it.",
+      items: [
+        {
+          icon: "course",
+          title: "Learn on the job",
+          body: "Every Cue teammate gets access to Coursera courses picked for their role, so you keep leveling up in your field.",
+        },
+        {
+          icon: "mentor",
+          title: "Never figure it out alone",
+          body: "Every teammate has a mentor in their corner, for real feedback and real guidance.",
+        },
+        {
+          icon: "build",
+          title: "Real experience, not theory",
+          body: "You'll get hands-on experience building something real, from day one.",
+        },
+      ],
+      closing:
+        "We're early. That means more room to learn, more room to grow, and more of a say in how we get there.",
+      cta: "See where we're hiring",
+    },
+    impact: {
+      label: "Social impact",
+      title: "Every booking gives back.",
+      body: "5% of the profit from every restaurant's subscription goes to the United Nations World Food Programme (WFP).",
+      stat: "5%",
+      statLabel: "of the profit from every restaurant subscription",
+      detail:
+        "We believe growth should mean more than good numbers. As restaurants join Cue, 5% of the profit from every subscription is committed to WFP, the world's largest humanitarian organization fighting hunger. Good food should reach more tables, not just the ones we help book.",
+      cta: "Support WFP directly",
+      ctaNewTab: "Opens in a new tab",
+      note: "Cue's contribution is made directly to WFP. This link lets you give on your own, too.",
+    },
     traction: {
       label: "Traction",
       title: "Operational truth over vanity metrics.",
@@ -1501,6 +1538,8 @@ const en = {
           { href: "/how-it-works", label: "How it works" },
           { href: "/partner", label: "Partner with Cue" },
           { href: "/careers", label: "Careers" },
+          { href: "/#career-growth", label: "Growth and learning" },
+          { href: "/#social-impact", label: "Social impact" },
         ],
       },
       {

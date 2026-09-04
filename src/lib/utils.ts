@@ -10,7 +10,9 @@ export function localizedHref(href: string, locale: Locale): string {
   if (href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:")) {
     return href;
   }
-  const clean = href === "/" ? "" : href;
+  // "/#section" means a homepage anchor: emit "/en#section", not "/en/#section"
+  // (the trailing slash would bounce through a 308 before the hash applies).
+  const clean = href === "/" ? "" : href.startsWith("/#") ? href.slice(1) : href;
   return `/${locale}${clean}`;
 }
 

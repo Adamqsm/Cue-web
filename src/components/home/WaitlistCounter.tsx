@@ -111,7 +111,9 @@ export default function WaitlistCounter({
           {/* The ticket — a stamped queue number, not a floating bubble */}
           <div className="flex justify-center lg:justify-end">
             <div className="ticket flex w-fit flex-col items-center px-10 py-8 sm:px-14 sm:py-10">
-              <span className="text-xs font-bold uppercase tracking-[0.14em] rtl:tracking-normal opacity-70">
+              {/* No opacity dimming: the ticket's ink on terracotta is 4.89:1,
+                  but at 70% it collapses to 3.15:1 — under AA for 12px bold. */}
+              <span className="text-xs font-bold uppercase tracking-[0.14em] rtl:tracking-normal">
                 {w.ticketLabel}
               </span>
               <span

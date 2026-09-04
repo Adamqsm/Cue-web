@@ -1115,7 +1115,10 @@ const en = {
     meta: {
       title: "Legal — Cue",
       description:
-        "Cue legal center: Terms of Service, Privacy Policy, Cookie Policy, Data Processing Agreement, and Legal Notice. Governed by the laws of the Hashemite Kingdom of Jordan.",
+        // 146 chars — the spelled-out "Data Processing Agreement" pushed this
+        // to 168 and Google cut the jurisdiction clause off the snippet. "DPA"
+        // is the label the footer already uses for that document.
+        "Cue legal center: Terms of Service, Privacy Policy, Cookie Policy, DPA, and Legal Notice. Governed by the laws of the Hashemite Kingdom of Jordan.",
     },
     index: {
       eyebrow: "Legal center",
@@ -1505,10 +1508,7 @@ const en = {
         links: [
           { href: "/faq", label: "Help center" },
           { href: "/reach-out", label: "Get started" },
-          {
-            href: "/claim?utm_source=cue-site&utm_medium=internal&utm_content=footer",
-            label: "Cue Insider early access",
-          },
+          { href: "/claim", label: "Cue Insider early access" },
           { href: "/faq", label: "FAQ" },
         ],
       },

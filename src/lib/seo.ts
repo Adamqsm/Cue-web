@@ -51,10 +51,19 @@ type BuildArgs = {
   keywords?: string[];
 };
 
+/** The branded social card, rendered by app/[locale]/opengraph-image.tsx. */
+const OG_IMAGE_ALT = "Cue — book restaurant tables in Amman, Jordan";
+
 /**
  * Full per-page metadata: title, description, keywords, canonical + hreflang
- * alternates, and Open Graph / Twitter cards. The OG/Twitter image is attached
- * automatically by Next from the opengraph-image route.
+ * alternates, and Open Graph / Twitter cards.
+ *
+ * The card is attached here, explicitly, rather than left to Next's
+ * opengraph-image file convention. That convention only decorates the segment
+ * the file sits in — `/[locale]` — so every nested route (/faq, /claim,
+ * /partner, the five legal docs…) shipped a `summary_large_image` Twitter card
+ * with no image behind it. Naming the route's URL per locale gives all 30 URLs
+ * the same prerendered card.
  */
 export function buildMetadata({
   locale,
@@ -67,6 +76,14 @@ export function buildMetadata({
   const enUrl = `${SITE_URL}/en${path}`;
   const arUrl = `${SITE_URL}/ar${path}`;
   const localeKeywords = locale === "ar" ? KEYWORDS_AR : KEYWORDS_EN;
+  const images = [
+    {
+      url: `${SITE_URL}/${locale}/opengraph-image`,
+      width: 1200,
+      height: 630,
+      alt: OG_IMAGE_ALT,
+    },
+  ];
 
   return {
     title: { absolute: title },
@@ -84,11 +101,13 @@ export function buildMetadata({
       url,
       locale: locale === "ar" ? "ar_JO" : "en_US",
       alternateLocale: locale === "ar" ? "en_US" : "ar_JO",
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images,
     },
   };
 }

@@ -236,7 +236,9 @@ export default function HomeHero({
                 custom={1}
                 className="ticket absolute -end-8 top-1/3 flex flex-col px-4 py-2.5 sm:-end-14"
               >
-                <span className="text-[10px] font-bold uppercase tracking-wide rtl:tracking-normal opacity-70">
+                {/* Full ink on the ticket — see WaitlistCounter: 70% opacity
+                    puts this label at 3.15:1, under AA. */}
+                <span className="text-[10px] font-bold uppercase tracking-wide rtl:tracking-normal">
                   {h.chips.ticketLabel}
                 </span>
                 <span className="font-mono text-lg font-bold tabular-nums" dir="ltr">

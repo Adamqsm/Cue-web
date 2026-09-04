@@ -1501,10 +1501,7 @@ const ar: Dictionary = {
         links: [
           { href: "/faq", label: "مركز المساعدة" },
           { href: "/reach-out", label: "ابدأ الآن" },
-          {
-            href: "/claim?utm_source=cue-site&utm_medium=internal&utm_content=footer",
-            label: "الوصول المبكر إلى Cue Insider",
-          },
+          { href: "/claim", label: "الوصول المبكر إلى Cue Insider" },
           { href: "/faq", label: "الأسئلة الشائعة" },
         ],
       },

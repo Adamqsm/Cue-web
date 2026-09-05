@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { CSSProperties } from "react";
 import { ImageResponse } from "next/og";
 import { locales, isLocale } from "@/i18n/config";
+import { CUE_MARK_DOT, CUE_MARK_PATH, CUE_MARK_STROKE } from "@/components/BrandMark";
 
 export const alt = "Cue — book restaurant tables in Amman, Jordan";
 export const size = { width: 1200, height: 630 };
@@ -165,7 +166,8 @@ function arCard() {
         />
       </div>
 
-      {/* wordmark row — mirrored: CUE right, domain left. The Latin
+      {/* wordmark row — mirrored: mark hugs the right edge with CUE to
+          its left (the lockup's RTL order), domain left. The Latin
           wordmark keeps its tracking (only Arabic script is never
           letter-spaced). */}
       <div
@@ -179,19 +181,45 @@ function arCard() {
         <div style={{ display: "flex", color: "#555D6B", fontSize: "26px" }}>
           cue-app.net
         </div>
-        <div
-          style={{
-            display: "flex",
-            color: "#161A23",
-            fontSize: "56px",
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-          }}
-        >
-          CUE
+        <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+          <div
+            style={{
+              display: "flex",
+              color: "#161A23",
+              fontSize: "56px",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+            }}
+          >
+            CUE
+          </div>
+          <OgMark size={64} color="#161A23" />
         </div>
       </div>
     </div>
+  );
+}
+
+// The Cue mark for the card's wordmark row — same geometry as
+// src/components/BrandMark.tsx (satori renders inline <svg>; colours are
+// explicit because it does not resolve currentColor).
+function OgMark({ size, color }: { size: number; color: string }) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      width={size}
+      height={size}
+      fill="none"
+      style={{ display: "flex" }}
+    >
+      <path
+        d={CUE_MARK_PATH}
+        stroke={color}
+        strokeWidth={CUE_MARK_STROKE}
+        strokeLinecap="round"
+      />
+      <circle cx="50" cy="50" r={CUE_MARK_DOT} fill={color} />
+    </svg>
   );
 }
 
@@ -261,7 +289,7 @@ function enCard() {
         </div>
       </div>
 
-      {/* wordmark row */}
+      {/* wordmark row — mark + CUE */}
       <div
         style={{
           display: "flex",
@@ -269,15 +297,19 @@ function enCard() {
           justifyContent: "space-between",
         }}
       >
-        <div
-          style={{
-            color: "#161A23",
-            fontSize: "56px",
-            fontWeight: 800,
-            letterSpacing: "0.12em",
-          }}
-        >
-          CUE
+        <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+          <OgMark size={64} color="#161A23" />
+          <div
+            style={{
+              display: "flex",
+              color: "#161A23",
+              fontSize: "56px",
+              fontWeight: 800,
+              letterSpacing: "0.12em",
+            }}
+          >
+            CUE
+          </div>
         </div>
         <div style={{ color: "#555D6B", fontSize: "26px" }}>cue-app.net</div>
       </div>

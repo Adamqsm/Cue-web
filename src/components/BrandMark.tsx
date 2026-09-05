@@ -1,16 +1,26 @@
+import type { SVGProps } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * The Cue mark — concentric "C" rings echoing the logo (a cue / signal).
- * Two arcs opening to the right, rendered as themeable strokes.
+ * The Cue mark — a single thick "C" ring opening to the right, with a dot
+ * at its centre. Geometry is traced from the brand file
+ * (public/branding/cue-logo.png, 1024px): ring centred at 50/50 with a
+ * mid-line radius of 28.125 and a 16.8 stroke, round caps, the arc running
+ * from 48° to 312°; dot radius 5.37. Drawn with currentColor so the same
+ * mark inherits the surrounding text colour in light and dark mode.
  */
+export const CUE_MARK_PATH = "M68.82 70.9A28.125 28.125 0 1 1 68.82 29.1";
+export const CUE_MARK_STROKE = 16.8;
+export const CUE_MARK_DOT = 5.37;
+
 export function CueMark({
   className,
   title = "Cue",
+  ...rest
 }: {
   className?: string;
   title?: string;
-}) {
+} & Omit<SVGProps<SVGSVGElement>, "className" | "title">) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -18,31 +28,17 @@ export function CueMark({
       aria-label={title}
       className={cn("block", className)}
       fill="none"
+      {...rest}
     >
-      {/* outer ring */}
-      <circle
-        cx="50"
-        cy="50"
-        r="40"
-        pathLength={100}
+      {/* ring */}
+      <path
+        d={CUE_MARK_PATH}
         stroke="currentColor"
-        strokeWidth="13"
+        strokeWidth={CUE_MARK_STROKE}
         strokeLinecap="round"
-        strokeDasharray="72 28"
-        strokeDashoffset="-14"
       />
-      {/* inner ring */}
-      <circle
-        cx="50"
-        cy="50"
-        r="19"
-        pathLength={100}
-        stroke="currentColor"
-        strokeWidth="13"
-        strokeLinecap="round"
-        strokeDasharray="70 30"
-        strokeDashoffset="-15"
-      />
+      {/* centre dot */}
+      <circle cx="50" cy="50" r={CUE_MARK_DOT} fill="currentColor" />
     </svg>
   );
 }

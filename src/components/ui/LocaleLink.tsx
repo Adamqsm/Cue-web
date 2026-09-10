@@ -14,8 +14,16 @@ export default function LocaleLink({
   className?: string;
   children: React.ReactNode;
 } & Omit<React.ComponentProps<typeof Link>, "href">) {
-  const external = href.startsWith("http") || href.startsWith("mailto:");
-  if (external) {
+  // mailto: hands off to the mail client, so no new tab: target="_blank"
+  // leaves an empty tab behind in browsers without a web mail handler.
+  if (href.startsWith("mailto:")) {
+    return (
+      <a href={href} className={cn(className)}>
+        {children}
+      </a>
+    );
+  }
+  if (href.startsWith("http")) {
     return (
       <a
         href={href}

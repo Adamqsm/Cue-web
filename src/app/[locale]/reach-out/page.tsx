@@ -66,7 +66,11 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
         </div>
 
         <Reveal delay={1}>
-          <LeadForm form={r.form} locale={locale} />
+          <LeadForm
+            form={r.form}
+            locale={locale}
+            careersSubject={dict.careers.applySubject}
+          />
         </Reveal>
       </div>
     </section>

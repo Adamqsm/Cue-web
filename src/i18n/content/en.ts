@@ -980,8 +980,11 @@ const en = {
       audiences: [
         { value: "operator", label: "A venue / operator" },
         { value: "guest", label: "A guest / early adopter" },
-        { value: "talent", label: "Talent / job seeker" },
       ],
+      // No job-seeker audience: Cue does not hire, so job seekers are
+      // pointed at the Qasem Portal careers inbox instead of this form.
+      careersNote:
+        "Looking for a job? Qasem Portal handles hiring for Cue. Send your application to {email}.",
       fields: {
         name: "Full name",
         email: "Email",
@@ -1020,7 +1023,7 @@ const en = {
   // ---------------- CAREERS ----------------
   careers: {
     meta: {
-      title: "Careers at Cue — Building Amman's Reservation Platform",
+      title: "Careers at Cue | Building Amman's Reservation Platform",
       description:
         "Join the team building Cue, the restaurant reservation platform for Amman. Roles across engineering, operations, partnerships, marketing, and design.",
     },
@@ -1029,8 +1032,11 @@ const en = {
       title: "Build the next generation of dining experiences.",
       subtitle:
         "Cue is building the future of seamless restaurant reservations and hospitality technology. We're always looking for talented, driven people who want to shape it with us.",
-      primary: "Open application",
+      primary: "Apply by email",
+      note: "Qasem Portal handles hiring for Cue. Send your application to {email}.",
     },
+    // Localized topic after the "[Careers]" tag in the mailto subject.
+    applySubject: "Open application",
     why: {
       kicker: "Why Cue",
       title: "Small team. Real product. Room to shape it.",
@@ -1055,7 +1061,7 @@ const en = {
     cta: {
       title: "We're always hiring exceptional people.",
       body: "Tell us how you can add value to the team.",
-      primary: "Open application",
+      primary: "Apply by email",
     },
   },
 

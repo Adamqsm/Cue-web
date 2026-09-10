@@ -9,6 +9,8 @@ import LocaleLink from "@/components/ui/LocaleLink";
 import CtaBand from "@/components/sections/CtaBand";
 import EditorialSection from "@/components/home/EditorialSection";
 import EditorialList from "@/components/ui/EditorialList";
+import CareersEmailNote from "@/components/ui/CareersEmailNote";
+import { careersMailto } from "@/lib/careers";
 
 export async function generateMetadata({
   params,
@@ -38,10 +40,22 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
           { name: c.hero.eyebrow, path: "/careers" },
         ])}
       />
+      {/* Cue does not hire; Qasem Portal does. Every application link on
+          this page is a mailto: to the Qasem Portal careers inbox, never the
+          Cue reach-out form. */}
       <PageHero eyebrow={c.hero.eyebrow} title={c.hero.title} subtitle={c.hero.subtitle}>
-        <LocaleLink href="/reach-out" locale={locale} className="btn btn-primary text-base">
+        <LocaleLink
+          href={careersMailto(c.applySubject)}
+          locale={locale}
+          className="btn btn-primary text-base"
+        >
           {c.hero.primary}
         </LocaleLink>
+        <CareersEmailNote
+          text={c.hero.note}
+          subject={c.applySubject}
+          className="basis-full text-sm leading-relaxed text-muted"
+        />
       </PageHero>
 
       {/* Why join — editorial rows */}
@@ -66,7 +80,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
           {c.roles.items.map((role) => (
             <RevealItem key={role.title}>
               <LocaleLink
-                href="/reach-out"
+                href={careersMailto(role.title)}
                 locale={locale}
                 className="group flex flex-col gap-2 border-b border-line py-6 transition-colors hover:bg-surface/70 sm:flex-row sm:items-center sm:justify-between"
               >
@@ -99,7 +113,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
         title={c.cta.title}
         body={c.cta.body}
         primary={c.cta.primary}
-        primaryHref="/reach-out"
+        primaryHref={careersMailto(c.applySubject)}
       />
     </>
   );

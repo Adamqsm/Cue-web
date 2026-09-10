@@ -7,15 +7,19 @@ import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 import { getUtmParams } from "@/lib/utm";
 import { CueMark } from "@/components/BrandMark";
+import CareersEmailNote from "@/components/ui/CareersEmailNote";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export default function LeadForm({
   form,
   locale,
+  careersSubject,
 }: {
   form: Dictionary["reach"]["form"];
   locale: Locale;
+  /** Topic for the careers mailto subject (dict.careers.applySubject). */
+  careersSubject: string;
 }) {
   const [audience, setAudience] = useState<string>("operator");
   const [contact, setContact] = useState<string>("email");
@@ -117,7 +121,7 @@ export default function LeadForm({
               <span className={labelBase}>{form.audienceLabel}</span>
               {/* Track matches ApplyForm's prepayment toggle: border-line on
                   bg-surface keeps inactive text-muted labels AA in light mode. */}
-              <div className="grid grid-cols-3 gap-1.5 rounded-card border border-line bg-surface p-1">
+              <div className="grid auto-cols-fr grid-flow-col gap-1.5 rounded-card border border-line bg-surface p-1">
                 {form.audiences.map((a) => (
                   <button
                     key={a.value}
@@ -135,6 +139,13 @@ export default function LeadForm({
                   </button>
                 ))}
               </div>
+              {/* Cue does not hire; job seekers go to Qasem Portal's careers
+                  inbox, not through this form. */}
+              <CareersEmailNote
+                text={form.careersNote}
+                subject={careersSubject}
+                className="mt-2 text-xs leading-relaxed text-muted"
+              />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">

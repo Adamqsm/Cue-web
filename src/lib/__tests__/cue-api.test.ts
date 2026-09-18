@@ -98,7 +98,7 @@ describe("cueApi request", () => {
   );
 
   it("trims the key, so a BOM-prefixed or padded Vercel value still sends a valid header", async () => {
-    vi.stubEnv("CUE_API_KEY", "﻿ k-service \n");
+    vi.stubEnv("CUE_API_KEY", "\uFEFF k-service \n");
     fetchMock.mockResolvedValue(json(200, { count: 50 }));
 
     await cueApi("/insider/waitlist-count");

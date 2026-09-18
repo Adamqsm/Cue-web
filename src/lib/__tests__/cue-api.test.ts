@@ -17,12 +17,20 @@ function json(status: number, body: unknown) {
   });
 }
 
+function html(status: number, body = "<html>nope</html>") {
+  return new Response(body, { status, headers: { "content-type": "text/html" } });
+}
+
 /** Resolve to the thrown error instead of rejecting, so assertions read flat. */
 function call(path = "/leads", init?: Parameters<typeof cueApi>[1]) {
   return cueApi<unknown>(path, init).then(
     (value) => ({ value, error: null as unknown }),
     (error: unknown) => ({ value: undefined, error })
   );
+}
+
+function lastInit(index = 0): RequestInit {
+  return fetchMock.mock.calls[index][1] as RequestInit;
 }
 
 beforeEach(() => {
@@ -34,6 +42,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  vi.restoreAllMocks();
   fetchMock.mockReset();
 });
 
@@ -76,27 +85,53 @@ describe("cueApi request", () => {
     expect(init.headers).toEqual({ Accept: "application/json", "X-Cue-Api-Key": "k-service" });
   });
 
-  it("omits X-Cue-Api-Key when CUE_API_KEY is unset, so public endpoints still work", async () => {
-    vi.stubEnv("CUE_API_KEY", undefined);
+  it.each([undefined, "", "   "])(
+    "omits X-Cue-Api-Key when CUE_API_KEY is %j, so public endpoints still work",
+    async (value) => {
+      vi.stubEnv("CUE_API_KEY", value);
+      fetchMock.mockResolvedValue(json(200, { count: 50 }));
+
+      await cueApi("/insider/waitlist-count");
+
+      expect(lastInit().headers).toEqual({ Accept: "application/json" });
+    }
+  );
+
+  it("trims the key, so a BOM-prefixed or padded Vercel value still sends a valid header", async () => {
+    vi.stubEnv("CUE_API_KEY", "﻿ k-service \n");
     fetchMock.mockResolvedValue(json(200, { count: 50 }));
 
     await cueApi("/insider/waitlist-count");
 
-    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    expect(init.headers).toEqual({ Accept: "application/json" });
+    expect(lastInit().headers).toEqual({ Accept: "application/json", "X-Cue-Api-Key": "k-service" });
   });
 
-  it("exposes the 8 s default timeout", () => {
+  it("arms an 8 s timeout by default and honours a per-call override", async () => {
+    const timeout = vi.spyOn(AbortSignal, "timeout");
+    // A fresh Response per call: a body can only be read once.
+    fetchMock.mockImplementation(async () => json(200, {}));
+
+    await cueApi("/insider/waitlist-count");
+    expect(timeout).toHaveBeenLastCalledWith(8_000);
     expect(DEFAULT_TIMEOUT_MS).toBe(8_000);
+
+    // The events beacon is fire-and-forget with a 2 s budget (plan §7).
+    await cueApi("/insider/events", { method: "POST", body: {}, timeoutMs: 2_000 });
+    expect(timeout).toHaveBeenLastCalledWith(2_000);
+    expect(lastInit(1).signal).toBe(timeout.mock.results[1].value);
   });
 });
 
 describe("cueApi responses", () => {
   it("returns undefined for 204 without reading a body", async () => {
-    fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
+    const res = new Response(null, { status: 204 });
+    const text = vi.spyOn(res, "text");
+    fetchMock.mockResolvedValue(res);
+
     await expect(
       cueApi<void>("/insider/events", { method: "POST", body: {} })
     ).resolves.toBeUndefined();
+    expect(text).not.toHaveBeenCalled();
   });
 
   it("maps a 4xx envelope to CueApiError with status, code, reason and fields verbatim", async () => {
@@ -137,20 +172,45 @@ describe("cueApi responses", () => {
     expect((error as CueApiError).reason).toBe("rate-limited");
   });
 
-  it("treats a 4xx without the envelope (a proxy HTML page) as unavailable", async () => {
-    fetchMock.mockResolvedValue(
-      new Response("<html>404</html>", { status: 404, headers: { "content-type": "text/html" } })
+  it("normalises a sparse or mistyped envelope instead of passing junk to the routes", async () => {
+    // Missing message falls back to the code; non-string reason and
+    // non-object (or array) fields become null.
+    fetchMock.mockResolvedValueOnce(json(400, { code: "invalid-argument", message: "" }));
+    let { error } = await call();
+    expect(error).toBeInstanceOf(CueApiError);
+    expect((error as CueApiError).message).toBe("invalid-argument");
+    expect((error as CueApiError).reason).toBeNull();
+    expect((error as CueApiError).fields).toBeNull();
+
+    fetchMock.mockResolvedValueOnce(
+      json(422, { code: "validation", reason: 7, message: "x", fields: ["email"] })
     );
+    ({ error } = await call());
+    expect(error).toBeInstanceOf(CueApiError);
+    expect((error as CueApiError).reason).toBeNull();
+    expect((error as CueApiError).fields).toBeNull();
+  });
+
+  it.each([
+    ["HTML", html(404)],
+    ["a bare string", json(404, "nope")],
+    ["an array", json(404, ["nope"])],
+    ["null", json(404, null)],
+    ["an empty code", json(404, { code: "", message: "x" })],
+    ["DRF's default {detail}", json(404, { detail: "Not found." })],
+  ])("treats a 4xx whose body is %s (not the envelope) as unavailable", async (_label, res) => {
+    fetchMock.mockResolvedValue(res);
 
     const { error } = await call();
 
     expect(error).toBeInstanceOf(CueApiUnavailable);
+    expect(error).not.toBeInstanceOf(CueApiError);
     expect((error as CueApiUnavailable).status).toBe(404);
   });
 
-  it("treats every 5xx as unavailable, even one carrying the envelope", async () => {
+  it("treats every 5xx as unavailable, even one carrying the envelope, and surfaces its code", async () => {
     fetchMock.mockResolvedValue(
-      json(503, { code: "unavailable", reason: null, message: "Redis down", fields: null })
+      json(503, { code: "internal", reason: "redis-down", message: "Redis down", fields: null })
     );
 
     const { error } = await call();
@@ -158,13 +218,27 @@ describe("cueApi responses", () => {
     expect(error).toBeInstanceOf(CueApiUnavailable);
     expect(error).not.toBeInstanceOf(CueApiError);
     expect((error as CueApiUnavailable).status).toBe(503);
-    expect((error as Error).message).toContain("unavailable");
+    expect((error as Error).message).toContain("503 internal/redis-down");
   });
 
-  it("treats malformed JSON on a 2xx as unavailable rather than returning garbage", async () => {
+  it("treats a 401 as unavailable: a service key can only be missing, wrong or rotated", async () => {
     fetchMock.mockResolvedValue(
-      new Response("<html>ok?</html>", { status: 200, headers: { "content-type": "text/html" } })
+      json(401, { code: "unauthenticated", reason: null, message: "Bad key", fields: null })
     );
+
+    const { error } = await call("/leads", { method: "POST", body: {} });
+
+    expect(error).toBeInstanceOf(CueApiUnavailable);
+    expect(error).not.toBeInstanceOf(CueApiError);
+    expect((error as CueApiUnavailable).status).toBe(401);
+    expect((error as Error).message).toContain("401 unauthenticated");
+  });
+
+  it.each([
+    ["malformed JSON", html(200, "<html>ok?</html>")],
+    ["an empty body", new Response("", { status: 200 })],
+  ])("treats a 2xx with %s as unavailable rather than returning garbage", async (_label, res) => {
+    fetchMock.mockResolvedValue(res);
 
     const { error } = await call();
 
@@ -174,18 +248,21 @@ describe("cueApi responses", () => {
 });
 
 describe("cueApi failure modes", () => {
-  it("fails closed without calling fetch when CUE_API_BASE_URL is unset", async () => {
-    vi.stubEnv("CUE_API_BASE_URL", "");
+  it.each([undefined, "", "   "])(
+    "fails closed without calling fetch when CUE_API_BASE_URL is %j",
+    async (value) => {
+      vi.stubEnv("CUE_API_BASE_URL", value);
 
-    const { error } = await call();
+      const { error } = await call();
 
-    expect(error).toBeInstanceOf(CueApiUnavailable);
-    expect((error as CueApiUnavailable).status).toBeNull();
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
+      expect(error).toBeInstanceOf(CueApiUnavailable);
+      expect((error as CueApiUnavailable).status).toBeNull();
+      expect(fetchMock).not.toHaveBeenCalled();
+    }
+  );
 
   it("wraps a network failure as unavailable and keeps the original error as cause", async () => {
-    const boom = new TypeError("fetch failed", { cause: new Error("ECONNREFUSED") });
+    const boom = new TypeError("fetch failed", { cause: new Error("connect ECONNREFUSED") });
     fetchMock.mockRejectedValue(boom);
 
     const { error } = await call();
@@ -193,7 +270,18 @@ describe("cueApi failure modes", () => {
     expect(error).toBeInstanceOf(CueApiUnavailable);
     expect((error as CueApiUnavailable).status).toBeNull();
     expect((error as Error).cause).toBe(boom);
-    expect((error as Error).message).toContain("ECONNREFUSED");
+    expect((error as Error).message).toBe("GET /leads: fetch failed (connect ECONNREFUSED)");
+  });
+
+  it("falls back to the cause's code when undici hands over an empty-message AggregateError", async () => {
+    const cause = Object.assign(new AggregateError([new Error("::1"), new Error("127.0.0.1")], ""), {
+      code: "ECONNREFUSED",
+    });
+    fetchMock.mockRejectedValue(new TypeError("fetch failed", { cause }));
+
+    const { error } = await call();
+
+    expect((error as Error).message).toBe("GET /leads: fetch failed (ECONNREFUSED)");
   });
 
   it("aborts through the signal after timeoutMs and reports a timeout", async () => {

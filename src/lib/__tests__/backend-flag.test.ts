@@ -34,16 +34,28 @@ describe("backendFor", () => {
     expect(backendFor("event", { CUE_BACKEND_EVENT: " Django " })).toBe("django");
   });
 
-  it("ignores an unrecognised value with a warning and falls through to the next level", () => {
+  it("treats an empty per-route value (the .env.example shape) as unset, silently", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    expect(backendFor("partner", { CUE_BACKEND: "django", CUE_BACKEND_PARTNER: "on" })).toBe(
-      "django"
+    expect(backendFor("lead", { CUE_BACKEND: "django", CUE_BACKEND_LEAD: "" })).toBe("django");
+    expect(backendFor("lead", { CUE_BACKEND: "", CUE_BACKEND_LEAD: "  " })).toBe("firebase");
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("pins firebase on an unrecognised value at either level, with a warning", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    // A typo in a per-route pin must never leave the route on Django.
+    expect(backendFor("partner", { CUE_BACKEND: "django", CUE_BACKEND_PARTNER: "firebsae" })).toBe(
+      "firebase"
     );
     expect(backendFor("partner", { CUE_BACKEND: "djnago" })).toBe("firebase");
+    // ...but a valid per-route value still wins over a broken global one.
+    expect(backendFor("lead", { CUE_BACKEND: "djnago", CUE_BACKEND_LEAD: "django" })).toBe("django");
     expect(warn).toHaveBeenCalledTimes(2);
   });
 
   it("reads process.env by default", () => {
+    vi.stubEnv("CUE_BACKEND", undefined);
+    vi.stubEnv("CUE_BACKEND_LEAD", undefined);
     vi.stubEnv("CUE_BACKEND_WAITLIST", "django");
     expect(backendFor("waitlist")).toBe("django");
     expect(backendFor("lead")).toBe("firebase");

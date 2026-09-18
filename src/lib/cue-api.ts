@@ -10,8 +10,10 @@
  *                      request was wrong (validation, duplicate, rate limited,
  *                      turnstile…). Translate `code` / `reason` / `fields`.
  *   CueApiUnavailable  no usable answer: base URL unset, network failure,
- *                      timeout, any 5xx, or a body that is not the envelope
- *                      (a proxy's HTML 502, say). Routes fail closed: 503.
+ *                      timeout, any 5xx, a 401 (the service key is missing,
+ *                      wrong or rotated: a deployment fault, never a
+ *                      visitor's), or a body that is not the envelope (a
+ *                      proxy's HTML 502, say). Routes fail closed: 503.
  *
  * Server-only by convention: it reads CUE_API_KEY. Next never inlines a
  * non-NEXT_PUBLIC_ variable into client bundles, so an accidental client
@@ -77,7 +79,10 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
   const timeoutMs = init.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   const headers: Record<string, string> = { Accept: "application/json" };
-  const key = process.env.CUE_API_KEY;
+  // trim() also strips U+FEFF: a BOM-prefixed Vercel value (the file-upload
+  // failure this project has already hit) would otherwise make undici reject
+  // the header and every call fail closed.
+  const key = process.env.CUE_API_KEY?.trim();
   if (key) headers["X-Cue-Api-Key"] = key;
   if (init.clientIp) headers["X-Cue-Client-Ip"] = init.clientIp;
   if (init.body !== undefined) headers["Content-Type"] = "application/json";
@@ -99,10 +104,12 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
     throw new CueApiUnavailable(`${label}: ${why}`, null, { cause: err });
   }
 
+  if (res.status === 204) return undefined as T;
+
   let data: unknown;
   let malformed = false;
   try {
-    data = text ? JSON.parse(text) : undefined;
+    data = JSON.parse(text);
   } catch {
     malformed = true;
   }
@@ -113,9 +120,9 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
   }
 
   const envelope = asEnvelope(data);
-  if (res.status >= 500) {
-    const code = envelope ? ` ${envelope.code}` : "";
-    throw new CueApiUnavailable(`${label}: ${res.status}${code}`, res.status);
+  if (res.status >= 500 || res.status === 401) {
+    const detail = envelope ? ` ${envelope.code}${envelope.reason ? `/${envelope.reason}` : ""}` : "";
+    throw new CueApiUnavailable(`${label}: ${res.status}${detail}`, res.status);
   }
   if (envelope) throw new CueApiError(res.status, envelope);
   throw new CueApiUnavailable(`${label}: ${res.status} without an error envelope`, res.status);
@@ -129,7 +136,10 @@ function asEnvelope(data: unknown): CueApiErrorBody | null {
     code: d.code,
     reason: typeof d.reason === "string" ? d.reason : null,
     message: typeof d.message === "string" && d.message ? d.message : d.code,
-    fields: typeof d.fields === "object" && d.fields !== null ? (d.fields as Record<string, string[]>) : null,
+    fields:
+      typeof d.fields === "object" && d.fields !== null && !Array.isArray(d.fields)
+        ? (d.fields as Record<string, string[]>)
+        : null,
   };
 }
 
@@ -139,7 +149,10 @@ function isAbort(err: unknown): boolean {
 
 function describe(err: unknown): string {
   if (!(err instanceof Error)) return String(err);
-  // undici wraps the real reason (ECONNREFUSED, ENOTFOUND…) in `cause`.
-  const cause = err.cause instanceof Error ? ` (${err.cause.message})` : "";
-  return `${err.message}${cause}`;
+  // undici wraps the real reason (ECONNREFUSED, ENOTFOUND…) in `cause`; on a
+  // dual-stack host that is an AggregateError with an empty message, so fall
+  // back to its code.
+  const c = err.cause as { message?: string; code?: string } | undefined;
+  const detail = c?.message || c?.code;
+  return detail ? `${err.message} (${detail})` : err.message;
 }

@@ -1,0 +1,22 @@
+# One line-ending story on every OS: LF in the repo AND in the working tree.
+# Windows checkouts used to carry CRLF (core.autocrlf), so a one-character
+# edit showed up as a whole-file diff that hid the real change. `eol=lf`
+# overrides core.autocrlf / core.eol for every text file.
+* text=auto eol=lf
+
+# Binary assets: never normalise, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.zip binary
+*.mp4 binary
+*.webm binary

@@ -16,6 +16,44 @@ moments, accent-only (buttons, chips, highlights), never a ground or dominant
 surface. The navy band is the one deliberate full-bleed brand block per page.
 Not luxury, not minimal, no purple, no yellow.
 
+## v5.5 addendum — portal-only tokens (mirrored from cue-portal)
+
+**These five tokens do not exist in this repo's `globals.css`.** They were
+added in `cue-portal` (PORTAL-1), which carries this site's v5.4 `:root` /
+`.dark` blocks and `theme.extend` **verbatim** and may only append on top. They
+are recorded here because this file is the source of truth for the colorway and
+the port target for the Flutter app — so that a later promotion into Cue-web
+starts from a written spec rather than a re-derivation, and so the Flutter
+mapping stays one table.
+
+| Token | Light | Dark | Role |
+|---|---|---|---|
+| `--primary` | `var(--accent-strong)` #0F55CC | `var(--accent)` #4C8DFF | Action colour shadcn components read (`bg-primary`) |
+| `--primary-foreground` | #FFFFFF | #0B0D12 | Text on `--primary` (same pairing as this site's `.btn-primary`) |
+| `--warn` | #BF6035 | #BF6035 | `CueColors.warning` in the Flutter app; one value in both themes |
+| `--warn-wash` | #F5E6DF | rgba(191,96,53,.15) | Flutter `warningLight` (light / dark) |
+| `--warn-deep` | #9C4A24 | #FFDCCB | AA text on the wash and on bg |
+
+`--primary` is an alias, not a new hue: it re-points the existing Queue Blue
+ramp at the name shadcn components read, so the portal's buttons land on the
+same ground `.btn-primary` uses here. Nothing in the blue family moves.
+
+`--warn` is the one genuinely new family — the Flutter app's `CueColors.warning`,
+which this site never needed a token for. Like `spark`, it is **one value in
+both themes**. It is not AA for text (4.07:1 on the light bg), so warnings
+render as `bg-warn-wash text-warn-deep` plus an icon, **never colour-only**.
+Measured: light deep on wash 5.05:1, on bg 5.89:1, on surface 6.14:1; dark deep
+on wash 12.06:1, on bg 15.13:1.
+
+### Naming: `queue-*` is Cue's blue
+
+The portal exposes the blue family as `queue`, `queue-strong`, `queue-deep`,
+`queue-wash`, `queue-inverse`. The verbatim `accent-*` utilities still exist
+there but app code must not use them: in shadcn, `accent` means "hover fill",
+so the same class name would be read two different ways by anyone arriving from
+shadcn. This site keeps `accent-*` — the rename is portal-local and does not
+change any value. If Cue-web ever adopts shadcn, rename first, then re-copy.
+
 ## v5.3 → v5.4 change summary (Terracotta — Flutter parity)
 
 **Decision note: the accent now comes from the app, not the other way

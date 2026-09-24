@@ -1,49 +1,45 @@
 import { NextResponse } from "next/server";
-import { FieldValue } from "firebase-admin/firestore";
-import { getAdminDb } from "@/lib/firebase-admin";
-import { CLAIM_SOURCES } from "@/lib/cue-insider/claim-service";
+import { answerFrom } from "@/lib/backend-flag";
+import { cueApi } from "@/lib/cue-api";
+import { POST as firebasePOST } from "./route.firebase";
 
 export const runtime = "nodejs";
 
-const ALLOWED_EVENTS = new Set([
-  "claim_view",
-  "claim_submit",
-  "claim_success",
-  "claim_duplicate",
-  "claim_error",
-]);
+export async function POST(request: Request) {
+  return answerFrom("event", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
+}
 
 /**
- * Anonymous counters only — always 204, never blocks the UI, stores no PII.
- * Only the source folds into a per-source key; the client beacon sends it
- * top-level ({event, source, locale}) but a nested props.source also counts.
+ * Claim-funnel beacon: always 204, whatever happens. The event is forwarded
+ * with a 2 s budget and awaited (a serverless function may be frozen the
+ * moment it responds, so an un-awaited call could never land). Only the two
+ * strings the API reads are forwarded; the API owns the allowed-event and
+ * source lists and silently drops anything else.
+ *
+ * X-Cue-Event says whether the API took it (`forwarded`) or not (`dropped`),
+ * so a smoke check can catch a wrong CUE_API_KEY that the 204 hides. The
+ * beacon ignores response headers; the reason stays in the server log.
  */
-export async function POST(request: Request) {
+async function djangoPOST(request: Request) {
+  let outcome = "dropped";
   try {
     const body = (await request.json()) as {
       event?: unknown;
       source?: unknown;
-      props?: { source?: unknown };
+      props?: { source?: unknown } | null;
     };
-    const event = body.event;
-    if (typeof event !== "string" || !ALLOWED_EVENTS.has(event)) {
-      return new NextResponse(null, { status: 204 });
-    }
-
-    const increments: Record<string, FieldValue> = { [event]: FieldValue.increment(1) };
     const source = body.props?.source ?? body.source;
-    if (typeof source === "string" && (CLAIM_SOURCES as readonly string[]).includes(source)) {
-      increments[`${event}__${source}`] = FieldValue.increment(1);
+    if (typeof body.event === "string") {
+      await cueApi("/insider/events", {
+        method: "POST",
+        body: { event: body.event, ...(typeof source === "string" && { source }) },
+        timeoutMs: 2_000,
+      });
+      outcome = "forwarded";
     }
-
-    const day = new Date().toISOString().slice(0, 10);
-    getAdminDb()
-      .collection("cueInsiderStats")
-      .doc(day)
-      .set(increments, { merge: true })
-      .catch(() => {});
-  } catch {
-    // Malformed body or unconfigured admin — stats are best-effort.
+  } catch (err) {
+    // A 401 here means CUE_API_KEY is wrong: the page must not notice, the logs must.
+    console.warn("[cue-insider/event] not recorded:", err instanceof Error ? err.message : err);
   }
-  return new NextResponse(null, { status: 204 });
+  return new NextResponse(null, { status: 204, headers: { "X-Cue-Event": outcome } });
 }

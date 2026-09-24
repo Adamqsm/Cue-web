@@ -27,14 +27,15 @@ export type CueApiErrorBody = {
   code: string;
   reason: string | null;
   message: string;
-  fields: Record<string, string[]> | null;
+  /** Usually {field: [message]}; a list field's child errors nest under the item index. */
+  fields: Record<string, unknown> | null;
 };
 
 export class CueApiError extends Error {
   readonly status: number;
   readonly code: string;
   readonly reason: string | null;
-  readonly fields: Record<string, string[]> | null;
+  readonly fields: Record<string, unknown> | null;
 
   constructor(status: number, body: CueApiErrorBody) {
     super(body.message);
@@ -154,7 +155,7 @@ function asEnvelope(data: unknown): CueApiErrorBody | null {
     message: typeof d.message === "string" && d.message ? d.message : d.code,
     fields:
       typeof d.fields === "object" && d.fields !== null && !Array.isArray(d.fields)
-        ? (d.fields as Record<string, string[]>)
+        ? (d.fields as Record<string, unknown>)
         : null,
   };
 }

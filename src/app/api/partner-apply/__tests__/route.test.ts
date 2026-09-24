@@ -84,8 +84,8 @@ describe("POST /api/partner-apply on django", () => {
       ...application,
       status: "approved",
       source: "forged",
-      menuPath: "partner-applications/x/menu.pdf",
-      photoPaths: ["x"],
+      menuPath: null,
+      photoPaths: [],
     });
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({
@@ -97,8 +97,9 @@ describe("POST /api/partner-apply on django", () => {
     const headers = sentInit().headers as Record<string, string>;
     expect(headers["X-Cue-Api-Key"]).toBe("k-service");
     expect(headers["X-Cue-Client-Ip"]).toBe("198.51.100.4");
-    // Server-owned and Firebase-era keys never reach the API.
+    // Server-owned keys never reach the API.
     expect(JSON.parse(String(sentInit().body))).toEqual(application);
+    expect(res.headers.get("x-cue-backend")).toBe("django");
     expect(getAdminDb).not.toHaveBeenCalled();
   });
 
@@ -107,6 +108,30 @@ describe("POST /api/partner-apply on django", () => {
     const res = await post(application);
     expect(res.status).toBe(422);
     expect(await res.json()).toEqual({ ok: false, error: "Opening hours are malformed.", field: "openingHours" });
+  });
+
+  it("digs the message out of a list field's per-item errors", async () => {
+    fetchMock.mockResolvedValue(
+      envelope(422, "validation", null, { cuisineIds: { "0": ["This value does not match the required pattern."] } })
+    );
+    const res = await post(application);
+    expect(await res.json()).toEqual({
+      ok: false,
+      error: "This value does not match the required pattern.",
+      field: "cuisineIds",
+    });
+  });
+
+  it("hands a page built before the flip (files already in Firebase Storage) to the Firebase handler", async () => {
+    const res = await post({
+      ...application,
+      menuPath: `partner-applications/${application.applicationId}/menu.pdf`,
+      photoPaths: [],
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(getAdminDb).toHaveBeenCalled();
+    // The mocked Admin SDK cannot count, so Firebase fails closed: proof it ran.
+    expect(res.status).toBe(503);
   });
 
   it("maps a 422 without fields onto a generic message", async () => {

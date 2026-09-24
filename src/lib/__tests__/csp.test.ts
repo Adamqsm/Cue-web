@@ -24,9 +24,12 @@ describe("CSP connect-src", () => {
     );
   });
 
-  it("stays an explicit allow-list: no scheme or wildcard-host sources", async () => {
+  it("stays an explicit allow-list: no bare scheme and no wildcard host", async () => {
     for (const source of await connectSrc()) {
-      expect(source).not.toMatch(/^(https?:|\*)$/);
+      // http:, https:, wss:, data:, blob: ... would allow any host of that scheme.
+      expect(source).not.toMatch(/^[a-z][a-z0-9+.-]*:$/i);
+      // *, https://*, wss://*:443 ... (a *.sub.domain wildcard is fine).
+      expect(source).not.toMatch(/^([a-z][a-z0-9+.-]*:\/\/)?\*(:[^/]*)?(\/.*)?$/i);
     }
   });
 });

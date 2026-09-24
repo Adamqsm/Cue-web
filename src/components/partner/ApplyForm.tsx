@@ -7,7 +7,7 @@ import type { Locale } from "@/i18n/config";
 import { cn, localizedHref } from "@/lib/utils";
 import { firebaseApp } from "@/lib/firebase";
 import type { Backend } from "@/lib/backend-flag";
-import { newApplicationId, uploadApplicationFiles, type UploadTicket } from "@/lib/partner-application";
+import { newApplicationId, submitApplication, type FilesError } from "@/lib/partner-application";
 import { EMAIL_RE } from "@/lib/validation";
 import { getUtmParams } from "@/lib/utm";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -64,8 +64,8 @@ export default function ApplyForm({
   const [menuFile, setMenuFile] = useState<File | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
-  // Django flow only: the application landed but its files did not.
-  const [filesFailed, setFilesFailed] = useState(false);
+  // Django flow only: the application landed but its files did not, and why.
+  const [filesError, setFilesError] = useState<FilesError | null>(null);
   // Focused when the success panel replaces the form, so SR users hear it —
   // same pattern as ClaimForm's outcome heading.
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -181,23 +181,19 @@ export default function ApplyForm({
 
     try {
       if (backend === "django") {
-        // Submit first, then upload: the API answers with a 15-minute token
-        // scoped to this application, and the files go straight to it from
-        // here (Vercel caps a function body at 4.5 MB). The id is only an
-        // idempotency key now, minted fresh per attempt.
-        const res = await fetch("/api/partner-apply", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...application, applicationId, utm: getUtmParams() }),
-        });
-        if (res.status === 429) return fail("rateLimited");
-        const created = (await res.json().catch(() => null)) as { upload?: UploadTicket } | null;
-        if (!res.ok || !created?.upload) throw new Error(`partner-apply failed: ${res.status}`);
-        // The application is in either way; a failed upload (write-once, so
-        // no retry) becomes a note on the success panel, not an error.
-        if (menuFile || photos.length) {
-          setFilesFailed(!(await uploadApplicationFiles(created.upload, menuFile, photos)));
-        }
+        // Submit first, then upload straight to the API (Vercel caps a
+        // function body at 4.5 MB). The id is only an idempotency key now,
+        // minted fresh per attempt. The application is in once the route says
+        // so; a failed upload (write-once, so no retry) becomes a note on the
+        // success panel, not an error that invites a second application.
+        const result = await submitApplication(
+          { ...application, applicationId, utm: getUtmParams() },
+          menuFile,
+          photos
+        );
+        if (result === "rate-limited") return fail("rateLimited");
+        if (result === "failed") throw new Error("partner-apply failed");
+        setFilesError(result.filesError);
         setStatus("success");
         return;
       }
@@ -269,9 +265,10 @@ export default function ApplyForm({
           {form.success.title}
         </h3>
         <p className="mt-3 max-w-md leading-[1.65] text-muted">{form.success.body}</p>
-        {filesFailed && (
+        {filesError && (
           <p className="mt-4 max-w-md rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
             {form.errors.upload}
+            {filesError !== "upload" && ` ${form.errors[filesError]}`}
           </p>
         )}
         <LocaleLink href="/" locale={locale} className="mt-6 inline-flex min-h-[44px] items-center">

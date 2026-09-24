@@ -53,18 +53,23 @@ export function newApplicationId(): string {
 /** What /api/partner-apply answers on the Django backend: where, and with what, to upload. */
 export type UploadTicket = { url: string; token: string };
 
+/** Why the files did not land, as a partnerApply.form.errors key ("upload" = no specific copy). */
+export type FilesError = "menuSize" | "photoSize" | "menuType" | "photoType" | "photoCount" | "upload";
+
 /**
  * Second leg of the Django flow: the browser posts the files straight to the
  * API, because Vercel caps a function body at 4.5 MB. The token is the only
  * credential involved (15 minutes, this one application, this one route).
  * Uploads are write-once, so a failure is reported, never retried here.
- * Resolves true only when the API stored the files.
+ * Resolves null once the API stored the files, else why it did not, keyed on
+ * the envelope's reason (contract 3.6). A size or type refusal is only
+ * attributable when a single kind of file was sent.
  */
 export async function uploadApplicationFiles(
   ticket: UploadTicket,
   menu: File | null,
   photos: File[]
-): Promise<boolean> {
+): Promise<FilesError | null> {
   const body = new FormData();
   if (menu) body.append("menu", menu);
   for (const photo of photos) body.append("photos", photo);
@@ -74,11 +79,47 @@ export async function uploadApplicationFiles(
       headers: { "X-Cue-Upload-Token": ticket.token },
       body,
     });
-    if (!res.ok) console.error("[partner-apply] upload rejected:", res.status);
-    return res.ok;
+    if (res.ok) return null;
+    const reason = ((await res.json().catch(() => null)) as { reason?: unknown } | null)?.reason;
+    console.error("[partner-apply] upload rejected:", res.status, reason);
+    const only = menu && !photos.length ? "menu" : !menu ? "photo" : null;
+    if (reason === "too-many-photos") return "photoCount";
+    if (reason === "file-too-large" && only) return only === "menu" ? "menuSize" : "photoSize";
+    if (reason === "unsupported-media-type" && only) return only === "menu" ? "menuType" : "photoType";
+    return "upload";
   } catch (err) {
     // Offline, or refused by the API's CORS allow-list / this site's CSP.
     console.error("[partner-apply] upload failed:", err);
-    return false;
+    return "upload";
   }
+}
+
+export type SubmitResult = "rate-limited" | "failed" | { filesError: FilesError | null };
+
+/**
+ * The Django flow from the form's side: submit the application to our own
+ * route, then send its files straight to the API with the ticket it returns.
+ * Once the route says the application is stored, the outcome is a success;
+ * a file problem is reported alongside, never as a failure, because a resubmit
+ * would file a second application. Throws only when the network is down.
+ */
+export async function submitApplication(
+  application: Record<string, unknown>,
+  menu: File | null,
+  photos: File[]
+): Promise<SubmitResult> {
+  const res = await fetch("/api/partner-apply", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(application),
+  });
+  // The IP budget is shared with everyone behind the same address.
+  if (res.status === 429) return "rate-limited";
+  if (!res.ok) return "failed";
+  if (!menu && !photos.length) return { filesError: null };
+  const created = (await res.json().catch(() => null)) as { upload?: UploadTicket } | null;
+  // Stored, but no ticket: the route answered from Firebase (this page was
+  // built before a rollback), so the files have nowhere to go from here.
+  if (!created?.upload) return { filesError: "upload" };
+  return { filesError: await uploadApplicationFiles(created.upload, menu, photos) };
 }

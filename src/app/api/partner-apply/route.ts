@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { backendFor } from "@/lib/backend-flag";
+import { answerFrom } from "@/lib/backend-flag";
 import { CueApiError, clientIpOf, cueApi } from "@/lib/cue-api";
 import { POST as firebasePOST } from "./route.firebase";
 
@@ -33,17 +33,30 @@ const APPLICATION_FIELDS = [
 
 type Created = { applicationId?: unknown; uploadToken?: unknown; uploadUrl?: unknown };
 
-/**
- * Partner application, first of two calls. On django the API validates,
- * rate-limits, stores the application and raises its lead, then answers with
- * a 15-minute upload token scoped to this one application. The browser sends
- * the files straight to `uploadUrl` with that token (Vercel caps a function
- * body at 4.5 MB; a full submission is up to 58 MB), so this route never sees
- * a file and never holds more than the metadata.
- */
-export async function POST(request: Request) {
-  if (backendFor("partner") !== "django") return firebasePOST(request);
+/** The first message in a `fields` entry: a list child's errors arrive keyed by index. */
+function firstMessage(value: unknown): string | undefined {
+  if (typeof value === "string") return value;
+  const items = Array.isArray(value) ? value : value && typeof value === "object" ? Object.values(value) : [];
+  for (const item of items) {
+    const message = firstMessage(item);
+    if (message) return message;
+  }
+  return undefined;
+}
 
+export async function POST(request: Request) {
+  return answerFrom("partner", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
+}
+
+/**
+ * Partner application, first of two calls. The API validates, rate-limits,
+ * stores the application and raises its lead, then answers with a 15-minute
+ * upload token scoped to this one application. The browser sends the files
+ * straight to `uploadUrl` with that token (Vercel caps a function body at
+ * 4.5 MB; a full submission is up to 58 MB), so this route never sees a file
+ * and never holds more than the metadata.
+ */
+async function djangoPOST(request: Request) {
   let body: Record<string, unknown>;
   try {
     const parsed: unknown = await request.json();
@@ -51,6 +64,23 @@ export async function POST(request: Request) {
     body = parsed as Record<string, unknown>;
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
+  }
+
+  // A page built before the flip still runs the Firebase flow: its files are
+  // already in Firebase Storage and the body names them. Keep that application
+  // whole on Firebase (alive until WEB-5) rather than store it here without
+  // its files.
+  if (body.menuPath || (Array.isArray(body.photoPaths) && body.photoPaths.length > 0)) {
+    return firebasePOST(
+      new Request(request.url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-forwarded-for": request.headers.get("x-forwarded-for") ?? "",
+        },
+        body: JSON.stringify(body),
+      })
+    );
   }
 
   try {
@@ -74,7 +104,7 @@ export async function POST(request: Request) {
         // Same {error, field} shape the Firebase handler answers; ApplyForm
         // shows its generic failure for any non-2xx, so this is for logs/tools.
         const field = Object.keys(err.fields ?? {})[0] ?? "body";
-        const message = err.fields?.[field]?.[0] ?? "Invalid application.";
+        const message = firstMessage(err.fields?.[field]) ?? "Invalid application.";
         return NextResponse.json({ ok: false, error: message, field }, { status: 422 });
       }
       if (err.code === "too-many-requests") {

@@ -36,7 +36,7 @@ function validationError(field: string) {
 }
 
 /** The API's camelCase field keys, back to the key ClaimForm reads ("phone-country"). */
-function formField(fields: Record<string, string[]> | null): string {
+function formField(fields: Record<string, unknown> | null): string {
   const keys = Object.keys(fields ?? {});
   const key = FIELD_ORDER.find((f) => keys.includes(f)) ?? keys[0] ?? "body";
   return key === "phoneCountry" ? "phone-country" : key;

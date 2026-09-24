@@ -107,6 +107,39 @@ if (WRITE) {
   check("lead is accepted", r.status === 200 && r.body?.ok === true, `${r.status} ${JSON.stringify(r.body)}`);
 }
 
+// -- WEB-3 --------------------------------------------------------------------
+// Both claim checks stop before Cloudflare is called, the IP limiter runs or
+// anything is stored. Each body is also invalid on purpose: an API running
+// with DEBUG and no TURNSTILE_SECRET_KEY skips the challenge entirely, and a
+// valid body would then be issued a real code. A script cannot mint a token,
+// so the issue and duplicate paths are a manual check: one claim by hand.
+{
+  const claim = {
+    name: "Site Verify",
+    email: "site-verify@example.com",
+    phone: "+962 79 000 0000",
+    locale: "en",
+    source: "claim-page",
+    marketingConsent: false,
+  };
+  const short = await postJson("/api/cue-insider/claim", { ...claim, name: "x" });
+  answeredBy("CLAIM", short);
+  check(
+    "claim rejects a one-letter name as 422 field name",
+    short.status === 422 && short.body?.error === "validation" && short.body?.field === "name",
+    `${short.status} ${JSON.stringify(short.body)}`
+  );
+  // Turnstile runs before the email check on both backends, so this is 400
+  // turnstile; a DEBUG API with no secret answers 422 email and stores nothing.
+  const noToken = await postJson("/api/cue-insider/claim", { ...claim, email: "not-an-email" });
+  check(
+    "claim without a Turnstile token is 400 turnstile",
+    noToken.status === 400 && noToken.body?.error === "turnstile",
+    `${noToken.status} ${JSON.stringify(noToken.body)}`
+  );
+}
+console.log("SKIP claim issue/duplicate (needs a real Turnstile token: submit the form by hand)");
+
 if (!WRITE) console.log("SKIP write checks (pass --write to run them)");
 
 console.log(failures ? `\n${failures} FAIL` : "\nall PASS");

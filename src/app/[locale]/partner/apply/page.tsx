@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/sections/PageHero";
 import Reveal from "@/components/ui/Reveal";
 import ApplyForm from "@/components/partner/ApplyForm";
+import { backendFor } from "@/lib/backend-flag";
 
 export async function generateMetadata({
   params,
@@ -44,6 +45,10 @@ export default function PartnerApplyPage({ params }: { params: { locale: string 
             form={p.form}
             areas={dict.home.neighborhoods.areas}
             locale={locale}
+            // Read at build time for this static page, like every Vercel env
+            // var: a flag change only takes effect on the next deployment,
+            // which is also when /api/partner-apply picks it up.
+            backend={backendFor("partner")}
           />
         </Reveal>
       </section>

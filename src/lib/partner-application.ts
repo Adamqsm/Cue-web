@@ -15,7 +15,8 @@
  * chars, hyphens) fails `idOk()` and every menu/photo upload would be denied.
  * So the id is still generated on the client — just without touching
  * Firestore — and the server re-checks the same shape before using it as a
- * document id.
+ * document id. The Django API (WEB-4) checks the same shape, where the id is
+ * only an idempotency key: a replay is a 409, never a second application.
  */
 
 export const APPLICATION_ID_RE = /^[A-Za-z0-9]{20}$/;
@@ -47,4 +48,37 @@ export function newApplicationId(): string {
     }
   }
   return out.join("");
+}
+
+/** What /api/partner-apply answers on the Django backend: where, and with what, to upload. */
+export type UploadTicket = { url: string; token: string };
+
+/**
+ * Second leg of the Django flow: the browser posts the files straight to the
+ * API, because Vercel caps a function body at 4.5 MB. The token is the only
+ * credential involved (15 minutes, this one application, this one route).
+ * Uploads are write-once, so a failure is reported, never retried here.
+ * Resolves true only when the API stored the files.
+ */
+export async function uploadApplicationFiles(
+  ticket: UploadTicket,
+  menu: File | null,
+  photos: File[]
+): Promise<boolean> {
+  const body = new FormData();
+  if (menu) body.append("menu", menu);
+  for (const photo of photos) body.append("photos", photo);
+  try {
+    const res = await fetch(ticket.url, {
+      method: "POST",
+      headers: { "X-Cue-Upload-Token": ticket.token },
+      body,
+    });
+    if (!res.ok) console.error("[partner-apply] upload rejected:", res.status);
+    return res.ok;
+  } catch (err) {
+    // Offline, or refused by the API's CORS allow-list / this site's CSP.
+    console.error("[partner-apply] upload failed:", err);
+    return false;
+  }
 }

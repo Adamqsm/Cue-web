@@ -6,7 +6,8 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn, localizedHref } from "@/lib/utils";
 import { firebaseApp } from "@/lib/firebase";
-import { newApplicationId } from "@/lib/partner-application";
+import type { Backend } from "@/lib/backend-flag";
+import { newApplicationId, uploadApplicationFiles, type UploadTicket } from "@/lib/partner-application";
 import { EMAIL_RE } from "@/lib/validation";
 import { getUtmParams } from "@/lib/utm";
 import LocaleLink from "@/components/ui/LocaleLink";
@@ -34,6 +35,8 @@ type DayHours = { open: string; close: string; closed: boolean };
 const MENU_MAX_BYTES = 10 * 1024 * 1024;
 const PHOTO_MAX_BYTES = 8 * 1024 * 1024;
 const PHOTO_MAX_COUNT = 6;
+// What the API decodes (Pillow): anything else is refused after submission.
+const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const defaultHours = (): Record<DayKey, DayHours> =>
   Object.fromEntries(
@@ -44,10 +47,13 @@ export default function ApplyForm({
   form,
   areas,
   locale,
+  backend,
 }: {
   form: Dictionary["partnerApply"]["form"];
   areas: string[];
   locale: Locale;
+  /** Which backend /api/partner-apply is on: it decides whether files upload before or after submitting. */
+  backend: Backend;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorKey, setErrorKey] = useState<keyof Dictionary["partnerApply"]["form"]["errors"]>("submit");
@@ -58,6 +64,8 @@ export default function ApplyForm({
   const [menuFile, setMenuFile] = useState<File | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
+  // Django flow only: the application landed but its files did not.
+  const [filesFailed, setFilesFailed] = useState(false);
   // Focused when the success panel replaces the form, so SR users hear it —
   // same pattern as ClaimForm's outcome heading.
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -100,7 +108,7 @@ export default function ApplyForm({
     const files = Array.from(list ?? []);
     if (files.length > PHOTO_MAX_COUNT) return setFileError(form.errors.photoCount);
     for (const f of files) {
-      if (!f.type.startsWith("image/")) return setFileError(form.errors.photoType);
+      if (!PHOTO_TYPES.includes(f.type)) return setFileError(form.errors.photoType);
       if (f.size > PHOTO_MAX_BYTES) return setFileError(form.errors.photoSize);
     }
     setPhotos(files);
@@ -172,6 +180,28 @@ export default function ApplyForm({
     const applicationId = newApplicationId();
 
     try {
+      if (backend === "django") {
+        // Submit first, then upload: the API answers with a 15-minute token
+        // scoped to this application, and the files go straight to it from
+        // here (Vercel caps a function body at 4.5 MB). The id is only an
+        // idempotency key now, minted fresh per attempt.
+        const res = await fetch("/api/partner-apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...application, applicationId, utm: getUtmParams() }),
+        });
+        if (res.status === 429) return fail("rateLimited");
+        const created = (await res.json().catch(() => null)) as { upload?: UploadTicket } | null;
+        if (!res.ok || !created?.upload) throw new Error(`partner-apply failed: ${res.status}`);
+        // The application is in either way; a failed upload (write-once, so
+        // no retry) becomes a note on the success panel, not an error.
+        if (menuFile || photos.length) {
+          setFilesFailed(!(await uploadApplicationFiles(created.upload, menuFile, photos)));
+        }
+        setStatus("success");
+        return;
+      }
+
       const app = firebaseApp();
 
       // Uploads stay client-side: Storage rules already allow exactly these
@@ -239,6 +269,11 @@ export default function ApplyForm({
           {form.success.title}
         </h3>
         <p className="mt-3 max-w-md leading-[1.65] text-muted">{form.success.body}</p>
+        {filesFailed && (
+          <p className="mt-4 max-w-md rounded-chip bg-error/10 px-4 py-3 text-sm text-error-deep">
+            {form.errors.upload}
+          </p>
+        )}
         <LocaleLink href="/" locale={locale} className="mt-6 inline-flex min-h-[44px] items-center">
           <span className="link-underline">{form.success.home}</span>
         </LocaleLink>

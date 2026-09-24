@@ -153,25 +153,25 @@ export default function LeadForm({
                 <label htmlFor="name" className={labelBase}>
                   {form.fields.name} *
                 </label>
-                <input id="name" name="name" required autoComplete="name" placeholder={form.placeholders.name} className={fieldBase} />
+                <input id="name" name="name" required maxLength={120} autoComplete="name" placeholder={form.placeholders.name} className={fieldBase} />
               </div>
               <div>
                 <label htmlFor="email" className={labelBase}>
                   {form.fields.email} *
                 </label>
-                <input id="email" name="email" type="email" required autoComplete="email" placeholder={form.placeholders.email} className={fieldBase} />
+                <input id="email" name="email" type="email" required maxLength={254} autoComplete="email" placeholder={form.placeholders.email} className={fieldBase} />
               </div>
               <div>
                 <label htmlFor="phone" className={labelBase}>
                   {form.fields.phone}
                 </label>
-                <input id="phone" name="phone" type="tel" autoComplete="tel" placeholder={form.placeholders.phone} dir="ltr" className={cn(fieldBase, "text-start")} />
+                <input id="phone" name="phone" type="tel" maxLength={32} autoComplete="tel" placeholder={form.placeholders.phone} dir="ltr" className={cn(fieldBase, "text-start")} />
               </div>
               <div>
                 <label htmlFor="instagram" className={labelBase}>
                   {form.fields.instagram}
                 </label>
-                <input id="instagram" name="instagram" placeholder={form.placeholders.instagram} dir="ltr" className={cn(fieldBase, "text-start")} />
+                <input id="instagram" name="instagram" maxLength={120} placeholder={form.placeholders.instagram} dir="ltr" className={cn(fieldBase, "text-start")} />
               </div>
             </div>
 
@@ -186,7 +186,7 @@ export default function LeadForm({
                 <label htmlFor="establishment" className={labelBase}>
                   {form.fields.establishment}
                 </label>
-                <input id="establishment" name="establishment" placeholder={form.placeholders.establishment} className={fieldBase} />
+                <input id="establishment" name="establishment" maxLength={200} placeholder={form.placeholders.establishment} className={fieldBase} />
                 <p className="mt-1 text-xs text-muted">{form.establishmentHint}</p>
               </div>
             </div>
@@ -195,7 +195,7 @@ export default function LeadForm({
               <label htmlFor="message" className={labelBase}>
                 {form.fields.message}
               </label>
-              <textarea id="message" name="message" rows={3} placeholder={form.placeholders.message} className={cn(fieldBase, "resize-none")} />
+              <textarea id="message" name="message" rows={3} maxLength={4000} placeholder={form.placeholders.message} className={cn(fieldBase, "resize-none")} />
             </div>
 
             {/* Contact preference */}

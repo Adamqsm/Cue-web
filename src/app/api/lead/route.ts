@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { backendFor } from "@/lib/backend-flag";
+import { answerFrom } from "@/lib/backend-flag";
 import { CueApiError, clientIpOf, cueApi } from "@/lib/cue-api";
 import { POST as firebasePOST } from "./route.firebase";
 
@@ -20,16 +20,18 @@ const LEAD_FIELDS = [
   "utm",
 ] as const;
 
+export async function POST(request: Request) {
+  return answerFrom("lead", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
+}
+
 /**
- * Lead intake: the Reach Out and FAQ contact forms. On django the API owns
- * validation (with the site's own email regex), the per-IP limit, storage and
- * the notification email; this route forwards the visitor's address and maps
- * the answer back onto the shapes LeadForm and ContactForm already read. Fails
+ * Lead intake: the Reach Out and FAQ contact forms. The API owns validation
+ * (with the site's own email regex), the per-IP limit, storage and the
+ * notification email; this route forwards the visitor's address and maps the
+ * answer back onto the shapes LeadForm and ContactForm already read. Fails
  * closed everywhere: no dev fail-open, no data/leads.json.
  */
-export async function POST(request: Request) {
-  if (backendFor("lead") !== "django") return firebasePOST(request);
-
+async function djangoPOST(request: Request) {
   let body: Record<string, unknown>;
   try {
     const parsed: unknown = await request.json();

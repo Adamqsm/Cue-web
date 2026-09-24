@@ -300,6 +300,29 @@ describe("cueApi failure modes", () => {
   });
 });
 
+describe("cueApi with a malformed CUE_API_KEY", () => {
+  it.each([
+    ["a line break", "k-ser\nvice"],
+    ["a space inside", "k-ser vice"],
+    ["a non-ASCII character", "k-servicé"],
+  ])("refuses a key with %s before calling out, and never echoes it", async (_label, key) => {
+    vi.stubEnv("CUE_API_KEY", key);
+    const { error } = await call();
+    expect(error).toBeInstanceOf(CueApiUnavailable);
+    expect((error as Error).message).toContain("CUE_API_KEY");
+    expect((error as Error).message).not.toContain("k-ser");
+    expect((error as Error).message).not.toContain("vic");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("still accepts a key whose only stray characters are at the ends (BOM, newline)", async () => {
+    vi.stubEnv("CUE_API_KEY", "\uFEFFk-service\n");
+    fetchMock.mockResolvedValue(json(200, {}));
+    await call();
+    expect((lastInit().headers as Record<string, string>)["X-Cue-Api-Key"]).toBe("k-service");
+  });
+});
+
 describe("clientIpOf", () => {
   const req = (xff?: string) =>
     new Request("https://www.cue-app.net/api/lead", xff === undefined ? {} : { headers: { "x-forwarded-for": xff } });

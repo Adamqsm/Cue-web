@@ -50,9 +50,9 @@ export default function ContactForm({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <input name="name" required placeholder={content.fields.name} className={field} />
-      <input name="email" type="email" required placeholder={content.fields.email} className={field} />
-      <textarea name="message" rows={4} required placeholder={content.fields.message} className={cn(field, "resize-none")} />
+      <input name="name" required maxLength={120} placeholder={content.fields.name} className={field} />
+      <input name="email" type="email" required maxLength={254} placeholder={content.fields.email} className={field} />
+      <textarea name="message" rows={4} required maxLength={4000} placeholder={content.fields.message} className={cn(field, "resize-none")} />
       <button
         type="submit"
         disabled={status === "submitting"}

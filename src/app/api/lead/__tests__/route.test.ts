@@ -268,6 +268,7 @@ describe("POST /api/lead on django", () => {
     expect(sentInit().method).toBe("POST");
     expect(sentHeaders()["X-Cue-Api-Key"]).toBe("k-service");
     expect(sentHeaders()["X-Cue-Client-Ip"]).toBe("198.51.100.4");
+    expect(res.headers.get("x-cue-backend")).toBe("django");
     expect(JSON.parse(String(sentInit().body))).toEqual({
       name: "Lina",
       email: "lina@example.com",
@@ -339,6 +340,8 @@ describe("POST /api/lead on django", () => {
     ["malformed JSON", "{nope"],
     ["a JSON array", "[]"],
     ["a JSON null", "null"],
+    ["a JSON number", "5"],
+    ["a JSON string", '"lead"'],
   ])("answers 400 without calling the API for %s", async (_label, raw) => {
     const res = await POST(
       new Request("https://www.cue-app.net/api/lead", {

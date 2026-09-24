@@ -24,7 +24,12 @@
  * - challenges.cloudflare.com is Turnstile: the script tag injected by
  *   src/components/claim/TurnstileWidget.tsx plus the challenge iframe.
  * - connect-src covers the Firebase web SDK used by /partner/apply
- *   (Firestore + Storage + Identity Toolkit all live under googleapis.com).
+ *   (Firestore + Storage + Identity Toolkit all live under googleapis.com),
+ *   and the Cue API origins, because on the Django backend the partner form
+ *   uploads its files straight from the browser to the API (Vercel caps a
+ *   function body at 4.5 MB). Both API hosts are listed so a deployment can
+ *   point at either without a code change. The Firebase entries go with WEB-5,
+ *   once the cut-over is verified; until then they are the rollback path.
  */
 const csp = [
   "default-src 'self'",
@@ -36,7 +41,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://challenges.cloudflare.com https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com",
+  "connect-src 'self' https://challenges.cloudflare.com https://api.cue-app.net https://api-staging.cue-app.net https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com",
   "frame-src https://challenges.cloudflare.com",
   "worker-src 'self' blob:",
   "manifest-src 'self'",

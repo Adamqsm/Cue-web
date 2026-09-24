@@ -759,6 +759,7 @@ const en = {
         // wording, already translated.
         rateLimited: "Too many attempts from this connection. Please wait a few minutes and try again.",
         submit: "Something went wrong while submitting. Please try again, or reach out to us directly.",
+        upload: "Your application is in, but your menu and photos didn't upload. We'll ask you for them when we get in touch.",
       },
       success: {
         title: "We've received your application.",

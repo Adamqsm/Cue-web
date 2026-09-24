@@ -140,6 +140,94 @@ if (WRITE) {
 }
 console.log("SKIP claim issue/duplicate (needs a real Turnstile token: submit the form by hand)");
 
+// -- WEB-4 --------------------------------------------------------------------
+// The two-step upload exists only on django, and on firebase the create call
+// would write a Firestore application before every upload check failed, so
+// probe with a body both backends refuse (400) before writing anything.
+const partnerOn = answeredBy("PARTNER", await postJson("/api/partner-apply", []));
+if (WRITE && partnerOn !== "django") {
+  console.log("SKIP partner write checks (route is on firebase; the two-step upload is Django-only)");
+} else if (WRITE) {
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const r = await postJson("/api/partner-apply", {
+    applicationId: crypto.randomUUID().replace(/-/g, "").slice(0, 20),
+    locale: "en",
+    name: { en: "Site Verify" },
+    area: { en: "Jabal Amman" },
+    city: "Amman",
+    contactName: "Site Verify",
+    phone: "+962 79 000 0000",
+    email: "site-verify@example.com",
+    cuisineIds: ["jordanian"],
+    openingHours: Object.fromEntries(days.map((d) => [d, { closed: true }])),
+    notes: "verify-site-routes.mjs - automated smoke test, safe to delete.",
+    consent: true,
+  });
+  const upload = r.body?.upload;
+  check(
+    "partner application is accepted with an upload ticket",
+    r.status === 200 && r.body?.ok === true && typeof upload?.url === "string" && typeof upload?.token === "string",
+    `${r.status} ${JSON.stringify({ ...r.body, upload: upload ? { url: upload.url, token: "<redacted>" } : upload })}`
+  );
+  if (upload?.url) {
+    // The browser refuses the upload before it leaves the page unless this
+    // site's own CSP lists the API origin the ticket points at.
+    const apiOrigin = new URL(upload.url).origin;
+    const csp = (await fetch(`${SITE}/en/partner/apply`, { cache: "no-store" })).headers.get("content-security-policy") ?? "";
+    const connect = csp.split(";").map((d) => d.trim()).find((d) => d.startsWith("connect-src ")) ?? "";
+    check(`CSP connect-src allows ${apiOrigin}`, connect.split(/\s+/).includes(apiOrigin), connect || "(no connect-src)");
+
+    // What a browser on SITE_BASE sends before the upload. Only the API's
+    // CORS settings can make this pass; it is the one route a browser calls.
+    const origin = new URL(SITE).origin;
+    const pre = await fetch(upload.url, {
+      method: "OPTIONS",
+      headers: {
+        Origin: origin,
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "x-cue-upload-token",
+      },
+    });
+    const allowed = pre.headers.get("access-control-allow-origin");
+    const headers = (pre.headers.get("access-control-allow-headers") ?? "").toLowerCase();
+    const methods = (pre.headers.get("access-control-allow-methods") ?? "").toUpperCase();
+    check(
+      `upload preflight allows ${origin}`,
+      pre.ok && (allowed === origin || allowed === "*") && headers.includes("x-cue-upload-token") && methods.includes("POST"),
+      `${pre.status} allow-origin=${allowed ?? "(none)"} allow-headers=${headers || "(none)"} allow-methods=${methods || "(none)"}`
+    );
+
+    // Not a browser, so no CORS: this proves the token and the API's upload leg.
+    const pdf = new Blob(["%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n"], { type: "application/pdf" });
+    const png = new Blob(
+      [Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==", "base64")],
+      { type: "image/png" }
+    );
+    const files = () => {
+      const form = new FormData();
+      form.append("menu", pdf, "menu.pdf");
+      form.append("photos", png, "photo.png");
+      return form;
+    };
+    const send = () =>
+      fetch(upload.url, { method: "POST", headers: { "X-Cue-Upload-Token": upload.token }, body: files() });
+    const first = await send();
+    const stored = await first.json().catch(() => null);
+    check(
+      "upload stores the menu and photo",
+      first.status === 200 && stored?.menu === true && stored?.photos === 1,
+      `${first.status} ${JSON.stringify(stored)}`
+    );
+    const again = await send();
+    const replay = await again.json().catch(() => null);
+    check(
+      "a second upload with the same token is refused (write-once)",
+      again.status === 409 && replay?.reason === "files-already-uploaded",
+      `${again.status} ${replay?.code}/${replay?.reason}`
+    );
+  }
+}
+
 if (!WRITE) console.log("SKIP write checks (pass --write to run them)");
 
 console.log(failures ? `\n${failures} FAIL` : "\nall PASS");

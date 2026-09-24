@@ -31,6 +31,7 @@ describe("GET /api/waitlist-count", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ count: 223 });
     expect(collectionSpy).toHaveBeenCalledWith("cueInsiderClaims");
+    expect(res.headers.get("x-cue-backend")).toBeNull();
   });
 
   it("returns just the offset when there are zero claims — never 0, never an error", async () => {
@@ -67,6 +68,9 @@ describe("GET /api/waitlist-count on django", () => {
     vi.stubEnv("CUE_BACKEND_WAITLIST", "django");
     vi.stubEnv("CUE_API_BASE_URL", "https://api.example.test/api/v1");
     vi.spyOn(console, "error").mockImplementation(() => {});
+    // A distinctive Firebase answer, so a silent fall-back to Firestore could
+    // never pass for the Django path (clearAllMocks keeps implementations).
+    countGet.mockResolvedValue(aggregate(999));
   });
 
   afterEach(() => {
@@ -85,6 +89,7 @@ describe("GET /api/waitlist-count on django", () => {
     expect(await res.json()).toEqual({ count: 223 });
     expect(res.headers.get("cache-control")).toContain("no-store");
     expect(fetchMock.mock.calls[0][0]).toBe("https://api.example.test/api/v1/insider/waitlist-count");
+    expect(res.headers.get("x-cue-backend")).toBe("django");
     expect(collectionSpy).not.toHaveBeenCalled();
   });
 
@@ -99,12 +104,17 @@ describe("GET /api/waitlist-count on django", () => {
     expect(res.status).toBe(503);
     expect(await res.json()).toEqual({ ok: false, error: "unavailable" });
     expect(res.headers.get("cache-control")).toContain("no-store");
+    expect(res.headers.get("x-cue-backend")).toBe("django");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(collectionSpy).not.toHaveBeenCalled();
   });
 
   it("503s without calling out when CUE_API_BASE_URL is unset", async () => {
     vi.stubEnv("CUE_API_BASE_URL", "");
     const res = await GET();
     expect(res.status).toBe(503);
+    expect(await res.json()).toEqual({ ok: false, error: "unavailable" });
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(collectionSpy).not.toHaveBeenCalled();
   });
 });

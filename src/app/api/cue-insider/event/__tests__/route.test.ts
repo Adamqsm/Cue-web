@@ -52,6 +52,8 @@ describe("POST /api/cue-insider/event on django", () => {
     expect((init.headers as Record<string, string>)["X-Cue-Api-Key"]).toBe("k-service");
     // Only the two strings the API reads; locale and anything else stay behind.
     expect(sent()).toEqual({ event: "claim_view", source: "claim-page" });
+    expect(res.headers.get("x-cue-backend")).toBe("django");
+    expect(res.headers.get("x-cue-event")).toBe("forwarded");
     expect(statSet).not.toHaveBeenCalled();
   });
 
@@ -75,6 +77,7 @@ describe("POST /api/cue-insider/event on django", () => {
     arrange();
     const res = await beacon(JSON.stringify({ event: "claim_view" }));
     expect(res.status).toBe(204);
+    expect(res.headers.get("x-cue-event")).toBe("dropped");
     expect(console.warn).toHaveBeenCalled();
   });
 
@@ -85,6 +88,7 @@ describe("POST /api/cue-insider/event on django", () => {
   ])("answers 204 without calling the API for %s", async (_label, body) => {
     const res = await beacon(body);
     expect(res.status).toBe(204);
+    expect(res.headers.get("x-cue-event")).toBe("dropped");
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
@@ -95,5 +99,7 @@ describe("POST /api/cue-insider/event with the flag unset", () => {
     expect(res.status).toBe(204);
     expect(statSet).toHaveBeenCalledTimes(1);
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(res.headers.get("x-cue-backend")).toBeNull();
+    expect(res.headers.get("x-cue-event")).toBeNull();
   });
 });

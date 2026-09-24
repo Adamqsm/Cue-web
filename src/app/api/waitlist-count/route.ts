@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { backendFor } from "@/lib/backend-flag";
+import { answerFrom } from "@/lib/backend-flag";
 import { cueApi } from "@/lib/cue-api";
 import { GET as firebaseGET } from "./route.firebase";
 
@@ -10,14 +10,17 @@ export const dynamic = "force-dynamic";
 
 const NO_STORE = { "Cache-Control": "no-store, max-age=0" };
 
-/**
- * Homepage queue counter. On django the API already adds the +50 offset and
- * caches the count for 60 s itself, so the number passes through as-is and is
- * never cached again at the edge. Any failure is the same 503 the Firebase
- * handler answers; WaitlistCounter falls back to its static number.
- */
 export async function GET() {
-  if (backendFor("waitlist") !== "django") return firebaseGET();
+  return answerFrom("waitlist", { firebase: firebaseGET, django: djangoGET });
+}
+
+/**
+ * Homepage queue counter. The API already adds the +50 offset and caches the
+ * count for 60 s itself, so the number passes through as-is and is never
+ * cached again at the edge. Any failure is the same 503 the Firebase handler
+ * answers; WaitlistCounter falls back to its static number.
+ */
+async function djangoGET() {
   try {
     const { count } = await cueApi<{ count?: unknown }>("/insider/waitlist-count");
     if (typeof count !== "number" || !Number.isFinite(count)) {

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { backendFor } from "../backend-flag";
+import { answerFrom, backendFor } from "../backend-flag";
 
 describe("backendFor", () => {
   afterEach(() => {
@@ -59,5 +59,32 @@ describe("backendFor", () => {
     vi.stubEnv("CUE_BACKEND_WAITLIST", "django");
     expect(backendFor("waitlist")).toBe("django");
     expect(backendFor("lead")).toBe("firebase");
+  });
+});
+
+describe("answerFrom", () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  const handlers = () => ({
+    firebase: vi.fn(() => new Response("fb", { status: 200 })),
+    django: vi.fn(async () => new Response("dj", { status: 201 })),
+  });
+
+  it("runs only the Firebase handler, untouched, when the route is on firebase", async () => {
+    const h = handlers();
+    const res = await answerFrom("lead", h);
+    expect(await res.text()).toBe("fb");
+    expect(res.headers.get("x-cue-backend")).toBeNull();
+    expect(h.django).not.toHaveBeenCalled();
+  });
+
+  it("runs only the Django handler and tags its answer when the route is on django", async () => {
+    vi.stubEnv("CUE_BACKEND_LEAD", "django");
+    const h = handlers();
+    const res = await answerFrom("lead", h);
+    expect(res.status).toBe(201);
+    expect(await res.text()).toBe("dj");
+    expect(res.headers.get("x-cue-backend")).toBe("django");
+    expect(h.firebase).not.toHaveBeenCalled();
   });
 });

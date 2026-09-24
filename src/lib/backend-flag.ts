@@ -29,3 +29,20 @@ function parse(value: string | undefined): Backend | null {
   console.warn(`[backend-flag] ${JSON.stringify(value)} is not firebase|django; using firebase`);
   return "firebase";
 }
+
+/**
+ * Answer with the route's Firebase handler or its Django one. A Django answer
+ * is tagged `X-Cue-Backend: django` so a smoke check can prove a flip actually
+ * took effect (Vercel env changes need a redeploy, and a typo'd value quietly
+ * resolves to firebase); a Firebase answer is returned untouched, which keeps
+ * each route.firebase.ts verbatim.
+ */
+export async function answerFrom(
+  route: ProxiedRoute,
+  handlers: { firebase: () => Response | Promise<Response>; django: () => Promise<Response> }
+): Promise<Response> {
+  if (backendFor(route) !== "django") return handlers.firebase();
+  const res = await handlers.django();
+  res.headers.set("X-Cue-Backend", "django");
+  return res;
+}

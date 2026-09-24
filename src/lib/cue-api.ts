@@ -83,6 +83,12 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
   // failure this project has already hit) would otherwise make undici reject
   // the header and every call fail closed.
   const key = process.env.CUE_API_KEY?.trim();
+  // fetch rejects a header value with a control or non-ASCII character in an
+  // error that QUOTES the value, and that message would reach the logs. A key
+  // pasted with a stray line break fails here instead, by name only.
+  if (key && /[^\x21-\x7e]/.test(key)) {
+    throw new CueApiUnavailable(`${label}: CUE_API_KEY holds characters a header cannot carry`);
+  }
   if (key) headers["X-Cue-Api-Key"] = key;
   if (init.clientIp) headers["X-Cue-Client-Ip"] = init.clientIp;
   if (init.body !== undefined) headers["Content-Type"] = "application/json";
@@ -126,6 +132,16 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
   }
   if (envelope) throw new CueApiError(res.status, envelope);
   throw new CueApiUnavailable(`${label}: ${res.status} without an error envelope`, res.status);
+}
+
+/**
+ * The visitor's address for X-Cue-Client-Ip: the first X-Forwarded-For hop,
+ * which Vercel overwrites with the real client address (so it cannot be
+ * spoofed from outside). Null when absent; the API then counts the call
+ * against the caller's own address.
+ */
+export function clientIpOf(request: Request): string | null {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
 }
 
 function asEnvelope(data: unknown): CueApiErrorBody | null {

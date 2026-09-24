@@ -17,10 +17,16 @@
  * event neither backend counts, and every other default check is refused by
  * validation before anything is written or rate limited.
  *
+ * --write adds checks that DO create rows, and send mail: a lead (notified to
+ * wherever the API host's LEAD_NOTIFY_EMAIL points) and a partner application
+ * with its files (which raises a lead of its own). Everything written is named
+ * "Site Verify" so it filters out of the admin; delete it afterwards.
+ *
  * Exits 1 on any FAIL.
  */
 
 const SITE = (process.env.SITE_BASE || "http://127.0.0.1:3000").replace(/\/+$/, "");
+const WRITE = process.argv.includes("--write");
 
 let failures = 0;
 function check(label, ok, detail = "") {
@@ -74,6 +80,34 @@ const postJson = (path, body) =>
     );
   }
 }
+
+// -- WEB-2 --------------------------------------------------------------------
+{
+  // Refused by validation, which runs before the API's limiter: nothing is
+  // written and no budget is spent. On django it also proves the key: a bad
+  // one is a 401 before validation, which the route answers as 503.
+  const r = await postJson("/api/lead", { name: "", email: "not-an-email" });
+  answeredBy("LEAD", r);
+  check(
+    "lead rejects an invalid body with the form's 422",
+    r.status === 422 && r.body?.error === "Name and a valid email are required.",
+    `${r.status} ${JSON.stringify(r.body)}`
+  );
+}
+if (WRITE) {
+  const r = await postJson("/api/lead", {
+    audience: "operator",
+    source: "reach-out",
+    locale: "en",
+    name: "Site Verify",
+    email: "site-verify@example.com",
+    establishment: "verify-site-routes.mjs",
+    message: "Automated smoke test - safe to delete.",
+  });
+  check("lead is accepted", r.status === 200 && r.body?.ok === true, `${r.status} ${JSON.stringify(r.body)}`);
+}
+
+if (!WRITE) console.log("SKIP write checks (pass --write to run them)");
 
 console.log(failures ? `\n${failures} FAIL` : "\nall PASS");
 process.exit(failures ? 1 : 0);

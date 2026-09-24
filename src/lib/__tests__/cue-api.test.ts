@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CueApiError, CueApiUnavailable, DEFAULT_TIMEOUT_MS, cueApi } from "../cue-api";
+import { CueApiError, CueApiUnavailable, DEFAULT_TIMEOUT_MS, clientIpOf, cueApi } from "../cue-api";
 
 /**
  * The client is a thin wrapper around fetch, so these tests pin the wire
@@ -297,5 +297,42 @@ describe("cueApi failure modes", () => {
     expect(error).toBeInstanceOf(CueApiUnavailable);
     expect((error as Error).message).toMatch(/timed out after 20 ms/);
     expect((error as CueApiUnavailable).status).toBeNull();
+  });
+});
+
+describe("cueApi with a malformed CUE_API_KEY", () => {
+  it.each([
+    ["a line break", "k-ser\nvice"],
+    ["a space inside", "k-ser vice"],
+    ["a non-ASCII character", "k-servicé"],
+  ])("refuses a key with %s before calling out, and never echoes it", async (_label, key) => {
+    vi.stubEnv("CUE_API_KEY", key);
+    const { error } = await call();
+    expect(error).toBeInstanceOf(CueApiUnavailable);
+    expect((error as Error).message).toContain("CUE_API_KEY");
+    expect((error as Error).message).not.toContain("k-ser");
+    expect((error as Error).message).not.toContain("vic");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("still accepts a key whose only stray characters are at the ends (BOM, newline)", async () => {
+    vi.stubEnv("CUE_API_KEY", "\uFEFFk-service\n");
+    fetchMock.mockResolvedValue(json(200, {}));
+    await call();
+    expect((lastInit().headers as Record<string, string>)["X-Cue-Api-Key"]).toBe("k-service");
+  });
+});
+
+describe("clientIpOf", () => {
+  const req = (xff?: string) =>
+    new Request("https://www.cue-app.net/api/lead", xff === undefined ? {} : { headers: { "x-forwarded-for": xff } });
+
+  it("takes the first X-Forwarded-For hop, trimmed", () => {
+    expect(clientIpOf(req(" 198.51.100.4 , 10.0.0.1"))).toBe("198.51.100.4");
+  });
+
+  it("is null when the header is absent or blank, so no X-Cue-Client-Ip is sent", () => {
+    expect(clientIpOf(req())).toBeNull();
+    expect(clientIpOf(req(" "))).toBeNull();
   });
 });

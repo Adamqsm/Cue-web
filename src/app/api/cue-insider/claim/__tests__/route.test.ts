@@ -61,6 +61,7 @@ describe("POST /api/cue-insider/claim on django", () => {
     const headers = sentInit().headers as Record<string, string>;
     expect(headers["X-Cue-Api-Key"]).toBe("k-service");
     expect(headers["X-Cue-Client-Ip"]).toBe("198.51.100.4");
+    expect(res.headers.get("x-cue-backend")).toBe("django");
     // Raw values go through untouched: the API owns trimming and normalisation.
     expect(JSON.parse(String(sentInit().body))).toEqual(form);
     expect(getAdminDb).not.toHaveBeenCalled();
@@ -81,6 +82,13 @@ describe("POST /api/cue-insider/claim on django", () => {
     const body = await (await post(form)).json();
     expect(body).toEqual({ ok: true, status: "duplicate", variant: "email" });
     expect(JSON.stringify(body)).not.toContain("CUE-");
+  });
+
+  it("gives the API longer than its own 8 s + 8 s Cloudflare budget before giving up", async () => {
+    const timeout = vi.spyOn(AbortSignal, "timeout");
+    fetchMock.mockResolvedValue(reply(200, { status: "issued", code: "CUE-AB24-CD37" }));
+    await post(form);
+    expect(timeout).toHaveBeenCalledWith(20_000);
   });
 
   it("maps a failed challenge to the 400 the form resets its widget on", async () => {
@@ -119,6 +127,7 @@ describe("POST /api/cue-insider/claim on django", () => {
     ["an unexpected 400", () => fetchMock.mockResolvedValue(envelope(400, "invalid-argument", "something-else"))],
     ["an unknown 200 status", () => fetchMock.mockResolvedValue(reply(200, { status: "queued" }))],
     ["an issue without a code", () => fetchMock.mockResolvedValue(reply(200, { status: "issued" }))],
+    ["a duplicate without a variant", () => fetchMock.mockResolvedValue(reply(200, { status: "duplicate" }))],
     ["a network failure", () => fetchMock.mockRejectedValue(new TypeError("fetch failed"))],
   ])("fails closed with 503 on %s", async (_label, arrange) => {
     arrange();

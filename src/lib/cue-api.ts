@@ -128,6 +128,16 @@ export async function cueApi<T>(path: string, init: CueApiInit = {}): Promise<T>
   throw new CueApiUnavailable(`${label}: ${res.status} without an error envelope`, res.status);
 }
 
+/**
+ * The visitor's address for X-Cue-Client-Ip: the first X-Forwarded-For hop,
+ * which Vercel overwrites with the real client address (so it cannot be
+ * spoofed from outside). Null when absent; the API then counts the call
+ * against the caller's own address.
+ */
+export function clientIpOf(request: Request): string | null {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
+}
+
 function asEnvelope(data: unknown): CueApiErrorBody | null {
   if (typeof data !== "object" || data === null) return null;
   const d = data as Record<string, unknown>;

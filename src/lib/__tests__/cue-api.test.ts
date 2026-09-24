@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CueApiError, CueApiUnavailable, DEFAULT_TIMEOUT_MS, cueApi } from "../cue-api";
+import { CueApiError, CueApiUnavailable, DEFAULT_TIMEOUT_MS, clientIpOf, cueApi } from "../cue-api";
 
 /**
  * The client is a thin wrapper around fetch, so these tests pin the wire
@@ -297,5 +297,19 @@ describe("cueApi failure modes", () => {
     expect(error).toBeInstanceOf(CueApiUnavailable);
     expect((error as Error).message).toMatch(/timed out after 20 ms/);
     expect((error as CueApiUnavailable).status).toBeNull();
+  });
+});
+
+describe("clientIpOf", () => {
+  const req = (xff?: string) =>
+    new Request("https://www.cue-app.net/api/lead", xff === undefined ? {} : { headers: { "x-forwarded-for": xff } });
+
+  it("takes the first X-Forwarded-For hop, trimmed", () => {
+    expect(clientIpOf(req(" 198.51.100.4 , 10.0.0.1"))).toBe("198.51.100.4");
+  });
+
+  it("is null when the header is absent or blank, so no X-Cue-Client-Ip is sent", () => {
+    expect(clientIpOf(req())).toBeNull();
+    expect(clientIpOf(req(" "))).toBeNull();
   });
 });

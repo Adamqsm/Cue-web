@@ -6,6 +6,8 @@ import type { Locale } from "@/i18n/config";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { cn } from "@/lib/utils";
 import { isValidEmail } from "@/lib/cue-insider/normalize";
+import { claimErrorKey, type ClaimErrorKey } from "@/lib/cue-insider/claim-errors";
+import { isJordanLandline } from "@/lib/phone/landline";
 import { track } from "@/lib/cue-insider/analytics";
 import { getUtmParams } from "@/lib/utm";
 import TurnstileWidget from "@/components/claim/TurnstileWidget";
@@ -48,8 +50,7 @@ export default function ClaimForm({
 }: ClaimFormProps) {
   const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
-  const [errorKey, setErrorKey] =
-    useState<keyof Dictionary["claim"]["form"]["errors"]>("server");
+  const [errorKey, setErrorKey] = useState<ClaimErrorKey>("server");
   const [token, setToken] = useState<string | null>(null);
   // E.164 from the phone widget ("+962…", "+1…"), or undefined while empty.
   const [phone, setPhone] = useState<string | undefined>(undefined);
@@ -91,6 +92,7 @@ export default function ClaimForm({
     if (name.length < 2) return fail("name");
     if (!isValidEmail(email.toLowerCase())) return fail("email");
     if (!phone || !isValidPhoneNumber(phone)) return fail("phone");
+    if (isJordanLandline(phone)) return fail("phoneLandline");
     if (!token) return fail("turnstile");
 
     setStatus("submitting");
@@ -131,22 +133,12 @@ export default function ClaimForm({
       }
 
       track("claim_error", { source, locale });
-      if (res.status === 400 && body?.error === "turnstile") {
+      const key = claimErrorKey(res.status, body);
+      if (key === "turnstile") {
         setToken(null);
         setTurnstileKey((k) => k + 1);
-        return fail("turnstile");
       }
-      if (res.status === 429) return fail("rateLimited");
-      if (res.status === 422 && body?.error === "validation") {
-        const map = {
-          name: "name",
-          email: "email",
-          phone: "phone",
-          "phone-country": "phoneCountry",
-        } as const;
-        return fail(map[body.field as keyof typeof map] ?? "server");
-      }
-      return fail("server");
+      return fail(key);
     } catch {
       track("claim_error", { source, locale });
       return fail("network");

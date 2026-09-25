@@ -137,6 +137,30 @@ if (WRITE) {
     noToken.status === 400 && noToken.body?.error === "turnstile",
     `${noToken.status} ${JSON.stringify(noToken.body)}`
   );
+  // An API with the landline rule (cue-backend #27) refuses a Jordanian
+  // landline before Turnstile. The email stays invalid, so an API without the
+  // rule stops at the challenge (or, DEBUG with no secret, at the email)
+  // instead. EXPECT_LANDLINE_REFUSED=1 makes that older answer a FAIL.
+  const landline = await postJson("/api/cue-insider/claim", {
+    ...claim,
+    email: "not-an-email",
+    phone: "+962 6 500 0000",
+  });
+  const refused =
+    landline.status === 422 &&
+    landline.body?.field === "phone" &&
+    landline.body?.reason === "landline-not-supported";
+  if (refused || process.env.EXPECT_LANDLINE_REFUSED === "1") {
+    check(
+      "claim refuses a Jordanian landline as 422 phone landline-not-supported",
+      refused,
+      `${landline.status} ${JSON.stringify(landline.body)}`
+    );
+  } else {
+    console.log(
+      `SKIP claim landline (this backend does not refuse landlines: ${landline.status} ${JSON.stringify(landline.body)})`
+    );
+  }
 }
 console.log("SKIP claim issue/duplicate (needs a real Turnstile token: submit the form by hand)");
 

@@ -857,6 +857,7 @@ const en = {
         name: "Please enter your name.",
         email: "Please enter a valid email address.",
         phone: "Please enter a valid phone number.",
+        phoneLandline: "Enter a mobile number: landlines aren't accepted.",
         phoneCountry: "We couldn't recognize that country code. Check the number and try again.",
         turnstile: "We couldn't verify you're human. Please retry the check and submit again.",
         rateLimited: "Too many attempts from this connection. Please wait a few minutes and try again.",

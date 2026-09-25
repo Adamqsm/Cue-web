@@ -31,8 +31,8 @@ const CLAIM_FIELDS = [
 /** Which failing field ClaimForm hears about first, in the order it shows them. */
 const FIELD_ORDER = ["name", "email", "phone", "phoneCountry", "locale", "source", "marketingConsent"];
 
-function validationError(field: string) {
-  return NextResponse.json({ ok: false, error: "validation", field }, { status: 422 });
+function validationError(field: string, reason?: string) {
+  return NextResponse.json({ ok: false, error: "validation", field, ...(reason ? { reason } : {}) }, { status: 422 });
 }
 
 /** The API's camelCase field keys, back to the key ClaimForm reads ("phone-country"). */
@@ -79,6 +79,12 @@ async function djangoPOST(request: Request) {
     if (err instanceof CueApiError) {
       if (err.code === "invalid-argument" && err.reason === "turnstile") {
         return NextResponse.json({ ok: false, error: "turnstile" }, { status: 400 });
+      }
+      // A Jordanian landline is a valid number the API refuses on purpose
+      // (Cue asks for a mobile everywhere), so ClaimForm needs the reason, not
+      // just the field, to say that instead of "enter a valid phone number".
+      if (err.code === "validation" && err.reason === "landline-not-supported") {
+        return validationError("phone", err.reason);
       }
       if (err.code === "validation") return validationError(formField(err.fields));
       if (err.code === "too-many-requests") {

@@ -113,6 +113,24 @@ describe("POST /api/cue-insider/claim on django", () => {
     expect(await res.json()).toEqual({ ok: false, error: "validation", field });
   });
 
+  it("keeps the landline reason so the form can ask for a mobile", async () => {
+    fetchMock.mockResolvedValue(
+      envelope(422, "validation", "landline-not-supported", { phone: ["Enter a Jordanian mobile number, not a landline."] })
+    );
+    const res = await post({ ...form, phone: "+962 6 500 0000" });
+    expect(res.status).toBe(422);
+    expect(await res.json()).toEqual({ ok: false, error: "validation", field: "phone", reason: "landline-not-supported" });
+  });
+
+  it.each(["invalid-number", "invalid-length", "phone-required"])(
+    "sends no reason for the %s phone rule, which the generic phone copy covers",
+    async (reason) => {
+      fetchMock.mockResolvedValue(envelope(422, "validation", reason, { phone: ["x"] }));
+      const res = await post(form);
+      expect(await res.json()).toEqual({ ok: false, error: "validation", field: "phone" });
+    }
+  );
+
   it("maps the per-IP 429 onto rate-limited", async () => {
     fetchMock.mockResolvedValue(envelope(429, "too-many-requests", "rate-limited"));
     const res = await post(form);

@@ -1531,6 +1531,88 @@ const en = {
     },
   },
 
+  // ---------------- DELETE ACCOUNT ----------------
+  // The public page Google Play's Data safety form links to. Every fact here
+  // follows the API's delete_account and its RETENTION_* settings
+  // (cue-backend); the periods are Adam's (4 October 2026). "{email}" is
+  // the address, as a link.
+  deleteAccount: {
+    meta: {
+      title: "Delete your Cue account | Cue",
+      description:
+        "How to delete your Cue account in the app or by email, what we delete, what we keep, and how long it takes.",
+    },
+    hero: {
+      eyebrow: "Account deletion",
+      title: "Delete your Cue account.",
+      subtitle:
+        "You can delete your Cue account at any time. Here's how, what we delete, what we keep, and how long it takes.",
+    },
+    updatedValue: "October 2026",
+    email: "info@cue-app.net",
+    app: {
+      h: "In the app",
+      steps: [
+        "Open the Cue app and sign in.",
+        "Go to the “Profile” tab.",
+        "Tap “Delete account”, below “Sign out”.",
+        "Tap “Delete” to confirm.",
+      ],
+      notes: [
+        "Your account is deleted straight away and you're signed out on every device. This can't be undone.",
+        "If you own a venue on Cue, the app can't delete your account until the venue is transferred or closed. Email {email} and we'll help.",
+      ],
+    },
+    byEmail: {
+      h: "Without the app",
+      body: "Can't use the app, for example because you no longer have your phone? Email {email} and we'll delete the account for you.",
+      subject: "Delete my Cue account",
+      button: "Email a deletion request",
+      includeLabel: "In your email, tell us:",
+      include: [
+        "The email address or mobile number on your account.",
+        "That you want the account deleted.",
+      ],
+      verify:
+        "To protect your account, we'll ask you to confirm that it's yours before we delete it. We'll email you once it's done.",
+    },
+    deleted: {
+      h: "What we delete",
+      list: [
+        "Your name, email address and mobile number.",
+        "Your password, and any Google or Apple sign-in linked to the account.",
+        "Your profile photo.",
+        "Your saved venues and your notification history.",
+        "Your devices' notification tokens, so we can't send you notifications again.",
+        "Your roles on venue teams, and any open team invitations.",
+        "Every signed-in session, on every device.",
+      ],
+    },
+    kept: {
+      h: "What we keep",
+      intro: "Some records stay after the account is deleted:",
+      list: [
+        "Your past bookings stay with the venues as their record of the reservations, including the guest name and phone given on each booking. We remove that name and phone 24 months after the reservation date.",
+        "A closed-account record: an internal number, the account type, and the dates the account was opened and closed. It holds no name, email address or mobile number. Kept for 12 months after the account is closed.",
+        "Records of the text message codes we sent to your number: the number, when each code was sent, how many tries were made, and a one-way hash of the IP address that asked for it. Kept for 30 days.",
+        "Copies of the emails we sent you, deleted 90 days after sending.",
+        "Our database backups, which are replaced within 30 days.",
+      ],
+      erase:
+        "You can ask us to erase what's left, including the name and phone on your bookings, by emailing {email}.",
+    },
+    timing: {
+      h: "How long it takes",
+      list: [
+        "In the app: straight away.",
+        "By email: within 30 days of you confirming the account is yours.",
+        "Records we keep: removed on the schedule above.",
+      ],
+    },
+    privacyNote: "More on how we handle personal data is in our",
+    privacyLink: "Privacy Policy",
+  },
+
   // ---------------- FOOTER ----------------
   footer: {
     tagline: "Simple for guests, structured for operators.",
@@ -1567,6 +1649,7 @@ const en = {
           { href: "/legal/cookies", label: "Cookie Policy" },
           { href: "/legal/dpa", label: "DPA" },
           { href: "/legal/notice", label: "Legal Notice" },
+          { href: "/delete-account", label: "Delete your account" },
         ],
       },
     ],

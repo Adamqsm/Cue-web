@@ -20,11 +20,19 @@ type ConsentContent = {
 type PolicyLink = { href: string; title: string };
 
 /**
+ * Pages readable without consenting: the policies themselves, and how to
+ * delete an account (nobody should have to accept cookies to find that).
+ */
+export function isUngatedPath(pathname: string): boolean {
+  return /^\/[a-z]{2}(-[A-Za-z]{2})?\/(legal|delete-account)(\/|$)/.test(pathname);
+}
+
+/**
  * First-visit consent gate: blocks interaction until accepted.
  * - Renders nothing on the server and nothing until the client has checked
  *   localStorage — crawlers and no-JS visitors always get the full,
  *   un-obscured page (SEO-safe).
- * - Never gates /legal/* — the policies must be readable BEFORE consenting.
+ * - Never gates /legal/* or /delete-account (see isUngatedPath).
  * - Receives only the strings it needs (not the whole dictionary) to keep
  *   the serialized client payload tiny.
  */
@@ -41,7 +49,7 @@ export default function ConsentBanner({
   const dialogRef = useRef<HTMLDivElement>(null);
   const acceptRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
-  const isLegal = /^\/[a-z]{2}(-[A-Za-z]{2})?\/legal(\/|$)/.test(pathname ?? "");
+  const isLegal = isUngatedPath(pathname ?? "");
 
   useEffect(() => {
     if (isLegal) return;

@@ -19,11 +19,12 @@ const routes: Record<string, [number, MetadataRoute.Sitemap[number]["changeFrequ
   "/legal/cookies": [0.3, "yearly"],
   "/legal/dpa": [0.3, "yearly"],
   "/legal/notice": [0.3, "yearly"],
+  "/delete-account": [0.3, "yearly"],
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // No lastModified: it would be the build timestamp, which re-stamps all 30
-  // URLs as "changed" on every deploy — a signal Google learns to distrust.
+  // No lastModified: it would be the build timestamp, which re-stamps every
+  // URL as "changed" on every deploy — a signal Google learns to distrust.
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of locales) {
     for (const [path, [priority, changeFrequency]] of Object.entries(routes)) {

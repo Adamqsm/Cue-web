@@ -21,6 +21,7 @@ export default function LegalDoc({
     title: string;
     intro: string;
     sections: LegalSection[];
+    updatedValue?: string;
   };
   const common = dict.legal.common;
   const docs = dict.legal.index.docs;
@@ -76,7 +77,7 @@ export default function LegalDoc({
           <article className="max-w-[70ch]">
             <Reveal>
               <p className="text-sm text-muted">
-                {common.lastUpdated}: {common.updatedValue}
+                {common.lastUpdated}: {doc.updatedValue ?? common.updatedValue}
               </p>
               <h1 className="mt-2 text-4xl text-content sm:text-5xl">
                 {doc.title}

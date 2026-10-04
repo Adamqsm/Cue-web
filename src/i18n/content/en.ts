@@ -1189,6 +1189,8 @@ const en = {
     // Documents: each has title, intro, and sections [{h, p?[], list?[]}]
     terms: {
       title: "Terms of Service",
+      // Overrides legal.common.updatedValue for this document only.
+      updatedValue: "October 2026",
       intro:
         "These Terms and Conditions (“Terms”) govern access to and use of the Cue mobile application, website, and related services (“Cue” or the “Service”). By creating an account, accessing the platform, or submitting a reservation, the user (“User”) agrees to be legally bound by these Terms. The Service is operated under the trading name “Cue.” If the User does not agree to these Terms, the User must not access or use Cue.",
       sections: [
@@ -1204,7 +1206,7 @@ const en = {
           h: "2. Eligibility",
           list: [
             "The User must be at least 18 years old to create an account or make reservations.",
-            "Users under 18 must obtain consent from a parent or legal guardian.",
+            "Cue is not available to anyone under 18, with or without the consent of a parent or legal guardian.",
             "Cue may refuse access or terminate accounts that violate eligibility requirements.",
           ],
         },

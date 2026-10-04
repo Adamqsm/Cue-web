@@ -4,6 +4,7 @@ import en from "../content/en";
 import ar from "../content/ar";
 import DeleteAccountPage from "@/app/[locale]/delete-account/page";
 import sitemap from "@/app/sitemap";
+import { isUngatedPath } from "@/components/ConsentBanner";
 
 /**
  * Google Play needs a public deletion page that names a way to ask without
@@ -46,6 +47,14 @@ describe("/delete-account", () => {
   it("marks the same number of unconfirmed periods in both languages", () => {
     expect(markers(en.deleteAccount)).toBeGreaterThan(0);
     expect(markers(ar.deleteAccount)).toBe(markers(en.deleteAccount));
+  });
+
+  it("is readable without accepting the consent banner", () => {
+    expect(isUngatedPath("/en/delete-account")).toBe(true);
+    expect(isUngatedPath("/ar/delete-account")).toBe(true);
+    expect(isUngatedPath("/en/legal/privacy")).toBe(true);
+    expect(isUngatedPath("/en/delete-account-now")).toBe(false);
+    expect(isUngatedPath("/en/claim")).toBe(false);
   });
 
   it("is in the sitemap in both languages", () => {

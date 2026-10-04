@@ -1,9 +1,10 @@
 # Privacy Policy: proposed updates (draft for counsel)
 
-Draft 1, 4 October 2026. **Not published.** Nothing in this file is on the website: the live page
+Draft 2, 4 October 2026. **Not published.** Nothing in this file is on the website: the live page
 `/en/legal/privacy` and `/ar/legal/privacy` (text in `src/i18n/content/en.ts` and `ar.ts`, key
 `legal.privacy`) is unchanged. Every item marked **TO CONFIRM** needs a decision by Adam Qasem or
-by counsel before any of this is published.
+by counsel before any of this is published. Draft 2 carries Adam's decisions of 4 October 2026:
+the retention periods in section 5 marked "Decided" and the privacy address info@cue-app.net.
 
 Prepared from the code as it stands on 4 October 2026: Cue-web `main` eab4189 plus the
 delete-account page (PR "Add the public /delete-account page"), cue-backend `main` cbb0a17 and
@@ -33,7 +34,7 @@ policies, means two documents to keep in step and two sets of store links.
 | 6. Your Rights | "contact us using the details in our Legal Notice" | The Legal Notice gives no address, only the Get Started form. |
 | (missing) | | No section on **deleting an account**, which both app stores require the policy to explain. |
 | 7. Cross-Border Transfers | General statement | Hosting is in Frankfurt **[TO CONFIRM]**; most processors are in the United States or the EU. No transfer mechanism is named. |
-| 8. Children | "intended for users aged 18 and over. We do not knowingly collect data from children without appropriate consent." | "Without appropriate consent" implies a minor may use Cue with a parent's consent. The Terms now say 18 and over with no exception (section 2 of the Terms, changed in the same PR as this draft). |
+| 8. Children | "intended for users aged 18 and over. We do not knowingly collect data from children without appropriate consent." | **Must be rewritten to 18 and over only** (proposed text: section 12 below). "Without appropriate consent" implies a minor may use Cue with a parent's consent. The Terms now say 18 and over with no exception (section 2 of the Terms, changed in the same PR as this draft), so the two published documents disagree from the moment the Terms change goes live. |
 | (whole policy) | "Cue", "we" | The controller is not named (Adam Qasem trading as Cue, or ADAM QASEM PORTAL L.L.C: **TO CONFIRM**). |
 
 ## 2. Proposed replacement text (English)
@@ -46,7 +47,7 @@ numbering.
 Cue is a restaurant reservation service for Amman, Jordan, provided through the Cue mobile app and
 the website www.cue-app.net. In this policy "Cue", "we" and "us" mean **[controller: TO CONFIRM]**,
 which decides how your personal data is used. Privacy questions and requests:
-**[info@cue-app.net: TO CONFIRM]**.
+**info@cue-app.net**.
 
 ### 2. The data we collect
 
@@ -97,7 +98,7 @@ your mobile number and your language and tells us whether the code you entered i
 does not store the code. For each code we keep the number, when the code was requested, how many
 attempts were made, whether it was used, and a salted one-way hash of the IP address that asked for
 it, so that we can limit repeated requests. Codes expire after five minutes and allow five
-attempts. These records are kept for **[TO CONFIRM; no period is set today]**.
+attempts. These records are kept for **30 days**.
 
 ### 5. Push notifications
 
@@ -134,28 +135,30 @@ leaves Jordan, we rely on **[transfer mechanism: TO CONFIRM]**.
 
 ### 9. How long we keep data
 
-The table in section 5 of this draft. Every period is **TO CONFIRM**.
+The table in section 5 of this draft, with this sentence on backups: deleting your account or
+asking us to erase data does not change backups already taken. Our encrypted backups, kept off our
+servers, may still hold erased data for **up to 30 days**, after which they expire.
 
 ### 10. Deleting your account
 
 You can delete your account at any time in the app: open the **Profile** tab and tap **Delete
 account**. Deletion takes effect at once and signs you out on every device. If you can't use the
-app, email **[info@cue-app.net: TO CONFIRM]** and we will delete it for you after confirming the
-account is yours, within **[30 days: TO CONFIRM]**. Full details, including what we delete and what
+app, email **info@cue-app.net** and we will delete it for you within **30 days** of confirming the
+account is yours. Full details, including what we delete and what
 we keep, are at **www.cue-app.net/en/delete-account**.
 
 When an account is deleted we remove its name, email address, mobile number, password, profile
-photo, Google and Apple sign-in links, push tokens, venue team roles and invitations, and end every
-session. Bookings stay with the venues as their record, including the guest name and phone given on
-each booking, which are removed **[24 months after the reservation time: TO CONFIRM]**. You can ask
-us to erase what remains. **[TO CONFIRM: saved venues and the notifications list are also removed;
-today they are kept (see section 6, item 2).]**
+photo, Google and Apple sign-in links, saved venues, notifications list, push tokens, venue team
+roles and invitations, and end every session. Bookings stay with the venues as their record,
+including the guest name and phone given on each booking, which are removed **24 months after the
+reservation time**. You can ask us to erase what remains.
 
 ### 11. Your rights
 
 Subject to the applicable law, you may ask for a copy of your personal data, and ask us to correct
 or delete it, restrict or object to its use, or withdraw consent where we rely on it. Write to
-**[info@cue-app.net: TO CONFIRM]**. We answer within **[TO CONFIRM]** days. You may also complain to
+**info@cue-app.net**. We answer within **[TO CONFIRM]** days (account deletion requests: 30 days,
+section 10). You may also complain to
 **[the competent data protection authority: TO CONFIRM]**.
 
 ### 12. Children
@@ -198,46 +201,46 @@ builds set it, and Sentry's retention period.
 2. **Cloudflare Turnstile** and **Vercel** are not mentioned anywhere in the published policy
    (section 3 table above).
 3. **Legal Notice, section 2 (Contact)** sends legal and privacy matters to the Get Started form.
-   Once a privacy address is chosen, it should appear there too.
+   The privacy address, info@cue-app.net, should appear there too.
 4. When the new policy is published, bump `CONSENT_VERSION` in `src/components/ConsentBanner.tsx`
    so returning visitors see the banner again (its comment asks for this on a substantive change).
 
-## 5. Retention periods (all TO CONFIRM)
+## 5. Retention periods
 
-Periods marked "in code" are the `RETENTION_*` settings in cue-backend
-`cue_api/settings/base.py`, enforced nightly at 04:30 Amman by `core.retention_sweep`. They are
-defaults nobody has confirmed. The sweep first removes something around 28 December 2026 (mail rows
-at 90 days), so these need confirming before then.
+"Decided" = Adam's decision of 4 October 2026. "In code" = the `RETENTION_*` settings in cue-backend
+`cue_api/settings/base.py`, enforced nightly at 04:30 Amman by `core.retention_sweep`. A decided
+period not in code is a commitment the API does not enforce yet (cue-backend `main` cbb0a17). The
+other periods are code defaults, still **TO CONFIRM**.
 
 | Data | Period | Source |
 | --- | --- | --- |
 | Account data | Until the account is deleted | Behaviour of the API |
-| Deleted-account record (internal number, role, dates; no name, email or phone) | None set | |
-| Guest name and phone on a booking | 24 months after the reservation time | In code |
+| Deleted-account record (internal number, role, dates; no name, email or phone) | 12 months after the account is closed | Decided; not in code yet |
+| Guest name and phone on a booking | 24 months after the reservation time | Decided; in code |
 | Other booking details, special requests, status history | None set | |
-| Saved venues, notifications list | None set; kept after deletion today | |
-| Text message verification records | None set | |
+| Saved venues, notifications list | Deleted when the account is deleted | Decided; cue-backend PR #44 (open; kept after deletion until it is deployed) |
+| Text message verification records | 30 days | Decided; not in code yet |
 | Push tokens | Until sign-out, deletion, or the token stops working | Behaviour of the API |
-| Copies of emails sent | 90 days after sending | In code |
+| Copies of emails sent | 90 days after sending | Decided; in code |
 | Cue Insider claims | Unredeemed: anonymised 24 months after issue. Redeemed: name and phone removed 12 months after the entitlement ends | In code |
 | Website contact and waitlist submissions (leads) | Anonymised 12 months after arrival | In code |
 | Rejected partner applications | Files removed after 6 months, contact details after 12 | In code |
-| Database backups | 7 days | Backup job |
+| Database backups | 7 days on the server; encrypted off-host copies up to 30 days, holding erased data until they expire | Decided (30 days). The backup job keeps 7 days today; off-host copies are cue-backend PR #47 (open) |
 | Server logs | Rotated by size, normally a few days | Server configuration |
 | Error and crash reports (Sentry) | Sentry's retention | **TO CONFIRM** |
 
 ## 6. Open points for Adam and counsel
 
-1. **Controller** and **privacy contact address**. The delete-account page uses info@cue-app.net
-   (Adam's instruction, 4 October 2026); the app notice draft has support@cue-app.net. Pick one and
-   use it everywhere.
-2. **Saved venues and notifications survive deletion** (bug B1). The app's deletion dialog says
-   saved venues are removed. Either the API deletes them at deletion (recommended) or the dialog,
-   the delete-account page and this policy say they are kept.
+1. **Controller**. The **privacy contact address** is decided: info@cue-app.net everywhere (Adam,
+   4 October 2026). The app notice draft in cue-app still names another address and must change.
+2. **Saved venues and notifications** are deleted with the account (decided). The API does this in
+   cue-backend PR #44 (bug B1), not yet deployed; until it is, they survive deletion.
 3. **Sign in with Apple token revocation** at deletion is not implemented (bug B2, register item
    R5). The policy should not promise it until it is.
-4. **Email deletion requests**: the proposed answer time (30 days) and how the account holder
-   proves the account is theirs.
+4. **Email deletion requests**: answered within 30 days (decided). Still open: how the account
+   holder proves the account is theirs.
 5. **Legal bases**, **transfer mechanism**, **supervisory authority**, and whether laws beyond
    Jordan's PDPL apply (UAE entity, EU visitors).
-6. Every period in section 5.
+6. The periods in section 5 not marked "Decided".
+7. **Children** (published section 8) must be rewritten to 18 and over only, with no consent
+   route, to match the Terms. The proposed text is section 12.

@@ -1534,9 +1534,8 @@ const en = {
   // ---------------- DELETE ACCOUNT ----------------
   // The public page Google Play's Data safety form links to. Every fact here
   // follows the API's delete_account and its RETENTION_* settings
-  // (cue-backend). "[[...]]" marks a period or promise Adam has not
-  // confirmed: the page renders it with a "To confirm" badge. Drop the
-  // brackets once it is confirmed. "{email}" is the address, as a link.
+  // (cue-backend); the periods are Adam's (4 October 2026). "{email}" is
+  // the address, as a link.
   deleteAccount: {
     meta: {
       title: "Delete your Cue account | Cue",
@@ -1550,7 +1549,6 @@ const en = {
         "You can delete your Cue account at any time. Here's how, what we delete, what we keep, and how long it takes.",
     },
     updatedValue: "October 2026",
-    tbc: "To confirm",
     email: "info@cue-app.net",
     app: {
       h: "In the app",
@@ -1584,6 +1582,7 @@ const en = {
         "Your name, email address and mobile number.",
         "Your password, and any Google or Apple sign-in linked to the account.",
         "Your profile photo.",
+        "Your saved venues and your notification history.",
         "Your devices' notification tokens, so we can't send you notifications again.",
         "Your roles on venue teams, and any open team invitations.",
         "Every signed-in session, on every device.",
@@ -1593,12 +1592,11 @@ const en = {
       h: "What we keep",
       intro: "Some records stay after the account is deleted:",
       list: [
-        "Your past bookings stay with the venues as their record of the reservations, including the guest name and phone given on each booking. We remove that name and phone [[24 months after the reservation date]].",
-        "Your saved venues and your notification history, no longer linked to your name or contact details. Kept for [[a period not yet set]].",
-        "A closed-account record: an internal number, the account type, and the dates the account was opened and closed. It holds no name, email address or mobile number. Kept for [[a period not yet set]].",
-        "Records of the text message codes we sent to your number: the number, when each code was sent, how many tries were made, and a one-way hash of the IP address that asked for it. Kept for [[a period not yet set]].",
-        "Copies of the emails we sent you, deleted [[90 days after sending]].",
-        "Our database backups, which are replaced within [[7 days]].",
+        "Your past bookings stay with the venues as their record of the reservations, including the guest name and phone given on each booking. We remove that name and phone 24 months after the reservation date.",
+        "A closed-account record: an internal number, the account type, and the dates the account was opened and closed. It holds no name, email address or mobile number. Kept for 12 months after the account is closed.",
+        "Records of the text message codes we sent to your number: the number, when each code was sent, how many tries were made, and a one-way hash of the IP address that asked for it. Kept for 30 days.",
+        "Copies of the emails we sent you, deleted 90 days after sending.",
+        "Our database backups, which are replaced within 30 days.",
       ],
       erase:
         "You can ask us to erase what's left, including the name and phone on your bookings, by emailing {email}.",
@@ -1607,7 +1605,7 @@ const en = {
       h: "How long it takes",
       list: [
         "In the app: straight away.",
-        "By email: within [[30 days]] of you confirming the account is yours.",
+        "By email: within 30 days of you confirming the account is yours.",
         "Records we keep: removed on the schedule above.",
       ],
     },

@@ -9,18 +9,14 @@ import { isUngatedPath } from "@/components/ConsentBanner";
 /**
  * Google Play needs a public deletion page that names a way to ask without
  * the app. These pin that page: both locales link the deletion inbox, every
- * unconfirmed "[[...]]" period renders with its badge (and Arabic marks the
- * same number as English), and the footer and sitemap point at it.
+ * period is confirmed (no placeholder badge is left), and the footer and
+ * sitemap point at it.
  */
 
 const locales = [
   ["en", en],
   ["ar", ar],
 ] as const;
-
-const badges = (html: string) => html.match(/class="tag-placeholder/g)?.length ?? 0;
-const markers = (d: typeof en.deleteAccount) =>
-  JSON.stringify(d).match(/\[\[/g)?.length ?? 0;
 
 describe("/delete-account", () => {
   for (const [locale, dict] of locales) {
@@ -33,8 +29,8 @@ describe("/delete-account", () => {
       expect(html).toContain('href="mailto:info@cue-app.net"');
     });
 
-    it(`${locale}: renders every unconfirmed period with a badge`, () => {
-      expect(badges(html)).toBe(markers(dict.deleteAccount));
+    it(`${locale}: shows no placeholder badge and no unfilled slot`, () => {
+      expect(html).not.toContain("tag-placeholder");
       expect(html).not.toMatch(/\[\[|\]\]|\{email\}/);
     });
 
@@ -43,11 +39,6 @@ describe("/delete-account", () => {
       expect(links).toContain("/delete-account");
     });
   }
-
-  it("marks the same number of unconfirmed periods in both languages", () => {
-    expect(markers(en.deleteAccount)).toBeGreaterThan(0);
-    expect(markers(ar.deleteAccount)).toBe(markers(en.deleteAccount));
-  });
 
   it("is readable without accepting the consent banner", () => {
     expect(isUngatedPath("/en/delete-account")).toBe(true);

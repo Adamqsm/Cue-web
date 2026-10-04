@@ -27,11 +27,10 @@ export async function generateMetadata({
 }
 
 /**
- * Dictionary text with two slots: "{email}" becomes the address as a mailto
- * link (dir="ltr" keeps a trailing full stop in place in Arabic), and
- * "[[...]]" an unconfirmed period, shown with the site's placeholder badge.
+ * Dictionary text whose "{email}" slot becomes the address as a mailto link
+ * (dir="ltr" keeps a trailing full stop in place in Arabic).
  */
-function rich(text: string, email: string, tbc: string): ReactNode[] {
+function rich(text: string, email: string): ReactNode[] {
   return text.split("{email}").flatMap((chunk, i) => [
     ...(i > 0
       ? [
@@ -45,16 +44,7 @@ function rich(text: string, email: string, tbc: string): ReactNode[] {
           </a>,
         ]
       : []),
-    ...chunk.split(/\[\[(.+?)\]\]/).map((part, j) =>
-      j % 2 ? (
-        <span key={`${i}-${j}`} className="font-semibold text-content">
-          {part}{" "}
-          <span className="tag-placeholder px-2 py-0.5 align-middle">{tbc}</span>
-        </span>
-      ) : (
-        part
-      )
-    ),
+    chunk,
   ]);
 }
 
@@ -75,7 +65,7 @@ export default function DeleteAccountPage({ params }: { params: { locale: string
   const locale = (isLocale(params.locale) ? params.locale : "en") as Locale;
   const dict = getDictionary(locale);
   const d = dict.deleteAccount;
-  const r = (t: string) => rich(t, d.email, d.tbc);
+  const r = (t: string) => rich(t, d.email);
   const mailto = `mailto:${d.email}?subject=${encodeURIComponent(d.byEmail.subject)}`;
 
   return (

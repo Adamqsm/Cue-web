@@ -69,7 +69,15 @@ export default function Footer({
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
             <span>{f.rights}</span>
             <span className="hidden text-muted/50 sm:inline">·</span>
-            <span>{f.ownedBy}</span>
+            <span>
+              <a
+                href={f.ownedByHref}
+                rel="noopener"
+                className="transition-colors duration-200 hover:text-content"
+              >
+                {f.ownedBy}
+              </a>
+            </span>
           </div>
           <div className="flex items-center gap-4">
             {f.social.map((s) => (

@@ -1525,6 +1525,8 @@ const ar: Dictionary = {
   },
 
   // ---------------- DELETE ACCOUNT ----------------
+  // Native-reviewed 2026-10-05, approved with no changes (docs/arabic-review.md).
+  // Any edit to this section needs a new native review.
   deleteAccount: {
     meta: {
       title: "حذف حسابك في Cue | Cue",
@@ -1651,7 +1653,9 @@ const ar: Dictionary = {
       },
     ],
     rights: "© 2026 Cue. جميع الحقوق محفوظة.",
-    ownedBy: "شركة تابعة لـ Qasem Portal.",
+    // "Qasem Portal" stays in Latin script: it is the brand name.
+    ownedBy: "إحدى شركات Qasem Portal",
+    ownedByHref: "https://qasem-portal.com",
   },
 };
 

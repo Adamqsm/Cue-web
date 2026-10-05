@@ -34,6 +34,15 @@ describe("/delete-account", () => {
       expect(html).not.toMatch(/\[\[|\]\]|\{email\}/);
     });
 
+    it(`${locale}: keeps text message and email code records for 30 days`, () => {
+      const kept = dict.deleteAccount.kept.list;
+      const sms = kept.findIndex((li) => li.includes(locale === "en" ? "text message codes" : "رموز الرسائل النصية"));
+      const mail = kept.findIndex((li) => li.includes(locale === "en" ? "email codes" : "رموز البريد الإلكتروني"));
+      expect(sms).toBeGreaterThanOrEqual(0);
+      expect(mail).toBe(sms + 1);
+      expect(kept[mail]).toContain(locale === "en" ? "30 days" : "30 يوماً");
+    });
+
     it(`${locale}: is linked from the footer`, () => {
       const links = dict.footer.columns.flatMap((c) => c.links.map((l) => l.href));
       expect(links).toContain("/delete-account");

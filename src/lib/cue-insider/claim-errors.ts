@@ -12,8 +12,8 @@ const FIELD_ERRORS = new Map<unknown, ClaimErrorKey>([
 
 /**
  * Which error ClaimForm shows for a failed POST /api/cue-insider/claim (the
- * shapes that route answers on either backend). "turnstile" also tells the
- * form to reset its widget.
+ * shapes that route answers). "turnstile" also tells the form to reset its
+ * widget.
  */
 export function claimErrorKey(status: number, body: unknown): ClaimErrorKey {
   const b = (body && typeof body === "object" ? body : {}) as { error?: unknown; field?: unknown; reason?: unknown };

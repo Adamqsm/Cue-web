@@ -9,7 +9,7 @@ import LocaleLink from "@/components/ui/LocaleLink";
 /**
  * The queue counter — how many people are already in.
  *
- * DATA SOURCE: /api/waitlist-count, the live cueInsiderClaims total plus the
+ * DATA SOURCE: /api/waitlist-count, the Cue API's live claim total plus the
  * server-side offset, fetched fresh on every page load (no-store on both the
  * response and the request, so neither the CDN nor the browser can serve a
  * stale number). Until the fetch resolves the ticket shows a same-size

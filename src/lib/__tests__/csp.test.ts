@@ -8,9 +8,9 @@ async function connectSrc(): Promise<string[]> {
   return directive.split(/\s+/).slice(1);
 }
 
-// The partner form uploads straight from the browser to the API on the Django
-// backend; without these origins the browser refuses the request before it
-// leaves the page (live www.cue-app.net, 2026-09-24: connect-src violation).
+// The partner form uploads straight from the browser to the API; without
+// these origins the browser refuses the request before it leaves the page
+// (live www.cue-app.net, 2026-09-24: connect-src violation).
 describe("CSP connect-src", () => {
   it("allows both Cue API origins", async () => {
     expect(await connectSrc()).toEqual(

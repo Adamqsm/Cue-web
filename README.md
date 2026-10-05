@@ -83,7 +83,8 @@ uploads its files straight to the API with the ticket it gets back),
 `/api/cue-insider/event` and `/api/waitlist-count`. The API owns validation,
 per-IP rate limits, storage and notification email; the routes forward the
 visitor's address and map the answer onto the shapes the forms read. With
-`CUE_API_BASE_URL` / `CUE_API_KEY` unset, every route fails closed with a 503.
+`CUE_API_BASE_URL` unset or `CUE_API_KEY` wrong, the form routes fail closed
+with a 503; the event beacon still answers 204 and drops the event.
 
 `node scripts/verify-site-routes.mjs` (with `SITE_BASE`) smoke-tests the routes
 on a running site without storing anything; `--write` adds checks that do.

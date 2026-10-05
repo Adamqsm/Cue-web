@@ -2,7 +2,9 @@
 
 Status: v1 · 2026-07-30 · owner: web/backend
 Audience: Flutter team implementing claim-code redemption at app launch.
-Source of truth for the algorithm: `src/lib/cue-insider/code.ts` (Cue-web). This document restates it exactly; if they ever disagree, the TypeScript module wins and this doc must be fixed.
+Source of truth for the algorithm: `apps/insider/codes.py` in cue-backend (it was `src/lib/cue-insider/code.ts` here until WEB-5 moved code issuing to the API). This document restates it exactly; if they ever disagree, the backend module wins and this doc must be fixed.
+
+> **Superseded in part (WEB-5, 2026-10):** codes are issued and redeemed by the Cue API (`POST /insider/claims`, `POST /insider/redeem`; see cue-backend `docs/api-contract.md`). §4 (the Firebase callable) and §5 (Firestore facts) describe the retired Firebase stack and are kept for history only. §1–§3 and §6 still hold.
 
 ---
 
@@ -14,7 +16,7 @@ CUE-XXXX-XXXX
 
 - Display form: `CUE-` prefix + two groups of 4, uppercase, hyphen-separated.
 - The **body** is the 8 characters after the prefix. The first 7 are random payload; the 8th is a checksum character.
-- Canonical storage form (Firestore `cueInsiderClaims.code`) is the full display form `CUE-XXXX-XXXX`.
+- Canonical storage form (the claim's stored `code`) is the full display form `CUE-XXXX-XXXX`.
 
 ### Alphabet (29 characters — index order is load-bearing)
 
@@ -149,4 +151,4 @@ Invalid:
 
 > **Correction 2026-07-31:** the vectors originally published here (`CUE-AAAA-AAAG`, `CUE-BBBB-BBBN`, `2346789Y` as valid; `CUE-AAAA-AAAA` as invalid) did **not** match the reference implementation — per §2, `checksumChar("AAAAAAA") = A`, `checksumChar("BBBBBBB") = 3`, `checksumChar("2346789") = 3`. Per the header rule ("the TypeScript module wins"), the tables above were regenerated from `code.ts` and verified independently by the Functions port (`cue-app/functions/test-cue-insider-core.mjs`).
 
-(The web test suite regenerates these vectors from `code.ts` — see `src/lib/cue-insider/__tests__/code.test.ts`.)
+(cue-backend's `tests/insider/test_codes.py` checks these vectors against `apps/insider/codes.py`. Until WEB-5 the web suite did the same against `code.ts`.)

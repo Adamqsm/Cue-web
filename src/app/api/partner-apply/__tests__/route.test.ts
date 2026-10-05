@@ -1,8 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { getAdminDb } = vi.hoisted(() => ({ getAdminDb: vi.fn() }));
-vi.mock("@/lib/firebase-admin", () => ({ getAdminDb }));
-
 import { POST } from "../route";
 
 const fetchMock = vi.fn();
@@ -11,7 +8,7 @@ const hours = Object.fromEntries(
   ["sun", "mon", "tue", "wed", "thu", "fri", "sat"].map((d) => [d, { open: "12:00", close: "23:00", closed: false }])
 );
 
-/** What ApplyForm sends on the Django flow. */
+/** What ApplyForm sends. */
 const application = {
   locale: "en",
   name: { en: "Beit Sitti" },
@@ -61,7 +58,6 @@ const sentInit = () => fetchMock.mock.calls[0][1] as RequestInit;
 
 beforeEach(() => {
   fetchMock.mockReset();
-  getAdminDb.mockReset();
   vi.stubGlobal("fetch", fetchMock);
   vi.stubEnv("CUE_API_BASE_URL", "https://api.example.test/api/v1");
   vi.stubEnv("CUE_API_KEY", "k-service");
@@ -75,9 +71,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("POST /api/partner-apply on django", () => {
-  beforeEach(() => vi.stubEnv("CUE_BACKEND_PARTNER", "django"));
-
+describe("POST /api/partner-apply", () => {
   it("forwards the contract fields with the key and visitor IP, and hands the browser its upload ticket", async () => {
     fetchMock.mockResolvedValue(reply(201, created));
     const res = await post({
@@ -99,8 +93,15 @@ describe("POST /api/partner-apply on django", () => {
     expect(headers["X-Cue-Client-Ip"]).toBe("198.51.100.4");
     // Server-owned keys never reach the API.
     expect(JSON.parse(String(sentInit().body))).toEqual(application);
-    expect(res.headers.get("x-cue-backend")).toBe("django");
-    expect(getAdminDb).not.toHaveBeenCalled();
+  });
+
+  it("ignores a leftover CUE_BACKEND pin: the API is the only backend", async () => {
+    vi.stubEnv("CUE_BACKEND", "firebase");
+    vi.stubEnv("CUE_BACKEND_PARTNER", "firebase");
+    fetchMock.mockResolvedValue(reply(201, created));
+    const res = await post(application);
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("maps a 422 onto {error, field} from the first failing field", async () => {
@@ -122,16 +123,15 @@ describe("POST /api/partner-apply on django", () => {
     });
   });
 
-  it("hands a page built before the flip (files already in Firebase Storage) to the Firebase handler", async () => {
+  it("files a Firebase-era body (Storage paths named) on the API like any other, without the paths", async () => {
+    fetchMock.mockResolvedValue(reply(201, created));
     const res = await post({
       ...application,
       menuPath: `partner-applications/${application.applicationId}/menu.pdf`,
-      photoPaths: [],
+      photoPaths: [`partner-applications/${application.applicationId}/photos/photo-1.jpg`],
     });
-    expect(fetchMock).not.toHaveBeenCalled();
-    expect(getAdminDb).toHaveBeenCalled();
-    // The mocked Admin SDK cannot count, so Firebase fails closed: proof it ran.
-    expect(res.status).toBe(503);
+    expect(res.status).toBe(200);
+    expect(JSON.parse(String(sentInit().body))).toEqual(application);
   });
 
   it("maps a 422 without fields onto a generic message", async () => {
@@ -174,15 +174,6 @@ describe("POST /api/partner-apply on django", () => {
     const res = await post(raw);
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({ ok: false, error: "Invalid JSON" });
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-});
-
-describe("POST /api/partner-apply with the flag unset", () => {
-  it("stays on the Firebase handler and never calls the API", async () => {
-    const res = await post({ ...application, applicationId: "not-an-id" });
-    expect(res.status).toBe(422);
-    expect(await res.json()).toMatchObject({ ok: false, field: "applicationId" });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });

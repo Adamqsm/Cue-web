@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server";
-import { answerFrom } from "@/lib/backend-flag";
 import { cueApi } from "@/lib/cue-api";
-import { POST as firebasePOST } from "./route.firebase";
 
 export const runtime = "nodejs";
-
-export async function POST(request: Request) {
-  return answerFrom("event", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
-}
 
 /**
  * Claim-funnel beacon: always 204, whatever happens. The event is forwarded
@@ -20,7 +14,7 @@ export async function POST(request: Request) {
  * so a smoke check can catch a wrong CUE_API_KEY that the 204 hides. The
  * beacon ignores response headers; the reason stays in the server log.
  */
-async function djangoPOST(request: Request) {
+export async function POST(request: Request) {
   let outcome = "dropped";
   try {
     const body = (await request.json()) as {

@@ -1,13 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { statSet } = vi.hoisted(() => ({ statSet: vi.fn() }));
-
-vi.mock("@/lib/firebase-admin", () => ({
-  getAdminDb: () => ({
-    collection: () => ({ doc: () => ({ set: (...args: unknown[]) => statSet(...args) }) }),
-  }),
-}));
-
 import { POST } from "../route";
 
 const fetchMock = vi.fn();
@@ -26,7 +18,6 @@ const sent = () => JSON.parse(String((fetchMock.mock.calls[0][1] as RequestInit)
 
 beforeEach(() => {
   fetchMock.mockReset();
-  statSet.mockReset().mockResolvedValue(undefined);
   vi.stubGlobal("fetch", fetchMock);
   vi.stubEnv("CUE_API_BASE_URL", "https://api.example.test/api/v1");
   vi.stubEnv("CUE_API_KEY", "k-service");
@@ -39,9 +30,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("POST /api/cue-insider/event on django", () => {
-  beforeEach(() => vi.stubEnv("CUE_BACKEND_EVENT", "django"));
-
+describe("POST /api/cue-insider/event", () => {
   it("forwards event + source with the service key and answers 204", async () => {
     fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
     const res = await beacon(JSON.stringify({ event: "claim_view", source: "claim-page", locale: "en" }));
@@ -52,9 +41,16 @@ describe("POST /api/cue-insider/event on django", () => {
     expect((init.headers as Record<string, string>)["X-Cue-Api-Key"]).toBe("k-service");
     // Only the two strings the API reads; locale and anything else stay behind.
     expect(sent()).toEqual({ event: "claim_view", source: "claim-page" });
-    expect(res.headers.get("x-cue-backend")).toBe("django");
     expect(res.headers.get("x-cue-event")).toBe("forwarded");
-    expect(statSet).not.toHaveBeenCalled();
+  });
+
+  it("ignores a leftover CUE_BACKEND pin: the API is the only backend", async () => {
+    vi.stubEnv("CUE_BACKEND", "firebase");
+    vi.stubEnv("CUE_BACKEND_EVENT", "firebase");
+    fetchMock.mockResolvedValue(new Response(null, { status: 204 }));
+    const res = await beacon(JSON.stringify({ event: "claim_view", source: "claim-page" }));
+    expect(res.headers.get("x-cue-event")).toBe("forwarded");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("lets props.source win over the top-level source", async () => {
@@ -90,16 +86,5 @@ describe("POST /api/cue-insider/event on django", () => {
     expect(res.status).toBe(204);
     expect(res.headers.get("x-cue-event")).toBe("dropped");
     expect(fetchMock).not.toHaveBeenCalled();
-  });
-});
-
-describe("POST /api/cue-insider/event with the flag unset", () => {
-  it("stays on Firebase and never calls the API", async () => {
-    const res = await beacon(JSON.stringify({ event: "claim_view", source: "claim-page" }));
-    expect(res.status).toBe(204);
-    expect(statSet).toHaveBeenCalledTimes(1);
-    expect(fetchMock).not.toHaveBeenCalled();
-    expect(res.headers.get("x-cue-backend")).toBeNull();
-    expect(res.headers.get("x-cue-event")).toBeNull();
   });
 });

@@ -8,9 +8,9 @@ async function connectSrc(): Promise<string[]> {
   return directive.split(/\s+/).slice(1);
 }
 
-// The partner form uploads straight from the browser to the API on the Django
-// backend; without these origins the browser refuses the request before it
-// leaves the page (live www.cue-app.net, 2026-09-24: connect-src violation).
+// The partner form uploads straight from the browser to the API; without
+// these origins the browser refuses the request before it leaves the page
+// (live www.cue-app.net, 2026-09-24: connect-src violation).
 describe("CSP connect-src", () => {
   it("allows both Cue API origins", async () => {
     expect(await connectSrc()).toEqual(
@@ -18,10 +18,10 @@ describe("CSP connect-src", () => {
     );
   });
 
-  it("keeps the Firebase hosts until WEB-5, so flipping a route back still works", async () => {
-    expect(await connectSrc()).toEqual(
-      expect.arrayContaining(["https://*.googleapis.com", "https://*.firebaseio.com", "wss://*.firebaseio.com"])
-    );
+  it("allows no Firebase or Google API host now that nothing on the site talks to Firebase", async () => {
+    for (const source of await connectSrc()) {
+      expect(source).not.toMatch(/googleapis\.com|firebaseio\.com|firebasestorage|firebaseapp\.com/);
+    }
   });
 
   it("stays an explicit allow-list: no bare scheme and no wildcard host", async () => {

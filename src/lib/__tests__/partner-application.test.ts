@@ -2,17 +2,15 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   APPLICATION_ID_RE,
   newApplicationId,
-  storagePrefix,
   submitApplication,
   uploadApplicationFiles,
 } from "../partner-application";
 
-// The invariant under test is not cosmetic: cue-app/storage.rules gates every
-// anonymous /partner/apply upload on `applicationId.matches('^[A-Za-z0-9]{20}$')`.
-// An id that drifts from that shape (a UUID, say) silently breaks menu and
-// photo uploads in production with a rules denial.
+// The invariant under test is not cosmetic: the API refuses any applicationId
+// that is not 20 alphanumerics. An id that drifts from that shape (a UUID,
+// say) would fail every partner application in production.
 describe("newApplicationId", () => {
-  it("matches the shape storage.rules accepts", () => {
+  it("matches the shape the API accepts", () => {
     for (let i = 0; i < 500; i++) {
       const id = newApplicationId();
       expect(id).toHaveLength(20);
@@ -32,7 +30,7 @@ describe("newApplicationId", () => {
 });
 
 describe("APPLICATION_ID_RE", () => {
-  it("rejects ids the Storage rules would reject", () => {
+  it("rejects ids the API would reject", () => {
     for (const bad of [
       "550e8400-e29b-41d4-a716-446655440000", // crypto.randomUUID()
       "short",
@@ -44,13 +42,6 @@ describe("APPLICATION_ID_RE", () => {
     ]) {
       expect(APPLICATION_ID_RE.test(bad)).toBe(false);
     }
-  });
-});
-
-describe("storagePrefix", () => {
-  it("is the prefix the form uploads under", () => {
-    const id = newApplicationId();
-    expect(storagePrefix(id)).toBe(`partner-applications/${id}/`);
   });
 });
 
@@ -151,7 +142,7 @@ describe("submitApplication", () => {
     expect(await submitApplication(application, menu, [])).toEqual({ filesError: "menuType" });
   });
 
-  it("is a success with a file note when the route stored it but gave no ticket (answered from Firebase)", async () => {
+  it("is a success with a file note when the route stored it but gave no ticket", async () => {
     stubFetch();
     fetchMock.mockResolvedValue(reply(200, { ok: true, applicationId: "AbCdEfGhIjKlMnOpQrSt" }));
     expect(await submitApplication(application, menu, photos)).toEqual({ filesError: "upload" });

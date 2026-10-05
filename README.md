@@ -17,8 +17,8 @@ Tailwind CSS, and Framer Motion.
 - **Bold, animated design** — scroll reveals, entrance animations, marquee,
   concentric-mark motif, interactive app showcase, and micro-interactions.
 - **Real app screens** from the Cue concept work power the product showcase.
-- **Lead capture** via a serverless API route (`/api/lead`) with optional webhook
-  forwarding.
+- **Lead capture** via a serverless API route (`/api/lead`) that proxies to the
+  Cue API.
 - **SEO-ready:** per-page metadata, Open Graph, `hreflang` alternates, JSON-LD
   (Organization + FAQ), `sitemap.xml`, and `robots.txt`.
 - **Accessible & fast:** semantic markup, skip link, focus styles, reduced-motion
@@ -57,7 +57,7 @@ src/
 │  │  ├─ careers/
 │  │  ├─ faq/
 │  │  └─ legal/            # index + terms, privacy, cookies, dpa, notice
-│  ├─ api/lead/route.ts    # form submission handler
+│  ├─ api/                # form routes, each a proxy to the Cue API
 │  ├─ sitemap.ts
 │  └─ robots.ts
 ├─ components/             # Nav, Footer, BrandMark, UI + section components
@@ -76,39 +76,18 @@ files share one TypeScript shape, so both languages stay in sync.
 
 ## Form submissions
 
-The Get Started and FAQ forms POST to `/api/lead`. By default, submissions are
-validated and logged to the server console (visible in Vercel → Logs).
+Every form posts to one of the site's own `/api` routes, and each route proxies
+to the Cue API (Django) through `src/lib/cue-api.ts`: `/api/lead` (Get Started
+and FAQ), `/api/cue-insider/claim`, `/api/partner-apply` (the partner form then
+uploads its files straight to the API with the ticket it gets back),
+`/api/cue-insider/event` and `/api/waitlist-count`. The API owns validation,
+per-IP rate limits, storage and notification email; the routes forward the
+visitor's address and map the answer onto the shapes the forms read. With
+`CUE_API_BASE_URL` unset or `CUE_API_KEY` wrong, the form routes fail closed
+with a 503; the event beacon still answers 204 and drops the event.
 
-To capture them somewhere durable, set `LEAD_WEBHOOK_URL` to any endpoint that
-accepts a JSON `POST` — e.g. a Zapier/Make webhook that appends to Google Sheets,
-Airtable, or a CRM. Payload shape:
-
-```json
-{
-  "receivedAt": "…", "audience": "operator|guest|talent|contact",
-  "source": "reach-out|faq", "locale": "en|ar", "contactPreference": "email|call",
-  "name": "…", "email": "…", "phone": "…", "establishment": "…",
-  "instagram": "…", "message": "…"
-}
-```
-
-Swapping in Firebase, Resend, or a database is a small change to that one file.
-
-The route is unauthenticated and has no Turnstile in front of it, so every
-submission is counted against a salted hash of the caller's IP — 5 per 10
-minutes, the same budget `/api/partner-apply` and the Cue Insider claim flow
-use, through the same helper (`src/lib/rate-limit.ts`). The counter lives in its
-own `leadRateLimits` Firestore collection so a contact-form message and a
-partner application from the same address never spend each other's budget.
-Over-budget callers get `429 { ok: false, error: "rate-limited" }` before
-anything is forwarded or logged.
-
-That counter needs the Admin SDK (`FIREBASE_SERVICE_ACCOUNT_JSON` or
-`FIRESTORE_EMULATOR_HOST`) and `CUE_INSIDER_IP_HASH_SALT`. **In production**, if
-either is missing the route fails closed with a 503 — an endpoint we cannot
-count is not one to leave open. Outside production it logs the problem and
-accepts the lead, so the documented no-Firebase fallback (webhook only) still
-works locally.
+`node scripts/verify-site-routes.mjs` (with `SITE_BASE`) smoke-tests the routes
+on a running site without storing anything; `--write` adds checks that do.
 
 ---
 
@@ -116,7 +95,8 @@ works locally.
 
 1. Push this repo to GitHub.
 2. Import it in Vercel (framework auto-detected as Next.js — no config needed).
-3. Set environment variables (`NEXT_PUBLIC_SITE_URL`, optional `LEAD_WEBHOOK_URL`).
+3. Set environment variables (see `.env.example`: `NEXT_PUBLIC_SITE_URL`,
+   `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `CUE_API_BASE_URL`, `CUE_API_KEY`).
 4. Deploy. Vercel handles builds and previews automatically on every push.
 
 ---

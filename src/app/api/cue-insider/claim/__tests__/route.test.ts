@@ -1,8 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { getAdminDb } = vi.hoisted(() => ({ getAdminDb: vi.fn() }));
-vi.mock("@/lib/firebase-admin", () => ({ getAdminDb }));
-
 import { POST } from "../route";
 
 const fetchMock = vi.fn();
@@ -36,7 +33,6 @@ const sentInit = () => fetchMock.mock.calls[0][1] as RequestInit;
 
 beforeEach(() => {
   fetchMock.mockReset();
-  getAdminDb.mockReset();
   vi.stubGlobal("fetch", fetchMock);
   vi.stubEnv("CUE_API_BASE_URL", "https://api.example.test/api/v1");
   vi.stubEnv("CUE_API_KEY", "k-service");
@@ -49,9 +45,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("POST /api/cue-insider/claim on django", () => {
-  beforeEach(() => vi.stubEnv("CUE_BACKEND_CLAIM", "django"));
-
+describe("POST /api/cue-insider/claim", () => {
   it("forwards the contract fields with the key and visitor IP, and adds ok:true to an issue", async () => {
     fetchMock.mockResolvedValue(reply(200, { status: "issued", code: "CUE-AB24-CD37" }));
     const res = await post({ ...form, ip: "1.2.3.4", status: "issued", code: "CUE-XXXX-XXXX" });
@@ -61,10 +55,16 @@ describe("POST /api/cue-insider/claim on django", () => {
     const headers = sentInit().headers as Record<string, string>;
     expect(headers["X-Cue-Api-Key"]).toBe("k-service");
     expect(headers["X-Cue-Client-Ip"]).toBe("198.51.100.4");
-    expect(res.headers.get("x-cue-backend")).toBe("django");
     // Raw values go through untouched: the API owns trimming and normalisation.
     expect(JSON.parse(String(sentInit().body))).toEqual(form);
-    expect(getAdminDb).not.toHaveBeenCalled();
+  });
+
+  it("ignores a leftover CUE_BACKEND pin: the API is the only backend", async () => {
+    vi.stubEnv("CUE_BACKEND", "firebase");
+    vi.stubEnv("CUE_BACKEND_CLAIM", "firebase");
+    fetchMock.mockResolvedValue(reply(200, { status: "issued", code: "CUE-AB24-CD37" }));
+    expect(await (await post(form)).json()).toEqual({ ok: true, status: "issued", code: "CUE-AB24-CD37" });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it.each(["email", "phone", "rate-limited", "resend-limit"])(
@@ -162,15 +162,6 @@ describe("POST /api/cue-insider/claim on django", () => {
     const res = await post(raw);
     expect(res.status).toBe(422);
     expect(await res.json()).toEqual({ ok: false, error: "validation", field: "body" });
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-});
-
-describe("POST /api/cue-insider/claim with the flag unset", () => {
-  it("stays on the Firebase handler and never calls the API", async () => {
-    const res = await post({ ...form, name: "x" });
-    expect(res.status).toBe(422);
-    expect(await res.json()).toEqual({ ok: false, error: "validation", field: "name" });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });

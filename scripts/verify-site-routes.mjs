@@ -1,20 +1,15 @@
 /**
- * Smoke the site's own /api routes, through whichever backend each route's
- * CUE_BACKEND* flag selects. It calls the NEXT routes, never the API directly,
- * so it checks the proxy and the browser-facing shapes together.
+ * Smoke the site's own /api routes, which all proxy to the Cue API. It calls
+ * the NEXT routes, never the API directly, so it checks the proxy and the
+ * browser-facing shapes together.
  *
- *   SITE_BASE=https://www.cue-app.net EXPECT_BACKEND_WAITLIST=django node scripts/verify-site-routes.mjs
+ *   SITE_BASE=https://www.cue-app.net node scripts/verify-site-routes.mjs
  *
- * Every check says which backend answered (a Django answer carries
- * X-Cue-Backend: django). EXPECT_BACKEND (every route) or
- * EXPECT_BACKEND_<WAITLIST|EVENT|LEAD|CLAIM|PARTNER> (one route) turns a
- * mismatch into a FAIL: after a flag flip, name the route you flipped, since
- * a Vercel env change only lands with a redeploy and a typo'd value quietly
- * means firebase. The event beacon always answers 204, so on django its
- * X-Cue-Event header is what proves CUE_API_KEY works.
+ * The event beacon always answers 204, so its X-Cue-Event header is what
+ * proves CUE_API_KEY works.
  *
  * The default run stores nothing and moves no counter: the beacon sends an
- * event neither backend counts, and every other default check is refused by
+ * event the API does not count, and every other default check is refused by
  * validation before anything is written or rate limited.
  *
  * --write adds checks that DO create rows, and send mail: a lead (notified to
@@ -32,14 +27,6 @@ let failures = 0;
 function check(label, ok, detail = "") {
   console.log(`${ok ? "PASS" : "FAIL"} ${label}${detail ? ` - ${detail}` : ""}`);
   if (!ok) failures++;
-}
-
-/** Report (and, with EXPECT_BACKEND*, enforce) which backend answered. */
-function answeredBy(route, res) {
-  const got = res.headers.get("x-cue-backend") === "django" ? "django" : "firebase";
-  const want = process.env[`EXPECT_BACKEND_${route}`] || process.env.EXPECT_BACKEND;
-  check(`${route.toLowerCase()} answered by ${got}`, !want || want === got, want ? `expected ${want}` : "");
-  return got;
 }
 
 async function call(path, init = {}) {
@@ -60,7 +47,6 @@ const postJson = (path, body) =>
 // -- WEB-1 --------------------------------------------------------------------
 {
   const r = await call("/api/waitlist-count");
-  answeredBy("WAITLIST", r);
   check(
     "waitlist-count answers a display number",
     r.status === 200 && Number.isInteger(r.body?.count) && r.body.count >= 50,
@@ -69,25 +55,22 @@ const postJson = (path, body) =>
   check("waitlist-count is no-store", /no-store/.test(r.headers.get("cache-control") ?? ""));
 }
 {
-  // Not an event either backend counts, so no funnel number moves.
+  // Not an event the API counts, so no funnel number moves.
   const r = await postJson("/api/cue-insider/event", { event: "site_verify" });
   check("event beacon answers 204", r.status === 204, String(r.status));
-  if (answeredBy("EVENT", r) === "django") {
-    check(
-      "event reached the API with a working service key",
-      r.headers.get("x-cue-event") === "forwarded",
-      `X-Cue-Event: ${r.headers.get("x-cue-event")} (dropped = see "[cue-insider/event] not recorded" in the logs)`
-    );
-  }
+  check(
+    "event reached the API with a working service key",
+    r.headers.get("x-cue-event") === "forwarded",
+    `X-Cue-Event: ${r.headers.get("x-cue-event")} (dropped = see "[cue-insider/event] not recorded" in the logs)`
+  );
 }
 
 // -- WEB-2 --------------------------------------------------------------------
 {
   // Refused by validation, which runs before the API's limiter: nothing is
-  // written and no budget is spent. On django it also proves the key: a bad
-  // one is a 401 before validation, which the route answers as 503.
+  // written and no budget is spent. It also proves the key: a bad one is a
+  // 401 before validation, which the route answers as 503.
   const r = await postJson("/api/lead", { name: "", email: "not-an-email" });
-  answeredBy("LEAD", r);
   check(
     "lead rejects an invalid body with the form's 422",
     r.status === 422 && r.body?.error === "Name and a valid email are required.",
@@ -123,13 +106,12 @@ if (WRITE) {
     marketingConsent: false,
   };
   const short = await postJson("/api/cue-insider/claim", { ...claim, name: "x" });
-  answeredBy("CLAIM", short);
   check(
     "claim rejects a one-letter name as 422 field name",
     short.status === 422 && short.body?.error === "validation" && short.body?.field === "name",
     `${short.status} ${JSON.stringify(short.body)}`
   );
-  // Turnstile runs before the email check on both backends, so this is 400
+  // Turnstile runs before the email check, so this is 400
   // turnstile; a DEBUG API with no secret answers 422 email and stores nothing.
   const noToken = await postJson("/api/cue-insider/claim", { ...claim, email: "not-an-email" });
   check(
@@ -165,13 +147,16 @@ if (WRITE) {
 console.log("SKIP claim issue/duplicate (needs a real Turnstile token: submit the form by hand)");
 
 // -- WEB-4 --------------------------------------------------------------------
-// The two-step upload exists only on django, and on firebase the create call
-// would write a Firestore application before every upload check failed, so
-// probe with a body both backends refuse (400) before writing anything.
-const partnerOn = answeredBy("PARTNER", await postJson("/api/partner-apply", []));
-if (WRITE && partnerOn !== "django") {
-  console.log("SKIP partner write checks (route is on firebase; the two-step upload is Django-only)");
-} else if (WRITE) {
+{
+  // Refused by the route itself before the API is called: nothing is written.
+  const r = await postJson("/api/partner-apply", []);
+  check(
+    "partner-apply rejects a non-object body with 400",
+    r.status === 400 && r.body?.error === "Invalid JSON",
+    `${r.status} ${JSON.stringify(r.body)}`
+  );
+}
+if (WRITE) {
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   const r = await postJson("/api/partner-apply", {
     applicationId: crypto.randomUUID().replace(/-/g, "").slice(0, 20),

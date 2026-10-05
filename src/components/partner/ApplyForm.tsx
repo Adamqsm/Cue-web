@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { cn, localizedHref } from "@/lib/utils";
-import { firebaseApp } from "@/lib/firebase";
-import type { Backend } from "@/lib/backend-flag";
 import { newApplicationId, submitApplication, type FilesError } from "@/lib/partner-application";
 import { EMAIL_RE } from "@/lib/validation";
 import { getUtmParams } from "@/lib/utm";
@@ -47,13 +45,10 @@ export default function ApplyForm({
   form,
   areas,
   locale,
-  backend,
 }: {
   form: Dictionary["partnerApply"]["form"];
   areas: string[];
   locale: Locale;
-  /** Which backend /api/partner-apply is on: it decides whether files upload before or after submitting. */
-  backend: Backend;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorKey, setErrorKey] = useState<keyof Dictionary["partnerApply"]["form"]["errors"]>("submit");
@@ -64,7 +59,7 @@ export default function ApplyForm({
   const [menuFile, setMenuFile] = useState<File | null>(null);
   const [photos, setPhotos] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
-  // Django flow only: the application landed but its files did not, and why.
+  // The application landed but its files did not, and why.
   const [filesError, setFilesError] = useState<FilesError | null>(null);
   // Focused when the success panel replaces the form, so SR users hear it —
   // same pattern as ClaimForm's outcome heading.
@@ -140,7 +135,7 @@ export default function ApplyForm({
     // as localized maps, phone/whatsapp/instagram, cuisineIds, priceRange,
     // openingHours {mon..sun:{open,close,closed}} — so an approved application
     // can feed the importer without remapping.
-    // `status` and `source` are set by /api/partner-apply, not here — a form
+    // `status` and `source` are set by the API, not here — a form
     // submission does not get to declare its own provenance or approval state.
     const application = {
       locale,
@@ -173,75 +168,23 @@ export default function ApplyForm({
       consent: true,
     };
 
-    // Minted here rather than by doc(collection(db, ...)): the Firestore
-    // document is written by /api/partner-apply with the Admin SDK, because
-    // `partnerApplications` has no client-write rule and never should. Shape
-    // still matches what storage.rules accepts — see @/lib/partner-application.
-    const applicationId = newApplicationId();
-
     try {
-      if (backend === "django") {
-        // Submit first, then upload straight to the API (Vercel caps a
-        // function body at 4.5 MB). The id is only an idempotency key now,
-        // minted fresh per attempt. The application is in once the route says
-        // so; a failed upload (write-once, so no retry) becomes a note on the
-        // success panel, not an error that invites a second application.
-        const result = await submitApplication(
-          { ...application, applicationId, utm: getUtmParams() },
-          menuFile,
-          photos
-        );
-        if (result === "rate-limited") return fail("rateLimited");
-        if (result === "failed") throw new Error("partner-apply failed");
-        setFilesError(result.filesError);
-        setStatus("success");
-        return;
-      }
-
-      const app = firebaseApp();
-
-      // Uploads stay client-side: Storage rules already allow exactly these
-      // two path shapes under partner-applications/{applicationId}/, and the
-      // doc stores their storage PATHS (the convention seed.cjs establishes).
-      let menuPath: string | null = null;
-      const photoPaths: string[] = [];
-      if (app && (menuFile || photos.length)) {
-        const { getStorage, ref, uploadBytes } = await import("firebase/storage");
-        const storage = getStorage(app);
-
-        if (menuFile) {
-          menuPath = `partner-applications/${applicationId}/menu.pdf`;
-          await uploadBytes(ref(storage, menuPath), menuFile, {
-            contentType: "application/pdf",
-          });
-        }
-        for (let i = 0; i < photos.length; i++) {
-          const ext = (photos[i].name.split(".").pop() || "jpg").toLowerCase();
-          const path = `partner-applications/${applicationId}/photos/photo-${i + 1}.${ext}`;
-          await uploadBytes(ref(storage, path), photos[i], { contentType: photos[i].type });
-          photoPaths.push(path);
-        }
-      }
-
-      // One call: the route persists the application (Admin SDK) and forwards
-      // to the lead webhook, and reports ok if either destination took it.
-      const res = await fetch("/api/partner-apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...application,
-          applicationId,
-          menuPath,
-          photoPaths,
-          utm: getUtmParams(),
-        }),
-      });
+      // Submit first, then upload straight to the API (Vercel caps a function
+      // body at 4.5 MB). The id is an idempotency key, minted fresh per
+      // attempt. The application is in once the route says so; a failed
+      // upload (write-once, so no retry) becomes a note on the success panel,
+      // not an error that invites a second application.
+      const result = await submitApplication(
+        { ...application, applicationId: newApplicationId(), utm: getUtmParams() },
+        menuFile,
+        photos
+      );
       // The IP budget is shared with everyone behind the same address, so a
       // rate-limited applicant is not a broken form — say so instead of
       // inviting an immediate retry.
-      if (res.status === 429) return fail("rateLimited");
-      if (!res.ok) throw new Error(`partner-apply failed: ${res.status}`);
-
+      if (result === "rate-limited") return fail("rateLimited");
+      if (result === "failed") throw new Error("partner-apply failed");
+      setFilesError(result.filesError);
       setStatus("success");
     } catch (err) {
       console.error("[partner-apply] submit failed:", err);

@@ -26,8 +26,8 @@ yarn-error.log*
 .env*.local
 .env
 # .env.production / .env.development were NOT matched by the two lines above.
-# FIREBASE_SERVICE_ACCOUNT_JSON is a server-only credential and the natural
-# mistake is to park it in one of these while debugging.
+# CUE_API_KEY is a server-only credential and the natural mistake is to park
+# it in one of these while debugging.
 .env.*
 !.env.example
 serviceAccount*.json
@@ -42,6 +42,3 @@ service-account*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# captured leads (local dev)
-/data/leads.json

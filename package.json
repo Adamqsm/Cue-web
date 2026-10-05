@@ -12,8 +12,6 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "firebase": "^12.16.0",
-    "firebase-admin": "^13.10.0",
     "framer-motion": "^11.3.19",
     "next": "14.2.35",
     "react": "^18.3.1",

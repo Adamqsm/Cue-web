@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { answerFrom } from "@/lib/backend-flag";
 import { CueApiError, clientIpOf, cueApi } from "@/lib/cue-api";
-import { POST as firebasePOST } from "./route.firebase";
 
 export const runtime = "nodejs";
 
@@ -44,10 +42,6 @@ function firstMessage(value: unknown): string | undefined {
   return undefined;
 }
 
-export async function POST(request: Request) {
-  return answerFrom("partner", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
-}
-
 /**
  * Partner application, first of two calls. The API validates, rate-limits,
  * stores the application and raises its lead, then answers with a 15-minute
@@ -56,7 +50,7 @@ export async function POST(request: Request) {
  * 4.5 MB; a full submission is up to 58 MB), so this route never sees a file
  * and never holds more than the metadata.
  */
-async function djangoPOST(request: Request) {
+export async function POST(request: Request) {
   let body: Record<string, unknown>;
   try {
     const parsed: unknown = await request.json();
@@ -64,23 +58,6 @@ async function djangoPOST(request: Request) {
     body = parsed as Record<string, unknown>;
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
-  }
-
-  // A page built before the flip still runs the Firebase flow: its files are
-  // already in Firebase Storage and the body names them. Keep that application
-  // whole on Firebase (alive until WEB-5) rather than store it here without
-  // its files.
-  if (body.menuPath || (Array.isArray(body.photoPaths) && body.photoPaths.length > 0)) {
-    return firebasePOST(
-      new Request(request.url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-forwarded-for": request.headers.get("x-forwarded-for") ?? "",
-        },
-        body: JSON.stringify(body),
-      })
-    );
   }
 
   try {
@@ -101,8 +78,8 @@ async function djangoPOST(request: Request) {
   } catch (err) {
     if (err instanceof CueApiError) {
       if (err.code === "validation") {
-        // Same {error, field} shape the Firebase handler answers; ApplyForm
-        // shows its generic failure for any non-2xx, so this is for logs/tools.
+        // ApplyForm shows its generic failure for any non-2xx, so the
+        // {error, field} detail is for logs and tools.
         const field = Object.keys(err.fields ?? {})[0] ?? "body";
         const message = firstMessage(err.fields?.[field]) ?? "Invalid application.";
         return NextResponse.json({ ok: false, error: message, field }, { status: 422 });

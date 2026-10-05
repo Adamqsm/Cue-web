@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { answerFrom } from "@/lib/backend-flag";
 import { CueApiError, clientIpOf, cueApi } from "@/lib/cue-api";
-import { POST as firebasePOST } from "./route.firebase";
 
 export const runtime = "nodejs";
 // Room for CLAIM_TIMEOUT_MS below plus the function's own work.
@@ -42,17 +40,13 @@ function formField(fields: Record<string, unknown> | null): string {
   return key === "phoneCountry" ? "phone-country" : key;
 }
 
-export async function POST(request: Request) {
-  return answerFrom("claim", { firebase: () => firebasePOST(request), django: () => djangoPOST(request) });
-}
-
 /**
  * Cue Insider claim. The API does all of it: Turnstile (with the visitor's
  * IP), normalisation, the per-IP limit, dedupe, the code and the email. This
  * route forwards and translates, and rebuilds each 200 from known keys so a
  * duplicate can never carry a code whatever the upstream sends.
  */
-async function djangoPOST(request: Request) {
+export async function POST(request: Request) {
   let body: Record<string, unknown>;
   try {
     const parsed: unknown = await request.json();

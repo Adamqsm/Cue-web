@@ -2,7 +2,9 @@
 
 Status: v1 · 2026-07-30 · owner: web/backend
 Audience: Flutter team implementing claim-code redemption at app launch.
-Source of truth for the algorithm: `src/lib/cue-insider/code.ts` (Cue-web). This document restates it exactly; if they ever disagree, the TypeScript module wins and this doc must be fixed.
+Source of truth for the algorithm: `apps/insider/codes.py` in cue-backend (it was `src/lib/cue-insider/code.ts` here until WEB-5 moved code issuing to the API). This document restates it exactly; if they ever disagree, the backend module wins and this doc must be fixed.
+
+> **Superseded in part (WEB-5, 2026-10):** codes are issued and redeemed by the Cue API (`POST /insider/claims`, `POST /insider/redeem`; see cue-backend `docs/api-contract.md`). §4 (the Firebase callable) and §5 (Firestore facts) describe the retired Firebase stack and are kept for history only. §1–§3 and §6 still hold.
 
 ---
 

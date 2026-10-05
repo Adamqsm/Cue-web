@@ -18,10 +18,10 @@ describe("CSP connect-src", () => {
     );
   });
 
-  it("keeps the Firebase hosts until WEB-5, so flipping a route back still works", async () => {
-    expect(await connectSrc()).toEqual(
-      expect.arrayContaining(["https://*.googleapis.com", "https://*.firebaseio.com", "wss://*.firebaseio.com"])
-    );
+  it("allows no Firebase or Google API host now that nothing on the site talks to Firebase", async () => {
+    for (const source of await connectSrc()) {
+      expect(source).not.toMatch(/googleapis\.com|firebaseio\.com|firebasestorage|firebaseapp\.com/);
+    }
   });
 
   it("stays an explicit allow-list: no bare scheme and no wildcard host", async () => {

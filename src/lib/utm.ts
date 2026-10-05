@@ -3,7 +3,7 @@
  *
  * The site has no third-party analytics; attribution rides on the records a
  * visitor chooses to submit (claim, partner application, lead) so campaign
- * spend can be traced in Firestore / the lead webhook. Two halves:
+ * spend can be traced in the Cue API's records. Two halves:
  *
  * - Pure helpers (sanitizeUtm, utmFromSearch, withUtm) — importable anywhere,
  *   including API routes. No browser APIs touched at module scope.

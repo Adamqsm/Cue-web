@@ -1145,6 +1145,8 @@ const en = {
       kicker: "Any other questions?",
       title: "We're here to help.",
       body: "Send us a message and we'll get back to you within 48 hours.",
+      email: "info@cue-app.net",
+      emailNote: "Or email us at {email}.",
       fields: {
         name: "Name",
         email: "Email",
@@ -1597,6 +1599,7 @@ const en = {
         "Your past bookings stay with the venues as their record of the reservations, including the guest name and phone given on each booking. We remove that name and phone 24 months after the reservation date.",
         "A closed-account record: an internal number, the account type, and the dates the account was opened and closed. It holds no name, email address or mobile number. Kept for 12 months after the account is closed.",
         "Records of the text message codes we sent to your number: the number, when each code was sent, how many tries were made, and a one-way hash of the IP address that asked for it. Kept for 30 days.",
+        "Records of the email codes we sent to confirm an email address you added: the address, when each code was sent and how many tries were made. Kept for 30 days.",
         "Copies of the emails we sent you, deleted 90 days after sending.",
         "Our database backups, which are replaced within 30 days.",
       ],

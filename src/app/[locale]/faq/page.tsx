@@ -27,6 +27,7 @@ export default function FaqPage({ params }: { params: { locale: string } }) {
   const locale = (isLocale(params.locale) ? params.locale : "en") as Locale;
   const dict = getDictionary(locale);
   const f = dict.faq;
+  const [emailPre, emailPost] = f.contact.emailNote.split("{email}");
 
   return (
     <>
@@ -56,6 +57,18 @@ export default function FaqPage({ params }: { params: { locale: string } }) {
               {f.contact.title}
             </h2>
             <p className="mt-3 text-muted">{f.contact.body}</p>
+            {/* dir="ltr" keeps the trailing full stop in place in Arabic. */}
+            <p className="mt-3 text-muted">
+              {emailPre}
+              <a
+                href={`mailto:${f.contact.email}`}
+                dir="ltr"
+                className="whitespace-nowrap font-semibold text-content underline underline-offset-2 transition-colors hover:text-accent-deep"
+              >
+                {f.contact.email}
+              </a>
+              {emailPost}
+            </p>
           </div>
           <ContactForm content={f.contact} />
         </div>

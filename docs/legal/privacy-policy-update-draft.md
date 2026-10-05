@@ -220,6 +220,7 @@ other periods are code defaults, still **TO CONFIRM**.
 | Other booking details, special requests, status history | None set | |
 | Saved venues, notifications list | Deleted when the account is deleted | Decided; cue-backend PR #44 (open; kept after deletion until it is deployed) |
 | Text message verification records | 30 days | Decided; not in code yet |
+| Email code records (codes mailed to confirm an email address added to an account) | 30 days | Decided; in code (cue-backend PR #50, runs from the next deploy) |
 | Push tokens | Until sign-out, deletion, or the token stops working | Behaviour of the API |
 | Copies of emails sent | 90 days after sending | Decided; in code |
 | Cue Insider claims | Unredeemed: anonymised 24 months after issue. Redeemed: name and phone removed 12 months after the entitlement ends | In code |

@@ -1666,7 +1666,9 @@ const en = {
       },
     ],
     rights: "© 2026 Cue. All rights reserved.",
-    ownedBy: "A Qasem Portal company.",
+    // Permanent parent-company line, linked to the Qasem Portal site.
+    ownedBy: "A Qasem Portal company",
+    ownedByHref: "https://qasem-portal.com",
   },
 };
 

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { localizedHref, cn, PORTAL_LOGIN_URL } from "@/lib/utils";
+import { localizedHref, cn, portalLoginHref } from "@/lib/utils";
 import { useClaimModal } from "@/components/claim/ClaimModalProvider";
 import { Logo } from "./BrandMark";
 import LanguageToggle from "./LanguageToggle";
@@ -103,7 +103,7 @@ export default function Nav({
             {dict.nav.claimCta}
           </button>
           {/* Portal is a separate app: plain <a>, same tab. */}
-          <a href={PORTAL_LOGIN_URL} className="btn btn-outline px-5">
+          <a href={portalLoginHref(locale)} className="btn btn-outline px-5">
             {dict.nav.restaurantLogin}
           </a>
           <Link
@@ -180,7 +180,7 @@ export default function Nav({
               {dict.nav.claimCta}
             </button>
             <a
-              href={PORTAL_LOGIN_URL}
+              href={portalLoginHref(locale)}
               className="btn btn-outline mt-3 w-full"
             >
               {dict.nav.restaurantLogin}

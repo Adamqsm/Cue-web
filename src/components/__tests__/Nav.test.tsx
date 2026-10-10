@@ -12,11 +12,8 @@ vi.mock("next/navigation", () => ({
 /**
  * The header's "Restaurant login" link sends restaurants to the Cue portal
  * sign-in, in the same tab, from both the desktop bar and the mobile menu.
- * The portal takes its language from its own cookie, so the href is the
- * same in both locales.
+ * `?lang=` carries the site locale so the portal opens in the same language.
  */
-
-const PORTAL_LOGIN = "https://portal.cue-app.net/login";
 
 const cases = [
   ["en", en, "Restaurant login"],
@@ -24,8 +21,8 @@ const cases = [
 ] as const;
 
 function loginLinks(html: string) {
-  return Array.from(html.matchAll(/<a [^>]*>([^<]*)<\/a>/g)).filter(
-    (m) => m[0].includes(`href="${PORTAL_LOGIN}"`)
+  return Array.from(html.matchAll(/<a [^>]*>([^<]*)<\/a>/g)).filter((m) =>
+    m[0].includes('href="https://portal.cue-app.net/login')
   );
 }
 
@@ -41,6 +38,9 @@ describe("header restaurant login", () => {
       const links = loginLinks(html);
       expect(links).toHaveLength(2);
       for (const link of links) {
+        expect(link[0]).toContain(
+          `href="https://portal.cue-app.net/login?lang=${locale}"`
+        );
         expect(link[1]).toBe(label);
         expect(link[0]).toContain("btn-outline");
         expect(link[0]).not.toContain("target=");
@@ -49,7 +49,7 @@ describe("header restaurant login", () => {
   }
 });
 
-describe("portal login URL", () => {
+describe("portal login href", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.resetModules();
@@ -58,14 +58,15 @@ describe("portal login URL", () => {
   it("defaults to portal.cue-app.net", async () => {
     vi.stubEnv("NEXT_PUBLIC_PORTAL_URL", "");
     vi.resetModules();
-    const { PORTAL_LOGIN_URL } = await import("@/lib/utils");
-    expect(PORTAL_LOGIN_URL).toBe(PORTAL_LOGIN);
+    const { portalLoginHref } = await import("@/lib/utils");
+    expect(portalLoginHref("en")).toBe("https://portal.cue-app.net/login?lang=en");
+    expect(portalLoginHref("ar")).toBe("https://portal.cue-app.net/login?lang=ar");
   });
 
   it("follows NEXT_PUBLIC_PORTAL_URL, trailing slash or not", async () => {
     vi.stubEnv("NEXT_PUBLIC_PORTAL_URL", "https://portal.staging.example/");
     vi.resetModules();
-    const { PORTAL_LOGIN_URL } = await import("@/lib/utils");
-    expect(PORTAL_LOGIN_URL).toBe("https://portal.staging.example/login");
+    const { portalLoginHref } = await import("@/lib/utils");
+    expect(portalLoginHref("ar")).toBe("https://portal.staging.example/login?lang=ar");
   });
 });

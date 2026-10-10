@@ -20,3 +20,14 @@ export function localizedHref(href: string, locale: Locale): string {
 // canonical host used for canonical tags, hreflang, sitemap, OG, and JSON-LD.
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.cue-app.net";
+
+// Restaurant sign-in lives on the Cue portal, a separate app. `?lang=` makes
+// the portal set its own `cue_locale` cookie and open /login in the visitor's
+// language (it then drops the param from the URL).
+export const PORTAL_URL = (
+  process.env.NEXT_PUBLIC_PORTAL_URL || "https://portal.cue-app.net"
+).replace(/\/+$/, "");
+
+export function portalLoginHref(locale: Locale): string {
+  return `${PORTAL_URL}/login?lang=${locale}`;
+}

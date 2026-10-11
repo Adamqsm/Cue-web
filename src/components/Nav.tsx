@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { localizedHref, cn } from "@/lib/utils";
+import { localizedHref, cn, portalLoginHref } from "@/lib/utils";
 import { useClaimModal } from "@/components/claim/ClaimModalProvider";
 import { Logo } from "./BrandMark";
 import LanguageToggle from "./LanguageToggle";
@@ -69,7 +69,9 @@ export default function Nav({
           <Logo />
         </Link>
 
-        <div className="hidden items-center gap-6 lg:flex">
+        {/* Desktop bar from xl: with four actions it no longer fits at lg,
+            so 1024-1279px uses the menu panel, which carries everything. */}
+        <div className="hidden items-center gap-6 xl:flex">
           {dict.nav.links.map((link) => {
             const active =
               pathname === localizedHref(link.href, locale) ||
@@ -93,13 +95,17 @@ export default function Nav({
           })}
         </div>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2 xl:flex">
           <ThemeToggle labels={themeLabels} />
           <LanguageToggle locale={locale} label={dict.nav.langToggle} />
           {/* Terracotta = the queue/claim moment; blue = the brand action. */}
           <button type="button" onClick={onClaim} className="btn btn-spark px-5">
             {dict.nav.claimCta}
           </button>
+          {/* Portal is a separate app: plain <a>, same tab. */}
+          <a href={portalLoginHref(locale)} className="btn btn-outline px-5">
+            {dict.nav.restaurantLogin}
+          </a>
           <Link
             href={localizedHref("/reach-out", locale)}
             className="btn btn-primary px-5"
@@ -109,7 +115,7 @@ export default function Nav({
         </div>
 
         {/* Mobile controls */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 xl:hidden">
           <ThemeToggle labels={themeLabels} />
           <button
             type="button"
@@ -147,7 +153,7 @@ export default function Nav({
         className={cn(
           // visibility rides the transition: hidden lands only after the
           // close animation, keeping the collapsed panel out of the tab order.
-          "overflow-hidden bg-bg/90 backdrop-blur-xl transition-[max-height,opacity,visibility] duration-300 lg:hidden",
+          "overflow-hidden bg-bg/90 backdrop-blur-xl transition-[max-height,opacity,visibility] duration-300 xl:hidden",
           open
             ? "visible max-h-[90vh] border-b border-line opacity-100"
             : "invisible max-h-0 opacity-0"
@@ -173,6 +179,12 @@ export default function Nav({
             >
               {dict.nav.claimCta}
             </button>
+            <a
+              href={portalLoginHref(locale)}
+              className="btn btn-outline mt-3 w-full"
+            >
+              {dict.nav.restaurantLogin}
+            </a>
             <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3">
               <LanguageToggle locale={locale} label={dict.nav.langToggle} />
               <Link

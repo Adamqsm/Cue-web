@@ -20,6 +20,7 @@ const en = {
     ],
     cta: "Get in Cue",
     claimCta: "Claim 3 months free",
+    restaurantLogin: "Restaurant login",
     langToggle: "العربية",
     menu: "Menu",
     close: "Close",

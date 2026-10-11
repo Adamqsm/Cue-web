@@ -21,6 +21,8 @@ const ar: Dictionary = {
     ],
     cta: "ابدأ مع Cue",
     claimCta: "احصل على ٣ أشهر مجاناً",
+    // TODO(native review): "دخول المطاعم" is a draft rendering of "Restaurant login".
+    restaurantLogin: "دخول المطاعم",
     langToggle: "English",
     menu: "القائمة",
     close: "إغلاق",

@@ -16,7 +16,7 @@ export default function HomeFaq({
   const f = dict.home.faqHome;
   const items = dict.faq.items.slice(0, 6);
   return (
-    <EditorialSection num={num} label={f.label} band="surface2">
+    <EditorialSection num={num} band="surface2">
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <div>
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">

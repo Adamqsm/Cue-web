@@ -35,10 +35,10 @@ export default function FaqPage({ params }: { params: { locale: string } }) {
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: f.hero.eyebrow, path: "/faq" },
+          { name: f.hero.crumb, path: "/faq" },
         ])}
       />
-      <PageHero eyebrow={f.hero.eyebrow} title={f.hero.title} subtitle={f.hero.subtitle} />
+      <PageHero title={f.hero.title} subtitle={f.hero.subtitle} />
 
       <section className="container-pad py-16 sm:py-20">
         <div className="mx-auto max-w-3xl">
@@ -52,8 +52,7 @@ export default function FaqPage({ params }: { params: { locale: string } }) {
       <section className="container-pad pb-24">
         <div className="mx-auto grid max-w-4xl gap-10 rounded-panel border border-line bg-surface2 p-8 sm:p-12 md:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <span className="eyebrow">{f.contact.kicker}</span>
-            <h2 className="mt-3 text-3xl text-content sm:text-4xl">
+            <h2 className="text-3xl text-content sm:text-4xl">
               {f.contact.title}
             </h2>
             <p className="mt-3 text-muted">{f.contact.body}</p>

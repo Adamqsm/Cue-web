@@ -3,13 +3,11 @@ import { CueMark } from "@/components/BrandMark";
 import { cn } from "@/lib/utils";
 
 export default function PageHero({
-  eyebrow,
   title,
   subtitle,
   children,
   align = "start",
 }: {
-  eyebrow: string;
   title: string;
   subtitle?: string;
   children?: React.ReactNode;
@@ -30,15 +28,12 @@ export default function PageHero({
           )}
         >
           <Reveal>
-            <span className="eyebrow">{eyebrow}</span>
-          </Reveal>
-          <Reveal delay={1}>
-            <h1 className="mt-5 text-balance text-[clamp(2.5rem,6vw,4.75rem)]">
+            <h1 className="text-balance text-[clamp(2.5rem,6vw,4.75rem)]">
               {title}
             </h1>
           </Reveal>
           {subtitle && (
-            <Reveal delay={2}>
+            <Reveal delay={1}>
               <p
                 className={cn(
                   "mt-6 text-lg leading-relaxed text-muted sm:text-xl",
@@ -50,7 +45,7 @@ export default function PageHero({
             </Reveal>
           )}
           {children && (
-            <Reveal delay={3}>
+            <Reveal delay={2}>
               <div className={cn("mt-8 flex flex-wrap gap-3", center && "justify-center")}>
                 {children}
               </div>

@@ -17,7 +17,7 @@ export default function PricingTiers({
   num?: string;
 }) {
   return (
-    <EditorialSection num={num} label={pricing.kicker} band="bg" id="pricing">
+    <EditorialSection num={num} band="bg" id="pricing">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
           {pricing.title}
@@ -35,19 +35,19 @@ export default function PricingTiers({
                 recommended ? "border-accent shadow-card" : "card-hover"
               )}
             >
-              {/* Recommended tier keeps a blue badge (the accent-as-highlight
-                  rule); other tiers get the neutral chip. */}
-              <span
-                className={cn(
-                  "label",
-                  recommended && "!border-transparent !bg-accent !text-white dark:!text-bg"
+              {/* The recommended tier is highlighted by its accent border,
+                  shadow and primary button, and says so in words right after
+                  its name (read in order by screen readers, never colour only). */}
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                <h3 className="text-2xl font-semibold tracking-[-0.015em] text-content">
+                  {tier.name}
+                </h3>
+                {recommended && (
+                  <p className="text-sm font-semibold text-accent-deep">
+                    {pricing.recommended}
+                  </p>
                 )}
-              >
-                {tier.tag}
-              </span>
-              <h3 className="mt-5 text-2xl font-semibold tracking-[-0.015em] text-content">
-                {tier.name}
-              </h3>
+              </div>
               <div className="mt-4 flex items-baseline gap-2">
                 <span className="text-4xl font-[650] tabular-nums tracking-[-0.025em] rtl:tracking-normal text-content sm:text-5xl">
                   {tier.price}

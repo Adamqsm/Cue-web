@@ -52,7 +52,7 @@ type BuildArgs = {
 };
 
 /** The branded social card, rendered by app/[locale]/opengraph-image.tsx. */
-const OG_IMAGE_ALT = "Cue — book restaurant tables in Amman, Jordan";
+const OG_IMAGE_ALT = "Cue: book restaurant tables in Amman, Jordan";
 
 /**
  * Full per-page metadata: title, description, keywords, canonical + hreflang

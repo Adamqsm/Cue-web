@@ -37,13 +37,13 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: c.hero.eyebrow, path: "/careers" },
+          { name: c.hero.crumb, path: "/careers" },
         ])}
       />
       {/* Cue does not hire; Qasem Portal does. Every application link on
           this page is a mailto: to the Qasem Portal careers inbox, never the
           Cue reach-out form. */}
-      <PageHero eyebrow={c.hero.eyebrow} title={c.hero.title} subtitle={c.hero.subtitle}>
+      <PageHero title={c.hero.title} subtitle={c.hero.subtitle}>
         <LocaleLink
           href={careersMailto(c.applySubject)}
           locale={locale}
@@ -59,7 +59,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
       </PageHero>
 
       {/* Why join — editorial rows */}
-      <EditorialSection num="01" label={c.why.kicker} band="bg">
+      <EditorialSection num="01" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {c.why.title}
@@ -70,7 +70,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
       </EditorialSection>
 
       {/* Roles — sunken band, editorial index of openings */}
-      <EditorialSection num="02" label={c.roles.kicker} band="surface2">
+      <EditorialSection num="02" band="surface2">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {c.roles.title}
@@ -85,7 +85,7 @@ export default function CareersPage({ params }: { params: { locale: string } }) 
                 className="group flex flex-col gap-2 border-b border-line py-6 transition-colors hover:bg-surface/70 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-baseline gap-4">
-                  <span className="label">{role.area}</span>
+                  <span className="text-sm font-medium text-muted">{role.area}</span>
                   <h3 className="text-2xl text-content">{role.title}</h3>
                 </div>
                 <div className="flex items-center gap-4">

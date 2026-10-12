@@ -28,11 +28,15 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
   const r = dict.reach;
 
   return (
-    <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
+    // overflow-clip, not overflow-hidden: a hidden section is a scroll
+    // container, which pinned the sticky intro 112px (top-28) below the
+    // section padding instead of letting the H1 open the hero at the same
+    // height as every other page (and it never actually stuck on scroll).
+    <section className="relative overflow-clip pb-24 pt-32 sm:pt-40">
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: r.hero.eyebrow, path: "/reach-out" },
+          { name: r.hero.crumb, path: "/reach-out" },
         ])}
       />
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -41,23 +45,16 @@ export default function ReachOutPage({ params }: { params: { locale: string } })
       <div className="container-pad grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div className="lg:sticky lg:top-28">
           <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-xs font-semibold text-content">
-              {/* live status dot — ok is semantic here */}
-              <span className="h-2 w-2 rounded-full bg-ok" />
-              {r.hero.status}
-            </span>
-          </Reveal>
-          <Reveal delay={1}>
-            <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)]">
+            <h1 className="text-[clamp(2.5rem,6vw,4.75rem)]">
               {r.hero.title}
             </h1>
           </Reveal>
-          <Reveal delay={2}>
+          <Reveal delay={1}>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
               {r.hero.subtitle}
             </p>
           </Reveal>
-          <Reveal delay={3}>
+          <Reveal delay={2}>
             <div className="mt-8 flex items-center gap-3 text-sm text-muted">
               <CueMark className="h-6 w-6 text-accent" />
               <span>{dict.brand.tagline}</span>

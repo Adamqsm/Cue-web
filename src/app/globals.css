@@ -201,25 +201,6 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
   }
 
-  /* Kicker — a small friendly pill, not a letter-spaced editorial eyebrow.
-     (.label/.eyebrow names kept so untouched components restyle for free.)
-     Neutral by default (v5.1): a quiet bordered chip. Color arrives only
-     where a component opts in (e.g. the founding-partner badge). */
-  .label,
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[13px] font-semibold;
-    font-family: var(--font-sans);
-    letter-spacing: 0;
-    text-transform: none;
-    border-color: rgb(var(--line));
-    background-color: rgb(var(--surface));
-    color: rgb(var(--muted));
-  }
-  [dir="rtl"] .label,
-  [dir="rtl"] .eyebrow {
-    font-family: var(--font-arabic);
-  }
-
   /* v3's editorial margin numerals are retired in v5 — the class is kept as
      a no-op so any straggling `num` prop renders nothing instead of breaking. */
   .section-num {
@@ -360,8 +341,8 @@
     transform: translateX(-3px);
   }
 
-  /* Live pill — terracotta wash with a pulsing dot (board + hero). "Live"
-     is a spark moment, not a blue one. */
+  /* Live pill: terracotta wash with a pulsing dot, the service board's
+     status. "Live" is a spark moment, not a blue one. */
   .pill-live {
     @apply inline-flex items-center gap-2 rounded-full ps-2.5 pe-3 py-1 text-[12px] font-semibold;
     background-color: var(--spark-wash);

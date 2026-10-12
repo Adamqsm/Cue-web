@@ -25,7 +25,7 @@ export default function Spotlight({
   const shares = ["1/4", "2/4", "3/4", "4/4"];
 
   return (
-    <EditorialSection num={num} label={s.label} band="surface2">
+    <EditorialSection num={num} band="surface2">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div>
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">

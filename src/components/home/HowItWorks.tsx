@@ -48,7 +48,7 @@ export default function HowItWorks({
   });
 
   return (
-    <EditorialSection num={num} label={h.label} band="surface2">
+    <EditorialSection num={num} band="surface2">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
           {h.title}

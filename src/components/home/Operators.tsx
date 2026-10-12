@@ -20,7 +20,7 @@ export default function Operators({
 }) {
   const o = dict.home.operators;
   return (
-    <EditorialSection num={num} label={o.label} band="olive">
+    <EditorialSection num={num} band="olive">
       <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div>
           <h2 className="text-[clamp(1.9rem,3.6vw,3.25rem)] leading-[1.08] text-white">

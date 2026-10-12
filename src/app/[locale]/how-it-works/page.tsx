@@ -39,11 +39,10 @@ export default function HowItWorksPage({
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: h.hero.eyebrow, path: "/how-it-works" },
+          { name: h.hero.crumb, path: "/how-it-works" },
         ])}
       />
       <PageHero
-        eyebrow={h.hero.eyebrow}
         title={h.hero.title}
         subtitle={h.hero.subtitle}
       >
@@ -56,7 +55,7 @@ export default function HowItWorksPage({
       </PageHero>
 
       {/* The booking loop — editorial rows */}
-      <EditorialSection num="01" label={h.loop.kicker} band="bg">
+      <EditorialSection num="01" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {h.loop.title}
@@ -69,7 +68,7 @@ export default function HowItWorksPage({
       </EditorialSection>
 
       {/* For guests */}
-      <EditorialSection num="02" label={h.guest.kicker} band="surface2">
+      <EditorialSection num="02" band="surface2">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {h.guest.title}
@@ -82,7 +81,7 @@ export default function HowItWorksPage({
       </EditorialSection>
 
       {/* For operators — inverse ink band */}
-      <EditorialSection num="03" label={h.operator.kicker} band="ink">
+      <EditorialSection num="03" band="ink">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-bg">
             {h.operator.title}
@@ -95,7 +94,7 @@ export default function HowItWorksPage({
       </EditorialSection>
 
       {/* The thinking — principles as editorial rows */}
-      <EditorialSection num="04" label={h.philosophy.kicker} band="bg">
+      <EditorialSection num="04" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {h.philosophy.title}

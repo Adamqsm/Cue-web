@@ -37,12 +37,11 @@ export default function LegalIndexPage({
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: l.eyebrow, path: "/legal" },
+          { name: l.crumb, path: "/legal" },
         ])}
       />
-      <PageHero eyebrow={l.eyebrow} title={l.title} subtitle={l.subtitle} />
+      <PageHero title={l.title} subtitle={l.subtitle} />
       <section className="container-pad py-14 sm:py-20">
-        <span className="eyebrow mb-6 inline-flex">{l.docsLabel}</span>
         <RevealGroup className="grid gap-5 sm:grid-cols-2">
           {l.docs.map((d) => (
             <RevealItem key={d.href}>

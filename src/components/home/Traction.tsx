@@ -16,7 +16,7 @@ export default function Traction({
 }) {
   const t = dict.home.traction;
   return (
-    <EditorialSection num={num} label={t.label} band="bg">
+    <EditorialSection num={num} band="bg">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.1] text-content">
           {t.title}
@@ -26,7 +26,7 @@ export default function Traction({
 
       {/* Founding-partner logo strip (placeholder-ready, deliberately quiet) */}
       <Reveal delay={1} className="mt-12">
-        <span className="label !border-0 !bg-transparent !px-0 !text-muted">{t.logosLabel}</span>
+        <p className="text-[13px] font-semibold text-muted">{t.logosLabel}</p>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
@@ -41,7 +41,7 @@ export default function Traction({
 
       {/* Targets — clearly framed as forward-looking. */}
       <div className="mt-14">
-        <span className="label !border-0 !bg-transparent !px-0 !text-muted">{t.targetsLabel}</span>
+        <p className="text-[13px] font-semibold text-muted">{t.targetsLabel}</p>
         <RevealGroup className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {t.targets.map((s) => (
             <RevealItem

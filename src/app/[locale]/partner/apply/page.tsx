@@ -32,11 +32,11 @@ export default function PartnerApplyPage({ params }: { params: { locale: string 
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: dict.partner.hero.eyebrow, path: "/partner" },
-          { name: p.hero.eyebrow, path: "/partner/apply" },
+          { name: dict.partner.hero.crumb, path: "/partner" },
+          { name: p.hero.crumb, path: "/partner/apply" },
         ])}
       />
-      <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle} />
+      <PageHero title={p.hero.title} subtitle={p.hero.subtitle} />
 
       <section className="container-pad pb-20 sm:pb-28">
         <Reveal delay={1} className="mx-auto max-w-3xl">

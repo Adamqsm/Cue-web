@@ -12,7 +12,7 @@ export default function CommissionSection({
   num?: string;
 }) {
   return (
-    <EditorialSection num={num} label={commission.kicker} band="surface2">
+    <EditorialSection num={num} band="surface2">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
           {commission.title}
@@ -46,7 +46,7 @@ export default function CommissionSection({
             <h3 className="text-xl font-semibold tracking-[-0.015em] text-content">
               {commission.addons.title}
             </h3>
-            <span className="eyebrow">{commission.addons.note}</span>
+            <p className="text-sm text-muted">{commission.addons.note}</p>
           </div>
           {/* Add-ons as chips */}
           <div className="mt-5 flex flex-wrap gap-3">

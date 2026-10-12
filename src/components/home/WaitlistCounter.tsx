@@ -89,8 +89,7 @@ export default function WaitlistCounter({
           className="grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16"
         >
           <div>
-            <span className="label">{w.label}</span>
-            <h2 className="mt-5 max-w-xl text-[clamp(1.8rem,3.2vw,2.75rem)] leading-[1.12] text-content">
+            <h2 className="max-w-xl text-[clamp(1.8rem,3.2vw,2.75rem)] leading-[1.12] text-content">
               {w.title}
             </h2>
             <p className="mt-4 max-w-[52ch] text-lg leading-[1.6] text-muted">

@@ -4,8 +4,9 @@ import Reveal from "@/components/ui/Reveal";
 import { CueMark } from "@/components/BrandMark";
 
 /**
- * A short personal note from the founder. The letter body and signature come
- * from `home.founder` in the dictionaries.
+ * A short personal note from the founder, under its own section title. The
+ * title, letter body and signature come from `home.founder` in the
+ * dictionaries.
  */
 export default function FounderNote({
   dict,
@@ -16,8 +17,13 @@ export default function FounderNote({
 }) {
   const f = dict.home.founder;
   return (
-    <EditorialSection num={num} label={f.label} band="surface2">
-      <Reveal>
+    <EditorialSection num={num} band="surface2">
+      <div className="mx-auto max-w-3xl">
+        <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
+          {f.title}
+        </h2>
+      </div>
+      <Reveal className="mt-10">
         <div className="relative mx-auto max-w-3xl overflow-hidden rounded-panel border border-line bg-surface p-8 shadow-soft sm:p-12">
           <CueMark className="pointer-events-none absolute -end-14 -top-14 h-48 w-48 text-accent/[0.06]" aria-hidden />
 

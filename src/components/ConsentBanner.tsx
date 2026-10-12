@@ -10,7 +10,6 @@ const CONSENT_KEY = "cue-consent";
 const CONSENT_VERSION = "v1";
 
 type ConsentContent = {
-  eyebrow: string;
   title: string;
   body: string;
   accept: string;
@@ -144,8 +143,7 @@ export default function ConsentBanner({
         aria-describedby="consent-body"
         className="max-h-[calc(100dvh-2rem)] w-full max-w-xl animate-board-in overflow-y-auto rounded-panel border border-line bg-surface p-6 shadow-card sm:p-8"
       >
-        <p className="eyebrow">{content.eyebrow}</p>
-        <h2 id="consent-title" className="mt-3 text-xl text-content sm:text-2xl">
+        <h2 id="consent-title" className="text-xl text-content sm:text-2xl">
           {content.title}
         </h2>
         <p id="consent-body" className="mt-2 text-sm leading-[1.65] text-muted">

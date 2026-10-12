@@ -28,7 +28,7 @@ export default function SocialImpact({
 }) {
   const s = dict.home.impact;
   return (
-    <EditorialSection num={num} id="social-impact" label={s.label} band="surface2">
+    <EditorialSection num={num} id="social-impact" band="surface2">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.1] text-content">
           {s.title}

@@ -56,10 +56,10 @@ export default function ClaimTicket({
     <div className="overflow-hidden rounded-panel border border-line bg-surface shadow-card">
       {/* Top strip */}
       <div className="flex items-center justify-between gap-3 px-6 pt-5">
-        <span className="eyebrow">{strings.ticket.label}</span>
+        <span className="text-[13px] font-semibold text-muted">{strings.ticket.label}</span>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-spark-wash ps-2.5 pe-3 py-1 text-[11px] font-semibold text-spark-deep">
           <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
-          {strings.eyebrow}
+          {strings.status}
         </span>
       </div>
 

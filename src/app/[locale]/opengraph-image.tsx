@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
 import { locales, isLocale } from "@/i18n/config";
 import { CUE_MARK_DOT, CUE_MARK_PATH, CUE_MARK_STROKE } from "@/components/BrandMark";
 
-export const alt = "Cue — book restaurant tables in Amman, Jordan";
+export const alt = "Cue: book restaurant tables in Amman, Jordan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,14 +20,13 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// Branded social card shared across pages — v5.4 neutral-first tokens
+// Branded social card shared across pages, v5.4 neutral-first tokens
 // (docs/design-tokens-v5.md): neutral off-white ground, near-black ink,
-// queue blue accent, terracotta dot (#C86B4A, the spark base — 3.56:1 on
-// the #FAFAFA card, so no darker deviation is needed the way olive's pale
-// fill needed one).
+// queue blue accent. The headline block is centred in the space above the
+// wordmark row, which closes the card at the bottom.
 //
 // Two locale variants. The English card keeps next/og's bundled default
-// font and must stay exactly as it was; the Arabic card registers Cairo
+// font (no fonts option); the Arabic card registers Cairo
 // (the renderer's default font is Latin-only, so without this the /ar
 // preview showed the English card) and mirrors the layout RTL by hand.
 
@@ -105,38 +104,15 @@ function arCard() {
         fontFamily: "Cairo",
       }}
     >
-      {/* top row — mirrored: ticket dot hugs the right edge */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          gap: "16px",
-        }}
-      >
-        <ArLine
-          words={["عمّان", "·", "الأردن"]}
-          gap={7}
-          style={{ color: "#555D6B", fontSize: "26px" }}
-        />
-        <div
-          style={{
-            display: "flex",
-            width: "18px",
-            height: "18px",
-            borderRadius: "9999px",
-            background: "#C86B4A",
-          }}
-        />
-      </div>
-
-      {/* headline — the queue tagline, right-aligned */}
+      {/* headline, the queue tagline, right-aligned: grows into the free
+          space and centres itself there, as on the English card */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-end",
+          flexGrow: 1,
+          justifyContent: "center",
         }}
       >
         <ArLine
@@ -237,31 +213,16 @@ function enCard() {
         fontFamily: "sans-serif",
       }}
     >
-      {/* top row — ticket dot + place */}
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <div
-          style={{
-            display: "flex",
-            width: "18px",
-            height: "18px",
-            borderRadius: "9999px",
-            background: "#C86B4A",
-          }}
-        />
-        <div
-          style={{
-            color: "#555D6B",
-            fontSize: "26px",
-            letterSpacing: "0.28em",
-            textTransform: "uppercase",
-          }}
-        >
-          Amman · Jordan
-        </div>
-      </div>
-
-      {/* headline — the queue tagline */}
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      {/* headline, the queue tagline: grows into the free space and centres
+          itself there, so the wordmark row still closes the card */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 1,
+          justifyContent: "center",
+        }}
+      >
         <div
           style={{
             color: "#161A23",
@@ -328,7 +289,7 @@ export default async function OgImage({
       fonts: await loadCairoFonts(),
     });
   }
-  // English (and any unknown locale) — unchanged: no fonts option, so the
-  // renderer keeps its bundled default face exactly as before.
+  // English (and any unknown locale): no fonts option, so the renderer
+  // keeps its bundled default face.
   return new ImageResponse(enCard(), size);
 }

@@ -147,15 +147,11 @@ export default function ClaimModal({
           </svg>
         </button>
 
-        <p className="eyebrow">
-          <span className="h-px w-6 bg-current opacity-60" />
-          {strings.success.ticket.label}
-        </p>
         <h2
           ref={headingRef}
           id="claim-modal-title"
           tabIndex={-1}
-          className="mt-3 pe-10 text-xl text-content outline-none sm:text-2xl"
+          className="pe-10 text-xl text-content outline-none sm:text-2xl"
         >
           {strings.modal.title}
         </h2>

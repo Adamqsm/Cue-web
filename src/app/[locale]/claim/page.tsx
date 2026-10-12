@@ -35,17 +35,17 @@ export default function ClaimPage({ params }: { params: { locale: string } }) {
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: c.hero.eyebrow, path: "/claim" },
+          { name: c.hero.crumb, path: "/claim" },
         ])}
       />
       <ClaimPageView locale={locale} />
-      <PageHero eyebrow={c.hero.eyebrow} title={c.hero.title} subtitle={c.hero.subtitle} />
+      <PageHero title={c.hero.title} subtitle={c.hero.subtitle} />
 
       <section className="container-pad py-16 sm:py-20">
         <div className="gap-12 lg:grid lg:grid-cols-[1fr_minmax(24rem,28rem)]">
           <div>
             {/* Offer */}
-            <SectionHeading kicker={c.offer.kicker} title={c.offer.title} />
+            <SectionHeading title={c.offer.title} />
             <EditorialList items={c.offer.points} numbers={false} className="mt-8" />
             <Reveal>
               <p className="mt-6 rounded-card bg-spark-wash p-4 text-sm leading-relaxed text-spark-deep">
@@ -55,7 +55,7 @@ export default function ClaimPage({ params }: { params: { locale: string } }) {
 
             {/* Steps — a real sequence, so numbered */}
             <div className="mt-16 sm:mt-20">
-              <SectionHeading kicker={c.steps.kicker} title={c.steps.title} />
+              <SectionHeading title={c.steps.title} />
               <EditorialList items={c.steps.items} className="mt-8" />
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function ClaimPage({ params }: { params: { locale: string } }) {
 
         {/* Small print */}
         <Reveal className="mt-16 max-w-3xl border-t border-line pt-8 sm:mt-20">
-          <h2 className="label">{c.terms.title}</h2>
+          <h2 className="text-sm font-semibold text-content">{c.terms.title}</h2>
           <ul className="mt-4 list-disc space-y-2 ps-5 text-sm leading-relaxed text-muted marker:text-line-strong">
             {c.terms.items.map((item) => (
               <li key={item}>{item}</li>

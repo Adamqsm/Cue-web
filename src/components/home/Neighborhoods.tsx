@@ -16,7 +16,7 @@ export default function Neighborhoods({
 }) {
   const n = dict.home.neighborhoods;
   return (
-    <EditorialSection num={num} label={n.label} band="bg">
+    <EditorialSection num={num} band="bg">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
           {n.title}

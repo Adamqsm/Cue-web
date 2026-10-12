@@ -118,7 +118,7 @@ export default function ServiceBoard({
       >
         {/* Header — title + live pill */}
         <div className="flex items-center justify-between gap-3 border-b border-line bg-surface2/50 ps-5 pe-5 py-4">
-          <span className="label !text-muted">{board.title}</span>
+          <span className="text-[13px] font-semibold text-muted">{board.title}</span>
           <span className="pill-live">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-spark" />

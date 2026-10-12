@@ -35,13 +35,13 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: a.hero.eyebrow, path: "/about" },
+          { name: a.hero.crumb, path: "/about" },
         ])}
       />
-      <PageHero eyebrow={a.hero.eyebrow} title={a.hero.title} subtitle={a.hero.subtitle} />
+      <PageHero title={a.hero.title} subtitle={a.hero.subtitle} />
 
       {/* Mission — statement set against the spine */}
-      <EditorialSection num="01" label={a.mission.kicker} band="bg">
+      <EditorialSection num="01" band="bg">
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {a.mission.title}
@@ -55,7 +55,7 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
       </EditorialSection>
 
       {/* What Cue solves — two sides, editorial rows */}
-      <EditorialSection num="02" label={a.problem.kicker} band="surface2">
+      <EditorialSection num="02" band="surface2">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {a.problem.title}
@@ -73,7 +73,7 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
       </EditorialSection>
 
       {/* Principles — the six, as an editorial index */}
-      <EditorialSection num="03" label={a.values.kicker} band="bg">
+      <EditorialSection num="03" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {a.values.title}
@@ -88,8 +88,7 @@ export default function AboutPage({ params }: { params: { locale: string } }) {
           <div className="relative overflow-hidden rounded-panel border border-line bg-surface2 px-6 py-16 sm:px-14 sm:py-20">
             <CueMark className="pointer-events-none absolute -bottom-16 -end-10 h-72 w-72 text-accent/[0.07]" />
             <div className="relative max-w-2xl">
-              <span className="eyebrow">{a.vision.kicker}</span>
-              <h2 className="mt-4 text-3xl leading-tight text-content sm:text-4xl lg:text-[2.75rem]">
+              <h2 className="text-3xl leading-tight text-content sm:text-4xl lg:text-[2.75rem]">
                 {a.vision.title}
               </h2>
               <p className="mt-4 text-lg text-muted">{a.vision.body}</p>

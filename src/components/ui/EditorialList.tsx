@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 
-type Row = { label?: string; num?: string; title: string; body: string };
+type Row = { num?: string; title: string; body: string };
 
 /**
  * The homepage "what you get" pattern (section 03), extracted for reuse across
@@ -46,12 +46,7 @@ export default function EditorialList({
                     {num}
                   </span>
                 )}
-                <div>
-                  {it.label && (
-                    <span className="eyebrow mb-1.5 block">{it.label}</span>
-                  )}
-                  <h3 className="text-xl text-content sm:text-2xl">{it.title}</h3>
-                </div>
+                <h3 className="text-xl text-content sm:text-2xl">{it.title}</h3>
               </div>
               {/* Body */}
               <p

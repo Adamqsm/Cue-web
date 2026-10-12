@@ -21,7 +21,7 @@ export default function SocialProof({
 }) {
   const s = dict.home.socialProof;
   return (
-    <EditorialSection num={num} label={s.label} band="bg">
+    <EditorialSection num={num} band="bg">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.1] text-content">
@@ -69,9 +69,7 @@ export default function SocialProof({
 
       {/* Press strip — dashed slots until real coverage lands */}
       <Reveal className="mt-12">
-        <span className="label !border-0 !bg-transparent !px-0 !text-muted">
-          {s.pressLabel}
-        </span>
+        <p className="text-[13px] font-semibold text-muted">{s.pressLabel}</p>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {s.pressSlots.map((slot, i) => (
             <div

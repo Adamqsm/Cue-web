@@ -76,7 +76,10 @@ export default function HomeHero({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-36"
+      // Single-column top padding matches PageHero (pt-32 / sm:pt-40) so the
+      // H1 opens every hero at the same height; on lg the copy is centred
+      // against the phones.
+      className="relative overflow-hidden pb-16 pt-32 sm:pt-40 lg:pb-24 lg:pt-36"
     >
       {/* Ground: two whisper-faint accent blooms on the neutral page — kept
           barely-there so the hero reads neutral-first. */}
@@ -93,19 +96,9 @@ export default function HomeHero({
       >
         {/* ---- Copy ---- */}
         <div className="relative z-10">
-          <motion.div variants={rise}>
-            <span className="pill-live">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-spark" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-spark" />
-              </span>
-              {h.status}
-            </span>
-          </motion.div>
-
           <motion.h1
             variants={rise}
-            className="mt-6 text-[clamp(2.6rem,6.2vw,4.9rem)]"
+            className="text-[clamp(2.6rem,6.2vw,4.9rem)]"
           >
             <span className="block text-content">{h.titleTop}</span>
             <span className="relative mt-1 block w-fit text-accent">

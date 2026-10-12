@@ -4,17 +4,16 @@ type Band = "bg" | "surface2" | "ink" | "olive";
 
 /**
  * v5 section shell. The v3 editorial spine (sticky margin numerals) is
- * retired; sections now open with a friendly pill label and give the full
- * width to content — the consumer-app rhythm this brand sits beside.
+ * retired; each section opens straight on its own heading and gives the full
+ * width to content, the consumer-app rhythm this brand sits beside.
  *
- * The component keeps its v3 name and full prop contract (`num` included, now
- * unused) so every existing caller restyles without edits. Bands: `ink` is
- * the deep-ink moment, `olive` is the committed navy brand band (token name
- * kept from v3; the value is navy in v5). No hooks — renders on the server.
+ * The component keeps its v3 name and `num` prop (now unused) so callers stay
+ * stable. Bands: `ink` is the deep-ink moment, `olive` is the committed navy
+ * brand band (token name kept from v3; the value is navy in v5). No hooks;
+ * renders on the server.
  */
 export default function EditorialSection({
   num: _num,
-  label,
   id,
   band = "bg",
   divide = true,
@@ -23,7 +22,6 @@ export default function EditorialSection({
   contentClassName,
 }: {
   num: string;
-  label?: string;
   id?: string;
   band?: Band;
   divide?: boolean;
@@ -54,19 +52,7 @@ export default function EditorialSection({
       )}
     >
       <div className="container-pad py-16 sm:py-24 lg:py-28">
-        <div className={cn("min-w-0", contentClassName)}>
-          {label && (
-            <span
-              className={cn(
-                "label mb-6",
-                inverse && "!border-white/25 !bg-white/10 !text-white"
-              )}
-            >
-              {label}
-            </span>
-          )}
-          {children}
-        </div>
+        <div className={cn("min-w-0", contentClassName)}>{children}</div>
       </div>
     </section>
   );

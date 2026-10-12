@@ -110,7 +110,7 @@ export default function FeatureShowcase({
           >
             <PhoneFrame
               src={current.img}
-              alt={`${current.title} — ${altSuffix}`}
+              alt={`${current.title}: ${altSuffix}`}
               width={280}
             />
           </motion.div>

@@ -32,7 +32,7 @@ export default function LegalDoc({
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: dict.legal.index.eyebrow, path: "/legal" },
+          { name: dict.legal.index.crumb, path: "/legal" },
           { name: doc.title, path: currentHref },
         ])}
       />

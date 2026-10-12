@@ -45,7 +45,7 @@ export default function CareerGrowth({
 }) {
   const g = dict.home.growth;
   return (
-    <EditorialSection num={num} id="career-growth" label={g.label} band="bg">
+    <EditorialSection num={num} id="career-growth" band="bg">
       <div className="max-w-2xl">
         <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.1] text-content">
           {g.title}

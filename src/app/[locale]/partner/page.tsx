@@ -41,10 +41,10 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: p.hero.eyebrow, path: "/partner" },
+          { name: p.hero.crumb, path: "/partner" },
         ])}
       />
-      <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle}>
+      <PageHero title={p.hero.title} subtitle={p.hero.subtitle}>
         <LocaleLink
           href={withUtm("/partner/apply", "partner-hero")}
           locale={locale}
@@ -65,7 +65,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       />
 
       {/* Why partner — editorial rows */}
-      <EditorialSection num="01" label={p.why.kicker} band="bg">
+      <EditorialSection num="01" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {p.why.title}
@@ -75,7 +75,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       </EditorialSection>
 
       {/* Built for — the signature board recurs (spec: hero + partner page) */}
-      <EditorialSection num="02" label={p.builtFor.kicker} band="surface2">
+      <EditorialSection num="02" band="surface2">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
@@ -110,7 +110,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       <CommissionSection commission={p.commission} num="04" />
 
       {/* How Cue works for partners — editorial rows */}
-      <EditorialSection num="05" label={p.steps.kicker} band="bg">
+      <EditorialSection num="05" band="bg">
         <div className="max-w-2xl">
           <h2 className="text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.08] text-content">
             {p.steps.title}
@@ -123,7 +123,7 @@ export default function PartnerPage({ params }: { params: { locale: string } }) 
       </EditorialSection>
 
       {/* Approach — full-bleed olive moment */}
-      <EditorialSection num="06" label={p.approach.kicker} band="olive">
+      <EditorialSection num="06" band="olive">
         <div className="max-w-3xl">
           <h2 className="text-[clamp(1.9rem,3.6vw,3.25rem)] leading-[1.06] text-white">
             {p.approach.title}

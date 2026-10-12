@@ -17,14 +17,11 @@ export default function FoundingBanner({
   return (
     <section className="container-pad pt-10 sm:pt-14">
       <Reveal>
-        {/* Neutral panel; the offer reads through the blue badge + CTA only. */}
+        {/* Neutral panel; the offer reads through the headline + CTA only. */}
         <div className="rounded-panel border border-line bg-surface2 px-6 py-12 sm:px-14 sm:py-16">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
             <div>
-              {/* Dark ink on the lifted dark-mode blue, matching .dark .btn-primary —
-    white on #4C8DFF is 3.2:1 and fails AA at this size. */}
-              <span className="label !border-transparent !bg-accent !text-white dark:!text-bg">{founding.badge}</span>
-              <h2 className="mt-5 text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
+              <h2 className="text-balance text-[clamp(1.75rem,3.2vw,2.75rem)] font-[650] leading-[1.1] tracking-[-0.025em] text-content">
                 {founding.title}
               </h2>
               <p className="mt-4 max-w-xl text-lg leading-[1.65] text-muted">

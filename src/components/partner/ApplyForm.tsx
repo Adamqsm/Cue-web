@@ -72,7 +72,8 @@ export default function ApplyForm({
   const fieldBase =
     "w-full rounded-chip border border-line-strong bg-surface px-4 py-3 text-content placeholder:text-muted transition-colors focus:border-accent";
   const labelBase = "mb-1.5 block text-sm font-medium text-content";
-  const sectionLabel = "eyebrow mt-2";
+  // Form section titles: real h3s under the form's h2, plain heading style.
+  const sectionHeading = "mt-2 flex items-center gap-2 text-base font-semibold text-content";
   // Step numeral for section wayfinding — mirrors the homepage margin spine,
   // scaled down for a form. Terracotta (spark-deep, AA), decorative.
   const stepNum = "display text-sm font-semibold tabular-nums text-spark-deep";
@@ -238,10 +239,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Venue ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>01</span>
             {form.sections.venue}
-          </span>
+          </h3>
           <div>
             <label htmlFor="venueName" className={labelBase}>
               {form.fields.venueName} *
@@ -250,10 +251,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Contact ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>02</span>
             {form.sections.contact}
-          </span>
+          </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="contactName" className={labelBase}>
@@ -282,10 +283,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Location & cuisine ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>03</span>
             {form.sections.details}
-          </span>
+          </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="neighborhood" className={labelBase}>
@@ -338,7 +339,7 @@ export default function ApplyForm({
           </div>
           <div>
             <span className={labelBase}>
-              {form.fields.cuisines} * <span className="text-muted">— {form.hints.cuisines}</span>
+              {form.fields.cuisines} * <span className="text-muted">· {form.hints.cuisines}</span>
             </span>
             <div className="flex flex-wrap gap-2">
               {form.cuisines.map((c) => (
@@ -374,10 +375,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Working hours ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>04</span>
             {form.sections.hours}
-          </span>
+          </h3>
           <p className="-mt-3 text-sm text-muted">{form.hints.hours}</p>
           <div className="flex flex-col gap-2">
             {DAYS.map((day) => (
@@ -387,7 +388,7 @@ export default function ApplyForm({
               >
                 <span className="text-sm font-medium text-content">{form.hours.days[day]}</span>
                 <label className="flex items-center gap-2">
-                  <span className="sr-only">{`${form.hours.days[day]} — ${form.hours.open}`}</span>
+                  <span className="sr-only">{`${form.hours.days[day]}: ${form.hours.open}`}</span>
                   <input
                     type="time"
                     value={hours[day].open}
@@ -400,7 +401,7 @@ export default function ApplyForm({
                   />
                 </label>
                 <label className="flex items-center gap-2">
-                  <span className="sr-only">{`${form.hours.days[day]} — ${form.hours.close}`}</span>
+                  <span className="sr-only">{`${form.hours.days[day]}: ${form.hours.close}`}</span>
                   <input
                     type="time"
                     value={hours[day].close}
@@ -430,10 +431,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Menu & photos ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>05</span>
             {form.sections.menu}
-          </span>
+          </h3>
           <p className="-mt-3 text-sm text-muted">{form.hints.menu}</p>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -460,7 +461,7 @@ export default function ApplyForm({
           </div>
           <div>
             <label htmlFor="photos" className={labelBase}>
-              {form.fields.photos} <span className="text-muted">— {form.hints.photos}</span>
+              {form.fields.photos} <span className="text-muted">· {form.hints.photos}</span>
             </label>
             <input
               id="photos"
@@ -490,10 +491,10 @@ export default function ApplyForm({
           </div>
 
           {/* ---- Plans & extras ---- */}
-          <span className={sectionLabel}>
+          <h3 className={sectionHeading}>
             <span className={stepNum} aria-hidden>06</span>
             {form.sections.plan}
-          </span>
+          </h3>
           <div>
             <span className={labelBase}>{form.fields.prepayment}</span>
             <div className="grid w-fit grid-cols-2 gap-1 rounded-full border border-line bg-surface p-1">

@@ -1,0 +1,9 @@
+{
+  "$comment": "copy-guard spec v2 for Cue-web. Copy lives in src/i18n/content/*.ts and in component strings; public/ holds one text file (favicon.svg). See scripts/copy-guard.mjs --help.",
+  "pillExclude": [],
+  "copySurfaces": [
+    { "glob": "src/**/*.{ts,tsx,js,jsx,mjs}", "kind": "ts" },
+    { "glob": "public/**/*.svg", "kind": "html" }
+  ],
+  "copyExclude": []
+}

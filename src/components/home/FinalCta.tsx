@@ -30,14 +30,7 @@ export default function FinalCta({
           aria-hidden
         />
         <div className="relative mx-auto max-w-2xl">
-          <span className="pill-live mx-auto !bg-white/10 !text-white">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-spark" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-spark" />
-            </span>
-            {dict.common.preLaunch}
-          </span>
-          <h2 className="mt-6 text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-white">
+          <h2 className="text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] text-white">
             {c.title}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-[1.6] text-white/80">

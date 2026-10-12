@@ -17,7 +17,7 @@ export default function Positioning({
 }) {
   const p = dict.home.problem;
   return (
-    <EditorialSection num={num} label={p.label} band="ink">
+    <EditorialSection num={num} band="ink">
       <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <div>
           <h2 className="text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.08] text-bg">

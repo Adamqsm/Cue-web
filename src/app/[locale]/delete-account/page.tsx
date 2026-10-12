@@ -73,10 +73,10 @@ export default function DeleteAccountPage({ params }: { params: { locale: string
       <JsonLd
         data={breadcrumbJsonLd(locale, [
           { name: "Cue", path: "" },
-          { name: d.hero.eyebrow, path: "/delete-account" },
+          { name: d.hero.crumb, path: "/delete-account" },
         ])}
       />
-      <PageHero eyebrow={d.hero.eyebrow} title={d.hero.title} subtitle={d.hero.subtitle} />
+      <PageHero title={d.hero.title} subtitle={d.hero.subtitle} />
 
       <section className="container-pad pb-24 pt-8">
         <div className="max-w-[70ch]">

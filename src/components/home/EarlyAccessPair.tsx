@@ -7,9 +7,10 @@ import LocaleLink from "@/components/ui/LocaleLink";
 import { withUtm } from "@/lib/utm";
 
 /**
- * "Two doors" — the paired pre-launch offers, one per side of the booking:
+ * "Two doors": the paired pre-launch offers, one per side of the booking:
  * guests claim a Cue Insider code, operators take the founding-partner year.
- * Deliberately symmetric cards; only wash + button accent tell them apart.
+ * Deliberately symmetric neutral cards; only the CTA button (btn-spark for
+ * guests, btn-primary for restaurants) tells them apart.
  */
 export default function EarlyAccessPair({
   locale,
@@ -22,14 +23,13 @@ export default function EarlyAccessPair({
 }) {
   const ea = dict.home.earlyAccess;
   return (
-    <EditorialSection num={num} label={ea.label} band="surface2" id="early-access">
+    <EditorialSection num={num} band="surface2" id="early-access">
       <SectionHeading title={ea.title} body={ea.body} />
-      {/* Neutral cards; the offer color arrives only through the small pill
-          and the button, per the restrained-accent rule. */}
+      {/* Neutral cards; the offer color arrives only through the button, per
+          the restrained-accent rule. */}
       <RevealGroup className="mt-12 grid gap-6 md:grid-cols-2">
         <RevealItem className="flex flex-col rounded-panel border border-line bg-surface p-7 shadow-soft md:p-9">
-          <p className="eyebrow !border-transparent !bg-spark !text-[rgb(22,26,35)]">{ea.guest.eyebrow}</p>
-          <h3 className="mt-4 font-display text-2xl text-content">
+          <h3 className="font-display text-2xl text-content">
             {ea.guest.title}
           </h3>
           <p className="mt-3 leading-[1.65] text-muted">{ea.guest.body}</p>
@@ -44,8 +44,7 @@ export default function EarlyAccessPair({
           </div>
         </RevealItem>
         <RevealItem className="flex flex-col rounded-panel border border-line bg-surface p-7 shadow-soft md:p-9">
-          <p className="eyebrow !border-transparent !bg-accent !text-white dark:!text-bg">{ea.operator.eyebrow}</p>
-          <h3 className="mt-4 font-display text-2xl text-content">
+          <h3 className="font-display text-2xl text-content">
             {ea.operator.title}
           </h3>
           <p className="mt-3 leading-[1.65] text-muted">{ea.operator.body}</p>

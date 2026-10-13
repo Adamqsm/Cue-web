@@ -155,8 +155,8 @@ const en = {
         },
         {
           icon: "pin",
-          title: "Built for Amman",
-          body: "Launching local, tuned to how venues here actually run service.",
+          title: "Local from day one",
+          body: "Cue is entering Amman first, set up around how venues here actually run service.",
         },
       ],
       spotlight: {
@@ -312,8 +312,8 @@ const en = {
         cta: "Claim your code",
       },
       operator: {
-        title: "12 months free as a founding partner",
-        body: "The full platform at JD 0 for your first year, with hands-on onboarding, for venues that join before launch.",
+        title: "12 months of Pro free for 15 founding partners",
+        body: "Cue Pro at JD 0 for your first year, with hands-on onboarding, for our first 15 founding venues. Every other venue starts with a 30-day free trial.",
         cta: "Partner with Cue",
       },
     },
@@ -447,10 +447,10 @@ const en = {
       secondary: "See how it works",
     },
     founding: {
-      title: "Founding partners: first 12 months at JD 0",
-      body: "Full platform free for the first year, plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training.",
+      title: "Founding partners: 12 months of Pro at JD 0",
+      body: "Open to our first 15 founding partners only: Cue Pro free for the first year, plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training. Every other venue starts with a 30-day free trial.",
       perks: [
-        "Full platform free for 12 months",
+        "Cue Pro free for 12 months (first 15 venues)",
         "Founding-partner badge in the app",
         "Early priority placement",
         "Hands-on onboarding & staff training",
@@ -461,9 +461,10 @@ const en = {
     },
     pricing: {
       title: "Simple plans. Zero risk to start.",
-      body: "Every plan starts with the same structured booking core. Pay only when Cue is clearly earning it.",
+      body: "Every plan starts with the same structured booking core and a 30-day free trial. Pay only when Cue is clearly earning it.",
       perMonth: "per month",
       recommended: "Recommended",
+      terms: "Prices exclude 16% GST, added at checkout. Pay yearly and get 2 months free.",
       tiers: [
         {
           id: "free",
@@ -475,19 +476,21 @@ const en = {
             "One-tap confirm & decline",
             "Automated confirmation reminders",
             "Up to ~100 covers/month",
+            "JD 0.75 per diner Cue sends you",
           ],
         },
         {
           id: "core",
           name: "Cue Core",
-          price: "JD 39",
-          priceNote: "≈ USD 55 · per month",
+          price: "JD 45",
+          priceNote: "≈ USD 63 · per month",
           features: [
             "Everything in Free",
             "Unlimited covers",
             "Group & event-night coordination",
             "Full performance analytics",
             "WhatsApp reminders",
+            "JD 0.50 per diner Cue sends you",
           ],
         },
         {
@@ -501,6 +504,7 @@ const en = {
             "Insider-member targeting",
             "Premium placement eligibility",
             "Priority support",
+            "JD 0.35 per diner Cue sends you",
           ],
         },
       ],
@@ -515,19 +519,23 @@ const en = {
           body: "on your own bookings, walk-ins, and repeat guests. On every plan.",
         },
         {
-          lead: "JD 0.25 to 0.50",
-          body: "per net-new, Cue-discovered seated diner, only when Cue originated the booking. Core & Pro only, with an optional monthly cap.",
+          lead: "JD 0.35 to 0.75",
+          body: "per net-new seated diner, only when Cue originated the booking: JD 0.75 on Free, JD 0.50 on Core, JD 0.35 on Pro. Optional monthly cap.",
         },
         {
-          lead: "2.5 to 4%",
-          body: "of the prepaid amount on group prepayments, bill-splitting, and event-night tickets, only when that feature is used.",
+          lead: "JD 0.25",
+          body: "per net-new seated diner for cafés, on any plan. Same rule: only when Cue originated the booking.",
+        },
+        {
+          lead: "4% / 6%",
+          body: "all-in: 4% on deposits and prepayments, 6% on event-night tickets. Only when you use that feature.",
         },
       ],
       addons: {
         title: "Optional visibility add-ons",
         note: "Explicitly optional. Never a tax on bookings.",
         items: [
-          { name: "Featured placement", price: "JD 120 to 350 / month" },
+          { name: "Featured placement", price: "JD 120 / month" },
           { name: "Promoted event night", price: "JD 40 to 90 / event" },
         ],
       },
@@ -588,8 +596,8 @@ const en = {
       body: "Cue partners selectively with businesses that value operational discipline and long-term reliability. We build systems that support hospitality teams, not replace them. Partnerships are based on alignment, clarity, and shared standards.",
     },
     cta: {
-      title: "First 12 months at JD 0.",
-      body: "Join as a founding partner: the full platform free for the first year, with hands-on onboarding for your team.",
+      title: "15 founding partners. 12 months of Pro at JD 0.",
+      body: "Our first 15 founding partners get Cue Pro free for a year, with hands-on onboarding for your team. Every other venue starts with a 30-day free trial.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
@@ -880,7 +888,7 @@ const en = {
     meta: {
       title: "About Cue | Restaurant Reservations in Amman",
       description:
-        "Cue is a restaurant reservation platform built in Amman, balancing a simple booking experience for guests with real operational control for restaurants.",
+        "Cue is a restaurant reservation platform now launching in Amman, balancing a simple booking experience for guests with real operational control for restaurants.",
     },
     hero: {
       crumb: "About Cue",
@@ -987,9 +995,9 @@ const en = {
   // ---------------- CAREERS ----------------
   careers: {
     meta: {
-      title: "Careers at Cue | Building Amman's Reservation Platform",
+      title: "Careers at Cue | Join the Team Behind Cue",
       description:
-        "Join the team building Cue, the restaurant reservation platform for Amman. Roles across engineering, operations, partnerships, marketing, and design.",
+        "Join the team building Cue, the restaurant reservation platform launching in Amman. Roles across engineering, operations, partnerships, marketing, and design.",
     },
     hero: {
       crumb: "Careers",
@@ -1066,11 +1074,11 @@ const en = {
       },
       {
         q: "What is Cue?",
-        a: "A restaurant reservation platform, built in Amman for Amman. Guests get a simple way to find and book tables. Restaurants get one system for requests, group bookings, and busy nights, instead of a phone, an Instagram inbox, and a paper book that never agree with each other.",
+        a: "A restaurant reservation platform entering the Jordanian market, starting in Amman. Guests get a simple way to find and book tables. Restaurants get one system for requests, group bookings, and busy nights, instead of a phone, an Instagram inbox, and a paper book that never agree with each other.",
       },
       {
         q: "How does my restaurant sign up?",
-        a: "Head to Partner with Cue and tell us about your venue. It takes about five minutes. We read every application ourselves and reach out to see if it's a fit. Founding partners in Amman get their first year free, so there's genuinely no catch to trying it.",
+        a: "Head to Partner with Cue and tell us about your venue. It takes about five minutes. We read every application ourselves and reach out to see if it's a fit. Our first 15 founding partners get 12 months of Cue Pro free. Every other venue starts with a 30-day free trial, so there's genuinely no catch to trying it.",
       },
       {
         q: "Is Cue available in Arabic?",

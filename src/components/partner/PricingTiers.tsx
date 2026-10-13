@@ -75,6 +75,7 @@ export default function PricingTiers({
           );
         })}
       </RevealGroup>
+      <p className="mt-8 text-sm leading-relaxed text-muted">{pricing.terms}</p>
     </EditorialSection>
   );
 }

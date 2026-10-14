@@ -313,7 +313,7 @@ const en = {
       },
       operator: {
         title: "12 months of Pro free for 15 founding partners",
-        body: "Cue Pro at JD 0 for your first year, with hands-on onboarding, for our first 15 founding venues. Every other venue starts with a 30-day free trial.",
+        body: "Cue Pro at JD 0 for your first year, with no per-diner fee and hands-on onboarding, for our first 15 founding venues. Every other venue starts with a 30-day free trial.",
         cta: "Partner with Cue",
       },
     },
@@ -448,9 +448,9 @@ const en = {
     },
     founding: {
       title: "Founding partners: 12 months of Pro at JD 0",
-      body: "Open to our first 15 founding partners only: Cue Pro free for the first year, plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training. Every other venue starts with a 30-day free trial.",
+      body: "Open to our first 15 founding partners only: Cue Pro free for the first year with no per-diner fee, plus a founding-partner badge inside the app, early priority placement, and hands-on onboarding and staff training. Every other venue starts with a 30-day free trial.",
       perks: [
-        "Cue Pro free for 12 months (first 15 venues)",
+        "Cue Pro free for 12 months, no per-diner fee (first 15 venues)",
         "Founding-partner badge in the app",
         "Early priority placement",
         "Hands-on onboarding & staff training",
@@ -461,7 +461,7 @@ const en = {
     },
     pricing: {
       title: "Simple plans. Zero risk to start.",
-      body: "Every plan starts with the same structured booking core and a 30-day free trial. Pay only when Cue is clearly earning it.",
+      body: "Every plan shares the same structured booking core. New venues start with a 30-day free Pro trial, and our first 15 founding partners get 12 months of Pro free. Pay only when Cue is clearly earning it.",
       perMonth: "per month",
       recommended: "Recommended",
       terms: "Prices exclude 16% GST, added at checkout. Pay yearly and get 2 months free.",
@@ -520,7 +520,7 @@ const en = {
         },
         {
           lead: "JD 0.35 to 0.75",
-          body: "per net-new seated diner, only when Cue originated the booking: JD 0.75 on Free, JD 0.50 on Core, JD 0.35 on Pro. Optional monthly cap.",
+          body: "per net-new seated diner, only when Cue originated the booking: JD 0.75 on Free, JD 0.50 on Core, JD 0.35 on Pro. Optional monthly cap. Founding partners pay none in their first 12 months.",
         },
         {
           lead: "JD 0.25",
@@ -597,7 +597,7 @@ const en = {
     },
     cta: {
       title: "15 founding partners. 12 months of Pro at JD 0.",
-      body: "Our first 15 founding partners get Cue Pro free for a year, with hands-on onboarding for your team. Every other venue starts with a 30-day free trial.",
+      body: "Our first 15 founding partners get Cue Pro free for a year, with no per-diner fee and hands-on onboarding for your team. Every other venue starts with a 30-day free trial.",
       primary: "Apply to Join",
       secondary: "See how it works",
     },
@@ -1078,7 +1078,7 @@ const en = {
       },
       {
         q: "How does my restaurant sign up?",
-        a: "Head to Partner with Cue and tell us about your venue. It takes about five minutes. We read every application ourselves and reach out to see if it's a fit. Our first 15 founding partners get 12 months of Cue Pro free. Every other venue starts with a 30-day free trial, so there's genuinely no catch to trying it.",
+        a: "Head to Partner with Cue and tell us about your venue. It takes about five minutes. We read every application ourselves and reach out to see if it's a fit. Our first 15 founding partners get 12 months of Cue Pro free, with no per-diner fee. Every other venue starts with a 30-day free trial, so there's genuinely no catch to trying it.",
       },
       {
         q: "Is Cue available in Arabic?",

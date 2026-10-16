@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import EditorialSection from "./EditorialSection";

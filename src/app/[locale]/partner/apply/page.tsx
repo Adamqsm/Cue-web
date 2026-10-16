@@ -7,11 +7,10 @@ import PageHero from "@/components/sections/PageHero";
 import Reveal from "@/components/ui/Reveal";
 import ApplyForm from "@/components/partner/ApplyForm";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
   return buildMetadata({
@@ -22,7 +21,8 @@ export async function generateMetadata({
   });
 }
 
-export default function PartnerApplyPage({ params }: { params: { locale: string } }) {
+export default async function PartnerApplyPage(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const locale = (isLocale(params.locale) ? params.locale : "en") as Locale;
   const dict = getDictionary(locale);
   const p = dict.partnerApply;

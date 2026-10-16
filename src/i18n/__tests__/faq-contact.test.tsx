@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import en from "../content/en";
 import ar from "../content/ar";
@@ -13,7 +13,11 @@ const locales = [
 
 describe("/faq support contact", () => {
   for (const [locale, dict] of locales) {
-    const html = renderToStaticMarkup(FaqPage({ params: { locale } }));
+    let html = "";
+    // The page is an async server component (its params arrive as a Promise).
+    beforeAll(async () => {
+      html = renderToStaticMarkup(await FaqPage({ params: Promise.resolve({ locale }) }));
+    });
 
     it(`${locale}: links info@cue-app.net`, () => {
       expect(dict.faq.contact.email).toBe("info@cue-app.net");

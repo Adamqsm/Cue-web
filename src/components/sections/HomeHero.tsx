@@ -199,6 +199,9 @@ export default function HomeHero({
                   alt={h.phoneFrontAlt}
                   fill
                   priority
+                  // Next 15 no longer derives fetchpriority="high" from
+                  // `priority`; keep the LCP hint Next 14 emitted.
+                  fetchPriority="high"
                   sizes="(max-width: 640px) 248px, 292px"
                   className="object-cover"
                 />

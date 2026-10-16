@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import EditorialSection from "./EditorialSection";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";

@@ -31,7 +31,7 @@ export default function ClaimTicket({
   compact = false,
 }: ClaimTicketProps) {
   const [copied, setCopied] = useState(false);
-  const copyTimer = useRef<ReturnType<typeof setTimeout>>();
+  const copyTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => () => clearTimeout(copyTimer.current), []);
 

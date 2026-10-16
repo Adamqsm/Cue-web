@@ -7,11 +7,10 @@ import Reveal from "@/components/ui/Reveal";
 import LeadForm from "@/components/sections/LeadForm";
 import { CueMark } from "@/components/BrandMark";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
   return buildMetadata({
@@ -22,7 +21,8 @@ export async function generateMetadata({
   });
 }
 
-export default function ReachOutPage({ params }: { params: { locale: string } }) {
+export default async function ReachOutPage(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const locale = (isLocale(params.locale) ? params.locale : "en") as Locale;
   const dict = getDictionary(locale);
   const r = dict.reach;

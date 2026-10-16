@@ -11,10 +11,10 @@
  *   same control for older browsers that ignore frame-ancestors.
  * - `form-action 'self'` stops an injected <form> from POSTing the claimant's
  *   name/email/phone to an attacker-controlled origin.
- * - `script-src` keeps 'unsafe-inline' deliberately. Next 14's App Router
- *   emits per-request inline bootstrap/hydration scripts, and the site's
- *   JSON-LD blocks (src/components/JsonLd.tsx, src/lib/seo.ts) are inline
- *   too. The strict alternative is a per-request nonce, which in the App
+ * - `script-src` keeps 'unsafe-inline' deliberately. The App Router (Next 14
+ *   and 15 alike) emits per-request inline bootstrap/hydration scripts, and
+ *   the site's JSON-LD blocks (src/components/JsonLd.tsx, src/lib/seo.ts) are
+ *   inline too. The strict alternative is a per-request nonce, which in the App
  *   Router requires reading headers() inside server components — that opts
  *   every page out of static rendering and would turn this statically
  *   generated marketing site into a fully dynamic one. Not a trade worth

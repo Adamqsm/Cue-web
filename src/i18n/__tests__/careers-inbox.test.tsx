@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import en from "../content/en";
 import ar from "../content/ar";
@@ -38,9 +38,17 @@ describe("careersMailto", () => {
 });
 
 describe.each(locales)("/%s/careers", (locale, dict) => {
-  const html = renderToStaticMarkup(<CareersPage params={{ locale }} />);
-  const links = hrefs(html);
-  const mailtos = links.filter((h) => h.startsWith("mailto:"));
+  let html = "";
+  let links: string[] = [];
+  let mailtos: string[] = [];
+
+  // The page is an async server component (its params arrive as a Promise):
+  // resolve its element tree first, then render that.
+  beforeAll(async () => {
+    html = renderToStaticMarkup(await CareersPage({ params: Promise.resolve({ locale }) }));
+    links = hrefs(html);
+    mailtos = links.filter((h) => h.startsWith("mailto:"));
+  });
 
   it("sends every application link to the Qasem Portal careers inbox", () => {
     // hero button + hero note address + one per role + closing CTA

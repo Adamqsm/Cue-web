@@ -35,11 +35,10 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const locale = isLocale(params.locale) ? params.locale : "en";
   const dict = getDictionary(locale);
   return {
@@ -93,13 +92,12 @@ function consentPolicies(dict: ReturnType<typeof getDictionary>) {
     .map(({ href, title }) => ({ href, title }));
 }
 
-export default function LocaleLayout({
-  children,
-  params,
-}: {
+export default async function LocaleLayout(props: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { children } = props;
+  const params = await props.params;
   if (!isLocale(params.locale)) notFound();
   const locale = params.locale as Locale;
   const dir = localeDirection[locale];

@@ -11,11 +11,10 @@ import LocaleLink from "@/components/ui/LocaleLink";
 // The public account-deletion page Google Play's Data safety form links to
 // (/en/delete-account, /ar/delete-account). Static: nothing here submits.
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const locale = isLocale(params.locale) ? params.locale : "en";
   const d = getDictionary(locale).deleteAccount;
   return buildMetadata({
@@ -61,7 +60,8 @@ function Bullets({ items, r }: { items: string[]; r: (t: string) => ReactNode[] 
   );
 }
 
-export default function DeleteAccountPage({ params }: { params: { locale: string } }) {
+export default async function DeleteAccountPage(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const locale = (isLocale(params.locale) ? params.locale : "en") as Locale;
   const dict = getDictionary(locale);
   const d = dict.deleteAccount;

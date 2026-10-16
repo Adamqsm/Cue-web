@@ -3,43 +3,48 @@
 Applied automatically on `npm install` / `npm ci` via the `postinstall` script
 (`patch-package`).
 
-## `next+14.2.35.patch`
+There are currently no patches. With none here `patch-package` reports "No
+patch files found" and exits cleanly, so the hook stays in place for the next
+dependency that needs one.
 
-Fixes asset resolution in Next's bundled copy of `@vercel/og` 0.6.3
-(`dist/compiled/@vercel/og/index.node.js`).
+## Retired: `next+14.2.35.patch`
 
-Upstream loads its font and wasm assets with:
+Removed with the upgrade to Next.js 15.5.28, which no longer needs it.
+
+It fixed asset resolution in Next 14's bundled copy of `@vercel/og` 0.6.3
+(`dist/compiled/@vercel/og/index.node.js`), which loaded its font and wasm
+assets with:
 
 ```js
 fs.readFileSync(fileURLToPath(join(import.meta.url, "../yoga.wasm")))
 ```
 
-`path.join` is being applied to a `file://` **URL**, not a path. On Windows
-that normalises the URL into a Windows path — collapsing the `//` and flipping
-to backslashes — and the result is no longer a valid URL:
+`path.join` was being applied to a `file://` **URL**, not a path. On Windows
+that normalises the URL into a Windows path (collapsing the `//` and flipping
+to backslashes), and the result is no longer a valid URL:
 
 | Node | `join(...)` result | `fileURLToPath` |
 | ---- | ------------------ | --------------- |
 | 20   | `file:\C:\...\yoga.wasm`   | tolerated       |
 | 24   | `.\file:\C:\...\yoga.wasm` | `ERR_INVALID_URL` |
 
-Node 24 changed `path.win32.normalize` to prefix `.\`, which is what tips this
-from "accidentally works" into a hard failure. The symptom is
-`TypeError: Invalid URL` while prerendering `opengraph-image`, which fails the
-whole build — previously worked around by building under Node 20, or by moving
-`src/app/[locale]/opengraph-image.tsx` aside.
+Node 24 changed `path.win32.normalize` to prefix `.\`, which tipped this from
+"accidentally works" into a hard failure: `TypeError: Invalid URL` while
+prerendering `opengraph-image`, failing the whole build.
 
-The patch swaps in the correct idiom, which is both platform- and
-Node-version-independent:
+The patch swapped in the correct, platform- and Node-version-independent
+idiom:
 
 ```js
 fs.readFileSync(fileURLToPath(new URL("./yoga.wasm", import.meta.url)))
 ```
 
-Note the `./`, not `../`: `path.join` treated the URL as a directory and let
-`..` pop the filename, whereas `new URL` already resolves relative to the
-containing directory.
+Next 15.5.28 bundles `@vercel/og` 0.7.2, which ships exactly that idiom
+upstream for all three assets (`noto-sans-v27-latin-regular.ttf`, `yoga.wasm`,
+`resvg.wasm`); no `join(import.meta.url, ...)` call is left in its
+`index.node.js` or `index.edge.js`. Verified: `npm run build` on Node 26.12.0
+prerenders `/en/opengraph-image` and `/ar/opengraph-image` with no patch
+applied.
 
-Verified: `npm run build` succeeds on both Node 20.18.1 and Node 24.18.0 with
-the `opengraph-image` route in place, and the generated EN/AR cards are
-byte-identical to the pre-patch Node 20 output.
+If Next is ever pinned back to 14.x, restore the patch from git history
+(`git log --diff-filter=D -- 'patches/next+14.2.35.patch'`).
